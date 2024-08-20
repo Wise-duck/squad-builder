@@ -1,14 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".SoccerFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- 상단 구역: 저장, 설정 등 버튼 -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="축구" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="end"
+        android:background="@color/light_gray">
 
-</FrameLayout>
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="저장" />
+
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="설정"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <!-- 중간 구역: 축구 필드 (FrameLayout 사용: 선수드래그 및 교체) -->
+
+    <!-- 하단 구역: 교체 명단 (가로 스크롤 가능, 7명 예정) -->
+
+    <FrameLayout
+        android:id="@+id/soccerFieldLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#4CAF50">
+        <!-- 선수 배치 -->
+
+
+    </FrameLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#774F15"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- 예시로 교체 선수들을 텍스트뷰나 아이콘으로 배치 -->
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Player 1" />
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="Player 2" />
+
+            <!-- 추가 선수들을 이곳에 배치 -->
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
+
+</LinearLayout>
