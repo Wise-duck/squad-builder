@@ -3,6 +3,9 @@ package com.example.squadbuilder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.squadbuilder.databinding.ActivityMainBinding
+import com.example.squadbuilder.fragment.FootballFragment
+import com.example.squadbuilder.fragment.ListFragment
+import com.example.squadbuilder.fragment.SoccerFragment
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
