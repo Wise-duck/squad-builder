@@ -3,5 +3,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_gray">#EFEFEF</color>
-    <color name="dark_gray">#5e5e5e</color>
+    <color name="dark_gray">#424242</color>
+    <color name="mint">#b7e0c5</color>
+    <color name="light_green">#80bf72</color>
+    <color name="kiwi">#b5bf72</color>
+    <color name="beige">#b8a17e</color>
+    <color name="godong">#948774</color>
+    <color name="orange">#f59d18</color>
 </resources>
