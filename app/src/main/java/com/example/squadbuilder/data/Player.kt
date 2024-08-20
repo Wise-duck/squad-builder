@@ -1,8 +1,21 @@
 package com.example.squadbuilder.data
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
-@Entity(tableName = "players")
+@Entity(
+    tableName = "players",
+    foreignKeys = [
+        ForeignKey(
+            entity = Formation::class,
+            parentColumns = ["id"],
+            childColumns = ["formationId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ],
+    indices = [Index(value = ["formationId"])]
+)
 data class Player(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val formationId: Int,  // Formation의 ID 참조
