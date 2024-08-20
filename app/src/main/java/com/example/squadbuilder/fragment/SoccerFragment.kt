@@ -1,10 +1,12 @@
 package com.example.squadbuilder.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.fragment.app.viewModels
@@ -30,14 +32,18 @@ class SoccerFragment : Fragment() {
 
         // ViewModel을 사용하여 플레이어 리스트를 관찰
         playerViewModel.players.observe(viewLifecycleOwner, Observer { players ->
-            binding.soccerFieldLayout.removeAllViews()  // 기존 플레이어 제거
-            val fieldWidth = binding.soccerFieldLayout.width
-            val fieldHeight = binding.soccerFieldLayout.height
+            if (!players.isNullOrEmpty()) {
+                binding.soccerFieldLayout.removeAllViews()  // 기존 플레이어 제거
+                val fieldWidth = binding.soccerFieldLayout.width
+                val fieldHeight = binding.soccerFieldLayout.height
 
-            players.forEach { player ->
-                addPlayerToField(player, fieldWidth, fieldHeight)
+                Log.d("PLAYER", players.toString())
+                players.forEach { player ->
+                    addPlayerToField(player, fieldWidth, fieldHeight)
+                }
             }
         })
+
 //        val view = inflater.inflate(R.layout.fragment_soccer, container, false)
 //        val soccerField = view.findViewById<FrameLayout>(R.id.soccerFieldLayout)
 //
@@ -83,7 +89,7 @@ class SoccerFragment : Fragment() {
 
 
     private fun addPlayerToField(player: Player, fieldWidth: Int, fieldHeight: Int) {
-        val playerView = ImageView(context)
+        val playerView = ImageView(requireContext())
         val x = (player.x * fieldWidth).toInt()
         val y = (player.y * fieldHeight).toInt()
 
