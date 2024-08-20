@@ -5,6 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import android.content.Context
 import com.example.squadbuilder.dao.FormationDao
+import com.example.squadbuilder.dao.PlayerDao
 import com.example.squadbuilder.data.Formation
 import com.example.squadbuilder.data.Player
 
@@ -14,7 +15,7 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun formationDao(): FormationDao
     // 추후 필요 시 dao 사용
-    // abstract fun playerDao(): PlayerDao
+     abstract fun playerDao(): PlayerDao
 
     companion object {
         // INSTANCE 변수를 통해 데이터베이스의 싱글톤 인스턴스를 관리
