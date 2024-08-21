@@ -81,4 +81,16 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
             show()
         }
     }
+
+    fun updatePlayerPosition(player: Player, newX: Float, newY: Float) {
+        val updatedPlayers = players.value?.map {
+            if (it.number == player.number) {
+                it.copy(x = newX, y = newY) // x와 y 값을 새로운 값으로 복사
+            } else {
+                it
+            }
+        }
+        (players as MutableLiveData).value = updatedPlayers
+    }
+
 }

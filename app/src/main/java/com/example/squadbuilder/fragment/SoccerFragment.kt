@@ -75,19 +75,50 @@ class SoccerFragment : Fragment() {
             when (event.action) {
                 DragEvent.ACTION_DRAG_STARTED -> true
                 DragEvent.ACTION_DRAG_LOCATION -> {
-                    val view = event.localState as View
-                    view.x = event.x - view.width / 2
-                    view.y = event.y - view.height / 2
+                    val view = event.localState as? View ?: return@setOnDragListener false
+
+                    // 드래그 중에 뷰를 화면에서 중앙으로 보정해서 배치
+                    view.x = (event.x - view.width / 2).coerceIn(0f, (v.width - view.width).toFloat())
+                    view.y = (event.y - view.height / 2).coerceIn(0f, (v.height - view.height).toFloat())
                     view.invalidate()
                     true
                 }
                 DragEvent.ACTION_DROP -> {
-                    val view = event.localState as View
-                    view.x = event.x - view.width / 2
-                    view.y = event.y - view.height / 2
+                    val view = event.localState as? View ?: return@setOnDragListener false
+
+                    // xOffset과 yOffset을 계산하여 좌표 보정
+                    val xOffset = view.width / 2
+                    val yOffset = view.height / 2
+
+                    // 이동 가능한 최대/최소 위치 계산 (뷰 전체가 나가지 않도록)
+                    val maxX = v.width - view.width
+                    val maxY = v.height - view.height
+                    val newX = (event.x - xOffset).coerceIn(0f, maxX.toFloat())
+                    val newY = (event.y - yOffset).coerceIn(0f, maxY.toFloat())
+
+                    view.x = newX
+                    view.y = newY
                     view.invalidate()
+
+                    // Player 객체를 view의 tag에서 가져오기
+                    val playerTag = view.tag as? Player
+                    if (playerTag != null) {
+                        val fieldWidth = fragmentBinding.soccerFieldLayout.width
+                        val fieldHeight = fragmentBinding.soccerFieldLayout.height
+
+                        // 상대적인 비율로 x, y 좌표 계산
+                        val relativeX = (newX + xOffset) / fieldWidth
+                        val relativeY = (newY + yOffset) / fieldHeight
+
+                        // ViewModel의 Player 리스트를 업데이트
+                        playerViewModel.updatePlayerPosition(playerTag, relativeX, relativeY)
+                    } else {
+                        Log.e("SoccerFragment", "Player tag is null or invalid.")
+                    }
+
                     true
                 }
+
                 DragEvent.ACTION_DRAG_ENDED -> true
                 else -> false
             }
@@ -102,6 +133,9 @@ class SoccerFragment : Fragment() {
 
         // 바인딩 객체에 플레이어 데이터 설정
         playerBinding.player = player
+
+        // 태그 설정
+        playerBinding.root.tag = player
 
         // 뷰 크기 측정 후 위치 설정
         playerBinding.root.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
