@@ -2,6 +2,7 @@ package com.example.squadbuilder
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.squadbuilder.R
 import com.example.squadbuilder.databinding.ActivityMainBinding
 import com.example.squadbuilder.fragment.FootballFragment
 import com.example.squadbuilder.fragment.ListFragment

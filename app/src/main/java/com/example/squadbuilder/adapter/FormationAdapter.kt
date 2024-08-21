@@ -10,12 +10,18 @@ import com.example.squadbuilder.R
 import com.example.squadbuilder.data.Formation
 import com.example.squadbuilder.databinding.FormationListItemBinding
 
-class FormationAdapter(private val formations: List<Formation>) : RecyclerView.Adapter<FormationAdapter.FormationViewHolder>() {
+class FormationAdapter(
+    private val formations: List<Formation>,
+    private val clickListener: (Formation) -> Unit
+) : RecyclerView.Adapter<FormationAdapter.FormationViewHolder>() {
 
     inner class FormationViewHolder(val binding: FormationListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(formation: Formation) {
             binding.formation = formation
-            binding.executePendingBindings() // 즉시 바인딩 실행
+            binding.root.setOnClickListener {
+                clickListener(formation)
+            }
+            binding.executePendingBindings()
         }
     }
 
@@ -26,8 +32,7 @@ class FormationAdapter(private val formations: List<Formation>) : RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: FormationViewHolder, position: Int) {
-        val formation = formations[position]
-        holder.bind(formation)
+        holder.bind(formations[position])
     }
 
     override fun getItemCount(): Int {

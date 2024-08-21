@@ -55,6 +55,10 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
         )
     }
 
+    fun getFormationWithPlayers(formationId: Int): LiveData<FormationWithPlayers> {
+        return repository.getFormationWithPlayers(formationId)
+    }
+
     fun saveFormation(teamName: String) {
         // 날짜 데이터 수정 필요
         viewModelScope.launch {

@@ -31,6 +31,10 @@ interface PlayerDao {
     fun getAllPlayers(): LiveData<List<Player>>
 
     @Transaction
+    @Query("SELECT * FROM formations WHERE id = :formationId")
+    fun getFormationWithPlayers(formationId: Int): LiveData<FormationWithPlayers>
+
+    @Transaction
     @Query("SELECT * FROM formations")
     fun getAllFormationsWithPlayers(): LiveData<List<FormationWithPlayers>>
 

@@ -16,6 +16,10 @@ class PlayerRepository(private val playerDao: PlayerDao) {
         return playerDao.getPlayersForFormation(formationId)
     }
 
+    fun getFormationWithPlayers(formationId: Int): LiveData<FormationWithPlayers> {
+        return playerDao.getFormationWithPlayers(formationId)
+    }
+
     fun getAllFormationsWithPlayers(): LiveData<List<FormationWithPlayers>> {
         return playerDao.getAllFormationsWithPlayers()
     }

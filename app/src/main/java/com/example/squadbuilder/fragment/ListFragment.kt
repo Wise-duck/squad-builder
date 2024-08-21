@@ -1,5 +1,6 @@
 package com.example.squadbuilder.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.squadbuilder.FormationDetailActivity
 import com.example.squadbuilder.R
 import com.example.squadbuilder.adapter.FormationAdapter
 import com.example.squadbuilder.databinding.FragmentListBinding
@@ -33,9 +35,17 @@ class ListFragment : Fragment() {
 
         // RecyclerView 설정
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
+
+        // 어댑터 초기화 및 설정
         playerViewModel.formationsWithPlayers.observe(viewLifecycleOwner, Observer { formations ->
             formations?.let {
-                formationAdapter = FormationAdapter(it.map { it.formation })
+                formationAdapter = FormationAdapter(it.map { it.formation }) { formation ->
+                    // 포메이션 클릭 시 인텐트로 FormationDetailActivity에 포메이션 ID 전달
+                    val intent = Intent(context, FormationDetailActivity::class.java).apply {
+                        putExtra("FORMATION_ID", formation.id)
+                    }
+                    startActivity(intent)
+                }
                 binding.recyclerView.adapter = formationAdapter
             }
         })
