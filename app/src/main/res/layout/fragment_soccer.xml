@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="@color/light_green">
+            android:background="@color/mint">
             <!-- 선수 배치 -->
 
 
@@ -54,7 +54,7 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/godong"
+            android:background="@color/dark_gray"
             android:padding="16dp">
 
             <LinearLayout
