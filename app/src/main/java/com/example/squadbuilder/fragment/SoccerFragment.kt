@@ -2,13 +2,17 @@ package com.example.squadbuilder.fragment
 
 import android.content.ClipData
 import android.os.Bundle
+import android.text.InputType
+import android.util.Log
 import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.EditText
 import android.widget.FrameLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -51,8 +55,20 @@ class SoccerFragment : Fragment() {
                         }
                     }
                 })
+                playerViewModel.formationsWithPlayers.observe(viewLifecycleOwner, Observer { formationsWithPlayers ->
+                    formationsWithPlayers?.let {
+                        // 저장된 포메이션과 플레이어 정보 확인 로그
+                        Log.d("SoccerFragment", "Formations with Players: $it")
+                    }
+                })
+
             }
         })
+
+        // 포메이션 저장 버튼 클릭 시 다이얼로그에 팀 이름 입력받아 저장
+        fragmentBinding.saveButton.setOnClickListener {
+            showSaveDialog()
+        }
 
         // 드래그 이벤트를 처리하기 위한 리스너 설정
         fragmentBinding.soccerFieldLayout.setOnDragListener { v, event ->
@@ -119,5 +135,26 @@ class SoccerFragment : Fragment() {
 
         // playerView를 필드에 추가
         fragmentBinding.soccerFieldLayout.addView(playerBinding.root)
+    }
+
+    // Fragment에서 다이얼로그를 사용하여 팀 이름을 입력받고 저장(추후 커스텀 다이얼로그로 변경)
+    private fun showSaveDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("포메이션 저장")
+
+        val input = EditText(requireContext())
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        builder.setView(input)
+
+        builder.setPositiveButton("저장") { dialog, _ ->
+            val teamName = input.text.toString()
+            playerViewModel.saveFormation(teamName)
+            dialog.dismiss()
+        }
+        builder.setNegativeButton("취소") { dialog, _ ->
+            dialog.cancel()
+        }
+
+        builder.show()
     }
 }

@@ -4,20 +4,27 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.squadbuilder.data.Formation
+import com.example.squadbuilder.data.FormationWithPlayers
 import com.example.squadbuilder.data.Player
 import com.example.squadbuilder.database.AppDatabase
 import com.example.squadbuilder.repository.PlayerRepository
+import kotlinx.coroutines.launch
 
 class PlayerViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: PlayerRepository
 
     val players: LiveData<List<Player>>
+    val formationsWithPlayers: LiveData<List<FormationWithPlayers>>
+
 
     init {
         val playerDao = AppDatabase.getDatabase(application).playerDao()
         repository = PlayerRepository(playerDao)
         players = MutableLiveData(createInitialFormation())
+        formationsWithPlayers = repository.getAllFormationsWithPlayers()
     }
 
     // 수정 필요(추후 배경 수정 시, 그에 맞는 위치로 조정)
@@ -42,6 +49,21 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
             Player(formationId = 0, name = "Player", number = 10, x = 0.5f, y = 0.2f, photoUri = "", position = "ST"), // 스트라이커
             Player(formationId = 0, name = "Player", number = 11, x = 0.7f, y = 0.2f, photoUri = "", position = "RW")  // 오른쪽 윙어
         )
+    }
+
+    fun saveFormation(teamName: String) {
+        // 날짜 데이터 수정 필요
+        viewModelScope.launch {
+            val formation = Formation(teamName = teamName, creationDate = System.currentTimeMillis().toString())
+            val formationId = repository.insertFormation(formation)
+
+            players.value?.forEach { player ->
+                player.formationId = formationId.toInt() // 생성된 포메이션 ID를 플레이어에 할당
+            }
+            players.value?.let {
+                repository.insertPlayers(it)
+            }
+        }
     }
 
     fun resetFormation() {

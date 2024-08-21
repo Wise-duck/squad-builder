@@ -3,6 +3,7 @@ package com.example.squadbuilder.repository
 import androidx.lifecycle.LiveData
 import com.example.squadbuilder.dao.PlayerDao
 import com.example.squadbuilder.data.Formation
+import com.example.squadbuilder.data.FormationWithPlayers
 import com.example.squadbuilder.data.Player
 
 class PlayerRepository(private val playerDao: PlayerDao) {
@@ -13,6 +14,18 @@ class PlayerRepository(private val playerDao: PlayerDao) {
 
     fun getPlayersForFormation(formationId: Int): LiveData<List<Player>> {
         return playerDao.getPlayersForFormation(formationId)
+    }
+
+    fun getAllFormationsWithPlayers(): LiveData<List<FormationWithPlayers>> {
+        return playerDao.getAllFormationsWithPlayers()
+    }
+
+    suspend fun insertFormation(formation: Formation): Long {
+        return playerDao.insertFormation(formation)
+    }
+
+    suspend fun insertPlayers(players: List<Player>) {
+        playerDao.insertPlayers(players)
     }
 
     suspend fun insertFormationWithPlayers(formation: Formation, players: List<Player>) {

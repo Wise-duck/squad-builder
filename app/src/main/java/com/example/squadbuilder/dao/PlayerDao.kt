@@ -6,8 +6,10 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import com.example.squadbuilder.data.Formation
+import com.example.squadbuilder.data.FormationWithPlayers
 import com.example.squadbuilder.data.Player
 
 @Dao
@@ -27,6 +29,10 @@ interface PlayerDao {
 
     @Query("SELECT * FROM players")
     fun getAllPlayers(): LiveData<List<Player>>
+
+    @Transaction
+    @Query("SELECT * FROM formations")
+    fun getAllFormationsWithPlayers(): LiveData<List<FormationWithPlayers>>
 
     @Delete
     suspend fun deleteFormation(formation: Formation)
