@@ -28,6 +28,9 @@ class SoccerFragment : Fragment() {
     private lateinit var fragmentBinding: FragmentSoccerBinding
     private val playerViewModel: PlayerViewModel by viewModels()
 
+    // 드래그 중인 View와 그 상태를 관리하는 변수
+    private var currentDraggingView: View? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -47,14 +50,16 @@ class SoccerFragment : Fragment() {
 
                 // ViewModel을 사용하여 플레이어 리스트를 관찰
                 playerViewModel.players.observe(viewLifecycleOwner, Observer { players ->
-                    if (!players.isNullOrEmpty()) {
-                        fragmentBinding.soccerFieldLayout.removeAllViews()  // 기존 플레이어 제거
+                    if (!players.isNullOrEmpty() && currentDraggingView == null) { // 드래그 중이 아닐 때만 업데이트
+                        fragmentBinding.soccerFieldLayout.removeAllViews()
 
                         players.forEach { player ->
                             addPlayerToField(player, fieldWidth, fieldHeight)
                         }
                     }
                 })
+
+
                 playerViewModel.formationsWithPlayers.observe(viewLifecycleOwner, Observer { formationsWithPlayers ->
                     formationsWithPlayers?.let {
                         // 저장된 포메이션과 플레이어 정보 확인 로그
@@ -72,57 +77,58 @@ class SoccerFragment : Fragment() {
 
         // 드래그 이벤트를 처리하기 위한 리스너 설정
         fragmentBinding.soccerFieldLayout.setOnDragListener { v, event ->
-            when (event.action) {
-                DragEvent.ACTION_DRAG_STARTED -> true
-                DragEvent.ACTION_DRAG_LOCATION -> {
-                    val view = event.localState as? View ?: return@setOnDragListener false
+            val view = event.localState as? View ?: return@setOnDragListener false
 
-                    // 드래그 중에 뷰를 화면에서 중앙으로 보정해서 배치
-                    view.x = (event.x - view.width / 2).coerceIn(0f, (v.width - view.width).toFloat())
-                    view.y = (event.y - view.height / 2).coerceIn(0f, (v.height - view.height).toFloat())
-                    view.invalidate()
+            when (event.action) {
+                DragEvent.ACTION_DRAG_STARTED -> {
+                    currentDraggingView = view
+                    true
+                }
+                DragEvent.ACTION_DRAG_LOCATION -> {
+                    if (currentDraggingView == view) {
+                        view.x = (event.x - view.width / 2).coerceIn(0f, (v.width - view.width).toFloat())
+                        view.y = (event.y - view.height / 2).coerceIn(0f, (v.height - view.height).toFloat())
+                        view.invalidate()
+                    }
                     true
                 }
                 DragEvent.ACTION_DROP -> {
-                    val view = event.localState as? View ?: return@setOnDragListener false
+                    if (currentDraggingView == view) {
+                        val xOffset = view.width / 2
+                        val yOffset = view.height / 2
 
-                    // xOffset과 yOffset을 계산하여 좌표 보정
-                    val xOffset = view.width / 2
-                    val yOffset = view.height / 2
+                        val maxX = v.width - view.width
+                        val maxY = v.height - view.height
+                        val newX = (event.x - xOffset).coerceIn(0f, maxX.toFloat())
+                        val newY = (event.y - yOffset).coerceIn(0f, maxY.toFloat())
 
-                    // 이동 가능한 최대/최소 위치 계산 (뷰 전체가 나가지 않도록)
-                    val maxX = v.width - view.width
-                    val maxY = v.height - view.height
-                    val newX = (event.x - xOffset).coerceIn(0f, maxX.toFloat())
-                    val newY = (event.y - yOffset).coerceIn(0f, maxY.toFloat())
+                        view.x = newX
+                        view.y = newY
+                        view.invalidate()
 
-                    view.x = newX
-                    view.y = newY
-                    view.invalidate()
+                        val playerTag = view.tag as? Player
+                        if (playerTag != null) {
+                            val fieldWidth = fragmentBinding.soccerFieldLayout.width
+                            val fieldHeight = fragmentBinding.soccerFieldLayout.height
 
-                    // Player 객체를 view의 tag에서 가져오기
-                    val playerTag = view.tag as? Player
-                    if (playerTag != null) {
-                        val fieldWidth = fragmentBinding.soccerFieldLayout.width
-                        val fieldHeight = fragmentBinding.soccerFieldLayout.height
+                            val relativeX = (newX + xOffset) / fieldWidth
+                            val relativeY = (newY + yOffset) / fieldHeight
 
-                        // 상대적인 비율로 x, y 좌표 계산
-                        val relativeX = (newX + xOffset) / fieldWidth
-                        val relativeY = (newY + yOffset) / fieldHeight
-
-                        // ViewModel의 Player 리스트를 업데이트
-                        playerViewModel.updatePlayerPosition(playerTag, relativeX, relativeY)
-                    } else {
-                        Log.e("SoccerFragment", "Player tag is null or invalid.")
+                            playerViewModel.updatePlayerPosition(playerTag, relativeX, relativeY)
+                        }
                     }
-
+                    currentDraggingView = null
                     true
                 }
-
-                DragEvent.ACTION_DRAG_ENDED -> true
+                DragEvent.ACTION_DRAG_ENDED -> {
+                    currentDraggingView = null
+                    true
+                }
                 else -> false
             }
         }
+
+
 
         return fragmentBinding.root
     }
@@ -140,27 +146,33 @@ class SoccerFragment : Fragment() {
         // 뷰 크기 측정 후 위치 설정
         playerBinding.root.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
+                // 기존 Listener 제거
                 playerBinding.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
 
-                // 상대적인 비율을 사용하여 위치 계산
-                val x = (player.x * fieldWidth).toInt() - (playerBinding.root.width / 2)
-                val y = (player.y * fieldHeight).toInt() - (playerBinding.root.height / 2)
+                if (playerBinding.root.left == 0 && playerBinding.root.top == 0) {
+                    // 초기 위치만 설정, 이미 위치가 설정된 경우 위치 갱신을 방지
+                    val x = (player.x * fieldWidth).toInt() - (playerBinding.root.width / 2)
+                    val y = (player.y * fieldHeight).toInt() - (playerBinding.root.height / 2)
 
-                val layoutParams = playerBinding.root.layoutParams as FrameLayout.LayoutParams
-                layoutParams.leftMargin = x
-                layoutParams.topMargin = y
-                playerBinding.root.layoutParams = layoutParams
+                    val layoutParams = playerBinding.root.layoutParams as FrameLayout.LayoutParams
+                    layoutParams.leftMargin = x
+                    layoutParams.topMargin = y
+                    playerBinding.root.layoutParams = layoutParams
+                }
             }
         })
+
 
         // 드래그 앤 드롭 설정
         playerBinding.root.setOnTouchListener { v, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    val clipData = ClipData.newPlainText("", "")
-                    val shadowBuilder = View.DragShadowBuilder(v)
-                    v.startDragAndDrop(clipData, shadowBuilder, v, 0)
-                    v.performClick() // performClick 호출하여 클릭 이벤트 처리
+                    if (currentDraggingView == null) { // 다른 드래그가 진행 중이지 않을 때만 새 드래그 시작
+                        val clipData = ClipData.newPlainText("", "")
+                        val shadowBuilder = View.DragShadowBuilder(v)
+                        v.startDragAndDrop(clipData, shadowBuilder, v, 0)
+                        v.performClick() // performClick 호출하여 클릭 이벤트 처리
+                    }
                     true
                 }
                 else -> false
