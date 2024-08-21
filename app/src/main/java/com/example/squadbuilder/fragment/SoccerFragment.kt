@@ -33,7 +33,7 @@ class SoccerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         fragmentBinding = FragmentSoccerBinding.inflate(inflater, container, false)
-
+        fragmentBinding.viewModel = playerViewModel // ViewModel을 Data Binding에 연결
         fragmentBinding.soccerFieldLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 fragmentBinding.soccerFieldLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -87,14 +87,21 @@ class SoccerFragment : Fragment() {
         // 바인딩 객체에 플레이어 데이터 설정
         playerBinding.player = player
 
-        // 실제 좌표 값 계산
-        val x = (player.x * fieldWidth).toInt()
-        val y = (player.y * fieldHeight).toInt()
+        // 뷰 크기 측정 후 위치 설정
+        playerBinding.root.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                playerBinding.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
 
-        playerBinding.root.layoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT).apply {
-            leftMargin = x - (playerBinding.root.measuredWidth / 2)
-            topMargin = y - (playerBinding.root.measuredHeight / 2)
-        }
+                // 상대적인 비율을 사용하여 위치 계산
+                val x = (player.x * fieldWidth).toInt() - (playerBinding.root.width / 2)
+                val y = (player.y * fieldHeight).toInt() - (playerBinding.root.height / 2)
+
+                val layoutParams = playerBinding.root.layoutParams as FrameLayout.LayoutParams
+                layoutParams.leftMargin = x
+                layoutParams.topMargin = y
+                playerBinding.root.layoutParams = layoutParams
+            }
+        })
 
         // 드래그 앤 드롭 설정
         playerBinding.root.setOnTouchListener { v, event ->
