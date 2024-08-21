@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-
+import java.util.Locale
 import androidx.lifecycle.viewModelScope
 import com.example.squadbuilder.data.Formation
 import com.example.squadbuilder.data.FormationWithPlayers
@@ -12,9 +12,9 @@ import com.example.squadbuilder.data.Player
 import com.example.squadbuilder.database.AppDatabase
 import com.example.squadbuilder.repository.PlayerRepository
 import kotlinx.coroutines.launch
-
 import com.example.squadbuilder.R
 import io.github.muddz.styleabletoast.StyleableToast
+import java.text.SimpleDateFormat
 
 class PlayerViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -61,8 +61,13 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
 
     fun saveFormation(teamName: String) {
         // 날짜 데이터 수정 필요
+
+        // 날짜 포맷 설정 (yyyyMMdd 형식)
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val currentDate = dateFormat.format(System.currentTimeMillis()) // 현재 날짜를 포맷
+
         viewModelScope.launch {
-            val formation = Formation(teamName = teamName, creationDate = System.currentTimeMillis().toString())
+            val formation = Formation(teamName = teamName, creationDate = currentDate)
             val formationId = repository.insertFormation(formation)
 
             players.value?.forEach { player ->
