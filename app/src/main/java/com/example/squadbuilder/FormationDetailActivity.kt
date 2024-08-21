@@ -66,14 +66,21 @@ class FormationDetailActivity : AppCompatActivity() {
         val x = (player.x * fieldWidth).toInt()
         val y = (player.y * fieldHeight).toInt()
 
-        // 레이아웃 파라미터 설정
-        playerBinding.root.layoutParams = FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.WRAP_CONTENT,
-            FrameLayout.LayoutParams.WRAP_CONTENT
-        ).apply {
-            leftMargin = x - (playerBinding.root.measuredWidth / 2)
-            topMargin = y - (playerBinding.root.measuredHeight / 2)
-        }
+        // 뷰가 레이아웃에 추가된 후 크기를 정확히 측정할 수 있도록 함
+        playerBinding.root.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                playerBinding.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
+
+                // 레이아웃 파라미터 설정
+                playerBinding.root.layoutParams = FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+                ).apply {
+                    leftMargin = x - (playerBinding.root.width / 2)
+                    topMargin = y - (playerBinding.root.height / 2)
+                }
+            }
+        })
 
         // 필드에 플레이어 추가
         binding.soccerFieldLayout.addView(playerBinding.root)
