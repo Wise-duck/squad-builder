@@ -2,10 +2,12 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.SquadBuilder" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+         <item name="colorPrimary">@color/gray</item>
 
         <!-- 상태바 색상 -->
         <item name="android:statusBarColor">@color/dark_gray</item>
+        <!-- 폰트 적용 -->
+        <item name="android:fontFamily">@font/godic_light</item>
     </style>
 
     <style name="Theme.SquadBuilder" parent="Base.Theme.SquadBuilder" />
