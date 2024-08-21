@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+
 import androidx.lifecycle.viewModelScope
 import com.example.squadbuilder.data.Formation
 import com.example.squadbuilder.data.FormationWithPlayers
@@ -11,6 +12,9 @@ import com.example.squadbuilder.data.Player
 import com.example.squadbuilder.database.AppDatabase
 import com.example.squadbuilder.repository.PlayerRepository
 import kotlinx.coroutines.launch
+
+import com.example.squadbuilder.R
+import io.github.muddz.styleabletoast.StyleableToast
 
 class PlayerViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -68,5 +72,13 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
 
     fun resetFormation() {
         (players as MutableLiveData).value = createInitialFormation()
+        StyleableToast.makeText(
+            getApplication(),
+            "포메이션이 초기화되었습니다.",
+            R.style.resetToast
+        ).apply {
+            setGravity(android.view.Gravity.BOTTOM)
+            show()
+        }
     }
 }

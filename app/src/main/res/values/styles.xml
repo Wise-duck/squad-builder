@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="resetToast">
+        <item name="stTextBold">true</item>
+        <item name="stTextColor">#111111</item>
+        <item name="stFont"></item>
+        <item name="stTextSize">14sp</item>
+        <item name="stColorBackground">@color/kiwi</item>
+        <item name="stStrokeWidth">3dp</item>
+        <item name="stStrokeColor">#fff</item>
+        <item name="stIconStart">@drawable/ic_launcher_foreground</item>
+        <item name="stIconEnd">@drawable/ic_launcher_foreground</item>
+        <item name="stLength">SHORT</item> LONG or SHORT
+        <item name="stRadius">20dp</item>
+    </style>
+</resources>
