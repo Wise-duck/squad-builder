@@ -48,6 +48,8 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
 
+    implementation("io.github.muddz:styleabletoast:2.4.0")
+
     implementation("androidx.fragment:fragment-ktx:1.8.2")  // Fragment KTX (viewModels 사용)
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.4")  // ViewModel KTX
 
