@@ -52,7 +52,7 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
 
             // 3명의 공격수
             Player(id = -9, formationId = 0, name = "Player", number = 9, x = 0.2f, y = 0.15f, photoUri = "", position = "LW"), // 왼쪽 윙어
-            Player(id = -10, formationId = 0, name = "Player", number = 10, x = 0.5f, y = 0.1f, photoUri = "", position = "ST"), // 스트라이커
+            Player(id = -10, formationId = 0, name = "Player", number = 10, x = 0.5f, y = 0.12f, photoUri = "", position = "ST"), // 스트라이커
             Player(id = -11, formationId = 0, name = "Player", number = 11, x = 0.8f, y = 0.15f, photoUri = "", position = "RW")  // 오른쪽 윙어
         )
     }
