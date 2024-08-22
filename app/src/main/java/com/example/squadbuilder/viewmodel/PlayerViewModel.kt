@@ -37,23 +37,23 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
     private fun createInitialFormation(): List<Player> {
         return listOf(
             // 1명의 골키퍼
-            Player(id = -1, formationId = 0, name = "Player", number = 1, x = 0.5f, y = 0.8f, photoUri = "", position = "GK"), // 골키퍼
+            Player(id = -1, formationId = 0, name = "Player", number = 1, x = 0.5f, y = 0.9f, photoUri = "", position = "GK"), // 골키퍼
 
             // 4명의 수비수
-            Player(id = -2, formationId = 0, name = "Player", number = 2, x = 0.2f, y = 0.6f, photoUri = "", position = "LB"), // 왼쪽 풀백
-            Player(id = -3, formationId = 0, name = "Player", number = 3, x = 0.4f, y = 0.6f, photoUri = "", position = "CB"), // 센터백
-            Player(id = -4, formationId = 0, name = "Player", number = 4, x = 0.6f, y = 0.6f, photoUri = "", position = "CB"), // 센터백
-            Player(id = -5, formationId = 0, name = "Player", number = 5, x = 0.8f, y = 0.6f, photoUri = "", position = "RB"), // 오른쪽 풀백
+            Player(id = -2, formationId = 0, name = "Player", number = 2, x = 0.1f, y = 0.65f, photoUri = "", position = "LB"), // 왼쪽 풀백
+            Player(id = -3, formationId = 0, name = "Player", number = 3, x = 0.37f, y = 0.65f, photoUri = "", position = "CB"), // 센터백
+            Player(id = -4, formationId = 0, name = "Player", number = 4, x = 0.63f, y = 0.65f, photoUri = "", position = "CB"), // 센터백
+            Player(id = -5, formationId = 0, name = "Player", number = 5, x = 0.9f, y = 0.65f, photoUri = "", position = "RB"), // 오른쪽 풀백
 
             // 3명의 미드필더
-            Player(id = -6, formationId = 0, name = "Player", number = 6, x = 0.3f, y = 0.4f, photoUri = "", position = "LM"), // 왼쪽 미드필더
+            Player(id = -6, formationId = 0, name = "Player", number = 6, x = 0.25f, y = 0.4f, photoUri = "", position = "LM"), // 왼쪽 미드필더
             Player(id = -7, formationId = 0, name = "Player", number = 7, x = 0.5f, y = 0.4f, photoUri = "", position = "CM"),  // 중앙 미드필더
-            Player(id = -8, formationId = 0, name = "Player", number = 8, x = 0.7f, y = 0.4f, photoUri = "", position = "RM"), // 오른쪽 미드필더
+            Player(id = -8, formationId = 0, name = "Player", number = 8, x = 0.75f, y = 0.4f, photoUri = "", position = "RM"), // 오른쪽 미드필더
 
             // 3명의 공격수
-            Player(id = -9, formationId = 0, name = "Player", number = 9, x = 0.3f, y = 0.2f, photoUri = "", position = "LW"), // 왼쪽 윙어
-            Player(id = -10, formationId = 0, name = "Player", number = 10, x = 0.5f, y = 0.2f, photoUri = "", position = "ST"), // 스트라이커
-            Player(id = -11, formationId = 0, name = "Player", number = 11, x = 0.7f, y = 0.2f, photoUri = "", position = "RW")  // 오른쪽 윙어
+            Player(id = -9, formationId = 0, name = "Player", number = 9, x = 0.2f, y = 0.15f, photoUri = "", position = "LW"), // 왼쪽 윙어
+            Player(id = -10, formationId = 0, name = "Player", number = 10, x = 0.5f, y = 0.1f, photoUri = "", position = "ST"), // 스트라이커
+            Player(id = -11, formationId = 0, name = "Player", number = 11, x = 0.8f, y = 0.15f, photoUri = "", position = "RW")  // 오른쪽 윙어
         )
     }
 

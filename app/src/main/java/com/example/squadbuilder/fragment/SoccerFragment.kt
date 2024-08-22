@@ -282,10 +282,12 @@ class SoccerFragment : Fragment() {
                 // ViewModel을 통해 플레이어 정보 업데이트
                 updatePlayerDetails(player, newName, newNumber, newPosition, newPhotoUri)
                 dialog.dismiss()
+                selectedPlayerImageUri = null  // 다이얼로그가 닫힐 때 URI 초기화
                 dialogView = null  // 다이얼로그가 닫힐 때 뷰 참조 해제
             }
             .setNegativeButton("취소") { dialog, _ ->
                 dialog.cancel()
+                selectedPlayerImageUri = null  // 다이얼로그가 닫힐 때 URI 초기화
                 dialogView = null  // 다이얼로그가 취소될 때 뷰 참조 해제
             }
             .show()
