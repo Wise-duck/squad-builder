@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
+    <color name="semi_transparent_black">#80000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="light_gray">#EFEFEF</color>
     <color name="dark_gray">#424242</color>
@@ -8,6 +9,7 @@
     <color name="blue_gray">#8fa9b7</color>
     <color name="mint">#b7e0c5</color>
     <color name="light_green">#80bf72</color>
+    <color name="frog">#14d075</color>
     <color name="kiwi">#b5bf72</color>
     <color name="olive">#99ab6d</color>
     <color name="pastel_green">#a9dab3</color>
@@ -15,6 +17,7 @@
     <color name="godong">#948774</color>
     <color name="gold">#f0b747</color>
     <color name="orange">#f59d18</color>
+    <color name="purple_gray">#b3a9c0</color>
     <color name="pink_gray">#daa9a9</color>
     <color name="rose">#d3787b</color>
     <color name="coral">#fe8575</color>
