@@ -1,85 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="viewModel"
             type="com.example.squadbuilder.viewmodel.PlayerViewModel" />
     </data>
 
-    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".fragment.SoccerFragment">
 
         <!-- 상단 구역: 저장, 설정 등 버튼 -->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <!-- 팀 사진 -->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/team_profile_image"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_launcher_foreground"
+            app:civ_border_color="@color/light_green"
+            app:civ_border_width="5dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:gravity="end"
-            android:background="@color/light_gray">
+            android:layout_marginEnd="16dp"
+            android:text="저장"
+            app:layout_constraintBottom_toBottomOf="@+id/settingsButton"
+            app:layout_constraintEnd_toStartOf="@+id/settingsButton" />
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:onClick="@{() -> viewModel.resetFormation()}"
+            android:text="초기화"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/saveButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="저장" />
-
-            <Button
-                android:id="@+id/settingsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="초기화"
-                android:onClick="@{() -> viewModel.resetFormation()}"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
-
-        <!-- 중간 구역: 축구 필드 (FrameLayout 사용: 선수드래그 및 교체) -->
-
-        <!-- 하단 구역: 교체 명단 (가로 스크롤 가능, 7명 예정) -->
-
+        <!-- 중간 구역: 축구 필드 (FrameLayout 사용: 선수 드래그 이동) -->
         <FrameLayout
             android:id="@+id/soccerFieldLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:background="@color/mint">
+            android:background="@color/mint"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerView3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/team_profile_image">
             <!-- 선수 배치 -->
-
-
         </FrameLayout>
 
-        <HorizontalScrollView
+        <!-- 하단 구역: 교체 명단 (가로 스크롤 가능, 7명 예정) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:background="@color/dark_gray"
-            android:padding="16dp">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <!-- 교체 선수들 이곳에 배치 -->
+        </androidx.recyclerview.widget.RecyclerView>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <!-- 예시로 교체 선수들을 텍스트뷰나 아이콘으로 배치 -->
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginEnd="16dp"
-                    android:contentDescription="Player 1" />
-
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginEnd="16dp"
-                    android:contentDescription="Player 2" />
-
-                <!-- 추가 선수들을 이곳에 배치 -->
-
-            </LinearLayout>
-        </HorizontalScrollView>
-
-
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
