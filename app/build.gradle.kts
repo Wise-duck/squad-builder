@@ -48,6 +48,8 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
 
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
     // StyleableToast
     implementation("io.github.muddz:styleabletoast:2.4.0")
     // CircleImageView
