@@ -30,6 +30,10 @@ class SoccerFragment : Fragment() {
     private val PICK_IMAGE_REQUEST = 1
     private var selectedImageUri: Uri? = null
 
+    private val PICK_IMAGE_REQUEST2 = 2
+    private var selectedPlayerImageUri: Uri? = null
+    private var dialogView: View? = null  // 전역 변수로 변경하여 다이얼로그 뷰 참조 유지
+
     // 드래그 중인 View와 그 상태를 관리하는 변수
     private var currentDraggingView: View? = null
     private var isDragging = false
@@ -82,11 +86,21 @@ class SoccerFragment : Fragment() {
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == AppCompatActivity.RESULT_OK) {
-            selectedImageUri = data?.data
-            fragmentBinding.teamProfileImage.setImageURI(selectedImageUri)
+        if (resultCode == AppCompatActivity.RESULT_OK) {
+            when (requestCode) {
+                PICK_IMAGE_REQUEST -> {
+                    selectedImageUri = data?.data
+                    fragmentBinding.teamProfileImage.setImageURI(selectedImageUri)
+                }
+                PICK_IMAGE_REQUEST2 -> {
+                    selectedPlayerImageUri = data?.data
+                    dialogView?.findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.player_profile_image)?.setImageURI(selectedPlayerImageUri)
+                }
+            }
         }
     }
+
+
     private fun handleDragEvent(v: View, event: DragEvent): Boolean {
         val view = event.localState as? View ?: return false
 
@@ -217,31 +231,58 @@ class SoccerFragment : Fragment() {
         }
         return true
     }
+
+
     private fun showPlayerEditDialog(player: Player) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_player_edit, null)
-        val playerNameEditText = dialogView.findViewById<EditText>(R.id.playerNameEditText)
-        val playerNumberEditText = dialogView.findViewById<EditText>(R.id.playerNumberEditText)
-        val playerPositionEditText = dialogView.findViewById<EditText>(R.id.playerPositionEditText)
+        dialogView = layoutInflater.inflate(R.layout.dialog_player_edit, null)  // 뷰를 전역 변수에 할당
+
+        val playerNameEditText = dialogView!!.findViewById<EditText>(R.id.playerNameEditText)
+        val playerNumberEditText = dialogView!!.findViewById<EditText>(R.id.playerNumberEditText)
+        val playerPositionEditText = dialogView!!.findViewById<EditText>(R.id.playerPositionEditText)
+        val playerProfileImageView = dialogView!!.findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.player_profile_image)
 
         playerNameEditText.setText(player.name)
         playerNumberEditText.setText(player.number.toString())
         playerPositionEditText.setText(player.position)
 
+        // 기존 이미지가 있으면 로드
+        player.photoUri?.let {
+            playerProfileImageView.setImageURI(Uri.parse(it))
+        }
+
+        // 이미지 선택 리스너 추가
+        playerProfileImageView.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, PICK_IMAGE_REQUEST2)
+        }
+
         AlertDialog.Builder(requireContext())
             .setTitle("플레이어 수정")
             .setView(dialogView)
             .setPositiveButton("저장") { dialog, _ ->
-                updatePlayerDetails(player, playerNameEditText.text.toString(), playerNumberEditText.text.toString().toIntOrNull() ?: player.number, playerPositionEditText.text.toString())
+                val newName = playerNameEditText.text.toString()
+                val newNumber = playerNumberEditText.text.toString().toIntOrNull() ?: player.number
+                val newPosition = playerPositionEditText.text.toString()
+                val newPhotoUri = selectedPlayerImageUri?.toString() ?: player.photoUri
+
+                // ViewModel을 통해 플레이어 정보 업데이트
+                updatePlayerDetails(player, newName, newNumber, newPosition, newPhotoUri)
                 dialog.dismiss()
+                dialogView = null  // 다이얼로그가 닫힐 때 뷰 참조 해제
             }
-            .setNegativeButton("취소") { dialog, _ -> dialog.cancel() }
+            .setNegativeButton("취소") { dialog, _ ->
+                dialog.cancel()
+                dialogView = null  // 다이얼로그가 취소될 때 뷰 참조 해제
+            }
             .show()
     }
 
-    private fun updatePlayerDetails(player: Player, newName: String, newNumber: Int, newPosition: String) {
-        playerViewModel.updatePlayerDetails(player, newName, newNumber, newPosition)
+    private fun updatePlayerDetails(player: Player, newName: String, newNumber: Int, newPosition: String, newPhotoUri: String?) {
+        playerViewModel.updatePlayerDetails(player, newName, newNumber, newPosition, newPhotoUri)
         StyleableToast.makeText(requireContext(), "플레이어 정보가 업데이트되었습니다.", R.style.saveToast).show()
     }
+
 
     private fun showSaveDialog() {
         val input = EditText(requireContext()).apply { inputType = InputType.TYPE_CLASS_TEXT }

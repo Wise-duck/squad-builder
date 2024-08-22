@@ -54,16 +54,21 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
         )
     }
 
-    fun updatePlayerDetails(player: Player, newName: String, newNumber: Int, newPosition: String) {
+    fun updatePlayerDetails(player: Player, newName: String, newNumber: Int, newPosition: String, newPhotoUri: String?) {
         players.value?.let { currentPlayers ->
             val updatedPlayers = currentPlayers.map {
                 if (it.id == player.id) {
-                    it.copy(name = newName, number = newNumber, position = newPosition)
+                    it.copy(name = newName, number = newNumber, position = newPosition, photoUri = newPhotoUri ?: it.photoUri)
                 } else {
                     it
                 }
             }
             (players as MutableLiveData).value = updatedPlayers
+
+            // 업데이트된 정보를 데이터베이스에 반영
+            viewModelScope.launch {
+                repository.updatePlayer(updatedPlayers.find { it.id == player.id } ?: return@launch)
+            }
         }
     }
 
