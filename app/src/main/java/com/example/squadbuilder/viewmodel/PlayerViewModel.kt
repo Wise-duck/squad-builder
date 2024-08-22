@@ -124,4 +124,10 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
         (players as MutableLiveData).value = updatedPlayers
     }
 
+    fun deleteFormation(formation: Formation) {
+        viewModelScope.launch {
+            repository.deleteFormation(formation)
+        }
+    }
+
 }

@@ -12,7 +12,8 @@ import com.example.squadbuilder.databinding.FormationListItemBinding
 
 class FormationAdapter(
     private val formations: List<Formation>,
-    private val clickListener: (Formation) -> Unit
+    private val clickListener: (Formation) -> Unit,
+    private val deleteListener: (Formation) -> Unit // 삭제 리스너 추가
 ) : RecyclerView.Adapter<FormationAdapter.FormationViewHolder>() {
 
     inner class FormationViewHolder(val binding: FormationListItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -22,6 +23,9 @@ class FormationAdapter(
                 clickListener(formation)
             }
             binding.executePendingBindings()
+            binding.cancelButton.setOnClickListener {
+                deleteListener(formation)
+            }
         }
     }
 

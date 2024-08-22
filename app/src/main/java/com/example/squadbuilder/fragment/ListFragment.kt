@@ -1,4 +1,4 @@
-package com.example.squadbuilder.fragment
+package com.example.squadbuilder
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,11 +10,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.squadbuilder.FormationDetailActivity
-import com.example.squadbuilder.R
 import com.example.squadbuilder.adapter.FormationAdapter
 import com.example.squadbuilder.databinding.FragmentListBinding
 import com.example.squadbuilder.viewmodel.PlayerViewModel
+
 
 class ListFragment : Fragment() {
 
@@ -39,13 +38,19 @@ class ListFragment : Fragment() {
         // 어댑터 초기화 및 설정
         playerViewModel.formationsWithPlayers.observe(viewLifecycleOwner, Observer { formations ->
             formations?.let {
-                formationAdapter = FormationAdapter(it.map { it.formation }) { formation ->
-                    // 포메이션 클릭 시 인텐트로 FormationDetailActivity에 포메이션 ID 전달
-                    val intent = Intent(context, FormationDetailActivity::class.java).apply {
-                        putExtra("FORMATION_ID", formation.id)
+                formationAdapter = FormationAdapter(it.map { it.formation },
+                    clickListener = { formation ->
+                        // 포메이션 클릭 시 인텐트로 FormationDetailActivity에 포메이션 ID 전달
+                        val intent = Intent(context, FormationDetailActivity::class.java).apply {
+                            putExtra("FORMATION_ID", formation.id)
+                        }
+                        startActivity(intent)
+                    },
+                    deleteListener = { formation ->
+                        // 삭제 버튼 클릭 시 ViewModel에서 포메이션 삭제
+                        playerViewModel.deleteFormation(formation)
                     }
-                    startActivity(intent)
-                }
+                )
                 binding.recyclerView.adapter = formationAdapter
             }
         })
