@@ -80,7 +80,7 @@ class SoccerFragment : Fragment() {
                 // 팀 프로필 이미지 URI가 변경될 때 이미지를 초기화
                 playerViewModel.teamProfileImageUri.observe(viewLifecycleOwner, Observer { uri ->
                     if (uri == null) {
-                        fragmentBinding.teamProfileImage.setImageResource(R.drawable.ic_launcher_foreground) // 기본 이미지로 설정
+                        fragmentBinding.teamProfileImage.setImageResource(R.drawable.icon_logo) // 기본 이미지로 설정
                     } else {
                         fragmentBinding.teamProfileImage.setImageURI(Uri.parse(uri))
                     }

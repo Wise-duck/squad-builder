@@ -22,8 +22,8 @@
             android:layout_height="90dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:src="@drawable/ic_launcher_foreground"
-            app:civ_border_color="@color/light_green"
+            android:src="@drawable/icon_logo"
+            app:civ_border_color="@color/mint"
             app:civ_border_width="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -46,21 +46,24 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- 중간 구역: 축구 필드 (FrameLayout 사용: 선수 드래그 이동) -->
+
+        <!-- 하단 구역: 교체 명단 (가로 스크롤 가능, 7명 예정) -->
+
         <FrameLayout
             android:id="@+id/soccerFieldLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:background="@color/mint"
             app:layout_constraintBottom_toTopOf="@+id/recyclerView3"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/team_profile_image">
+            app:layout_constraintTop_toBottomOf="@+id/team_profile_image"
+            app:layout_constraintVertical_bias="0.0">
             <!-- 선수 배치 -->
         </FrameLayout>
 
-        <!-- 하단 구역: 교체 명단 (가로 스크롤 가능, 7명 예정) -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView3"
             android:layout_width="match_parent"
