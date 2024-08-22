@@ -29,8 +29,8 @@ class FormationDetailActivity : AppCompatActivity() {
             // ViewModel을 통해 포메이션과 플레이어 데이터를 가져옴
             playerViewModel.getFormationWithPlayers(formationId).observe(this, Observer { formationWithPlayers ->
                 formationWithPlayers?.let {
-                    // 팀 이름을 텍스트뷰에 설정
-                    binding.teamNameTextView.text = it.formation.teamName
+                    // ViewModel에서 가져온 formation 데이터를 바인딩에 설정
+                    binding.formation = it.formation
 
                     // soccerFieldLayout의 렌더링이 완료된 후 플레이어를 배치
                     binding.soccerFieldLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
