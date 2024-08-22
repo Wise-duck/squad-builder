@@ -54,6 +54,7 @@ class SoccerFragment : Fragment() {
 
         fragmentBinding.saveButton.setOnClickListener { showSaveDialog() }
         fragmentBinding.teamProfileImage.setOnClickListener { selectTeamPhoto() }
+        fragmentBinding.settingsButton.setOnClickListener { showResetConfirmationDialog() }
         fragmentBinding.soccerFieldLayout.setOnDragListener { v, event -> handleDragEvent(v, event) }
 
         return fragmentBinding.root
@@ -70,6 +71,15 @@ class SoccerFragment : Fragment() {
                     if (!players.isNullOrEmpty() && currentDraggingView == null) {
                         fragmentBinding.soccerFieldLayout.removeAllViews()
                         players.forEach { player -> addPlayerToField(player, fieldWidth, fieldHeight) }
+                    }
+                })
+
+                // 팀 프로필 이미지 URI가 변경될 때 이미지를 초기화
+                playerViewModel.teamProfileImageUri.observe(viewLifecycleOwner, Observer { uri ->
+                    if (uri == null) {
+                        fragmentBinding.teamProfileImage.setImageResource(R.drawable.ic_launcher_foreground) // 기본 이미지로 설정
+                    } else {
+                        fragmentBinding.teamProfileImage.setImageURI(Uri.parse(uri))
                     }
                 })
             }
@@ -283,6 +293,19 @@ class SoccerFragment : Fragment() {
         StyleableToast.makeText(requireContext(), "플레이어 정보가 업데이트되었습니다.", R.style.saveToast).show()
     }
 
+    // 초기화 버튼 클릭 시 다이얼로그를 표시하는 함수
+    private fun showResetConfirmationDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("포메이션 초기화")
+            .setMessage("정말로 포메이션을 초기화하시겠습니까? 이 작업은 되돌릴 수 없습니다.")
+            .setPositiveButton("확인") { dialog, _ ->
+                playerViewModel.resetFormation()
+            }
+            .setNegativeButton("취소") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
 
     private fun showSaveDialog() {
         val input = EditText(requireContext()).apply { inputType = InputType.TYPE_CLASS_TEXT }

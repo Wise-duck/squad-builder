@@ -23,6 +23,9 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
     val players: LiveData<List<Player>>
     val formationsWithPlayers: LiveData<List<FormationWithPlayers>>
 
+    // 팀 프로필 이미지 URI를 관리하는 LiveData
+    val teamProfileImageUri: MutableLiveData<String?> = MutableLiveData(null)
+
     init {
         val playerDao = AppDatabase.getDatabase(application).playerDao()
         repository = PlayerRepository(playerDao)
@@ -113,6 +116,7 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
 
     fun resetFormation() {
         (players as MutableLiveData).value = createInitialFormation()
+        teamProfileImageUri.value = null  // 팀 프로필 이미지 초기화
         StyleableToast.makeText(
             getApplication(),
             "포메이션이 초기화되었습니다.",

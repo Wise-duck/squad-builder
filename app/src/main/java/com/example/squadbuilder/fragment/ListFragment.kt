@@ -1,4 +1,4 @@
-package com.example.squadbuilder
+package com.example.squadbuilder.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.squadbuilder.FormationDetailActivity
+import com.example.squadbuilder.R
 import com.example.squadbuilder.adapter.FormationAdapter
 import com.example.squadbuilder.databinding.FragmentListBinding
 import com.example.squadbuilder.viewmodel.PlayerViewModel
