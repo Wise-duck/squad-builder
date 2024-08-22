@@ -42,6 +42,10 @@ class FormationDetailActivity : AppCompatActivity() {
                 }
             })
         }
+
+        binding.backImageButton.setOnClickListener {
+            finish()  // 현재 액티비티 종료하여 이전 화면으로 돌아감
+        }
     }
 
     private fun setupFormation(players: List<Player>) {
