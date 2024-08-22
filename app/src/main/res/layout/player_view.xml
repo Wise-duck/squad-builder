@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="player"
@@ -23,8 +24,12 @@
             android:gravity="center" />
 
         <ImageView
+            android:id="@+id/playerProfileImage"
+            app:imageUri="@{player.photoUri}"
+            android:background="@color/frog"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:scaleType="centerCrop"
             android:layout_gravity="center"/>
 
         <TextView
