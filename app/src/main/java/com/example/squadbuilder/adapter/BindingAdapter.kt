@@ -12,6 +12,6 @@ fun bindImage(imageView: ImageView, imageUri: String?) {
             .load(imageUri)
             .into(imageView)
     } else {
-        imageView.setImageResource(R.drawable.ic_launcher_foreground) // 기본 이미지 설정
+        imageView.setImageResource(R.drawable.icon_q) // 기본 이미지 설정
     }
 }
