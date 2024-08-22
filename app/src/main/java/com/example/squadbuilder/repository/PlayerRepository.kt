@@ -37,6 +37,10 @@ class PlayerRepository(private val playerDao: PlayerDao) {
         players.forEach { it.formationId = formationId }
     }
 
+    suspend fun updateFormation(formation: Formation) {
+        playerDao.updateFormation(formation)  // 업데이트 메서드 호출
+    }
+
     suspend fun updatePlayer(player: Player) {
         playerDao.updatePlayer(player)
     }

@@ -1,12 +1,15 @@
 package com.example.squadbuilder.fragment
 
 import android.content.ClipData
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
 import android.view.*
 import android.widget.EditText
 import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.updateLayoutParams
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -23,6 +26,9 @@ class SoccerFragment : Fragment() {
 
     private lateinit var fragmentBinding: FragmentSoccerBinding
     private val playerViewModel: PlayerViewModel by viewModels()
+
+    private val PICK_IMAGE_REQUEST = 1
+    private var selectedImageUri: Uri? = null
 
     // 드래그 중인 View와 그 상태를 관리하는 변수
     private var currentDraggingView: View? = null
@@ -43,6 +49,7 @@ class SoccerFragment : Fragment() {
         observeViewModel()
 
         fragmentBinding.saveButton.setOnClickListener { showSaveDialog() }
+        fragmentBinding.teamProfileImage.setOnClickListener { selectTeamPhoto() }
         fragmentBinding.soccerFieldLayout.setOnDragListener { v, event -> handleDragEvent(v, event) }
 
         return fragmentBinding.root
@@ -64,7 +71,22 @@ class SoccerFragment : Fragment() {
             }
         })
     }
+    // 팀 사진 선택 버튼 클릭 시 호출
+    private fun selectTeamPhoto() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
 
+    // 사진 선택 결과 처리
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == AppCompatActivity.RESULT_OK) {
+            selectedImageUri = data?.data
+            fragmentBinding.teamProfileImage.setImageURI(selectedImageUri)
+        }
+    }
     private fun handleDragEvent(v: View, event: DragEvent): Boolean {
         val view = event.localState as? View ?: return false
 
@@ -195,7 +217,6 @@ class SoccerFragment : Fragment() {
         }
         return true
     }
-
     private fun showPlayerEditDialog(player: Player) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_player_edit, null)
         val playerNameEditText = dialogView.findViewById<EditText>(R.id.playerNameEditText)
@@ -228,7 +249,8 @@ class SoccerFragment : Fragment() {
             .setTitle("포메이션 저장")
             .setView(input)
             .setPositiveButton("저장") { dialog, _ ->
-                playerViewModel.saveFormation(input.text.toString())
+                // 팀 이름과 팀 사진 URI를 매개 변수로 전달
+                playerViewModel.saveFormation(input.text.toString(), selectedImageUri.toString())
                 dialog.dismiss()
                 StyleableToast.makeText(requireContext(), "포메이션 '${input.text}'이 저장되었습니다.", R.style.saveToast).show()
             }

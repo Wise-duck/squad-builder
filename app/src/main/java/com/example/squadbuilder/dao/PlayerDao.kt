@@ -38,6 +38,9 @@ interface PlayerDao {
     @Query("SELECT * FROM formations")
     fun getAllFormationsWithPlayers(): LiveData<List<FormationWithPlayers>>
 
+    @Update
+    suspend fun updateFormation(formation: Formation)
+
     @Delete
     suspend fun deleteFormation(formation: Formation)
 

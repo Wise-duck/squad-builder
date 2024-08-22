@@ -71,13 +71,17 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
         return repository.getFormationWithPlayers(formationId)
     }
 
-    fun saveFormation(teamName: String) {
+    fun saveFormation(teamName: String, teamPhotoUri: String?) {
         // 날짜 포맷 설정 (yyyyMMdd 형식)
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val currentDate = dateFormat.format(System.currentTimeMillis()) // 현재 날짜를 포맷
 
         viewModelScope.launch {
-            val formation = Formation(teamName = teamName, creationDate = currentDate)
+            val formation = Formation(
+                teamName = teamName,
+                creationDate = currentDate,
+                teamPhotoUri = teamPhotoUri  // 팀 사진 URI 함께 저장
+            )
             val formationId = repository.insertFormation(formation).toInt()
 
             // 플레이어 ID를 업데이트하기 위한 임시 리스트

@@ -10,7 +10,7 @@ import com.example.squadbuilder.data.Formation
 import com.example.squadbuilder.data.Player
 
 // 엔티티 클래스, 데이터베이스 버전 정의
-@Database(entities = [Formation::class, Player::class], version = 1, exportSchema = false)
+@Database(entities = [Formation::class, Player::class], version = 2, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun formationDao(): FormationDao
