@@ -51,13 +51,16 @@ class SoccerFragment : Fragment() {
         fragmentBinding = FragmentSoccerBinding.inflate(inflater, container, false)
         fragmentBinding.viewModel = playerViewModel
         observeViewModel()
+        setupListeners()
 
+        return fragmentBinding.root
+    }
+
+    private fun setupListeners() {
         fragmentBinding.saveButton.setOnClickListener { showSaveDialog() }
         fragmentBinding.teamProfileImage.setOnClickListener { selectTeamPhoto() }
         fragmentBinding.settingsButton.setOnClickListener { showResetConfirmationDialog() }
         fragmentBinding.soccerFieldLayout.setOnDragListener { v, event -> handleDragEvent(v, event) }
-
-        return fragmentBinding.root
     }
 
     private fun observeViewModel() {
@@ -268,7 +271,7 @@ class SoccerFragment : Fragment() {
         }
 
         AlertDialog.Builder(requireContext())
-            .setTitle("플레이어 수정")
+            .setTitle("플레이어 정보 수정")
             .setView(dialogView)
             .setPositiveButton("저장") { dialog, _ ->
                 val newName = playerNameEditText.text.toString()
@@ -290,7 +293,7 @@ class SoccerFragment : Fragment() {
 
     private fun updatePlayerDetails(player: Player, newName: String, newNumber: Int, newPosition: String, newPhotoUri: String?) {
         playerViewModel.updatePlayerDetails(player, newName, newNumber, newPosition, newPhotoUri)
-        StyleableToast.makeText(requireContext(), "플레이어 정보가 업데이트되었습니다.", R.style.saveToast).show()
+        StyleableToast.makeText(requireContext(), "플레이어 정보 수정 완료", R.style.saveToast).show()
     }
 
     // 초기화 버튼 클릭 시 다이얼로그를 표시하는 함수
