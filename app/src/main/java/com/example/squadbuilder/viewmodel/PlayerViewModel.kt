@@ -23,7 +23,6 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
     val players: LiveData<List<Player>>
     val formationsWithPlayers: LiveData<List<FormationWithPlayers>>
 
-
     init {
         val playerDao = AppDatabase.getDatabase(application).playerDao()
         repository = PlayerRepository(playerDao)
@@ -35,24 +34,37 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
     private fun createInitialFormation(): List<Player> {
         return listOf(
             // 1명의 골키퍼
-            Player(formationId = 0, name = "Player", number = 1, x = 0.5f, y = 0.8f, photoUri = "", position = "GK"), // 골키퍼
+            Player(id = -1, formationId = 0, name = "Player", number = 1, x = 0.5f, y = 0.8f, photoUri = "", position = "GK"), // 골키퍼
 
             // 4명의 수비수
-            Player(formationId = 0, name = "Player", number = 2, x = 0.2f, y = 0.6f, photoUri = "", position = "LB"), // 왼쪽 풀백
-            Player(formationId = 0, name = "Player", number = 3, x = 0.4f, y = 0.6f, photoUri = "", position = "CB"), // 센터백
-            Player(formationId = 0, name = "Player", number = 4, x = 0.6f, y = 0.6f, photoUri = "", position = "CB"), // 센터백
-            Player(formationId = 0, name = "Player", number = 5, x = 0.8f, y = 0.6f, photoUri = "", position = "RB"), // 오른쪽 풀백
+            Player(id = -2, formationId = 0, name = "Player", number = 2, x = 0.2f, y = 0.6f, photoUri = "", position = "LB"), // 왼쪽 풀백
+            Player(id = -3, formationId = 0, name = "Player", number = 3, x = 0.4f, y = 0.6f, photoUri = "", position = "CB"), // 센터백
+            Player(id = -4, formationId = 0, name = "Player", number = 4, x = 0.6f, y = 0.6f, photoUri = "", position = "CB"), // 센터백
+            Player(id = -5, formationId = 0, name = "Player", number = 5, x = 0.8f, y = 0.6f, photoUri = "", position = "RB"), // 오른쪽 풀백
 
             // 3명의 미드필더
-            Player(formationId = 0, name = "Player", number = 6, x = 0.3f, y = 0.4f, photoUri = "", position = "LM"), // 왼쪽 미드필더
-            Player(formationId = 0, name = "Player", number = 7, x = 0.5f, y = 0.4f, photoUri = "", position = "CM"),  // 중앙 미드필더
-            Player(formationId = 0, name = "Player", number = 8, x = 0.7f, y = 0.4f, photoUri = "", position = "RM"), // 오른쪽 미드필더
+            Player(id = -6, formationId = 0, name = "Player", number = 6, x = 0.3f, y = 0.4f, photoUri = "", position = "LM"), // 왼쪽 미드필더
+            Player(id = -7, formationId = 0, name = "Player", number = 7, x = 0.5f, y = 0.4f, photoUri = "", position = "CM"),  // 중앙 미드필더
+            Player(id = -8, formationId = 0, name = "Player", number = 8, x = 0.7f, y = 0.4f, photoUri = "", position = "RM"), // 오른쪽 미드필더
 
             // 3명의 공격수
-            Player(formationId = 0, name = "Player", number = 9, x = 0.3f, y = 0.2f, photoUri = "", position = "LW"), // 왼쪽 윙어
-            Player(formationId = 0, name = "Player", number = 10, x = 0.5f, y = 0.2f, photoUri = "", position = "ST"), // 스트라이커
-            Player(formationId = 0, name = "Player", number = 11, x = 0.7f, y = 0.2f, photoUri = "", position = "RW")  // 오른쪽 윙어
+            Player(id = -9, formationId = 0, name = "Player", number = 9, x = 0.3f, y = 0.2f, photoUri = "", position = "LW"), // 왼쪽 윙어
+            Player(id = -10, formationId = 0, name = "Player", number = 10, x = 0.5f, y = 0.2f, photoUri = "", position = "ST"), // 스트라이커
+            Player(id = -11, formationId = 0, name = "Player", number = 11, x = 0.7f, y = 0.2f, photoUri = "", position = "RW")  // 오른쪽 윙어
         )
+    }
+
+    fun updatePlayerDetails(player: Player, newName: String, newNumber: Int, newPosition: String) {
+        players.value?.let { currentPlayers ->
+            val updatedPlayers = currentPlayers.map {
+                if (it.id == player.id) {
+                    it.copy(name = newName, number = newNumber, position = newPosition)
+                } else {
+                    it
+                }
+            }
+            (players as MutableLiveData).value = updatedPlayers
+        }
     }
 
     fun getFormationWithPlayers(formationId: Int): LiveData<FormationWithPlayers> {
@@ -60,24 +72,35 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun saveFormation(teamName: String) {
-        // 날짜 데이터 수정 필요
-
         // 날짜 포맷 설정 (yyyyMMdd 형식)
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val currentDate = dateFormat.format(System.currentTimeMillis()) // 현재 날짜를 포맷
 
         viewModelScope.launch {
             val formation = Formation(teamName = teamName, creationDate = currentDate)
-            val formationId = repository.insertFormation(formation)
+            val formationId = repository.insertFormation(formation).toInt()
+
+            // 플레이어 ID를 업데이트하기 위한 임시 리스트
+            val updatedPlayers = mutableListOf<Player>()
 
             players.value?.forEach { player ->
-                player.formationId = formationId.toInt() // 생성된 포메이션 ID를 플레이어에 할당
+                val playerToSave = player.copy(
+                    formationId = formationId, // 생성된 포메이션 ID로 업데이트
+                    id = 0 // ID를 0으로 설정하여 Room이 자동으로 ID를 생성하도록 함
+                )
+
+                val savedPlayerId = repository.insertPlayer(playerToSave).toInt()
+
+                // 새로 생성된 ID로 플레이어를 업데이트
+                val updatedPlayer = player.copy(id = savedPlayerId, formationId = formationId)
+                updatedPlayers.add(updatedPlayer)
             }
-            players.value?.let {
-                repository.insertPlayers(it)
-            }
+
+            // 뷰 모델 내 플레이어 리스트를 새로 생성된 ID로 업데이트
+            (players as MutableLiveData).value = updatedPlayers
         }
     }
+
 
     fun resetFormation() {
         (players as MutableLiveData).value = createInitialFormation()
@@ -93,12 +116,11 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
 
     fun updatePlayerPosition(player: Player, newX: Float, newY: Float) {
         val updatedPlayers = players.value?.map {
-            if (it.number == player.number) {
+            if (it.id == player.id) {
                 it.copy(x = newX, y = newY) // x와 y 값을 새로운 값으로 복사
             } else {
-                it
+                it}
             }
-        }
         (players as MutableLiveData).value = updatedPlayers
     }
 

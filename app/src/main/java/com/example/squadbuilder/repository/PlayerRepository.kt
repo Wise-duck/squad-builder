@@ -28,14 +28,13 @@ class PlayerRepository(private val playerDao: PlayerDao) {
         return playerDao.insertFormation(formation)
     }
 
-    suspend fun insertPlayers(players: List<Player>) {
-        playerDao.insertPlayers(players)
+    suspend fun insertPlayer(player: Player): Long {
+        return playerDao.insertPlayer(player)
     }
 
     suspend fun insertFormationWithPlayers(formation: Formation, players: List<Player>) {
         val formationId = playerDao.insertFormation(formation).toInt()
         players.forEach { it.formationId = formationId }
-        playerDao.insertPlayers(players)
     }
 
     suspend fun updatePlayer(player: Player) {

@@ -19,7 +19,7 @@ interface PlayerDao {
     suspend fun insertFormation(formation: Formation): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPlayers(players: List<Player>)
+    suspend fun insertPlayer(player: Player): Long
 
     @Update
     suspend fun updatePlayer(player: Player)
