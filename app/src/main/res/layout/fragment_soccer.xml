@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@color/mint"
         tools:context=".fragment.SoccerFragment">
 
         <!-- 상단 구역: 저장, 설정 등 버튼 -->

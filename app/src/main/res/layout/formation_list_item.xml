@@ -22,15 +22,18 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/mint">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/team_profile_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginStart="0dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="0dp"
-                android:background="@color/mint"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="5dp"
+                android:src="@drawable/icon_logo"
                 app:imageUri="@{formation.teamPhotoUri}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,11 +66,11 @@
 
             <ImageButton
                 android:id="@+id/cancel_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@color/white"
+                android:background="@color/mint"
                 android:src="@drawable/icon_delete"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
