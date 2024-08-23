@@ -29,10 +29,10 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(SoccerFragment())
                     true
                 }
-                R.id.main_bottom_nav_football -> {
-                    replaceFragment(FootballFragment())
-                    true
-                }
+//                R.id.main_bottom_nav_football -> {
+//                    replaceFragment(FootballFragment())
+//                    true
+//                }
                 R.id.main_bottom_nav_list -> {
                     replaceFragment(ListFragment())
                     true

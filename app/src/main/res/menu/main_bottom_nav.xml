@@ -5,11 +5,11 @@
         android:icon="@drawable/ic_launcher_foreground"
         android:enabled="true"
         android:title="@string/nav_title_soccer"/>
-    <item
-        android:id="@+id/main_bottom_nav_football"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:enabled="true"
-        android:title="@string/nav_title_football"/>
+<!--    <item-->
+<!--        android:id="@+id/main_bottom_nav_football"-->
+<!--        android:icon="@drawable/ic_launcher_foreground"-->
+<!--        android:enabled="true"-->
+<!--        android:title="@string/nav_title_football"/>-->
     <item
         android:id="@+id/main_bottom_nav_list"
         android:icon="@drawable/ic_launcher_foreground"
