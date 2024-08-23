@@ -258,10 +258,13 @@ class SoccerFragment : Fragment() {
         playerNumberEditText.setText(player.number.toString())
         playerPositionEditText.setText(player.position)
 
-        // 기존 이미지가 있으면 로드
-        player.photoUri?.let {
-            playerProfileImageView.setImageURI(Uri.parse(it))
+        // 기존 이미지가 있으면 로드, 없으면 기본 이미지 사용
+        if (player.photoUri.isNullOrEmpty()) {
+            playerProfileImageView.setImageResource(R.drawable.icon_q) // 기본 이미지 설정
+        } else {
+            playerProfileImageView.setImageURI(Uri.parse(player.photoUri))
         }
+
 
         // 이미지 선택 리스너 추가
         playerProfileImageView.setOnClickListener {
