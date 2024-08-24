@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/mint"
+        android:background="@color/pastel_blue"
         tools:context=".fragment.SoccerFragment">
 
         <!-- 상단 구역: 저장, 설정 등 버튼 -->
@@ -24,7 +24,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/icon_logo"
-            app:civ_border_color="@color/mint"
+            app:civ_border_color="@color/navy"
             app:civ_border_width="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="저장"
+            android:text="SAVE"
             app:layout_constraintBottom_toBottomOf="@+id/settingsButton"
             app:layout_constraintEnd_toStartOf="@+id/settingsButton" />
         <Button
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="초기화"
+            android:text="RESET"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,7 +69,7 @@
             android:id="@+id/recyclerView3"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@color/dark_gray"
+            android:background="@color/navy"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

@@ -5,7 +5,7 @@
          <item name="colorPrimary">@color/gray</item>
 
         <!-- 상태바 색상 -->
-        <item name="android:statusBarColor">@color/dark_gray</item>
+        <item name="android:statusBarColor">@color/navy</item>
         <!-- 폰트 적용 -->
         <item name="android:fontFamily">@font/godic_light</item>
     </style>

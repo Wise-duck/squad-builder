@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/mint"
+        android:background="@color/pastel_blue"
         android:orientation="vertical">
 
         <!-- 상단에 팀 사진, 이름 등 추가 정보 표시 -->
@@ -23,7 +23,7 @@
             android:layout_marginTop="10dp"
             app:imageUri="@{formation.teamPhotoUri}"
             android:src="@drawable/icon_logo"
-            app:civ_border_color="@color/dark_gray"
+            app:civ_border_color="@color/navy"
             app:civ_border_width="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,8 @@
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:text="@{formation.teamName}"
-            android:textSize="16sp"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/team_profile_image"
             app:layout_constraintStart_toStartOf="@+id/team_profile_image"
             app:layout_constraintTop_toBottomOf="@+id/team_profile_image" />
@@ -44,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:background="@color/mint"
+            android:background="@color/pastel_blue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/icon_back" />
@@ -65,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginStart="0dp"
-            android:background="@color/dark_gray"
+            android:background="@color/navy"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
