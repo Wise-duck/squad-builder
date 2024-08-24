@@ -216,7 +216,15 @@ class SoccerFragment : Fragment() {
                     startTime = System.currentTimeMillis()
                     true
                 }
-                MotionEvent.ACTION_MOVE -> handleMoveEvent(v, event, initialX, initialY)
+                MotionEvent.ACTION_MOVE -> {
+                    // 골키퍼의 경우 드래그를 막음
+                    if (player.id != -1) {
+                        handleMoveEvent(v, event, initialX, initialY)
+                    } else {
+                        // 아무 동작도 하지 않도록 처리
+                        return@setOnTouchListener true
+                    }
+                }
                 MotionEvent.ACTION_UP -> handleUpEvent(v, event, initialX, initialY, startTime, player)
                 else -> false
             }
