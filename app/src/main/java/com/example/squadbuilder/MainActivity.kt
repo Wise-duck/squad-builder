@@ -3,7 +3,12 @@ package com.example.squadbuilder
 import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import kotlin.math.sqrt
 import android.content.res.Configuration
+import android.os.Looper
+import android.os.Handler
+import android.util.DisplayMetrics
+import android.widget.Toast
 import com.example.squadbuilder.R
 import com.example.squadbuilder.databinding.ActivityMainBinding
 import com.example.squadbuilder.fragment.FootballFragment
@@ -17,11 +22,20 @@ class MainActivity : AppCompatActivity() {
     private val listFragment = ListFragment()
     // 만약 다른 프래그먼트도 필요하다면 여기서 추가
 
+    private var backPressedOnce = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 화면이 작은 기기(예: 휴대폰)에서만 세로 모드 고정
-        if (resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK < Configuration.SCREENLAYOUT_SIZE_LARGE) {
+        // 화면 크기 계산
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        val widthInInches = displayMetrics.widthPixels / displayMetrics.xdpi
+        val heightInInches = displayMetrics.heightPixels / displayMetrics.ydpi
+        val screenSizeInInches = sqrt((widthInInches * widthInInches) + (heightInInches * heightInInches))
+
+        // 10인치 이상만 가로 모드를 허용
+        if (screenSizeInInches < 10) {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
 
@@ -77,5 +91,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         transaction.commit()
+    }
+
+    override fun onBackPressed() {
+        if (backPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+
+        this.backPressedOnce = true
+        Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show()
+
+        // 2초 후에 backPressedOnce 값을 초기화
+        Handler(Looper.getMainLooper()).postDelayed({
+            backPressedOnce = false
+        }, 2000)
     }
 }
