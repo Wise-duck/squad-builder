@@ -37,7 +37,7 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
     private fun createInitialFormation(): List<Player> {
         return listOf(
             // 1명의 골키퍼
-            Player(id = -1, formationId = 0, name = "Player", number = 1, x = 0.5f, y = 0.9f, photoUri = "", position = "GK"), // 골키퍼
+            Player(id = -1, formationId = 0, name = "Player", number = 1, x = 0.5f, y = 0.88f, photoUri = "", position = "GK"), // 골키퍼
 
             // 4명의 수비수
             Player(id = -2, formationId = 0, name = "Player", number = 2, x = 0.1f, y = 0.65f, photoUri = "", position = "LB"), // 왼쪽 풀백
