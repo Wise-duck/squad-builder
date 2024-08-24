@@ -26,4 +26,8 @@
         <item name="stLength">SHORT</item> LONG or SHORT
         <item name="stRadius">20dp</item>
     </style>
+    <style name="BottomNavTextStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingTop">8dp</item> <!-- 텍스트와 아이콘 사이의 간격을 늘림 -->
+    </style>
 </resources>

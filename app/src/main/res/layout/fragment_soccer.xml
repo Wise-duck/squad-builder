@@ -24,25 +24,32 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/icon_logo"
+            android:background="@drawable/formation_list_item_selector"
             app:civ_border_color="@color/navy"
             app:civ_border_width="5dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-        <Button
+
+        <ImageButton
             android:id="@+id/saveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="SAVE"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/formation_list_item_selector"
+            android:contentDescription="Save"
+            android:src="@drawable/ic_save"
             app:layout_constraintBottom_toBottomOf="@+id/settingsButton"
             app:layout_constraintEnd_toStartOf="@+id/settingsButton" />
-        <Button
+
+        <ImageButton
             android:id="@+id/settingsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="RESET"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/formation_list_item_selector"
+            android:contentDescription="Reset"
+            android:src="@drawable/ic_reset"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

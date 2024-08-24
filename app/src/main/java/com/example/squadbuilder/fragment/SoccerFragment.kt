@@ -273,10 +273,10 @@ class SoccerFragment : Fragment() {
             startActivityForResult(intent, PICK_IMAGE_REQUEST2)
         }
 
-        AlertDialog.Builder(requireContext())
-            .setTitle("플레이어 정보 수정")
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Edit player information")
             .setView(dialogView)
-            .setPositiveButton("저장") { dialog, _ ->
+            .setPositiveButton("Save") { dialog, _ ->
                 val newName = playerNameEditText.text.toString()
                 val newNumber = playerNumberEditText.text.toString().toIntOrNull() ?: player.number
                 val newPosition = playerPositionEditText.text.toString()
@@ -288,45 +288,61 @@ class SoccerFragment : Fragment() {
                 selectedPlayerImageUri = null  // 다이얼로그가 닫힐 때 URI 초기화
                 dialogView = null  // 다이얼로그가 닫힐 때 뷰 참조 해제
             }
-            .setNegativeButton("취소") { dialog, _ ->
+            .setNegativeButton("Cancel") { dialog, _ ->
                 dialog.cancel()
                 selectedPlayerImageUri = null  // 다이얼로그가 닫힐 때 URI 초기화
                 dialogView = null  // 다이얼로그가 취소될 때 뷰 참조 해제
             }
-            .show()
+            .create()
+
+        // 다이얼로그의 배경을 둥근 모서리로 설정
+        dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_dialog_background)
+
+        dialog.show()
     }
 
     private fun updatePlayerDetails(player: Player, newName: String, newNumber: Int, newPosition: String, newPhotoUri: String?) {
         playerViewModel.updatePlayerDetails(player, newName, newNumber, newPosition, newPhotoUri)
-        StyleableToast.makeText(requireContext(), "플레이어 정보 수정 완료", R.style.saveToast).show()
+        StyleableToast.makeText(requireContext(), "Edit completed", R.style.saveToast).show()
     }
 
     // 초기화 버튼 클릭 시 다이얼로그를 표시하는 함수
     private fun showResetConfirmationDialog() {
-        AlertDialog.Builder(requireContext())
-            .setTitle("포메이션 초기화")
-            .setMessage("정말로 포메이션을 초기화하시겠습니까? 이 작업은 되돌릴 수 없습니다.")
-            .setPositiveButton("확인") { dialog, _ ->
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Formation reset")
+            .setMessage("Are you sure you want to reset the formation? This action cannot be undone.")
+            .setPositiveButton("Yes") { dialog, _ ->
                 playerViewModel.resetFormation()
             }
-            .setNegativeButton("취소") { dialog, _ ->
+            .setNegativeButton("Cancel") { dialog, _ ->
                 dialog.dismiss()
             }
-            .show()
+            .create()
+
+        // 다이얼로그의 배경을 둥근 모서리로 설정
+        dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_dialog_background)
+
+        dialog.show()
     }
 
     private fun showSaveDialog() {
         val input = EditText(requireContext()).apply { inputType = InputType.TYPE_CLASS_TEXT }
-        AlertDialog.Builder(requireContext())
-            .setTitle("포메이션 저장")
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Formation save")
             .setView(input)
-            .setPositiveButton("저장") { dialog, _ ->
+            .setPositiveButton("Save") { dialog, _ ->
                 // 팀 이름과 팀 사진 URI를 매개 변수로 전달
                 playerViewModel.saveFormation(input.text.toString(), selectedImageUri.toString())
                 dialog.dismiss()
-                StyleableToast.makeText(requireContext(), "포메이션 '${input.text}'이 저장되었습니다.", R.style.saveToast).show()
+                StyleableToast.makeText(requireContext(), "Formation '${input.text}' is saved", R.style.saveToast).show()
             }
-            .setNegativeButton("취소") { dialog, _ -> dialog.cancel() }
-            .show()
+            .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }
+            .create()
+
+        // 다이얼로그의 배경을 둥근 모서리로 설정
+        dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_dialog_background)
+
+        dialog.show()
     }
+
 }

@@ -21,7 +21,11 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:menu="@menu/main_bottom_nav"
+        app:itemIconSize="24dp"
         android:background="@color/white"
+        app:itemTextAppearanceActive="@style/BottomNavTextStyle"
+        app:itemTextAppearanceInactive="@style/BottomNavTextStyle"
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

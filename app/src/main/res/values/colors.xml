@@ -36,4 +36,5 @@
     <color name="sky_blue">#5BB8FF</color>
     <color name="navy">#2C3E50</color>
     <color name="pastel_blue">#c1c1e6</color>
+    <color name="dark_pastel_blue">#9696C1</color>
 </resources>

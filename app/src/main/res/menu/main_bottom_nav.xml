@@ -2,18 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/main_bottom_nav_soccer"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_soccer_icon"
         android:enabled="true"
-        android:title="@string/nav_title_soccer"/>
-<!--    <item-->
-<!--        android:id="@+id/main_bottom_nav_football"-->
-<!--        android:icon="@drawable/ic_launcher_foreground"-->
-<!--        android:enabled="true"-->
-<!--        android:title="@string/nav_title_football"/>-->
+        android:title="Soccer"/>
+
     <item
         android:id="@+id/main_bottom_nav_list"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/ic_save_list"
         android:enabled="true"
-        android:title="@string/nav_title_list"/>
+        android:title="Save list"/>
 
 </menu>

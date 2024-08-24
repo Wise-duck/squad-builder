@@ -1,5 +1,6 @@
 package com.example.squadbuilder.fragment
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.squadbuilder.FormationDetailActivity
 import com.example.squadbuilder.R
 import com.example.squadbuilder.adapter.FormationAdapter
+import com.example.squadbuilder.data.Formation
 import com.example.squadbuilder.databinding.FragmentListBinding
 import com.example.squadbuilder.viewmodel.PlayerViewModel
 
@@ -50,7 +52,7 @@ class ListFragment : Fragment() {
                     },
                     deleteListener = { formation ->
                         // 삭제 버튼 클릭 시 ViewModel에서 포메이션 삭제
-                        playerViewModel.deleteFormation(formation)
+                        showDeleteConfirmationDialog(formation)
                     }
                 )
                 binding.recyclerView.adapter = formationAdapter
@@ -59,4 +61,26 @@ class ListFragment : Fragment() {
 
         return binding.root
     }
+
+    private fun showDeleteConfirmationDialog(formation: Formation) {
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("Confirm deletion")
+            .setMessage("Are you sure you want to delete it? This action is irreversible.")
+            .setPositiveButton("Delete") { dialog, _ ->
+                // 사용자가 "삭제"를 선택했을 때 삭제를 실행합니다.
+                playerViewModel.deleteFormation(formation)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                // 사용자가 "취소"를 선택했을 때 다이얼로그를 닫습니다.
+                dialog.dismiss()
+            }
+            .create()
+
+        // 다이얼로그의 배경을 둥근 모서리로 설정
+        dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_dialog_background)
+
+        dialog.show()
+    }
+
 }

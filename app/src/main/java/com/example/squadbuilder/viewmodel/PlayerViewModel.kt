@@ -119,7 +119,7 @@ class PlayerViewModel(application: Application) : AndroidViewModel(application) 
         teamProfileImageUri.value = null  // 팀 프로필 이미지 초기화
         StyleableToast.makeText(
             getApplication(),
-            "포메이션이 초기화되었습니다.",
+            "The formation has been reset.",
             R.style.resetToast
         ).apply {
             setGravity(android.view.Gravity.BOTTOM)
