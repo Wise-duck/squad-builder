@@ -19,6 +19,7 @@
         android:id="@+id/playerNameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:minHeight="48dp"
         android:minWidth="48dp"
         android:hint="이름"

@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.squadbuilder.viewmodel.PlayerViewModel" />
+            type="com.wiseduck.squadbuilder.viewmodel.PlayerViewModel" />
     </data>
 
     <LinearLayout
@@ -11,6 +11,25 @@
         android:layout_height="match_parent"
         android:background="@color/navy"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save List"
+                android:textColor="@color/white"
+                android:textSize="36dp"
+                android:textStyle="bold"
+                android:layout_margin="20dp"
+                android:layout_gravity="center">
+
+            </TextView>
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

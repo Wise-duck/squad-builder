@@ -6,7 +6,7 @@
         <!-- ViewModel이나 기타 데이터 변수 정의 -->
         <variable
             name="formation"
-            type="com.example.squadbuilder.data.Formation" />
+            type="com.wiseduck.squadbuilder.data.Formation" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,11 +41,12 @@
             app:layout_constraintTop_toBottomOf="@+id/team_profile_image" />
         <ImageButton
             android:id="@+id/backImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/formation_list_item_selector"
+            android:contentDescription="backButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/icon_back" />
@@ -61,10 +62,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/teamNameTextView" />
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView2"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="10dp"
             android:layout_marginStart="0dp"
             android:background="@color/navy"
             app:layout_constraintBottom_toBottomOf="parent"

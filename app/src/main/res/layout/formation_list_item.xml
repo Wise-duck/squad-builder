@@ -6,7 +6,7 @@
     <data>
         <variable
             name="formation"
-            type="com.example.squadbuilder.data.Formation" />
+            type="com.wiseduck.squadbuilder.data.Formation" />
     </data>
     <androidx.cardview.widget.CardView
         android:id="@+id/saveCardview"

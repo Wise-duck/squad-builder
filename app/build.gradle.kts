@@ -5,15 +5,15 @@ plugins {
 }
 
 android {
-    namespace = "com.example.squadbuilder"
+    namespace = "com.wiseduck.squadbuilder"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.squadbuilder"
-        minSdk = 33
+        applicationId = "com.wiseduck.squadbuilder"
+        minSdk = 28
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 4
+        versionName = "2.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

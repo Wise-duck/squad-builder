@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.squadbuilder.viewmodel.PlayerViewModel" />
+            type="com.wiseduck.squadbuilder.viewmodel.PlayerViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,7 +75,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView3"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="10dp"
             android:background="@color/navy"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
