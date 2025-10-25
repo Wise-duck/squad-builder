@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="card_title_manage_players">팀 선수 관리</string>
+    <string name="card_desc_manage_players">선수를 추가, 수정, 삭제합니다.</string>
+
+    <string name="card_title_manage_formation">포메이션 관리</string>
+    <string name="card_desc_manage_formation">전술 및 기본 포메이션을 설정합니다.</string>
+</resources>

@@ -1,6 +1,6 @@
 package com.wiseduck.squadbuilder.core.model
 
-data class Player(
+data class PlayerModel(
     val id: Int,
     val teamId: Int,
     val name: String,
