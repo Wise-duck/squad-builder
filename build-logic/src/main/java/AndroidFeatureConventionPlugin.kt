@@ -11,9 +11,9 @@ internal class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.run {
-                apply("snack.android.library")
-                apply("snack.android.library.compose")
-                apply("snack.android.hilt")
+                apply("squadbuilder.android.library")
+                apply("squadbuilder.android.library.compose")
+                apply("squadbuilder.android.hilt")
             }
 
             dependencies {

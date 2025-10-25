@@ -21,6 +21,17 @@ ksp {
 }
 
 dependencies {
+    implementation(projects.core.common)
+    implementation(projects.core.designsystem)
+    implementation(projects.core.model)
+    implementation(projects.core.network)
+    implementation(projects.core.ui)
+
+    implementation(projects.feature.main)
+    implementation(projects.feature.screens)
+    implementation(projects.feature.settings)
+
+    //------------------------- 리팩토링 중
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.androidx.databinding.compiler)

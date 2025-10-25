@@ -8,7 +8,7 @@ internal class AndroidRetrofitConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.run {
-                apply("snack.kotlin.library.serialization")
+                apply("squadbuilder.kotlin.library.serialization")
             }
 
             dependencies {
