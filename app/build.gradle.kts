@@ -1,69 +1,51 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.squadbuilder.android.application)
+    alias(libs.plugins.squadbuilder.android.application.compose)
+    alias(libs.plugins.squadbuilder.android.hilt)
     id("kotlin-kapt")
 }
 
 android {
     namespace = "com.wiseduck.squadbuilder"
-    compileSdk = 34
-
-    defaultConfig {
-        applicationId = "com.wiseduck.squadbuilder"
-        minSdk = 28
-        targetSdk = 34
-        versionCode = 4
-        versionName = "2.2"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        //noinspection DataBindingWithoutKapt
-        dataBinding = true
     }
 }
 
+ksp {
+    arg("circuit.codegen.mode", "hilt")
+    arg("enableDataBinding", "true")
+}
+
 dependencies {
-    val room_version = "2.6.1"
+    implementation(projects.core.common)
+    implementation(projects.core.designsystem)
+    implementation(projects.core.model)
+    implementation(projects.core.network)
+    implementation(projects.core.ui)
 
-    // Room
-    implementation("androidx.room:room-runtime:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
+    implementation(projects.feature.main)
+    implementation(projects.feature.screens)
+    implementation(projects.feature.settings)
 
-    // Glide
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-    // StyleableToast
-    implementation("io.github.muddz:styleabletoast:2.4.0")
-    // CircleImageView
-    implementation("de.hdodenhof:circleimageview:3.1.0")
-    // Fragment KTX (viewModels 사용)
-    implementation("androidx.fragment:fragment-ktx:1.8.2")
-    // ViewModel KTX
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.4")
+    //------------------------- 리팩토링 중
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.androidx.databinding.compiler)
+    ksp(libs.room.compiler)
 
-    implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("com.google.android.material:material:1.12.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    implementation(libs.glide)
+    implementation(libs.styleable.toast)
+    implementation(libs.circle.image.view)
+
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.constraintlayout)
 }
