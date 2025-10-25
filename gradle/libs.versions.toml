@@ -1,0 +1,153 @@
+[versions]
+## Application
+applicationId = "com.wiseduck.squadbuilder"
+compileSdk = "36"
+constraintlayout = "2.2.1"
+coreKtxVersion = "1.17.0"
+databindingCompiler = "8.13.0"
+targetSdk = "36"
+minSdk = "24"
+versionCode = "2"
+versionName = "2.0.0"
+
+## Android Gradle Plugin
+agp = "8.13.0"
+
+## Android gradle plugin
+androidGradlePlugin = "8.13.0"
+
+## AndroidX
+activityCompose = "1.11.0"
+espressoCore = "3.7.0"
+lifecycleRuntimeKtx = "2.9.4"
+
+## Kotlin Symbol Processing
+ksp = "2.2.20-2.0.3"
+
+## Kotlin
+kotlin = "2.2.20"
+kotlinxSerializationJson = "1.9.0"
+
+## Network
+okhttp = "5.2.1"
+retrofit = "3.0.0"
+
+coreKtx = "1.17.0"
+junit = "4.13.2"
+junitVersion = "1.3.0"
+
+## Compose
+composeBom = "2025.10.01"
+constraintlayoutCompose = "1.1.1"
+
+## Circuit
+circuit = "0.30.0"
+
+## Hilt
+hilt = "2.57.2"
+
+## Room
+room = "2.8.3"
+
+## Extension
+composeExtensions = "25.5.1"
+
+jetbrainsKotlinJvm = "2.2.21"
+appcompat = "1.7.1"
+material = "1.13.0"
+glide = "5.0.5"
+styleableToast = "2.4.0"
+circleImageView = "3.1.0"
+androidxFragment = "1.8.9"
+androidxLifecycle = "2.9.4"
+
+[libraries]
+android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-databinding-compiler = { module = "androidx.databinding:databinding-compiler", version.ref = "databindingCompiler" }
+kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-kotlinx-serialization-converter = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+
+circuit-foundation = { group = "com.slack.circuit", name = "circuit-foundation", version.ref = "circuit" }
+circuit-runtime = { group = "com.slack.circuit", name = "circuit-runtime", version.ref = "circuit" }
+circuitx-android = { group = "com.slack.circuit", name = "circuitx-android", version.ref = "circuit" }
+circuitx-effects = { group = "com.slack.circuit", name = "circuitx-effects", version.ref = "circuit" }
+circuit-codegen-annotation = { group = "com.slack.circuit", name = "circuit-codegen-annotations", version.ref = "circuit" }
+circuit-codegen-ksp = { group = "com.slack.circuit", name = "circuit-codegen", version.ref = "circuit" }
+
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
+compose-system-ui-controller = { group = "tech.thdev", name = "extensions-compose-system-ui-controller", version.ref = "composeExtensions" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
+styleable-toast = { module = "io.github.muddz:styleabletoast", version.ref = "styleableToast" }
+circle-image-view = { module = "de.hdodenhof:circleimageview", version.ref = "circleImageView" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidxFragment" }
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
+
+[bundles]
+androidx-compose = [
+    "androidx-activity-compose",
+    "androidx-compose-material3",
+    "androidx-compose-ui",
+    "androidx-compose-ui-graphics",
+    "androidx-compose-ui-tooling-preview",
+    "androidx-constraintlayout-compose"
+]
+
+circuit = [
+    "circuit-foundation",
+    "circuitx-android",
+    "circuitx-effects",
+]
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+
+# Convention Plugin
+squadbuilder-android-application = { id = "squadbuilder.android.application", version = "unspecified" }
+squadbuilder-android-library = { id = "squadbuilder.android.library", version = "unspecified" }
+squadbuilder-android-application-compose = { id = "squadbuilder.android.application.compose", version = "unspecified" }
+squadbuilder-android-library-compose = { id = "squadbuilder.android.library.compose", version = "unspecified" }
+squadbuilder-android-feature = { id = "squadbuilder.android.feature", version = "unspecified" }
+squadbuilder-android-hilt = { id = "squadbuilder.android.hilt", version = "unspecified" }
+squadbuilder-jvm-library = { id = "squadbuilder.jvm.library", version = "unspecified" }
+squadbuilder-kotlin-library-serialization = { id = "squadbuilder.kotlin.library.serialization", version = "unspecified" }
+squadbuilder-android-retrofit = { id = "squadbuilder.android.retrofit", version = "unspecified" }
