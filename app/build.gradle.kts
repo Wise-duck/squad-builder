@@ -22,6 +22,10 @@ ksp {
 
 dependencies {
     implementation(projects.core.common)
+    implementation(projects.core.data.api)
+    implementation(projects.core.data.impl)
+    implementation(projects.core.datastore.api)
+    implementation(projects.core.datastore.impl)
     implementation(projects.core.designsystem)
     implementation(projects.core.model)
     implementation(projects.core.network)
