@@ -10,6 +10,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -19,10 +20,11 @@ object DataStoreModule {
 
     private val Context.tokenDataStore by preferencesDataStore(name = "TOKEN_DATASTORE")
 
+    @TokenDataStore
     @Provides
     @Singleton
     fun provideTokenDataStore(
-        context: Context
+        @ApplicationContext context: Context
     ): DataStore<Preferences> = context.tokenDataStore
 }
 
