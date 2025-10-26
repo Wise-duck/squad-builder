@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.squadbuilder.android.application)
     alias(libs.plugins.squadbuilder.android.application.compose)
     alias(libs.plugins.squadbuilder.android.hilt)
-    id("kotlin-kapt")
+    id("kotlin-kapt")  // 제거 예정 (ksp 일괄 적용)
 }
 
 android {
@@ -17,7 +17,7 @@ android {
 
 ksp {
     arg("circuit.codegen.mode", "hilt")
-    arg("enableDataBinding", "true")
+    arg("enableDataBinding", "true")  // 제거 예정
 }
 
 dependencies {
@@ -40,7 +40,9 @@ dependencies {
     implementation(projects.feature.detail)
     implementation(projects.feature.edit)
 
-    //------------------------- 리팩토링 중
+    implementation(libs.bundles.circuit)
+
+    //------------------------- 리팩토링 중 (전부 제거 예정)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.androidx.databinding.compiler)
