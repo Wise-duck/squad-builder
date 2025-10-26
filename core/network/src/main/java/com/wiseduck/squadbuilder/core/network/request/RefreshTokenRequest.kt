@@ -1,12 +1,10 @@
-package com.wiseduck.squadbuilder.core.network.response
+package com.wiseduck.squadbuilder.core.network.request
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RefreshTokenResponse(
-    @SerialName("accessToken")
-    val accessToken: String,
+data class RefreshTokenRequest(
     @SerialName("refreshToken")
     val refreshToken: String
 )
