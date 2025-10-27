@@ -7,3 +7,7 @@ plugins {
 android {
     namespace = "com.wiseduck.squadbuilder.feature.screens"
 }
+
+dependencies {
+    implementation(libs.circuit.foundation)
+}

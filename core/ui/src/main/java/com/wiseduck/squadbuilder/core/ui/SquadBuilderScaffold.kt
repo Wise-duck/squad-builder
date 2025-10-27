@@ -10,7 +10,7 @@ import androidx.compose.ui.graphics.Color
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 
 @Composable
-fun ReedScaffold(
+fun SquadBuilderScaffold(
     modifier: Modifier = Modifier,
     topBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
