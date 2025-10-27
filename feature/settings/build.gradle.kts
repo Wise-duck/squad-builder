@@ -7,6 +7,10 @@ android {
     namespace = "com.wiseduck.squadbuilder.feature.settings"
 }
 
+ksp {
+    arg("circuit.codegen.mode", "hilt")
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
