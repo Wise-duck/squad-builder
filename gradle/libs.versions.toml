@@ -2,9 +2,6 @@
 ## Application
 applicationId = "com.wiseduck.squadbuilder"
 compileSdk = "36"
-constraintlayout = "2.2.1"
-coreKtxVersion = "1.17.0"
-databindingCompiler = "8.13.0"
 targetSdk = "36"
 minSdk = "24"
 versionCode = "2"
@@ -57,19 +54,12 @@ room = "2.8.3"
 ## Extension
 composeExtensions = "25.5.1"
 
+accompanistSystemUiController = "0.36.0"
+
 jetbrainsKotlinJvm = "2.2.21"
-appcompat = "1.7.1"
-material = "1.13.0"
-glide = "5.0.5"
-styleableToast = "2.4.0"
-circleImageView = "3.1.0"
-androidxFragment = "1.8.9"
-androidxLifecycle = "2.9.4"
 
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
-androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
-androidx-databinding-compiler = { module = "androidx.databinding:databinding-compiler", version.ref = "databindingCompiler" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -79,6 +69,7 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemUiController" }
 
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
@@ -113,13 +104,6 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
-styleable-toast = { module = "io.github.muddz:styleabletoast", version.ref = "styleableToast" }
-circle-image-view = { module = "de.hdodenhof:circleimageview", version.ref = "circleImageView" }
-androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "androidxFragment" }
-androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
 
 [bundles]
 androidx-compose = [

@@ -9,3 +9,7 @@ android {
 ksp {
     arg("circuit.codegen.mode", "hilt")
 }
+
+dependencies {
+    implementation(libs.accompanist.systemuicontroller)
+}
