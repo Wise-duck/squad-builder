@@ -20,6 +20,10 @@ fun DependencyHandler.detektPlugins(dependencyNotation: Any): Dependency? {
     return add("detektPlugins", dependencyNotation)
 }
 
+fun DependencyHandler.coreLibraryDesugaring(dependencyNotation: Any): Dependency? {
+    return add("coreLibraryDesugaring", dependencyNotation)
+}
+
 fun DependencyHandler.debugImplementation(dependencyNotation: Any): Dependency? {
     return add("debugImplementation", dependencyNotation)
 }
