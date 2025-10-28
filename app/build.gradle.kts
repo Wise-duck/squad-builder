@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.squadbuilder.android.application)
     alias(libs.plugins.squadbuilder.android.application.compose)
@@ -11,6 +13,15 @@ android {
         release {
 
         }
+    }
+
+    defaultConfig {
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", getApiKey("KAKAO_NATIVE_APP_KEY"))
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = getApiKey("KAKAO_NATIVE_APP_KEY").trim('"')
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 }
 
@@ -39,7 +50,12 @@ dependencies {
     implementation(projects.feature.edit)
 
     implementation(libs.bundles.circuit)
+    implementation(libs.kakao.auth)
 
     api(libs.circuit.codegen.annotation)
     ksp(libs.circuit.codegen.ksp)
+}
+
+fun getApiKey(propertyKey: String): String {
+    return gradleLocalProperties(rootDir, providers).getProperty(propertyKey)
 }

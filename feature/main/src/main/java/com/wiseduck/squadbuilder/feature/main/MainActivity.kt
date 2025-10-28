@@ -1,6 +1,7 @@
 package com.wiseduck.squadbuilder.feature.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -13,6 +14,7 @@ import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.feature.screens.HomeScreen
+import com.wiseduck.squadbuilder.feature.screens.LoginScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -27,7 +29,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SquadBuilderTheme {
-                val backStack = rememberSaveableBackStack(HomeScreen)
+                val backStack = rememberSaveableBackStack(LoginScreen)
                 val navigator = rememberCircuitNavigator(backStack)
 
                 CircuitCompositionLocals(circuit) {

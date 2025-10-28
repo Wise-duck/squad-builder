@@ -35,7 +35,6 @@ internal object NetworkModule {
     @Singleton
     @Provides
     internal fun provideOkHttpClient(
-        httpLoggingInterceptor: HttpLoggingInterceptor,
         tokenInterceptor: TokenInterceptor,
         tokenAuthenticator: TokenAuthenticator,
     ): OkHttpClient {
@@ -45,7 +44,6 @@ internal object NetworkModule {
             .writeTimeout(MAX_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
             .addInterceptor(tokenInterceptor)
             .authenticator(tokenAuthenticator)
-            .addInterceptor(httpLoggingInterceptor)
             .build()
     }
 
@@ -55,7 +53,7 @@ internal object NetworkModule {
         okHttpClient: OkHttpClient,
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(BuildConfig.SERVER_BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(jsonConverterFactory)
             .build()
