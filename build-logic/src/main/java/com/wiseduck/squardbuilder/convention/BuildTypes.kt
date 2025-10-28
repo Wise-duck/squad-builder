@@ -39,15 +39,13 @@ internal fun Project.configureBuildTypes(
 }
 
 private fun BuildType.configureDebugBuildType() {
-    buildConfigField("String", "BASE_URL", "\"DEBUG_API_URL\"")
+
 }
 
 private fun BuildType.configureReleaseBuildType(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
     extensionType: ExtensionType
 ) {
-    buildConfigField("String", "BASE_URL", "\"RELEASE_API_URL\"")
-
     isMinifyEnabled = true
 
     if (extensionType == ExtensionType.APPLICATION) {
