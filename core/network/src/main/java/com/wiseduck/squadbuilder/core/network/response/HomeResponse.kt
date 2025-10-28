@@ -6,15 +6,19 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class HomeResponse(
     @SerialName("teams")
-    val teams: List<MyTeams>
+    val teams: List<Team>
 )
 
 @Serializable
-data class MyTeams(
+data class Team(
     @SerialName("teamId")
     val teamId: Int,
-    @SerialName("teamName")
-    val teamName: String,
+    @SerialName("name")
+    val name: String,
+    @SerialName("ownerId")
+    val ownerId: String,
+    @SerialName("ownerEmail")
+    val ownerEmail: String,
     @SerialName("createdAt")
     val createdAt: String
 )

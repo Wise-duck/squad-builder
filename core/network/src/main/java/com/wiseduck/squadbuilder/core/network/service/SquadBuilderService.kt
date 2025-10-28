@@ -2,6 +2,7 @@ package com.wiseduck.squadbuilder.core.network.service
 
 import com.wiseduck.squadbuilder.core.network.request.LoginRequest
 import com.wiseduck.squadbuilder.core.network.request.RefreshTokenRequest
+import com.wiseduck.squadbuilder.core.network.response.HomeResponse
 import com.wiseduck.squadbuilder.core.network.response.LoginResponse
 import com.wiseduck.squadbuilder.core.network.response.RefreshTokenResponse
 import retrofit2.http.Body
@@ -25,5 +26,5 @@ interface SquadBuilderService {
     suspend fun withdraw()
 
     @GET("api/teams")
-    suspend fun getMyTeams()
+    suspend fun getTeams(): HomeResponse
 }

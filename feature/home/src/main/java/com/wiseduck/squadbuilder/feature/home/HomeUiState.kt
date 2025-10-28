@@ -2,9 +2,13 @@ package com.wiseduck.squadbuilder.feature.home
 
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
+import com.wiseduck.squadbuilder.core.model.TeamModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 data class HomeUiState(
     val isLoading: Boolean = true,
+    val teams: ImmutableList<TeamModel> = persistentListOf(),
     val eventSink: (HomeUiEvent) -> Unit
 ) : CircuitUiState
 

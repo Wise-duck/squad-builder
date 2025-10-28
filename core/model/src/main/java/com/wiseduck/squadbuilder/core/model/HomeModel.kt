@@ -1,10 +1,13 @@
 package com.wiseduck.squadbuilder.core.model
 
 data class HomeModel(
-    val myTeamModel: List<MyTeamModel> = emptyList()
+    val teams: List<TeamModel> = emptyList()
 )
 
-data class MyTeamModel(
-    val teamName: String = "",
+data class TeamModel(
+    val teamId: Int,
+    val name: String = "",
+    val ownerId: String = "",
+    val ownerEmail: String = "",
     val createdAt: String = ""
 )
