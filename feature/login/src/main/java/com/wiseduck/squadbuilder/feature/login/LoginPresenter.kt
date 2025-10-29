@@ -19,6 +19,7 @@ import com.wiseduck.squadbuilder.feature.screens.LoginScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.CoroutineScope
@@ -34,11 +35,13 @@ class LoginPresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
         var errorMessage by remember { mutableStateOf<String?>(null) }
         val context = LocalContext.current
+        val loginErrorKakaoFailed = stringResource(R.string.login_error_kakao_failed)
+        val loginErrorServerConnection = stringResource(R.string.login_error_server_connection)
 
         fun handleLoginResult(token: OAuthToken?, error: Throwable?, scope: CoroutineScope) {
             if (error != null) {
                 Log.e("KAKAO_LOGIN", "로그인 실패", error)
-                errorMessage = "카카오 로그인 실패. 잠시 후 다시 시도해주세요."
+                errorMessage = loginErrorKakaoFailed
             } else if (token != null) {
                 scope.launch {
                     authRepository.login(token.accessToken)
@@ -48,7 +51,7 @@ class LoginPresenter @AssistedInject constructor(
                         }
                         .onFailure { error ->
                             Log.e("KAKAO_LOGIN", "서버 로그인 또는 토큰 저장 실패", error)
-                            errorMessage = "서버 연결에 실패했습니다. 네트워크 상태를 확인하거나 잠시 후 다시 시도해 주세요."
+                            errorMessage = loginErrorServerConnection
                         }
                 }
             }

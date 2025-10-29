@@ -49,7 +49,7 @@ fun LoginUi(
                 onClick = {
                     state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
                 },
-                text = stringResource(R.string.kakao_login_text_button),
+                text = stringResource(R.string.login_button_kakao),
                 sizeStyle = largeButtonStyle,
                 colorStyle = ButtonColorStyle.KAKAO,
                 leadingIcon = {
