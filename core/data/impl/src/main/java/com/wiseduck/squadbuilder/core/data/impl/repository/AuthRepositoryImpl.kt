@@ -17,7 +17,7 @@ internal class AuthRepositoryImpl @Inject constructor(
         val response = service.login(
             LoginRequest(
                 provider = PROVIDER,
-                oAuthToken = accessToken
+                accessToken = accessToken
             )
         )
 

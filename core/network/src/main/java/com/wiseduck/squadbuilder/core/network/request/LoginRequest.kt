@@ -7,6 +7,6 @@ import kotlinx.serialization.Serializable
 data class LoginRequest(
     @SerialName("provider")
     val provider: String,
-    @SerialName("oAuthToken")
-    val oAuthToken: String
+    @SerialName("accessToken")
+    val accessToken: String
 )

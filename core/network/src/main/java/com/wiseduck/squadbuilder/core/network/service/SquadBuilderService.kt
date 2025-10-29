@@ -12,7 +12,7 @@ import retrofit2.http.POST
 
 interface SquadBuilderService {
     // PUBLIC ENDPOINTS
-    @POST("api/auth/login")
+    @POST("api/auth/social-login")
     suspend fun login(@Body loginRequest: LoginRequest) : LoginResponse
 
     @POST("api/auth/refresh")

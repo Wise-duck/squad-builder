@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,10 +17,10 @@ import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.component.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.largeButtonStyle
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
+import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.feature.screens.LoginScreen
 import dagger.hilt.android.components.ActivityRetainedComponent
 
@@ -60,6 +59,17 @@ fun LoginUi(
                         tint = Neutral800
                     )
                 }
+            )
+        }
+
+        if (state.errorMessage != null) {
+            SquadBuilderDialog(
+                onConfirmRequest = {
+                    state.eventSink(LoginUiEvent.OnCloseDialogButtonClick)
+                },
+                confirmButtonText = "확인",
+                title = "오류 발생",
+                description = state.errorMessage,
             )
         }
     }

@@ -11,7 +11,7 @@ internal class TokenInterceptor @Inject constructor(
 ) : Interceptor {
 
     private val publicEndpoints = setOf(
-        "api/auth/login",
+        "api/auth/social-login",
         "api/auth/refresh"
     )
 
