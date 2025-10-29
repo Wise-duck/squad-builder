@@ -6,6 +6,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
@@ -20,6 +21,7 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.launch
 
 class HomePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
@@ -28,7 +30,7 @@ class HomePresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): HomeUiState {
-
+        val scope = rememberCoroutineScope()
         var isLoading by remember { mutableStateOf(true) }
         var teams by remember { mutableStateOf(persistentListOf<TeamModel>()) }
 
@@ -48,8 +50,24 @@ class HomePresenter @AssistedInject constructor(
 
         fun handleEvent(event: HomeUiEvent) {
             when (event) {
-                is HomeUiEvent.OnMyTeamDetailClick -> {
+                is HomeUiEvent.OnTeamCardClick -> {
 
+                }
+
+                is HomeUiEvent.OnTeamDeleteButtonClick -> {
+                    scope.launch {
+                        teamRepository.deleteTeam(event.teamId)
+                            .onSuccess {
+                                Log.d("HomePresenter", "팀(${event.teamId}) 삭제 성공. UI 업데이트")
+
+                                val updatedTeams = teams.filter { it.teamId != event.teamId }
+
+                                teams = updatedTeams.toImmutableList() as PersistentList<TeamModel>
+                            }
+                            .onFailure {
+                                Log.e("HomePresenter", "팀(${event.teamId}) 삭제 실패", it)
+                            }
+                    }
                 }
             }
         }

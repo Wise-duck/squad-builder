@@ -52,8 +52,11 @@ fun HomeUi(
             } else {
                 HomeContent(
                     state = state,
-                    onTeamClick = { teamId ->
-                        state.eventSink(HomeUiEvent.OnMyTeamDetailClick(teamId))
+                    onTeamClick = {
+                        state.eventSink(HomeUiEvent.OnTeamCardClick(it))
+                    },
+                    onTeamDeleteClick = {
+                        state.eventSink(HomeUiEvent.OnTeamDeleteButtonClick(it))
                     }
                 )
             }
@@ -65,7 +68,8 @@ fun HomeUi(
 private fun HomeContent(
     modifier: Modifier = Modifier,
     state: HomeUiState,
-    onTeamClick: (String) -> Unit
+    onTeamClick: (Int) -> Unit,
+    onTeamDeleteClick: (Int) -> Unit
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize()
@@ -76,7 +80,8 @@ private fun HomeContent(
         ) { team ->
             TeamCard(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                team = team
+                team = team,
+                onDeleteClick = onTeamDeleteClick
             )
         }
     }

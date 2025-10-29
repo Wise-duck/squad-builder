@@ -13,7 +13,10 @@ data class HomeUiState(
 ) : CircuitUiState
 
 sealed interface HomeUiEvent: CircuitUiEvent {
-    data class OnMyTeamDetailClick(
-        val teamId: String
+    data class OnTeamCardClick(
+        val teamId: Int
+    ) : HomeUiEvent
+    data class OnTeamDeleteButtonClick(
+        val teamId: Int
     ) : HomeUiEvent
 }

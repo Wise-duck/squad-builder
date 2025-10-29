@@ -29,4 +29,9 @@ interface SquadBuilderService {
     // PRIVATE ENDPOINTS [TEAM]
     @GET("api/teams")
     suspend fun getTeams(): List<TeamResponse>
+
+    @DELETE("api/teams/{teamId}")
+    suspend fun deleteTeam(
+        @Path("teamId") teamId: Int
+    )
 }

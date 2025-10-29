@@ -13,4 +13,8 @@ internal class TeamRepositoryImpl @Inject constructor(
     override suspend fun getTeams(): Result<List<TeamModel>> = runCatching {
         service.getTeams().map { it.toModel() }
     }
+
+    override suspend fun deleteTeam(teamId: Int): Result<Unit> = runCatching {
+        service.deleteTeam(teamId)
+    }
 }
