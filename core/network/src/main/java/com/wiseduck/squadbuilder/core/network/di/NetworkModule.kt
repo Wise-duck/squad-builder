@@ -18,7 +18,7 @@ import retrofit2.create
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-private const val MAX_TIMEOUT_MILLIS = 10_000L
+private const val MAX_TIMEOUT_MILLIS = 20_000L
 
 private val jsonRule = Json {
     encodeDefaults = true
@@ -38,10 +38,15 @@ internal object NetworkModule {
         tokenInterceptor: TokenInterceptor,
         tokenAuthenticator: TokenAuthenticator,
     ): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+
         return OkHttpClient.Builder()
             .connectTimeout(MAX_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
             .readTimeout(MAX_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
             .writeTimeout(MAX_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+            .addInterceptor(loggingInterceptor)
             .addInterceptor(tokenInterceptor)
             .authenticator(tokenAuthenticator)
             .build()

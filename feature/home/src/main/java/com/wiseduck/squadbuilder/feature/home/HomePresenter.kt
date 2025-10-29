@@ -35,10 +35,10 @@ class HomePresenter @AssistedInject constructor(
         LaunchedEffect(Unit) {
             isLoading = true
             teamRepository.getTeams()
-                .onSuccess { homeModel ->
-                    teams = homeModel.teams.toImmutableList() as PersistentList<TeamModel>
+                .onSuccess { teamModels ->
                     isLoading = false
-                    Log.i("HomePresenter", "팀 목록 로드 성공: ${homeModel.teams.size} teams")
+                    teams = teamModels.toImmutableList() as PersistentList<TeamModel>
+                    Log.i("HomePresenter", "팀 목록 로드 성공: ${teams.size} teams")
                 }
                 .onFailure { error ->
                     isLoading = false

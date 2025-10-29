@@ -1,6 +1,6 @@
 package com.wiseduck.squadbuilder.feature.home.component
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,7 +16,6 @@ import com.wiseduck.squadbuilder.core.common.extensions.DateFormats
 import com.wiseduck.squadbuilder.core.common.extensions.toFormattedDate
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.Black
-import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
@@ -29,15 +27,21 @@ fun TeamCard(
     team: TeamModel,
 ) {
     Card(
-        modifier = modifier.fillMaxWidth()
-            .background(Black),
+        modifier = modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = Black
+        ),
+        border = BorderStroke(
+            width = 1.dp,
+            color = Neutral500
+        )
     ) {
         Column(
             modifier = Modifier.padding(SquadBuilderTheme.spacing.spacing4)
         ) {
             Text(
                 text = team.name,
-                style = SquadBuilderTheme.typography.title1Bold,
+                style = SquadBuilderTheme.typography.heading1Bold,
                 color = Neutral100
             )
             Spacer(modifier = Modifier.height(8.dp))

@@ -7,7 +7,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 data class HomeUiState(
-    val isLoading: Boolean = true,
+    val isLoading: Boolean = false,
     val teams: ImmutableList<TeamModel> = persistentListOf(),
     val eventSink: (HomeUiEvent) -> Unit
 ) : CircuitUiState

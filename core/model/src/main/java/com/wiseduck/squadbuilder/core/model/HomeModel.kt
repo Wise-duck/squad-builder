@@ -8,6 +8,6 @@ data class TeamModel(
     val teamId: Int,
     val name: String = "",
     val ownerId: String = "",
-    val ownerEmail: String = "",
+    val ownerEmail: String? = null,
     val createdAt: String = ""
 )
