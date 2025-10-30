@@ -56,7 +56,9 @@ fun TeamDetailUi(
                 TeamDetailContent(
                     state = state,
                     OnManagePlayersClick = { },
-                    OnManageFormationClick = { },
+                    OnManageFormationClick = {
+                        state.eventSink(TeamDetailEvent.OnManageFormationClick)
+                    },
                 )
             }
         }

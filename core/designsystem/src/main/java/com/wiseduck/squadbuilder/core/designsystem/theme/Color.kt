@@ -20,7 +20,11 @@ val Neutral800 = Color(0xFF262626)
 val Neutral900 = Color(0xFF171717)
 val Neutral950 = Color(0xFF0A0A0A)
 
+val Gray900 = Color(0xFF212121)
+
 val Blue500 = Color(0xFF4493F8)
+
+val Blue600 = Color(0xFF2563EB)
 val Red500 = Color(0xFFFF443A)
 val Green500 = Color(0xFF2ECC71)
 val Yellow300 = Color(0xFFFFD743)

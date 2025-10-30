@@ -17,3 +17,9 @@ data class TeamDetailScreen(
     val teamId: Int,
     val teamName: String
 ) : Screen
+
+@Parcelize
+data class FormationScreen(
+    val teamId: Int,
+    val teamName: String
+) : Screen

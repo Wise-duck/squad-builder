@@ -5,6 +5,7 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.model.TeamModel
+import com.wiseduck.squadbuilder.feature.screens.FormationScreen
 import com.wiseduck.squadbuilder.feature.screens.TeamDetailScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -24,7 +25,12 @@ class TeamDetailPresenter @AssistedInject constructor(
         fun handleEvent(event: TeamDetailEvent) {
             when(event) {
                 is TeamDetailEvent.OnManagePlayersClick -> {}
-                is TeamDetailEvent.OnManageFormationClick -> {}
+                is TeamDetailEvent.OnManageFormationClick -> {
+                    navigator.goTo(FormationScreen(
+                        teamId = screen.teamId,
+                        teamName = screen.teamName
+                    ))
+                }
                 is TeamDetailEvent.OnBackButtonClick -> {
                     navigator.pop()
                 }
