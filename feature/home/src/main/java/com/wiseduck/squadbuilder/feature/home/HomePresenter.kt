@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -33,7 +34,10 @@ class HomePresenter @AssistedInject constructor(
     override fun present(): HomeUiState {
         val scope = rememberCoroutineScope()
         var isLoading by remember { mutableStateOf(true) }
+        var errorMessage by remember { mutableStateOf<String?>(null) }
         var teams by remember { mutableStateOf(persistentListOf<TeamModel>()) }
+        val teamCreateErrorServerConnection = stringResource(R.string.team_create_error_server_connection)
+        val updatedTeamListLoadFailed = stringResource(R.string.updated_team_list_load_failed)
 
         LaunchedEffect(Unit) {
             isLoading = true
@@ -51,6 +55,31 @@ class HomePresenter @AssistedInject constructor(
 
         fun handleEvent(event: HomeUiEvent) {
             when (event) {
+                is HomeUiEvent.OnTeamCreateButtonClick -> {
+                    isLoading = true
+                    scope.launch {
+                        teamRepository.createTeam(event.teamName)
+                            .onSuccess { teamModel ->
+                                teamRepository.getTeams()
+                                    .onSuccess { updatedTeamList ->
+                                        isLoading = false
+                                        teams = updatedTeamList.toImmutableList() as PersistentList<TeamModel>
+                                        Log.d("HomePresenter", " ${teamModel.name}팀 생성 성공. UI 업데이트.")
+                                    }
+                                    .onFailure {
+                                        isLoading = false
+                                        errorMessage = updatedTeamListLoadFailed
+                                        Log.e("HomePresenter", "팀 생성은 성공했지만, 목록 로드 실패", it)
+                                    }
+                            }
+                            .onFailure { error ->
+                                isLoading = false
+                                errorMessage = teamCreateErrorServerConnection
+                                Log.e("HomePresenter", "팀 생성 실패", error)
+                            }
+                    }
+                }
+
                 is HomeUiEvent.OnTeamCardClick -> {
                         navigator.goTo(TeamDetailScreen(
                             teamId = event.teamId,
@@ -74,6 +103,10 @@ class HomePresenter @AssistedInject constructor(
                     }
                 }
 
+                is HomeUiEvent.OnDialogCloseButtonClick -> {
+                    errorMessage = null
+                }
+
                 is HomeUiEvent.OnTabSelect -> {
                     navigator.resetRoot(event.screen)
                 }
@@ -82,6 +115,7 @@ class HomePresenter @AssistedInject constructor(
 
         return HomeUiState(
             isLoading = isLoading,
+            errorMessage = errorMessage,
             teams = teams,
             eventSink = ::handleEvent
         )

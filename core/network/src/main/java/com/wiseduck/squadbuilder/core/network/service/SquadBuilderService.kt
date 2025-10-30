@@ -2,6 +2,7 @@ package com.wiseduck.squadbuilder.core.network.service
 
 import com.wiseduck.squadbuilder.core.network.request.LoginRequest
 import com.wiseduck.squadbuilder.core.network.request.RefreshTokenRequest
+import com.wiseduck.squadbuilder.core.network.request.TeamCreateRequest
 import com.wiseduck.squadbuilder.core.network.response.LoginResponse
 import com.wiseduck.squadbuilder.core.network.response.RefreshTokenResponse
 import com.wiseduck.squadbuilder.core.network.response.TeamResponse
@@ -12,21 +13,24 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface SquadBuilderService {
-    // PUBLIC ENDPOINTS [AUTH]
+    // [AUTH] [PUBLIC] ENDPOINTS
     @POST("api/auth/social-login")
     suspend fun login(@Body loginRequest: LoginRequest) : LoginResponse
 
     @POST("api/auth/refresh")
     suspend fun refreshToken(@Body refreshTokenRequest: RefreshTokenRequest) : RefreshTokenResponse
 
-    // PRIVATE ENDPOINTS [AUTH]
+    // [AUTH] [PRIVATE] ENDPOINTS
     @POST("api/auth/logout")
     suspend fun logout()
 
     @DELETE("api/auth/withdraw")
     suspend fun withdraw()
 
-    // PRIVATE ENDPOINTS [TEAM]
+    // [TEAM] [PRIVATE] ENDPOINTS
+    @POST("api/teams")
+    suspend fun createTeam(@Body request: TeamCreateRequest) : TeamResponse
+
     @GET("api/teams")
     suspend fun getTeams(): List<TeamResponse>
 

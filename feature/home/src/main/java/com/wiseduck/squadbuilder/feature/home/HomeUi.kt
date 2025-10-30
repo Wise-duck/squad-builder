@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,8 +19,10 @@ import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
+import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.feature.home.component.HomeHeader
 import com.wiseduck.squadbuilder.feature.home.component.TeamCard
+import com.wiseduck.squadbuilder.feature.home.component.TeamCreateSection
 import com.wiseduck.squadbuilder.feature.screens.HomeScreen
 import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomBar
 import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab
@@ -53,22 +56,61 @@ fun HomeUi(
             Spacer(
                 modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
             )
-            if (state.isLoading) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
+            HomeContent(
+                state = state,
+                onTeamCreateClick = {
+                    state.eventSink(HomeUiEvent.OnTeamCreateButtonClick(it))
+                },
+                onTeamClick = { teamId, teamName ->
+                    state.eventSink(HomeUiEvent.OnTeamCardClick(teamId, teamName))
+                },
+                onTeamDeleteClick = {
+                    state.eventSink(HomeUiEvent.OnTeamDeleteButtonClick(it))
                 }
-            } else {
-                HomeContent(
-                    state = state,
-                    onTeamClick = { teamId, teamName ->
-                        state.eventSink(HomeUiEvent.OnTeamCardClick(teamId, teamName))
+            )
+        }
+    }
+}
+
+@Composable
+private fun HomeContent(
+    modifier: Modifier = Modifier,
+    state: HomeUiState,
+    onTeamCreateClick: (String) -> Unit,
+    onTeamClick: (Int, String) -> Unit,
+    onTeamDeleteClick: (Int) -> Unit
+) {
+    Column(
+        modifier = modifier.fillMaxSize()
+    ) {
+        TeamCreateSection(
+            modifier = Modifier.fillMaxWidth(),
+            onTeamCreateClick = onTeamCreateClick,
+        )
+        Spacer(
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+        )
+        if (state.isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        } else {
+            TeamList(
+                state = state,
+                onTeamClick = onTeamClick,
+                onTeamDeleteClick = onTeamDeleteClick
+            )
+            if (state.errorMessage != null) {
+                SquadBuilderDialog(
+                    title = "오류 발생",
+                    description = state.errorMessage,
+                    onConfirmRequest = {
+                        state.eventSink(HomeUiEvent.OnDialogCloseButtonClick)
                     },
-                    onTeamDeleteClick = {
-                        state.eventSink(HomeUiEvent.OnTeamDeleteButtonClick(it))
-                    }
+                    confirmButtonText = "확인"
                 )
             }
         }
@@ -76,7 +118,7 @@ fun HomeUi(
 }
 
 @Composable
-private fun HomeContent(
+private fun TeamList(
     modifier: Modifier = Modifier,
     state: HomeUiState,
     onTeamClick: (Int, String) -> Unit,
