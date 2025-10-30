@@ -1,6 +1,7 @@
 package com.wiseduck.squadbuilder.feature.home.component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,10 +32,13 @@ import com.wiseduck.squadbuilder.core.model.TeamModel
 fun TeamCard(
     modifier: Modifier = Modifier,
     team: TeamModel,
-    onDeleteClick: (Int) -> Unit
+    onDeleteClick: (Int) -> Unit,
+    onClick: (Int) -> Unit
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { onClick(team.teamId) },
         colors = CardDefaults.cardColors(
             containerColor = Black
         ),
@@ -44,7 +48,8 @@ fun TeamCard(
         )
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(SquadBuilderTheme.spacing.spacing4)
         ) {
             Column(
@@ -87,7 +92,8 @@ private fun TeamCardPreview() {
                 ownerEmail = "1@.com",
                 createdAt = "2025-10-28T14:25:27.097Z"
             ),
-            onDeleteClick = {}
+            onDeleteClick = {},
+            onClick = {}
         )
     }
 }

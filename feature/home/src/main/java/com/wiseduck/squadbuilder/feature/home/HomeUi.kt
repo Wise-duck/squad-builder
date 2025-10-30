@@ -92,7 +92,8 @@ private fun HomeContent(
             TeamCard(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 team = team,
-                onDeleteClick = onTeamDeleteClick
+                onDeleteClick = onTeamDeleteClick,
+                onClick = onTeamClick
             )
         }
     }

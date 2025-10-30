@@ -14,6 +14,7 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.data.api.repository.TeamRepository
 import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.feature.screens.HomeScreen
+import com.wiseduck.squadbuilder.feature.screens.TeamDetailScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -51,7 +52,10 @@ class HomePresenter @AssistedInject constructor(
         fun handleEvent(event: HomeUiEvent) {
             when (event) {
                 is HomeUiEvent.OnTeamCardClick -> {
-
+                    var clickedTeam = teams.find { it.teamId == event.teamId }
+                    if (clickedTeam != null) {
+                        navigator.goTo(TeamDetailScreen(clickedTeam))
+                    }
                 }
 
                 is HomeUiEvent.OnTeamDeleteButtonClick -> {
