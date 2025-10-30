@@ -1,7 +1,6 @@
 package com.wiseduck.squadbuilder.feature.screens
 
 import com.slack.circuit.runtime.screen.Screen
-import com.wiseduck.squadbuilder.core.model.TeamModel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -14,4 +13,7 @@ data object HomeScreen : Screen
 data object ProfileScreen: Screen
 
 @Parcelize
-data class TeamDetailScreen(val team: TeamModel) : Screen
+data class TeamDetailScreen(
+    val teamId: Int,
+    val teamName: String
+) : Screen

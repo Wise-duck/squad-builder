@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.feature.screens.TeamDetailScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -17,7 +18,8 @@ class TeamDetailPresenter @AssistedInject constructor(
 
     @Composable
     override fun present(): TeamDetailUiState {
-
+        val teamId = screen.teamId
+        val teamName = screen.teamName
 
         fun handleEvent(event: TeamDetailEvent) {
             when(event) {
@@ -31,7 +33,10 @@ class TeamDetailPresenter @AssistedInject constructor(
 
         return TeamDetailUiState(
             isLoading = false,
-            team = screen.team,
+            team = TeamModel(
+                teamId = teamId,
+                name = teamName
+            ),
             eventSink = ::handleEvent
         )
     }

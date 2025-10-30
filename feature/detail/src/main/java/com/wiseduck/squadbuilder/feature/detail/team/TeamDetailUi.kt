@@ -70,14 +70,13 @@ private fun TeamDetailContent(
     OnManagePlayersClick: () -> Unit,
     OnManageFormationClick: () -> Unit,
 ) {
-    val team = state.team
+
 
     Column(modifier = modifier
         .fillMaxSize()
         .padding(horizontal = 32.dp)
     ) {
-        if (team != null) {
-
+        state.team?.let { team ->
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
@@ -103,13 +102,11 @@ private fun TeamDetailContent(
                 description = "전술 및 기본 포메이션을 설정합니다.",
                 onClick = OnManageFormationClick
             )
-
-        } else {
-            Text(
-                text = "팀 정보를 불러올 수 없습니다.",
-                color = SquadBuilderTheme.colors.basePrimary
-            )
         }
+//        Text(
+//            text = "팀 정보를 불러올 수 없습니다.",
+//            color = SquadBuilderTheme.colors.basePrimary
+//        )
     }
 }
 
@@ -127,7 +124,7 @@ private fun TeamDetailUi() {
     SquadBuilderTheme {
         TeamDetailUi(
             state = TeamDetailUiState(
-                isLoading = false ,
+                isLoading = false,
                 team = previewTeam,
                 eventSink = {}
             )

@@ -52,11 +52,11 @@ class HomePresenter @AssistedInject constructor(
         fun handleEvent(event: HomeUiEvent) {
             when (event) {
                 is HomeUiEvent.OnTeamCardClick -> {
-                    var clickedTeam = teams.find { it.teamId == event.teamId }
-                    if (clickedTeam != null) {
-                        navigator.goTo(TeamDetailScreen(clickedTeam))
+                        navigator.goTo(TeamDetailScreen(
+                            teamId = event.teamId,
+                            teamName = event.teamName
+                        ))
                     }
-                }
 
                 is HomeUiEvent.OnTeamDeleteButtonClick -> {
                     scope.launch {

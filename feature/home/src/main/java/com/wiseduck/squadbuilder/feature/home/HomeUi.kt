@@ -63,8 +63,8 @@ fun HomeUi(
             } else {
                 HomeContent(
                     state = state,
-                    onTeamClick = {
-                        state.eventSink(HomeUiEvent.OnTeamCardClick(it))
+                    onTeamClick = { teamId, teamName ->
+                        state.eventSink(HomeUiEvent.OnTeamCardClick(teamId, teamName))
                     },
                     onTeamDeleteClick = {
                         state.eventSink(HomeUiEvent.OnTeamDeleteButtonClick(it))
@@ -79,7 +79,7 @@ fun HomeUi(
 private fun HomeContent(
     modifier: Modifier = Modifier,
     state: HomeUiState,
-    onTeamClick: (Int) -> Unit,
+    onTeamClick: (Int, String) -> Unit,
     onTeamDeleteClick: (Int) -> Unit
 ) {
     LazyColumn(

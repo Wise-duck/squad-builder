@@ -33,12 +33,12 @@ fun TeamCard(
     modifier: Modifier = Modifier,
     team: TeamModel,
     onDeleteClick: (Int) -> Unit,
-    onClick: (Int) -> Unit
+    onClick: (Int, String) -> Unit
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onClick(team.teamId) },
+            .clickable { onClick(team.teamId, team.name) },
         colors = CardDefaults.cardColors(
             containerColor = Black
         ),
@@ -93,7 +93,7 @@ private fun TeamCardPreview() {
                 createdAt = "2025-10-28T14:25:27.097Z"
             ),
             onDeleteClick = {},
-            onClick = {}
+            onClick = { _, _ -> }
         )
     }
 }
