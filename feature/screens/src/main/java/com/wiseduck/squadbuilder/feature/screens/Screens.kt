@@ -8,3 +8,6 @@ data object LoginScreen : Screen
 
 @Parcelize
 data object HomeScreen : Screen
+
+@Parcelize
+data object ProfileScreen: Screen

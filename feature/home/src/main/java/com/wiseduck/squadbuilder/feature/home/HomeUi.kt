@@ -21,6 +21,8 @@ import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.feature.home.component.HomeHeader
 import com.wiseduck.squadbuilder.feature.home.component.TeamCard
 import com.wiseduck.squadbuilder.feature.screens.HomeScreen
+import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomBar
+import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.collections.immutable.toImmutableList
 
@@ -31,7 +33,16 @@ fun HomeUi(
     state: HomeUiState
 ) {
     SquadBuilderScaffold(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
+        bottomBar = {
+            SquadBuilderBottomBar(
+                modifier = modifier,
+                currentTab = SquadBuilderBottomTab.HOME,
+                onTabSelected = {
+                    state.eventSink(HomeUiEvent.OnTabSelect(it.screen))
+                }
+            )
+        }
     ) { innerPadding ->
         Column(
             modifier = modifier.padding(innerPadding)

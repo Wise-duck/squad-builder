@@ -69,6 +69,10 @@ class HomePresenter @AssistedInject constructor(
                             }
                     }
                 }
+
+                is HomeUiEvent.OnTabSelect -> {
+                    navigator.resetRoot(event.screen)
+                }
             }
         }
 

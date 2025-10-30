@@ -2,6 +2,7 @@ package com.wiseduck.squadbuilder.feature.home
 
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
+import com.slack.circuit.runtime.screen.Screen
 import com.wiseduck.squadbuilder.core.model.TeamModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -18,5 +19,8 @@ sealed interface HomeUiEvent: CircuitUiEvent {
     ) : HomeUiEvent
     data class OnTeamDeleteButtonClick(
         val teamId: Int
+    ) : HomeUiEvent
+    data class OnTabSelect(
+        val screen: Screen
     ) : HomeUiEvent
 }

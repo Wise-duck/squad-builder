@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="logout_error_server_connection">로그아웃 실패. 잠시 후 다시 시도해주세요.</string>
+    <string name="withdraw_error_server_connection">계정 탈퇴 실패. 잠시 후 다시 시도해주세요.</string>
+</resources>

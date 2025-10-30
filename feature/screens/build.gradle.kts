@@ -9,5 +9,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.designsystem)
+    implementation(projects.core.ui)
+
     implementation(libs.circuit.foundation)
 }
