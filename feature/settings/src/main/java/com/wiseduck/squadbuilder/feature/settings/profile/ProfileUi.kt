@@ -1,6 +1,5 @@
 package com.wiseduck.squadbuilder.feature.settings.profile
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,7 +16,6 @@ import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.component.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.largeButtonStyle
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
@@ -47,9 +44,9 @@ fun ProfileUi(
                 }
             )
         } 
-    ) {
+    ) { innerPadding ->
         Column(
-            modifier = modifier.fillMaxWidth(),
+            modifier = modifier.padding(innerPadding),
         ) {
             ProfileHeader(
                 modifier = modifier
