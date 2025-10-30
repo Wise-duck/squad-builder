@@ -51,6 +51,9 @@ fun ProfileUi(
             ProfileHeader(
                 modifier = modifier
             )
+            Spacer(
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+            )
             ProfileContent(
                 modifier = modifier,
                 onLogoutClick = {
