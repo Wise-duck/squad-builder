@@ -37,6 +37,36 @@ fun SquadBuilderDialog(
     description: String? = null,
     properties: DialogProperties = DialogProperties(),
 ) {
+    SquadBuilderDialog(
+        modifier = modifier,
+        onDismissRequest = onDismissRequest,
+        onConfirmRequest = onConfirmRequest,
+        dismissButtonText = dismissButtonText,
+        confirmButtonText = confirmButtonText,
+        title = title,
+        content = {
+            description?.let {
+                Text(
+                    text = it,
+                    color = Neutral300
+                )
+            }
+        },
+        properties = properties
+    )
+}
+
+@Composable
+fun SquadBuilderDialog(
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit = {},
+    onConfirmRequest: () -> Unit,
+    dismissButtonText: String? = null,
+    confirmButtonText: String,
+    title: String? = null,
+    content: @Composable (() -> Unit)? = null,
+    properties: DialogProperties = DialogProperties(),
+) {
     Dialog(
         onDismissRequest = { onDismissRequest() },
         properties = properties,
@@ -52,65 +82,58 @@ fun SquadBuilderDialog(
                 .border(
                     width = 1.dp,
                     color = Neutral500,
-                    shape = RoundedCornerShape(size = SquadBuilderTheme.radius.md,)
+                    shape = RoundedCornerShape(size = SquadBuilderTheme.radius.md)
                 ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            title?.let { 
+            title?.let {
                 Text(
                     text = title,
                     color = Neutral100
                 )
             }
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
-            )
-            description?.let {
-                Text(
-                    text = description,
-                    color = Neutral300
-                )
-            }
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
-            )
-            Row(
-                modifier = modifier.fillMaxWidth()
-            ) {
+            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
+
+            content?.invoke()
+
+            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
+
+            Row(modifier = Modifier.fillMaxWidth()) {
                 dismissButtonText?.let {
                     SquadBuilderButton(
-                        onClick = {
-                            onDismissRequest()
-                        },
+                        onClick = { onDismissRequest() },
                         text = dismissButtonText,
                         sizeStyle = smallButtonStyle,
                         colorStyle = ButtonColorStyle.TEXT,
-                        modifier = modifier.weight(1f),
+                        modifier = Modifier.weight(1f),
                     )
                 }
                 SquadBuilderButton(
-                    onClick = {
-                        onConfirmRequest()
-                    },
+                    onClick = { onConfirmRequest() },
                     text = confirmButtonText,
                     sizeStyle = smallButtonStyle,
                     colorStyle = ButtonColorStyle.TEXT,
-                    modifier = modifier.weight(1f),
+                    modifier = Modifier.weight(1f),
                 )
             }
         }
     }
 }
 
+
 @ComponentPreview
 @Composable
 private fun SquadBuilderDialogPreview() {
     SquadBuilderDialog(
-        onDismissRequest = {},
         onConfirmRequest = {},
-        dismissButtonText = "취소",
         confirmButtonText = "확인",
+        dismissButtonText = "취소",
         title = "다이얼로그 제목",
-        description = "다이얼로그 내용"
+        content = {
+            Text(
+                text = "Composable을 받는 다이얼로그 내용입니다.",
+                color = Neutral300
+            )
+        }
     )
 }
