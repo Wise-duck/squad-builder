@@ -13,6 +13,11 @@ data object HomeScreen : Screen
 data object ProfileScreen: Screen
 
 @Parcelize
+data class WebViewScreen(
+    val url: String
+) : Screen
+
+@Parcelize
 data class TeamDetailScreen(
     val teamId: Int,
     val teamName: String

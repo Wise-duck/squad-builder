@@ -61,7 +61,10 @@ fun ProfileUi(
                 },
                 onWithDrawClick = {
                     state.eventSink(ProfileUiEvent.OnWithDrawButtonClick)
-                }
+                },
+                onPrivacyPolicyClick = {
+                    state.eventSink(ProfileUiEvent.OnPrivacyPolicyButtonClick)
+                },
             )
         }
 
@@ -93,7 +96,8 @@ fun ProfileUi(
 private fun ProfileContent(
     modifier: Modifier = Modifier,
     onLogoutClick: () -> Unit,
-    onWithDrawClick: () -> Unit
+    onWithDrawClick: () -> Unit,
+    onPrivacyPolicyClick: () -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -118,6 +122,12 @@ private fun ProfileContent(
             SquadBuilderButton(
                 text = "계정 삭제",
                 onClick = onWithDrawClick,
+                sizeStyle = largeButtonStyle,
+                colorStyle = ButtonColorStyle.TEXT
+            )
+            SquadBuilderButton(
+                text = "개인정보처리방침",
+                onClick = onPrivacyPolicyClick,
                 sizeStyle = largeButtonStyle,
                 colorStyle = ButtonColorStyle.TEXT
             )

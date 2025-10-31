@@ -11,9 +11,11 @@ import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.wiseduck.squadbuilder.core.common.constants.WebViewUrls
 import com.wiseduck.squadbuilder.core.data.api.repository.AuthRepository
 import com.wiseduck.squadbuilder.feature.screens.LoginScreen
 import com.wiseduck.squadbuilder.feature.screens.ProfileScreen
+import com.wiseduck.squadbuilder.feature.screens.WebViewScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -74,6 +76,14 @@ class ProfilePresenter @AssistedInject constructor(
 
                 is ProfileUiEvent.OnTabSelect -> {
                     navigator.resetRoot(event.screen)
+                }
+
+                ProfileUiEvent.OnPrivacyPolicyButtonClick -> {
+                    val webView = WebViewUrls.PRIVACY_POLICY
+
+                    navigator.goTo(WebViewScreen(
+                        url = webView.url
+                    ))
                 }
             }
         }
