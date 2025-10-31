@@ -32,62 +32,56 @@ fun PlayerChip(
     position: String,
     number: String,
     name: String,
-    shirtColor: Color = Blue600, // 색상을 파라미터로 받아 유연하게
+    shirtColor: Color = Blue600,
     textColor: Color = Neutral100
 ) {
-    // 1. 전체 레이아웃을 Column으로 잡습니다.
     Column(
-        modifier = modifier.size(width = 64.dp, height = 80.dp),
+        modifier = modifier.size(width = 56.dp, height = 64.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        // 2. 원형 셔츠와 포지션 텍스트를 담는 Box (React 코드의 상대 위치 지정과 유사)
         Box(
-            modifier = Modifier.size(56.dp), // 셔츠(48dp) + 포지션 텍스트 높이
+            modifier = Modifier.size(48.dp),
             contentAlignment = Alignment.Center
         ) {
-            // 원형 셔츠
             Box(
                 modifier = Modifier
-                    .size(48.dp)
+                    .size(40.dp)
                     .clip(CircleShape)
                     .background(shirtColor)
                     .border(
-                        BorderStroke(2.dp, Neutral100),
+                        BorderStroke(1.5.dp, Neutral100),
                         CircleShape
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                // 중앙 등번호
                 Text(
                     text = number,
                     color = textColor,
-                    fontSize = 22.sp, // text-2xl
-                    fontWeight = FontWeight.Black, // font-black
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Black,
                     textAlign = TextAlign.Center
                 )
             }
 
-            // 상단 포지션
             Text(
                 text = position,
                 modifier = Modifier
-                    .align(Alignment.TopCenter) // Box 상단 중앙에 배치
-                    .offset(y = (-4).dp) // 살짝 위로 이동 (React의 -top-3)
+                    .align(Alignment.TopCenter)
+                    .offset(y = (-3).dp)
                     .background(Gray900.copy(alpha = 0.7f), RoundedCornerShape(4.dp))
-                    .padding(horizontal = 4.dp, vertical = 2.dp),
+                    .padding(horizontal = 4.dp, vertical = 1.dp),
                 color = textColor,
-                fontSize = 10.sp, // text-xs
+                fontSize = 9.sp,
                 fontWeight = FontWeight.SemiBold
             )
         }
 
-        // 3. 하단 이름
         Text(
             text = name,
-            modifier = Modifier.padding(top = 4.dp), // mt-1
+            modifier = Modifier,
             color = Neutral100,
-            fontSize = 11.sp, // text-xs
+            fontSize = 10.sp,
             fontWeight = FontWeight.Medium,
             textAlign = TextAlign.Center
         )

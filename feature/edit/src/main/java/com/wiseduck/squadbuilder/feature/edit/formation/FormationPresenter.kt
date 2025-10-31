@@ -11,6 +11,8 @@ import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.data.api.repository.FormationRepository
 import com.wiseduck.squadbuilder.core.model.FormationListItemModel
+import com.wiseduck.squadbuilder.core.model.Placement
+import com.wiseduck.squadbuilder.feature.edit.formation.data.createDefaultPlayers
 import com.wiseduck.squadbuilder.feature.screens.FormationScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -32,6 +34,12 @@ class FormationPresenter @AssistedInject constructor(
         var formationList by remember { mutableStateOf(emptyList<FormationListItemModel>()) }
         var isListModalVisible by remember { mutableStateOf(false) }
 
+        var players by remember { mutableStateOf(emptyList<Placement>()) }
+        var selectedPlayerId by remember { mutableStateOf<Int?>(null) }
+
+        androidx.compose.runtime.LaunchedEffect(Unit) {
+            players = createDefaultPlayers()
+        }
 
         fun handleEvent(event: FormationUiEvent) {
             when (event) {
@@ -52,6 +60,12 @@ class FormationPresenter @AssistedInject constructor(
                 FormationUiEvent.OnDismissListModal -> {
                     isListModalVisible = false
                 }
+                is FormationUiEvent.OnPlayerClick -> {
+                    selectedPlayerId = if (selectedPlayerId == event.playerId) null else event.playerId
+                }
+                FormationUiEvent.OnDismissPlayerInfoDialog -> {
+                    selectedPlayerId = null
+                }
             }
         }
 
@@ -60,6 +74,8 @@ class FormationPresenter @AssistedInject constructor(
             teamName = teamName,
             formationList = formationList,
             isListModalVisible = isListModalVisible,
+            players = players,
+            selectedPlayerId = selectedPlayerId,
             eventSink = ::handleEvent
         )
     }
