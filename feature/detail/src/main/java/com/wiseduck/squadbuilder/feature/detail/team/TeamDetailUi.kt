@@ -55,7 +55,9 @@ fun TeamDetailUi(
             } else {
                 TeamDetailContent(
                     state = state,
-                    OnManagePlayersClick = { },
+                    OnManagePlayersClick = {
+                        state.eventSink(TeamDetailEvent.OnManagePlayersClick)
+                    },
                     OnManageFormationClick = {
                         state.eventSink(TeamDetailEvent.OnManageFormationClick)
                     },
@@ -72,8 +74,6 @@ private fun TeamDetailContent(
     OnManagePlayersClick: () -> Unit,
     OnManageFormationClick: () -> Unit,
 ) {
-
-
     Column(modifier = modifier
         .fillMaxSize()
         .padding(horizontal = 32.dp)

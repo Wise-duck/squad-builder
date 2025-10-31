@@ -28,10 +28,9 @@ internal abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindFormationRepository(formationRepositoryImpl: FormationRepositoryImpl) : FormationRepository
+    abstract fun bindPlayerRepository(playerRepositoryImpl: PlayerRepositoryImpl) : PlayerRepository
 
     @Binds
     @Singleton
-    abstract fun bindPlayerRepository(playerRepositoryImpl: PlayerRepositoryImpl) : PlayerRepository
-
+    abstract fun bindFormationRepository(formationRepositoryImpl: FormationRepositoryImpl) : FormationRepository
 }
