@@ -1,7 +1,8 @@
 package com.wiseduck.squadbuilder.core.model
 
 data class Placement (
-    val playerId: Int,
+    val slotId: Int,
+    val playerId: Int?,
     val playerName: String,
     val playerPosition: String,
     val playerBackNumber: String,

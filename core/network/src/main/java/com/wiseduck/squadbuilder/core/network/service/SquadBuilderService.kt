@@ -1,10 +1,12 @@
 package com.wiseduck.squadbuilder.core.network.service
 
+import com.wiseduck.squadbuilder.core.network.request.FormationSaveRequest
 import com.wiseduck.squadbuilder.core.network.request.LoginRequest
 import com.wiseduck.squadbuilder.core.network.request.RefreshTokenRequest
 import com.wiseduck.squadbuilder.core.network.request.TeamCreationRequest
 import com.wiseduck.squadbuilder.core.network.request.TeamPlayerCreationRequest
 import com.wiseduck.squadbuilder.core.network.request.TeamPlayerUpdateRequest
+import com.wiseduck.squadbuilder.core.network.response.FormationDetailResponse
 import com.wiseduck.squadbuilder.core.network.response.FormationListItemResponse
 import com.wiseduck.squadbuilder.core.network.response.LoginResponse
 import com.wiseduck.squadbuilder.core.network.response.RefreshTokenResponse
@@ -75,4 +77,25 @@ interface SquadBuilderService {
     suspend fun getFormationList(
         @Query("teamId") teamId: Int
     ) : List<FormationListItemResponse>
+
+    @GET("api/formation/{formationId}")
+    suspend fun getFormationDetail(
+        @Path("formationId") formationId: Int
+    ): FormationDetailResponse
+
+    @POST("api/formation")
+    suspend fun createFormation(
+        @Body request: FormationSaveRequest
+    ): Unit
+
+    @PUT("api/formation/{formationId}")
+    suspend fun updateFormation(
+        @Path("formationId") formationId: Int,
+        @Body request: FormationSaveRequest
+    ): Unit
+
+    @DELETE("api/formation/{formationId}")
+    suspend fun deleteFormation(
+        @Path("formationId") formationId: Int
+    ): Unit
 }

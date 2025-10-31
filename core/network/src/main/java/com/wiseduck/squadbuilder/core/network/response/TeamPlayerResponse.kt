@@ -9,7 +9,7 @@ data class TeamPlayerResponse(
     val playerId: Int,
     @SerialName("teamId")
     val teamId: Int,
-    @Serializable("name")
+    @SerialName("name")
     val name: String,
     @SerialName("position")
     val position: String,

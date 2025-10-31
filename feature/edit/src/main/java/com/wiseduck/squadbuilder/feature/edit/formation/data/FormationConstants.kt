@@ -9,6 +9,15 @@ data class PositionBounds(
     val centerY: Float,
 )
 
+fun getPositionForCoordinates(x: Float, y: Float): String {
+    for ((position, bounds) in FormationConstants.SLOT_ZONES_BOUNDS) {
+        if (x >= bounds.minX && x < bounds.maxX && y >= bounds.minY && y < bounds.maxY) {
+            return position
+        }
+    }
+    return ""
+}
+
 object FormationConstants {
     val SLOT_ZONES_BOUNDS: Map<String, PositionBounds> = mapOf(
         // Goalkeeper

@@ -16,7 +16,8 @@ fun createDefaultPlayers(): List<Placement> {
             ?: PositionBounds(0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f)
 
         Placement(
-            playerId = index + 1,
+            slotId = index + 1,
+            playerId = null,
             playerName = "Player",
             playerPosition = positionKey,
             playerBackNumber = "+",
