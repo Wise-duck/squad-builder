@@ -1,9 +1,12 @@
 package com.wiseduck.squadbuilder.feature.edit.formation
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -12,6 +15,8 @@ import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.SoccerField
+import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
+import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationCard
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationController
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationHeader
 import com.wiseduck.squadbuilder.feature.screens.FormationScreen
@@ -23,6 +28,29 @@ fun FormationUi(
     state: FormationUiState,
     modifier: Modifier = Modifier,
 ) {
+    if (state.isListModalVisible) {
+        SquadBuilderDialog(
+            onDismissRequest = {state.eventSink(FormationUiEvent.OnDismissListModal)},
+            onConfirmRequest = { state.eventSink(FormationUiEvent.OnDismissListModal) },
+            confirmButtonText = "닫기",
+            dismissButtonText = null,
+            title = "포메이션 목록",
+            content = {
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(state.formationList) { formationItem ->
+                        FormationCard(
+                            formation = formationItem,
+                            onClick = {},
+                            onDeleteClick = {}
+                        )
+                    }
+                }
+            }
+        )
+    }
     SquadBuilderScaffold (
         modifier = modifier.fillMaxSize()
     ){ innerPadding ->

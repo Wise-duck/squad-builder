@@ -3,6 +3,7 @@ package com.wiseduck.squadbuilder.core.network.service
 import com.wiseduck.squadbuilder.core.network.request.LoginRequest
 import com.wiseduck.squadbuilder.core.network.request.RefreshTokenRequest
 import com.wiseduck.squadbuilder.core.network.request.TeamCreateRequest
+import com.wiseduck.squadbuilder.core.network.response.FormationListItemResponse
 import com.wiseduck.squadbuilder.core.network.response.LoginResponse
 import com.wiseduck.squadbuilder.core.network.response.RefreshTokenResponse
 import com.wiseduck.squadbuilder.core.network.response.TeamResponse
@@ -11,6 +12,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface SquadBuilderService {
     // [AUTH] [PUBLIC] ENDPOINTS
@@ -38,4 +40,9 @@ interface SquadBuilderService {
     suspend fun deleteTeam(
         @Path("teamId") teamId: Int
     )
+
+    @GET("api/formation")
+    suspend fun getFormationList(
+        @Query("teamId") teamId: Int
+    ) : List<FormationListItemResponse>
 }
