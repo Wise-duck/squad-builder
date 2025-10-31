@@ -3,9 +3,11 @@ package com.wiseduck.squadbuilder.core.data.impl.mapper
 import com.wiseduck.squadbuilder.core.model.FormationListItemModel
 import com.wiseduck.squadbuilder.core.model.HomeModel
 import com.wiseduck.squadbuilder.core.model.TeamModel
+import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
 import com.wiseduck.squadbuilder.core.network.response.FormationListItemResponse
 import com.wiseduck.squadbuilder.core.network.response.HomeResponse
 import com.wiseduck.squadbuilder.core.network.response.Team
+import com.wiseduck.squadbuilder.core.network.response.TeamPlayerResponse
 import com.wiseduck.squadbuilder.core.network.response.TeamResponse
 
 internal fun TeamResponse.toModel(): TeamModel {
@@ -15,6 +17,16 @@ internal fun TeamResponse.toModel(): TeamModel {
         ownerId = ownerId,
         ownerEmail = ownerEmail,
         createdAt = createdAt
+    )
+}
+
+internal fun TeamPlayerResponse.toModel() : TeamPlayerModel {
+    return TeamPlayerModel(
+        id = playerId,
+        teamId = teamId,
+        name = name,
+        backNumber = number,
+        position = position
     )
 }
 

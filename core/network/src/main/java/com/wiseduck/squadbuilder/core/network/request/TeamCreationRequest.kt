@@ -4,7 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TeamCreateRequest(
+data class TeamCreationRequest(
     @SerialName("name")
     val name: String
 )

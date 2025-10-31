@@ -5,13 +5,13 @@ import com.wiseduck.squadbuilder.core.network.service.SquadBuilderService
 import javax.inject.Inject
 import com.wiseduck.squadbuilder.core.data.impl.mapper.toModel
 import com.wiseduck.squadbuilder.core.model.TeamModel
-import com.wiseduck.squadbuilder.core.network.request.TeamCreateRequest
+import com.wiseduck.squadbuilder.core.network.request.TeamCreationRequest
 
 internal class TeamRepositoryImpl @Inject constructor(
     private val service: SquadBuilderService
 ) : TeamRepository {
     override suspend fun createTeam(name: String): Result<TeamModel> = runCatching {
-        val request = TeamCreateRequest(name)
+        val request = TeamCreationRequest(name)
         service.createTeam(request).toModel()
     }
 
