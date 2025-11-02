@@ -17,4 +17,5 @@ sealed interface ProfileUiEvent : CircuitUiEvent {
     data class OnTabSelect(
         val screen: Screen
     ) : ProfileUiEvent
+    data object OnPrivacyPolicyButtonClick : ProfileUiEvent  // 추후 다른 화면으로 이동
 }
