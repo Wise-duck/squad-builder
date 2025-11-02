@@ -71,7 +71,7 @@ jobs:
           generate_release_notes: true
 
       - name: Deploy to Google Play Console (Fastlane/Action)
-        uses: rymndhng/fastlane-play-store-action@v1
+        uses: ravnhq/fastlane-android-action@v1
         with:
           serviceAccountJson: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
           packageName: com.wiseduck.squadbuilder
