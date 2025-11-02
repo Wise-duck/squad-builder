@@ -1,8 +1,9 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.squadbuilder.android.application)
     alias(libs.plugins.squadbuilder.android.application.compose)
     alias(libs.plugins.squadbuilder.android.hilt)
-    id("kotlin-kapt")
 }
 
 android {
@@ -13,15 +14,27 @@ android {
 
         }
     }
+
+    defaultConfig {
+        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", getApiKey("KAKAO_NATIVE_APP_KEY"))
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = getApiKey("KAKAO_NATIVE_APP_KEY").trim('"')
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 ksp {
     arg("circuit.codegen.mode", "hilt")
-    arg("enableDataBinding", "true")
 }
 
 dependencies {
     implementation(projects.core.common)
+    implementation(projects.core.data.api)
+    implementation(projects.core.data.impl)
+    implementation(projects.core.datastore.api)
+    implementation(projects.core.datastore.impl)
     implementation(projects.core.designsystem)
     implementation(projects.core.model)
     implementation(projects.core.network)
@@ -36,21 +49,13 @@ dependencies {
     implementation(projects.feature.detail)
     implementation(projects.feature.edit)
 
-    //------------------------- 리팩토링 중
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    ksp(libs.androidx.databinding.compiler)
-    ksp(libs.room.compiler)
+    implementation(libs.bundles.circuit)
+    implementation(libs.kakao.auth)
 
-    implementation(libs.glide)
-    implementation(libs.styleable.toast)
-    implementation(libs.circle.image.view)
+    api(libs.circuit.codegen.annotation)
+    ksp(libs.circuit.codegen.ksp)
+}
 
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.constraintlayout)
+fun getApiKey(propertyKey: String): String {
+    return gradleLocalProperties(rootDir, providers).getProperty(propertyKey)
 }

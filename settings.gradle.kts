@@ -28,7 +28,12 @@ dependencyResolutionManagement {
 }
 
 include(":app")
+
 include(":core:common")
+include(":core:data:api")
+include(":core:data:impl")
+include(":core:datastore:api")
+include(":core:datastore:impl")
 include(":core:designsystem")
 include(":core:model")
 include(":core:ui")
@@ -42,3 +47,4 @@ include(":feature:home")
 include(":feature:webview")
 include(":feature:edit")
 include(":feature:detail")
+

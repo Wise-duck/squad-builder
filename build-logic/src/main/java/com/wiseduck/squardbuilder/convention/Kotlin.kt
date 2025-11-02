@@ -5,6 +5,7 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -20,9 +21,14 @@ internal fun Project.configureKotlinAndroid(extension: CommonExtension<*, *, *, 
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_11
             targetCompatibility = JavaVersion.VERSION_11
+            isCoreLibraryDesugaringEnabled = true
         }
 
         configureKotlin()
+
+        dependencies {
+            coreLibraryDesugaring(libs.desugar.jdk.libs)
+        }
     }
 }
 

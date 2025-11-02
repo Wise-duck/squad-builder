@@ -5,3 +5,11 @@ plugins {
 android {
     namespace = "com.wiseduck.squadbuilder.feature.main"
 }
+
+ksp {
+    arg("circuit.codegen.mode", "hilt")
+}
+
+dependencies {
+    implementation(libs.accompanist.systemuicontroller)
+}

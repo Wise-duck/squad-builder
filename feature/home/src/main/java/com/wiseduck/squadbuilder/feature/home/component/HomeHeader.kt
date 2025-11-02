@@ -1,2 +1,56 @@
 package com.wiseduck.squadbuilder.feature.home.component
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
+import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
+import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
+import com.wiseduck.squadbuilder.core.designsystem.theme.White
+
+@Composable
+fun HomeHeader(
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(MainBg)
+    ) {
+        Row(
+            modifier = modifier.fillMaxWidth()
+                .padding(SquadBuilderTheme.spacing.spacing4)
+        ) {
+            Spacer(
+                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
+            )
+            Text(
+                "팀 관리",
+                style = SquadBuilderTheme.typography.title1Bold,
+                color = White
+            )
+        }
+        Spacer(
+            modifier = modifier.fillMaxWidth()
+                .height(SquadBuilderTheme.spacing.spacing05)
+                .background(Neutral800)
+        )
+    }
+}
+
+@ComponentPreview
+@Composable
+private fun HomeHeaderPreview() {
+    SquadBuilderTheme {
+        HomeHeader()
+    }
+}

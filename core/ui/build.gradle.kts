@@ -6,3 +6,7 @@ plugins {
 android {
     namespace = "com.wiseduck.squadbuilder.core.ui"
 }
+
+dependencies {
+    implementation(projects.core.designsystem)
+}

@@ -18,4 +18,8 @@
 
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
-#-renamesourcefileattribute SourceFile
+#-renamesourcefileattribute SourceFile 
+
+-dontwarn com.wiseduck.squadbuilder.core.designsystem.theme.ThemeKt
+-dontwarn com.wiseduck.squadbuilder.feature.main.MainActivity_GeneratedInjector
+-dontwarn com.wiseduck.squadbuilder.feature.screens.LoginScreen
