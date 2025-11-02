@@ -60,8 +60,8 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build Release AAB
-        run: ./gradlew :app:bundleRelease
+#      - name: Build Release AAB
+#        run: ./gradlew :app:bundleRelease
 
       - name: Create Github Release
         uses: softprops/action-gh-release@v2
@@ -73,8 +73,15 @@ jobs:
       - name: Deploy to Google Play Console (Fastlane/Action)
         uses: ravnhq/fastlane-android-action@v1
         with:
-          serviceAccountJson: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
-          packageName: com.wiseduck.squadbuilder
-          aabFile: app/build/outputs/bundle/release/app-release.aab
-          track: beta
-          releaseNotes: ${{ steps.release_note_content.outputs.notes }}
+          build-lane: release
+          google-json-key-base64: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+          key-store-base64: ${{ secrets.JAVA_KEY_STORE }}
+          key-store-password: ${{ secrets.KEY_STORE_PASSWORD }}
+          key-alias: ${{ secrets.KEY_ALIAS }}
+          key-password: ${{ secrets.KEY_PASSWORD }}
+          package-name: com.wiseduck.squadbuilder
+          java-version: 17
+          artifact: aab
+          skip-signing: false
+          publish-build: true
+          commit-increment: false
