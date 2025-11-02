@@ -1,0 +1,58 @@
+name: Android CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: setup JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Generate local.properties
+        run: echo '${{ secrets.LOCAL_PROPERTIES }}' | base64 -d > ./local.properties
+
+      - name: Generate keystore.properties
+        run: echo '${{ secrets.KEYSTORE_PROPERTIES }}' | base64 -d > ./keystore.properties
+
+      - name: Generate squadbuilder.jks
+        run: echo '${{ secrets.JAVA_KEY_STORE }}' | base64 -d > ./squadbuilder.jks
+
+      - name: Generate Simple Release Note
+        id: release_note_content
+        run: |
+            COMMIT_MSG=$(git log -1 --pretty=%B)
+            NOTES="Latest Change: ${COMMIT_MSG}"
+            echo "notes=${NOTES}" >> "$GITHUB_OUTPUT"
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build Release AAB
+        run: ./gradlew :app:bundleRelease
+
+      - name: Deploy to Google Play Console (Fastlane/Action)
+        uses: rymndhng/fastlane-play-store-action@v1
+        with:
+          serviceAccountJson: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+          packageName: com.wiseduck.squadbuilder
+          aabFile: app/build/outputs/bundle/release/app-release.aab
+          track: beta
+          releaseNotes: ${{ steps.release_note_content.outputs.notes }}
