@@ -1,4 +1,4 @@
-package com.wiseduck.squadbuilder.core.designsystem.component
+package com.wiseduck.squadbuilder.core.designsystem.component.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource

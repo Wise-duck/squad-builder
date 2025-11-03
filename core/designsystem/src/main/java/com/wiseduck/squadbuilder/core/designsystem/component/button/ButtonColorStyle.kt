@@ -1,4 +1,4 @@
-package com.wiseduck.squadbuilder.core.designsystem.component
+package com.wiseduck.squadbuilder.core.designsystem.component.button
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
@@ -7,7 +7,6 @@ import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.designsystem.theme.Kakao
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral700
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral900
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
