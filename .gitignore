@@ -7,12 +7,14 @@ local.properties
 
 # Log/OS Files
 *.log
+.DS_Store
 
 # Android Studio generated files and folders
 captures/
 .externalNativeBuild/
 .cxx/
 *.apk
+*.aab
 output.json
 
 # IntelliJ
@@ -32,3 +34,4 @@ google-services.json
 
 # Android Profiling
 *.hprof
+/app/release
