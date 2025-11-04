@@ -9,12 +9,6 @@ plugins {
 android {
     namespace = "com.wiseduck.squadbuilder"
 
-    buildTypes {
-        release {
-
-        }
-    }
-
     defaultConfig {
         buildConfigField("String", "KAKAO_NATIVE_APP_KEY", getApiKey("KAKAO_NATIVE_APP_KEY"))
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = getApiKey("KAKAO_NATIVE_APP_KEY").trim('"')
