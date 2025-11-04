@@ -6,7 +6,8 @@ import androidx.compose.ui.graphics.Color
 val Black = Color(0xFF000000)
 val White = Color(0xFFFFFFFF)
 
-val MainBg = Color(0xFF0D1116)
+val MainComponentBg = Color(0xFF0D1116)
+val MainBg = Black
 
 val Neutral50 = Color(0xFFFAFAFA)
 val Neutral100 = Color(0xFFF5F5F5)
@@ -47,7 +48,7 @@ data class SquadBuilderColorScheme(
     val contentPrimary: Color = Neutral800,
     val contentSecondary: Color = Neutral500,
     val contentTertiary: Color = Neutral400,
-    val contentBrand: Color = Blue500,
+    val contentBrand: Color = Green500,
     val contentDisabled: Color = Neutral400,
     val contentInverse: Color = White,
 

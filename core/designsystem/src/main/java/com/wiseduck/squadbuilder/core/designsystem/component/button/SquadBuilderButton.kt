@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
+import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 
 @Composable
 fun SquadBuilderButton(
@@ -121,6 +122,18 @@ private fun ReedLargeButtonPreview() {
             text = "button",
             colorStyle = ButtonColorStyle.STROKE,
             sizeStyle = largeRoundedButtonStyle,
+        )
+        SquadBuilderButton(
+            onClick = {},
+            text = "button",
+            colorStyle = ButtonColorStyle.TEXT_WHITE,
+            sizeStyle = largeRoundedButtonStyle,
+        )
+        SquadBuilderButton(
+            onClick = {},
+            text = "button",
+            colorStyle = ButtonColorStyle.TEXT_WHITE,
+            sizeStyle = largeButtonStyle,
         )
     }
 }
