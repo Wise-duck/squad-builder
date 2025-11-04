@@ -12,3 +12,7 @@
 3. **다양한 포메이션**: 4-4-2, 4-3-3 등 다양한 포메이션을 생성하여 팀 전략에 맞게 활용할 수 있습니다.
 4. **팀 저장 및 불러오기**: 친구들과의 경기를 위해 여러 팀을 저장하고 필요할 때 불러올 수 있습니다.
 
+## 모듈 의존 관계 그래프
+<div align="center">
+  <img width="1749" height="383" alt="project-dependency-graph" src="https://github.com/user-attachments/assets/bfcdae73-2e0d-4f71-b351-523ab852be43" />
+</div>
