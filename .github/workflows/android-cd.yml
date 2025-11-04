@@ -6,12 +6,16 @@ on:
       - main
 
 jobs:
-  build:
+  cd-build:
 
     runs-on: ubuntu-latest
 
     permissions:
       contents: write
+
+    outputs:
+      version_tag: ${{ steps.extract_version_name.outputs.version }}
+      release_notes: ${{ steps.release_note_content.outputs.notes }}
 
     steps:
       - name: Checkout
@@ -63,18 +67,42 @@ jobs:
       - name: Build Release AAB
         run: ./gradlew :app:bundleRelease
 
+      - name: Upload AAB
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.aab
+          path: app/build/outputs/bundle/release/app-release.aab
+
+  deploy:
+    needs: cd-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download AAB
+        uses: actions/download-artifact@v2
+        with:
+          name: app-release.aab
+          path: app/build/outputs/bundle/release/
+
+      - name: Create whatsNewDirectory
+        run: |
+            mkdir -p distribution/whatsnew
+            echo '${{ needs.cd-build.outputs.release_notes }}' > distribution/whatsnew/whatsnew-ko-KR
+
       - name: Create Github Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.extract_version_name.outputs.version }}
-          release_name: ${{ steps.extract_version_name.outputs.version }}
-          generate_release_notes: true
+          tag_name: ${{ needs.cd-build.outputs.version_tag }}
+          release_name: ${{ needs.cd-build.outputs.version_tag }}
+          body: ${{ needs.cd-build.outputs.release_notes }}
+          files: app/build/outputs/bundle/release/app-release.aab
+          generate_release_notes: false
 
-      - name: Deploy to Google Play Console (Fastlane/Action)
-        uses: rymndhng/fastlane-play-store-action@v1
+      - name: Deploy to Google Play Store
+        uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJson: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
           packageName: com.wiseduck.squadbuilder
-          aabFile: app/build/outputs/bundle/release/app-release.aab
-          track: beta
-          releaseNotes: ${{ steps.release_note_content.outputs.notes }}
+          releaseName: ${{ needs.cd-build.outputs.version_tag }}
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          track: production
+          whatsNewDirectory: distribution/whatsnew
