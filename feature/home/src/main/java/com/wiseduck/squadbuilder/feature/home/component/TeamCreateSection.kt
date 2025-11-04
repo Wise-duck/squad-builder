@@ -17,9 +17,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
-import com.wiseduck.squadbuilder.core.designsystem.component.ButtonColorStyle
-import com.wiseduck.squadbuilder.core.designsystem.component.SquadBuilderButton
-import com.wiseduck.squadbuilder.core.designsystem.component.mediumButtonStyle
+import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
+import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
+import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral700
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.designsystem.theme.White

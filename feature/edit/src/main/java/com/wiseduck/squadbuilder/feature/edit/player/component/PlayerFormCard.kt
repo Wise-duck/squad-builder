@@ -25,9 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
-import com.wiseduck.squadbuilder.core.designsystem.component.ButtonColorStyle
-import com.wiseduck.squadbuilder.core.designsystem.component.SquadBuilderButton
-import com.wiseduck.squadbuilder.core.designsystem.component.smallButtonStyle
+import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
+import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
+import com.wiseduck.squadbuilder.core.designsystem.component.button.smallButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100

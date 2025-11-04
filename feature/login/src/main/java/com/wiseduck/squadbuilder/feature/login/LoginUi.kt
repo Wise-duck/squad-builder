@@ -6,17 +6,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
-import com.wiseduck.squadbuilder.core.designsystem.component.ButtonColorStyle
-import com.wiseduck.squadbuilder.core.designsystem.component.SquadBuilderButton
-import com.wiseduck.squadbuilder.core.designsystem.component.largeButtonStyle
+import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
+import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
+import com.wiseduck.squadbuilder.core.designsystem.component.button.largeButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
@@ -39,6 +41,7 @@ fun LoginUi(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
+                modifier = Modifier.size(200.dp),
                 painter = painterResource(id = com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_launcher_foreground),
                 contentDescription = "SquadBuilder App Logo"
             )
