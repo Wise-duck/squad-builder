@@ -86,3 +86,15 @@ val largeRoundedButtonStyle: ButtonSizeStyle
         iconSpacing = SquadBuilderTheme.spacing.spacing2,
         iconSize = 24.dp,
     )
+
+val compactButtonStyle: ButtonSizeStyle
+    @Composable get() = ButtonSizeStyle(
+        paddingValues = PaddingValues(
+            horizontal = SquadBuilderTheme.spacing.spacing3,
+            vertical = 5.dp,
+        ),
+        radius = SquadBuilderTheme.radius.xs,
+        textStyle = SquadBuilderTheme.typography.label1Medium,
+        iconSpacing = SquadBuilderTheme.spacing.spacing1,
+        iconSize = 18.dp,
+    )
