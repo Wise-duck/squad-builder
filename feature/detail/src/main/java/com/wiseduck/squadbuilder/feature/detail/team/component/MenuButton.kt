@@ -19,7 +19,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.wiseduck.squadbuilder.core.designsystem.theme.Black
+import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
+import com.wiseduck.squadbuilder.core.designsystem.theme.MainComponentBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
@@ -38,7 +39,7 @@ fun MenuButton(
             .fillMaxWidth()
             .clickable(onClick = onClick), // 카드 전체를 클릭 가능하게
         colors = CardDefaults.cardColors(
-            containerColor = Black
+            containerColor = MainComponentBg
         ),
         border = BorderStroke(
             width = 1.dp,
@@ -71,7 +72,7 @@ fun MenuButton(
             Text(
                 text = description,
                 style = SquadBuilderTheme.typography.body2Regular,
-                color = Neutral500
+                color = Green500
             )
 
         }

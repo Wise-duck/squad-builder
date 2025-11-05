@@ -16,8 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
+import com.wiseduck.squadbuilder.core.designsystem.PlayerPosition
 import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
@@ -63,8 +65,8 @@ fun PlayerCard(
                             .padding(start = SquadBuilderTheme.spacing.spacing4)
                             .weight(0.4f),
                         text = player.position,
-                        style = SquadBuilderTheme.typography.body1SemiBold,
-                        color = Yellow300
+                        style = SquadBuilderTheme.typography.body1Bold,
+                        color = PlayerPosition.getColor(player.position)
                     )
                     Text(
                         modifier = Modifier
@@ -105,7 +107,7 @@ fun PlayerCard(
                     onClick = onDeleteClick
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.ic_bin),
+                        painter = painterResource(com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_remove),
                         tint = Red500,
                         contentDescription = "Delete Icon"
                     )
@@ -127,7 +129,7 @@ private fun PlayerCardPreview() {
                 teamId = 1,
                 name = "주ㄹ므",
                 backNumber = 1,
-                position = "MD"
+                position = "MF"
             )
         )
     }

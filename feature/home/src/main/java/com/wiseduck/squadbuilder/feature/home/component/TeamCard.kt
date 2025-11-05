@@ -14,6 +14,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -21,7 +22,8 @@ import com.wiseduck.squadbuilder.feature.home.R
 import com.wiseduck.squadbuilder.core.common.extensions.DateFormats
 import com.wiseduck.squadbuilder.core.common.extensions.toFormattedDate
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
-import com.wiseduck.squadbuilder.core.designsystem.theme.Black
+import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
+import com.wiseduck.squadbuilder.core.designsystem.theme.MainComponentBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
@@ -40,7 +42,7 @@ fun TeamCard(
             .fillMaxWidth()
             .clickable { onClick(team.teamId, team.name) },
         colors = CardDefaults.cardColors(
-            containerColor = Black
+            containerColor = MainComponentBg
         ),
         border = BorderStroke(
             width = 1.dp,
@@ -50,7 +52,8 @@ fun TeamCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(SquadBuilderTheme.spacing.spacing4)
+                .padding(SquadBuilderTheme.spacing.spacing4),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
                 modifier = Modifier.weight(1f)
@@ -64,14 +67,14 @@ fun TeamCard(
                 Text(
                     text = "생성일: ${team.createdAt.toFormattedDate(DateFormats.YY_MM_DD_DASH)}",
                     style = SquadBuilderTheme.typography.label1Medium,
-                    color = Neutral500
+                    color = Blue500
                 )
             }
             IconButton(
                 onClick = { onDeleteClick(team.teamId) },
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_bin),
+                    painter = painterResource(R.drawable.ic_delete),
                     contentDescription = "Bin Icon",
                     tint = Red500
                 )

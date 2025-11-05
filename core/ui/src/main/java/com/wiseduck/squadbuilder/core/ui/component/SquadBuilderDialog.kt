@@ -20,8 +20,8 @@ import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.smallButtonStyle
+import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
@@ -74,7 +74,6 @@ fun SquadBuilderDialog(
         Column(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(SquadBuilderTheme.spacing.spacing4)
                 .background(
                     MainBg,
                     shape = RoundedCornerShape(SquadBuilderTheme.radius.md)
@@ -84,37 +83,49 @@ fun SquadBuilderDialog(
                     color = Neutral500,
                     shape = RoundedCornerShape(size = SquadBuilderTheme.radius.md)
                 ),
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            title?.let {
-                Text(
-                    text = title,
-                    color = Neutral100
-                )
-            }
-            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        top = SquadBuilderTheme.spacing.spacing5,
+                        start = SquadBuilderTheme.spacing.spacing4,
+                        end = SquadBuilderTheme.spacing.spacing4,
+                        bottom = SquadBuilderTheme.spacing.spacing2
+                    ),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                title?.let {
+                    Text(
+                        text = title,
+                        color = Green500,
+                        style = SquadBuilderTheme.typography.heading1SemiBold
+                    )
+                }
+                Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
 
-            content?.invoke()
+                content?.invoke()
 
-            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
+                Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
 
-            Row(modifier = Modifier.fillMaxWidth()) {
-                dismissButtonText?.let {
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    dismissButtonText?.let {
+                        SquadBuilderButton(
+                            onClick = { onDismissRequest() },
+                            text = dismissButtonText,
+                            sizeStyle = smallButtonStyle,
+                            colorStyle = ButtonColorStyle.TEXT,
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
                     SquadBuilderButton(
-                        onClick = { onDismissRequest() },
-                        text = dismissButtonText,
+                        onClick = { onConfirmRequest() },
+                        text = confirmButtonText,
                         sizeStyle = smallButtonStyle,
                         colorStyle = ButtonColorStyle.TEXT,
                         modifier = Modifier.weight(1f),
                     )
                 }
-                SquadBuilderButton(
-                    onClick = { onConfirmRequest() },
-                    text = confirmButtonText,
-                    sizeStyle = smallButtonStyle,
-                    colorStyle = ButtonColorStyle.TEXT,
-                    modifier = Modifier.weight(1f),
-                )
             }
         }
     }
