@@ -8,25 +8,28 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.common.extensions.DateFormats
 import com.wiseduck.squadbuilder.core.common.extensions.toFormattedDate
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
-import com.wiseduck.squadbuilder.core.designsystem.theme.Black
+import com.wiseduck.squadbuilder.core.designsystem.R
+import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
+import com.wiseduck.squadbuilder.core.designsystem.theme.MainComponentBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.FormationListItemModel
-import com.wiseduck.squadbuilder.feature.edit.R
 
 @Composable
 fun FormationCard(
@@ -40,7 +43,7 @@ fun FormationCard(
             .fillMaxWidth()
             .clickable { onClick(formation.formationId) },
         colors = CardDefaults.cardColors(
-            containerColor = Black
+            containerColor = MainComponentBg
         ),
         border = BorderStroke(
             width = 1.dp,
@@ -50,29 +53,32 @@ fun FormationCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(SquadBuilderTheme.spacing.spacing4)
+                .padding(vertical = 4.dp, horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Column(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
                     text = formation.name,
-                    style = SquadBuilderTheme.typography.heading1Bold,
+                    style = SquadBuilderTheme.typography.body1Bold,
                     color = Neutral100
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = "생성일: ${formation.createdAt.toFormattedDate(DateFormats.YY_MM_DD_DASH)}",
                     style = SquadBuilderTheme.typography.label1Medium,
-                    color = Neutral500
+                    color = Blue500
                 )
             }
             IconButton(
                 onClick = { onDeleteClick(formation.formationId) },
+                modifier = Modifier.size(24.dp)
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_bin),
-                    contentDescription = "Bin Icon",
+                    modifier = Modifier.size(24.dp),
+                    painter = painterResource(R.drawable.ic_remove),
+                    contentDescription = "Remove Icon",
                     tint = Red500
                 )
             }
@@ -87,7 +93,7 @@ private fun FormationCardPreview() {
         FormationCard(
             formation = FormationListItemModel(
                 formationId = 1,
-                name = "테스트 포매이션",
+                name = "테스트 포메이션",
                 createdAt = "2025-10-28T14:25:27.097Z"
             ),
             onDeleteClick = {},

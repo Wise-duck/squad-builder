@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
@@ -51,7 +52,7 @@ fun FormationHeader(
                 modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
             )
             Text(
-                "포메이션 관리",
+                text = stringResource(com.wiseduck.squadbuilder.feature.edit.R.string.formation_management_title),
                 style = SquadBuilderTheme.typography.title1Bold,
                 color = White
             )

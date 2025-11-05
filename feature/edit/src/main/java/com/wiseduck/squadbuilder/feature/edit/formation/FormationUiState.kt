@@ -60,9 +60,7 @@ sealed interface FormationUiEvent : CircuitUiEvent {
     data class OnAssignPlayer(val playerIdToAssign: Int) : FormationUiEvent
     data object OnUnassignPlayer : FormationUiEvent
     data object OnDismissPlayerAssignmentDialog : FormationUiEvent
-
     data object OnModifyPlayerClick : FormationUiEvent
-
     data class OnDeleteFormationClick(val formationId: Int) : FormationUiEvent
     data object OnDeleteFormationConfirm : FormationUiEvent
     data object OnDismissDeleteDialog : FormationUiEvent
