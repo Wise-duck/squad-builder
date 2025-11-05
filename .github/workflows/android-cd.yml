@@ -88,7 +88,7 @@ jobs:
           path: app/build/outputs/bundle/release/
 
       - name: Create service_account.json
-        run: echo '${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}' > service_account.json
+        run: echo '${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}' | base64 -d > service_account.json
 
       - name: Create whatsNewDirectory
         run: |
