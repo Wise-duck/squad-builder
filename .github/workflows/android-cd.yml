@@ -58,8 +58,11 @@ jobs:
         id: release_note_content
         run: |
             COMMIT_MSG=$(git log -1 --pretty=%B)
-            NOTES="Latest Change: ${COMMIT_MSG}"
-            echo "notes=${NOTES}" >> "$GITHUB_OUTPUT"
+            NOTES="Latest Change: \n\n${COMMIT_MSG}"
+          
+            echo "notes<<EOF" >> $GITHUB_OUTPUT
+            echo -e "$NOTES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -87,7 +90,7 @@ jobs:
       - name: Create whatsNewDirectory
         run: |
             mkdir -p distribution/whatsnew
-            echo '${{ needs.cd-build.outputs.release_notes }}' > distribution/whatsnew/whatsnew-ko-KR
+            echo "${{ needs.cd-build.outputs.release_notes }}" > distribution/whatsnew/whatsnew-ko-KR
 
       - name: Create Github Release
         uses: softprops/action-gh-release@v2
