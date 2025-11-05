@@ -49,9 +49,6 @@ fun ProfileUi(
             ProfileHeader(
                 modifier = modifier
             )
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
-            )
             ProfileContent(
                 modifier = modifier,
                 onLogoutClick = {
@@ -98,10 +95,11 @@ private fun ProfileContent(
             modifier = Modifier.padding(SquadBuilderTheme.spacing.spacing4)
         )
         Spacer(
-            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
+            modifier = Modifier.weight(1f)
         )
         Column(
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
+                .padding(SquadBuilderTheme.spacing.spacing4),
             horizontalAlignment = Alignment.Start
         ) {
             SquadBuilderButton(
@@ -123,6 +121,9 @@ private fun ProfileContent(
                 colorStyle = ButtonColorStyle.TEXT
             )
         }
+        Spacer(
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+        )
     }
 }
 
