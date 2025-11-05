@@ -1,24 +1,23 @@
 package com.wiseduck.squadbuilder.feature.detail.team
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import com.wiseduck.squadbuilder.feature.detail.R
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
+import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
+import com.wiseduck.squadbuilder.feature.detail.R
 import com.wiseduck.squadbuilder.feature.detail.team.component.MenuButton
 import com.wiseduck.squadbuilder.feature.detail.team.component.TeamDetailHeader
 import com.wiseduck.squadbuilder.feature.screens.TeamDetailScreen
@@ -42,27 +41,15 @@ fun TeamDetailUi(
                     state.eventSink(TeamDetailEvent.OnBackButtonClick)
                 }
             )
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
+            TeamDetailContent(
+                state = state,
+                OnManagePlayersClick = {
+                    state.eventSink(TeamDetailEvent.OnManagePlayersClick)
+                },
+                OnManageFormationClick = {
+                    state.eventSink(TeamDetailEvent.OnManageFormationClick)
+                },
             )
-            if (state.isLoading) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            } else {
-                TeamDetailContent(
-                    state = state,
-                    OnManagePlayersClick = {
-                        state.eventSink(TeamDetailEvent.OnManagePlayersClick)
-                    },
-                    OnManageFormationClick = {
-                        state.eventSink(TeamDetailEvent.OnManageFormationClick)
-                    },
-                )
-            }
         }
     }
 }
@@ -76,23 +63,22 @@ private fun TeamDetailContent(
 ) {
     Column(modifier = modifier
         .fillMaxSize()
-        .padding(horizontal = 32.dp)
+        .padding(SquadBuilderTheme.spacing.spacing8),
+        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
     ) {
         state.team?.let { team ->
-            Spacer(modifier = Modifier.height(16.dp))
-
             Text(
                 text = team.name,
-                style = SquadBuilderTheme.typography.body1Bold,
+                style = SquadBuilderTheme.typography.heading1SemiBold,
                 color = SquadBuilderTheme.colors.basePrimary // 색상 지정
             )
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing8))
 
             MenuButton(
                 icon = painterResource(id = R.drawable.ic_player),
-                title = "팀 선수 관리",
-                description = "선수를 추가, 수정, 삭제합니다.",
+                title = stringResource(R.string.card_title_manage_players),
+                description = stringResource(R.string.card_desc_manage_players),
                 onClick = OnManagePlayersClick
             )
 
@@ -100,15 +86,15 @@ private fun TeamDetailContent(
 
             MenuButton(
                 icon = painterResource(id = R.drawable.ic_formation),
-                title = "팀 포지션 관리",
-                description = "전술 및 기본 포메이션을 설정합니다.",
+                title = stringResource(R.string.card_title_manage_formation),
+                description = stringResource(R.string.card_desc_manage_formation),
                 onClick = OnManageFormationClick
             )
         }
-//        Text(
-//            text = "팀 정보를 불러올 수 없습니다.",
-//            color = SquadBuilderTheme.colors.basePrimary
-//        )
+
+        if (state.isLoading) {
+            SquadBuilderLoadingIndicator()
+        }
     }
 }
 
@@ -123,6 +109,7 @@ private fun TeamDetailUi() {
         ownerEmail = "email",
         createdAt = ""
     )
+
     SquadBuilderTheme {
         TeamDetailUi(
             state = TeamDetailUiState(
