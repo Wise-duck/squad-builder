@@ -1,4 +1,4 @@
-package com.wiseduck.squadbuilder.core.designsystem.component
+package com.wiseduck.squadbuilder.core.designsystem.component.button
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
@@ -85,4 +85,16 @@ val largeRoundedButtonStyle: ButtonSizeStyle
         textStyle = SquadBuilderTheme.typography.body1Medium,
         iconSpacing = SquadBuilderTheme.spacing.spacing2,
         iconSize = 24.dp,
+    )
+
+val compactButtonStyle: ButtonSizeStyle
+    @Composable get() = ButtonSizeStyle(
+        paddingValues = PaddingValues(
+            horizontal = SquadBuilderTheme.spacing.spacing3,
+            vertical = 5.dp,
+        ),
+        radius = SquadBuilderTheme.radius.xs,
+        textStyle = SquadBuilderTheme.typography.label1Medium,
+        iconSpacing = SquadBuilderTheme.spacing.spacing1,
+        iconSize = 18.dp,
     )

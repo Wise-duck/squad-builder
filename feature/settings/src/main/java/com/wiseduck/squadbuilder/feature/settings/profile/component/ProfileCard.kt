@@ -12,11 +12,14 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
-import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
+import com.wiseduck.squadbuilder.feature.settings.R
+import com.wiseduck.squadbuilder.core.designsystem.theme.MainComponentBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.designsystem.theme.Yellow300
@@ -27,9 +30,10 @@ fun ProfileCard(
     name: String = "익명"
 ) {
     Card(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth()
+            .padding(SquadBuilderTheme.spacing.spacing4),
         colors = CardDefaults.cardColors(
-            MainBg
+            MainComponentBg
         ),
         border = BorderStroke(
             width = 1.dp,
@@ -37,10 +41,10 @@ fun ProfileCard(
         )
     ) {
         Column(
-            Modifier.padding(SquadBuilderTheme.spacing.spacing4)
+            Modifier.padding(SquadBuilderTheme.spacing.spacing6)
         ) {
             Text(
-                text = "계정 정보",
+                text = stringResource(R.string.profile_card_title),
                 color = Neutral100,
                 style = SquadBuilderTheme.typography.heading1Bold
             )
@@ -49,27 +53,24 @@ fun ProfileCard(
             )
             Row {
                 Text(
-                    "이름",
-                    color = Neutral500
+                    stringResource(R.string.profile_card_name_label),
+                    color = Neutral50
                 )
                 Spacer(
                     modifier = Modifier.weight(1f)
                 )
-                name?.let {
-                    Text(
-                        text = name,
-                        color = Green500
-                    )
-                }
-
+                Text(
+                    text = name,
+                    color = Green500
+                )
             }
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
             )
             Row {
                 Text(
-                    text = "로그인 방식",
-                    color = Neutral500
+                    text = stringResource(R.string.profile_card_login_type_label),
+                    color = Neutral50
                 )
                 Spacer(
                     modifier = Modifier.weight(1f)

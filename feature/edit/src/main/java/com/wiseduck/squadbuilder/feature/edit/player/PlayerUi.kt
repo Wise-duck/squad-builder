@@ -1,31 +1,36 @@
 package com.wiseduck.squadbuilder.feature.edit.player
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
-import com.wiseduck.squadbuilder.core.designsystem.component.ButtonColorStyle
-import com.wiseduck.squadbuilder.core.designsystem.component.SquadBuilderButton
-import com.wiseduck.squadbuilder.core.designsystem.component.largeButtonStyle
+import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
+import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
+import com.wiseduck.squadbuilder.core.designsystem.component.button.compactButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
+import com.wiseduck.squadbuilder.core.designsystem.theme.White
 import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
+import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
+import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.player.component.PlayerCard
 import com.wiseduck.squadbuilder.feature.edit.player.component.PlayerFormCard
 import com.wiseduck.squadbuilder.feature.edit.player.component.PlayerHeader
@@ -85,26 +90,42 @@ private fun PlayerContent(
                 .fillMaxWidth()
                 .padding(start = SquadBuilderTheme.spacing.spacing4),
             text = state.teamName,
-            style = SquadBuilderTheme.typography.heading1SemiBold,
-            color = Green500
+            style = SquadBuilderTheme.typography.title1Bold,
+            color = White
         )
         Spacer(
             modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
         )
-        Text(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(start = SquadBuilderTheme.spacing.spacing4),
-            text = "선수 목록 (${state.players.size})",
-            style = SquadBuilderTheme.typography.body1SemiBold,
-            color = Neutral300
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Spacer(
+                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
+            )
+            Icon(
+                painter = painterResource(R.drawable.ic_group),
+                contentDescription = "Group Icon",
+                tint = Green500
+            )
+            Text(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(start = SquadBuilderTheme.spacing.spacing1),
+                text = "선수 목록 (${state.players.size})",
+                style = SquadBuilderTheme.typography.body1SemiBold,
+                color = Neutral300
+            )
+        }
+
+        Spacer(
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
         )
 
         if (state.isShowPlayerCreationSection) {
             PlayerFormCard(
-                title = "새 선수 생성",
+                title = stringResource(R.string.create_player_form_card_title),
                 player = null,
-                commitButtonText = "선수 생성",
+                commitButtonText = "등록",
                 onCommitButtonClick = { _, name, position, backNumber ->
                     state.eventSink(
                         PlayerUiEvent.OnTeamPlayerCreationConfirmButtonClick(
@@ -119,24 +140,33 @@ private fun PlayerContent(
                 }
             )
         } else {
-            SquadBuilderButton(
-                text = "선수 추가",
-                onClick = { state.eventSink(PlayerUiEvent.OnTeamPlayerCreationButtonClick) },
-                colorStyle = ButtonColorStyle.TEXT,
-                sizeStyle = largeButtonStyle
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Spacer(
+                    modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
+                )
+                SquadBuilderButton(
+                    text = stringResource(R.string.player_add_text_button),
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_add),
+                            contentDescription = "Add Icon",
+                            tint = White
+                        )
+                    },
+                    onClick = { state.eventSink(PlayerUiEvent.OnTeamPlayerCreationButtonClick) },
+                    colorStyle = ButtonColorStyle.TEXT_WHITE,
+                    sizeStyle = compactButtonStyle
+                )
+            }
         }
         Spacer(
             modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
         )
-
         if (state.isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
+            SquadBuilderLoadingIndicator()
         } else {
             PlayerList(
                 state = state,
@@ -154,7 +184,7 @@ private fun PlayerContent(
                     onConfirmRequest = {
                         state.eventSink(PlayerUiEvent.OnDialogCloseButtonClick)
                     },
-                    confirmButtonText = "확인"
+                    confirmButtonText = stringResource(R.string.dialog_confirm_text_button)
                 )
             }
         }

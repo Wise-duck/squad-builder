@@ -6,12 +6,16 @@ on:
       - main
 
 jobs:
-  build:
+  cd-build:
 
     runs-on: ubuntu-latest
 
     permissions:
       contents: write
+
+    outputs:
+      version_tag: ${{ steps.extract_version_name.outputs.version }}
+      release_notes: ${{ steps.release_note_content.outputs.notes }}
 
     steps:
       - name: Checkout
@@ -60,28 +64,45 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-#      - name: Build Release AAB
-#        run: ./gradlew :app:bundleRelease
+      - name: Build Release AAB
+        run: ./gradlew :app:bundleRelease
+
+      - name: Upload AAB
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.aab
+          path: app/build/outputs/bundle/release/app-release.aab
+
+  deploy:
+    needs: cd-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download AAB
+        uses: actions/download-artifact@v2
+        with:
+          name: app-release.aab
+          path: app/build/outputs/bundle/release/
+
+      - name: Create whatsNewDirectory
+        run: |
+            mkdir -p distribution/whatsnew
+            echo '${{ needs.cd-build.outputs.release_notes }}' > distribution/whatsnew/whatsnew-ko-KR
 
       - name: Create Github Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.extract_version_name.outputs.version }}
-          release_name: ${{ steps.extract_version_name.outputs.version }}
-          generate_release_notes: true
+          tag_name: ${{ needs.cd-build.outputs.version_tag }}
+          release_name: ${{ needs.cd-build.outputs.version_tag }}
+          body: ${{ needs.cd-build.outputs.release_notes }}
+          files: app/build/outputs/bundle/release/app-release.aab
+          generate_release_notes: false
 
-      - name: Deploy to Google Play Console (Fastlane/Action)
-        uses: ravnhq/fastlane-android-action@v1
+      - name: Deploy to Google Play Store
+        uses: r0adkll/upload-google-play@v1
         with:
-          build-lane: release
-          google-json-key-base64: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
-          key-store-base64: ${{ secrets.JAVA_KEY_STORE }}
-          key-store-password: ${{ secrets.KEY_STORE_PASSWORD }}
-          key-alias: ${{ secrets.KEY_ALIAS }}
-          key-password: ${{ secrets.KEY_PASSWORD }}
-          package-name: com.wiseduck.squadbuilder
-          java-version: 17
-          artifact: aab
-          skip-signing: false
-          publish-build: true
-          commit-increment: false
+          serviceAccountJson: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+          packageName: com.wiseduck.squadbuilder
+          releaseName: ${{ needs.cd-build.outputs.version_tag }}
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          track: production
+          whatsNewDirectory: distribution/whatsnew

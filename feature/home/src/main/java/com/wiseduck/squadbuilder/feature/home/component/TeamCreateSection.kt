@@ -1,13 +1,16 @@
 package com.wiseduck.squadbuilder.feature.home.component
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -16,13 +19,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
-import com.wiseduck.squadbuilder.core.designsystem.component.ButtonColorStyle
-import com.wiseduck.squadbuilder.core.designsystem.component.SquadBuilderButton
-import com.wiseduck.squadbuilder.core.designsystem.component.mediumButtonStyle
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral700
+import androidx.compose.ui.tooling.preview.Preview
+import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
+import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
+import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumButtonStyle
+import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
+import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.core.designsystem.theme.White
 import com.wiseduck.squadbuilder.feature.home.R
 
 @Composable
@@ -31,43 +37,57 @@ fun TeamCreateSection(
     onTeamCreateClick: (String) -> Unit
 ) {
     var teamNameInput by remember { mutableStateOf("") }
-
-    Row(
+    Column(
         modifier = modifier
+            .fillMaxWidth()
             .padding(SquadBuilderTheme.spacing.spacing4)
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
     ) {
-        TextField(
-            modifier = Modifier
-                .weight(1f),
-            colors = TextFieldDefaults.colors(
-                unfocusedContainerColor = White,
-                focusedContainerColor = White,
-            ),
-            value = teamNameInput,
-            onValueChange = { teamNameInput = it },
-            label = {
-                Text(
-                    text = stringResource(R.string.team_name_input_hint),
-                    style = SquadBuilderTheme.typography.caption1Regular,
-                    color = Neutral700
-                )
-            }
+        Text(
+            text = stringResource(R.string.team_create_section_title),
+            style = SquadBuilderTheme.typography.heading1SemiBold,
+            color = Neutral50
         )
         Spacer(
-            modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
         )
-        SquadBuilderButton(
-            onClick = { onTeamCreateClick(teamNameInput) },
-            text = "팀 생성",
-            sizeStyle = mediumButtonStyle,
-            colorStyle = ButtonColorStyle.STROKE
-        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            OutlinedTextField(
+                modifier = Modifier.weight(1f),
+                value = teamNameInput,
+                onValueChange = { teamNameInput = it },
+                shape = RoundedCornerShape(
+                    SquadBuilderTheme.radius.md
+                ),
+                placeholder = {
+                    Text(stringResource(R.string.team_name_input_hint))
+                },
+                colors = OutlinedTextFieldDefaults.colors(
+                    unfocusedPlaceholderColor = Neutral500,
+                    focusedPlaceholderColor = Neutral500,
+                    unfocusedContainerColor = Neutral100,
+                    focusedContainerColor = Neutral100,
+                    focusedBorderColor = Blue500
+                ),
+                singleLine = true
+            )
+            Spacer(
+                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
+            )
+            SquadBuilderButton(
+                onClick = { onTeamCreateClick(teamNameInput) },
+                text = stringResource(R.string.team_create_text_button),
+                sizeStyle = mediumButtonStyle,
+                colorStyle = ButtonColorStyle.STROKE
+            )
+        }
     }
 }
 
-@ComponentPreview
+@Preview(backgroundColor = 0xFF000000, showBackground = true)
 @Composable
 private fun TeamCreateSectionPreview() {
     SquadBuilderTheme {
