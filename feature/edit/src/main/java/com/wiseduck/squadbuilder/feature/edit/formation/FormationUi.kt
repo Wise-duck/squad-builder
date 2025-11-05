@@ -3,18 +3,12 @@ package com.wiseduck.squadbuilder.feature.edit.formation
 import android.widget.Toast
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -34,9 +28,11 @@ import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.PlayerChip
 import com.wiseduck.squadbuilder.core.ui.component.SoccerField
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
-import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationCard
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationController
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationHeader
+import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationListModal
+import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerAssignmentModal
+import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerInfoModal
 import com.wiseduck.squadbuilder.feature.edit.formation.data.createDefaultPlayers
 import com.wiseduck.squadbuilder.feature.edit.formation.data.getPositionForCoordinates
 import com.wiseduck.squadbuilder.feature.screens.FormationScreen
@@ -75,30 +71,10 @@ fun FormationUi(
     }
 
     if (state.playerAssignmentState.isDialogVisible) {
-        SquadBuilderDialog(
+        PlayerAssignmentModal(
+            availablePlayers = state.availablePlayers,
             onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissPlayerAssignmentDialog) },
-            title = "선수 배정",
-            confirmButtonText = "닫기",
-            onConfirmRequest = { state.eventSink(FormationUiEvent.OnDismissPlayerAssignmentDialog) },
-            content = {
-                LazyRow(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(state.availablePlayers) { player ->
-                        // TODO: PlayerCard 컴포저블 만들기
-                        Card(
-                            onClick = { state.eventSink(FormationUiEvent.OnAssignPlayer(player.id)) }
-                        ) {
-                            Column(modifier = Modifier.padding(8.dp)) {
-                                Text(text = player.name)
-                                Text(text = "#${player.backNumber}")
-                                Text(text = player.position)
-                            }
-                        }
-                    }
-                }
-            }
+            onAssignPlayer = { state.eventSink(FormationUiEvent.OnAssignPlayer(it)) }
         )
     }
 
@@ -138,54 +114,22 @@ fun FormationUi(
 
     val selectedPlayer = state.players.find { it.slotId == state.selectedSlotId }
     if (selectedPlayer != null && selectedPlayer.playerId != null) {
-        SquadBuilderDialog(
-            onConfirmRequest = { state.eventSink(FormationUiEvent.OnModifyPlayerClick) },
-            onDismissRequest = { state.eventSink(FormationUiEvent.OnUnassignPlayer) },
-            confirmButtonText = "수정",
-            dismissButtonText = "배정 해제",
-            title = "선수 정보",
-            content = {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Text(
-                        text = selectedPlayer.playerPosition,
-                        color = Color.White
-                    )
-                    Text(
-                        text = selectedPlayer.playerName,
-                        color = Color.White
-                    )
-                    Text(
-                        text = selectedPlayer.playerBackNumber,
-                        color = Color.White
-                    )
-                }
-            }
+        PlayerInfoModal(
+            playerName = selectedPlayer.playerName,
+            playerPosition = selectedPlayer.playerPosition,
+            playerBackNumber = selectedPlayer.playerBackNumber,
+            onModifyClick = { state.eventSink(FormationUiEvent.OnModifyPlayerClick) },
+            onUnassignClick = { state.eventSink(FormationUiEvent.OnUnassignPlayer) },
+            onCancelClick = { state.eventSink(FormationUiEvent.OnDismissPlayerInfoDialog) }
         )
     }
 
     if (state.isListModalVisible) {
-        SquadBuilderDialog(
+        FormationListModal(
+            formationList = state.formationList,
             onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissListModal) },
-            onConfirmRequest = { state.eventSink(FormationUiEvent.OnDismissListModal) },
-            confirmButtonText = "닫기",
-            dismissButtonText = null,
-            title = "포메이션 목록",
-            content = {
-                LazyColumn(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    items(state.formationList) { formationItem ->
-                        FormationCard(
-                            formation = formationItem,
-                            onClick = { state.eventSink(FormationUiEvent.OnFormationCardClick(formationItem.formationId)) },
-                            onDeleteClick = { state.eventSink(FormationUiEvent.OnDeleteFormationClick(formationItem.formationId)) }
-                        )
-                    }
-                }
-            }
+            onFormationCardClick = { state.eventSink(FormationUiEvent.OnFormationCardClick(it)) },
+            onDeleteFormationClick = { state.eventSink(FormationUiEvent.OnDeleteFormationClick(it)) }
         )
     }
     SquadBuilderScaffold(

@@ -4,7 +4,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  ci-build:
 
     runs-on: ubuntu-latest
 
@@ -25,9 +25,6 @@ jobs:
 
       - name: Generate keystore.properties
         run: echo '${{ secrets.KEYSTORE_PROPERTIES }}' | base64 -d > ./keystore.properties
-
-      - name: Generate squadbuilder.jks
-        run: echo '${{ secrets.JAVA_KEY_STORE }}' | base64 -d > ./squadbuilder.jks
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
