@@ -19,6 +19,7 @@ gradlePlugin {
         "jvm.library" to "JvmLibraryConventionPlugin",
         "kotlin.library.serialization" to "KotlinLibrarySerializationConventionPlugin",
         "android.retrofit" to "AndroidRetrofitConventionPlugin",
+        "android.firebase" to "AndroidFirebaseConventionPlugin",
     )
 
     plugins {

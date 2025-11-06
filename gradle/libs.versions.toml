@@ -33,6 +33,11 @@ desugarJdkLibs = "2.1.5"
 okhttp = "5.2.1"
 retrofit = "3.0.0"
 
+## Firebase
+googleService = "4.4.0"
+firebaseBom = "34.5.0"
+firebaseCrashlytics = "3.0.6"
+
 coreKtx = "1.17.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
@@ -78,6 +83,11 @@ desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref 
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
+firebase-remote-config = { group = "com.google.firebase", name = "firebase-config" }
 
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
@@ -136,6 +146,9 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 
+google-service = { id = "com.google.gms.google-services", version.ref = "googleService" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlytics" }
+
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
@@ -149,3 +162,4 @@ squadbuilder-android-hilt = { id = "squadbuilder.android.hilt", version = "unspe
 squadbuilder-jvm-library = { id = "squadbuilder.jvm.library", version = "unspecified" }
 squadbuilder-kotlin-library-serialization = { id = "squadbuilder.kotlin.library.serialization", version = "unspecified" }
 squadbuilder-android-retrofit = { id = "squadbuilder.android.retrofit", version = "unspecified" }
+squadbuilder-android-firebase = { id = "squadbuilder.android.firebase", version = "unspecified" }
