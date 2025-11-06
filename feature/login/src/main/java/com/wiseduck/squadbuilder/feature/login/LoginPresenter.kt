@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,20 +21,26 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import com.slack.circuit.retained.rememberRetained
+import com.wiseduck.squadbuilder.core.common.extensions.goToPlayStore
+import com.wiseduck.squadbuilder.core.data.api.repository.RemoteConfigRepository
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class LoginPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val remoteConfigRepository: RemoteConfigRepository
 ) : Presenter<LoginUiState> {
 
     @Composable
     override fun present(): LoginUiState {
         val scope = rememberCoroutineScope()
         var errorMessage by remember { mutableStateOf<String?>(null) }
+        var isUpdateDialogVisible by rememberRetained { mutableStateOf(false) }
         val context = LocalContext.current
         val loginErrorKakaoFailed = stringResource(R.string.login_error_kakao_failed)
         val loginErrorServerConnection = stringResource(R.string.login_error_server_connection)
@@ -79,11 +86,35 @@ class LoginPresenter @AssistedInject constructor(
                 is LoginUiEvent.OnCloseDialogButtonClick -> {
                     errorMessage = null
                 }
+
+                is LoginUiEvent.OnUpdateButtonClick -> {
+                    context.goToPlayStore()
+                }
             }
+        }
+
+        fun checkUpdate() {
+            scope.launch {
+                remoteConfigRepository.shouldUpdate()
+                    .onSuccess {
+                        if (it) {
+                            isUpdateDialogVisible = true
+                        }
+                    }
+                    .onFailure {
+                        Log.e("REMOTE_CONFIG", "업데이트 여부 확인 실패: $it")
+                    }
+            }
+        }
+
+        LaunchedEffect(Unit) {
+            delay(1000L)
+            checkUpdate()
         }
 
         return LoginUiState(
             errorMessage = errorMessage,
+            isUpdateDialogVisible = isUpdateDialogVisible,
             eventSink = ::handleEvent
         )
     }
