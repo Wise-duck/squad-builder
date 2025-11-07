@@ -57,6 +57,9 @@ class FormationPresenter @AssistedInject constructor(
 
         var deleteConfirmationState by remember { mutableStateOf(DeleteConfirmationState()) }
 
+        var isFormationSharing by remember { mutableStateOf(false) }
+        var sideEffect by remember { mutableStateOf<FormationSideEffect?>(null) }
+
         LaunchedEffect(Unit) {
             playerRepository.getTeamPlayers(screen.teamId)
                 .onSuccess {
@@ -71,19 +74,34 @@ class FormationPresenter @AssistedInject constructor(
 
         fun handleEvent(event: FormationUiEvent) {
             when (event) {
-                FormationUiEvent.OnBackButtonClick -> navigator.pop()
+                is FormationUiEvent.OnFormationShareClick -> {
+                    isFormationSharing = true
+                }
+
+                is FormationUiEvent.ShareFormation -> {
+                    isFormationSharing = false
+                    sideEffect = FormationSideEffect.ShareFormation(event.imageBitmap)
+                }
+
+                FormationUiEvent.OnBackButtonClick -> {
+                    navigator.pop()
+                }
+
                 FormationUiEvent.OnFormationResetClick -> {
                     isResetConfirmDialogVisible = true
                 }
+
                 FormationUiEvent.OnConfirmReset -> {
                     players = createDefaultPlayers()
                     currentFormationId = null
                     currentFormationName = ""
                     isResetConfirmDialogVisible = false
                 }
+
                 FormationUiEvent.OnDismissResetDialog -> {
                     isResetConfirmDialogVisible = false
                 }
+
                 FormationUiEvent.OnFormationListClick -> {
                     scope.launch {
                         formationRepository.getFormationList(teamId)
@@ -95,6 +113,7 @@ class FormationPresenter @AssistedInject constructor(
 
                     }
                 }
+
                 is FormationUiEvent.OnFormationCardClick -> {
                     scope.launch {
                         formationRepository.getFormationDetail(event.formationId)
@@ -109,9 +128,11 @@ class FormationPresenter @AssistedInject constructor(
                             }
                     }
                 }
+
                 is FormationUiEvent.OnFormationNameChange -> {
                     currentFormationName = event.name
                 }
+
                 FormationUiEvent.OnFormationSaveClick -> {
                     val isAnyPlayerAssigned = players.any { it.playerId != null }
                     if (isAnyPlayerAssigned) {
@@ -120,6 +141,7 @@ class FormationPresenter @AssistedInject constructor(
                         toastMessage = "선수를 배치해주세요."
                     }
                 }
+
                 FormationUiEvent.OnSaveDialogConfirm -> {
                     scope.launch {
                         val isUpdate = currentFormationId != null
@@ -166,15 +188,19 @@ class FormationPresenter @AssistedInject constructor(
                     }
                     isSaveDialogVisible = false
                 }
+
                 FormationUiEvent.OnSaveDialogDismiss -> {
                     isSaveDialogVisible = false
                 }
+
                 FormationUiEvent.OnToastShown -> {
                     toastMessage = null
                 }
+
                 FormationUiEvent.OnDismissListModal -> {
                     isListModalVisible = false
                 }
+
                 is FormationUiEvent.OnPlayerClick -> {
                     val clickedSlot = players.find { it.slotId == event.slotId }
                     if (clickedSlot != null) {
@@ -188,12 +214,15 @@ class FormationPresenter @AssistedInject constructor(
                         }
                     }
                 }
+
                 FormationUiEvent.OnDismissPlayerInfoDialog -> {
                     selectedSlotId = null
                 }
+
                 is FormationUiEvent.OnPlayerDragStart -> {
                     draggedPlayerInitialPosition = players.find { it.slotId == event.slotId }
                 }
+
                 is FormationUiEvent.OnPlayerDrag -> {
                     players = players.map { player ->
                         if (player.slotId == event.slotId) {
@@ -206,6 +235,7 @@ class FormationPresenter @AssistedInject constructor(
                         }
                     }
                 }
+
                 is FormationUiEvent.OnPlayerDragEnd -> {
                     val draggedPlayer = players.find { it.slotId == event.slotId }
                     val initialPos = draggedPlayerInitialPosition
@@ -283,6 +313,7 @@ class FormationPresenter @AssistedInject constructor(
                     }
                     playerAssignmentState = PlayerAssignmentState(isDialogVisible = false, slotId = null)
                 }
+
                 FormationUiEvent.OnUnassignPlayer -> {
                     val targetSlotId = selectedSlotId
                     if (targetSlotId != null) {
@@ -300,6 +331,7 @@ class FormationPresenter @AssistedInject constructor(
                     }
                     selectedSlotId = null
                 }
+
                 FormationUiEvent.OnDismissPlayerAssignmentDialog -> {
                     playerAssignmentState = PlayerAssignmentState(isDialogVisible = false, slotId = null)
                 }
@@ -310,6 +342,7 @@ class FormationPresenter @AssistedInject constructor(
                         formationIdToDelete = event.formationId
                     )
                 }
+
                 FormationUiEvent.OnDeleteFormationConfirm -> {
                     val formationId = deleteConfirmationState.formationIdToDelete
                     if (formationId != null) {
@@ -330,9 +363,11 @@ class FormationPresenter @AssistedInject constructor(
                     }
                     deleteConfirmationState = DeleteConfirmationState()
                 }
+
                 FormationUiEvent.OnDismissDeleteDialog -> {
                     deleteConfirmationState = DeleteConfirmationState()
                 }
+
                 FormationUiEvent.OnModifyPlayerClick -> {
                     val targetSlotId = selectedSlotId
                     if (targetSlotId != null) {
@@ -365,6 +400,8 @@ class FormationPresenter @AssistedInject constructor(
             availablePlayers = filteredAvailablePlayers,
             playerAssignmentState = playerAssignmentState,
             deleteConfirmationState = deleteConfirmationState,
+            isFormationSharing = isFormationSharing,
+            sideEffect = sideEffect,
             eventSink = ::handleEvent
         )
     }
