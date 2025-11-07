@@ -27,6 +27,7 @@ internal fun Project.configureKotlinAndroid(extension: CommonExtension<*, *, *, 
         configureKotlin()
 
         dependencies {
+            implementation(libs.androidx.core.ktx)
             coreLibraryDesugaring(libs.desugar.jdk.libs)
         }
     }

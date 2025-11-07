@@ -3,10 +3,12 @@ package com.wiseduck.squadbuilder.core.data.impl.di
 import com.wiseduck.squadbuilder.core.data.api.repository.AuthRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.FormationRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.PlayerRepository
+import com.wiseduck.squadbuilder.core.data.api.repository.RemoteConfigRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.TeamRepository
 import com.wiseduck.squadbuilder.core.data.impl.repository.AuthRepositoryImpl
 import com.wiseduck.squadbuilder.core.data.impl.repository.FormationRepositoryImpl
 import com.wiseduck.squadbuilder.core.data.impl.repository.PlayerRepositoryImpl
+import com.wiseduck.squadbuilder.core.data.impl.repository.RemoteConfigRepositoryImpl
 import com.wiseduck.squadbuilder.core.data.impl.repository.TeamRepositoryImpl
 import dagger.Binds
 import dagger.Module
@@ -33,4 +35,8 @@ internal abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindFormationRepository(formationRepositoryImpl: FormationRepositoryImpl) : FormationRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindRemoteConfigRepository(remoteConfigRepositoryImpl: RemoteConfigRepositoryImpl) : RemoteConfigRepository
 }

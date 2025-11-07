@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.squadbuilder.android.application)
     alias(libs.plugins.squadbuilder.android.application.compose)
     alias(libs.plugins.squadbuilder.android.hilt)
+    alias(libs.plugins.squadbuilder.android.firebase)
 }
 
 android {
