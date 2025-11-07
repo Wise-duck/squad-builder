@@ -61,8 +61,11 @@ jobs:
         id: release_note_content
         run: |
             COMMIT_MSG=$(git log -1 --pretty=%B)
-            NOTES="Latest Change: ${COMMIT_MSG}"
-            echo "notes=${NOTES}" >> "$GITHUB_OUTPUT"
+            NOTES="Latest Change: \n\n${COMMIT_MSG}"
+          
+            echo "notes<<EOF" >> $GITHUB_OUTPUT
+            echo -e "$NOTES" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -71,25 +74,29 @@ jobs:
         run: ./gradlew :app:bundleRelease
 
       - name: Upload AAB
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: app-release.aab
           path: app/build/outputs/bundle/release/app-release.aab
+          if-no-files-found: error
 
   deploy:
     needs: cd-build
     runs-on: ubuntu-latest
     steps:
       - name: Download AAB
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: app-release.aab
           path: app/build/outputs/bundle/release/
 
+      - name: Create service_account.json
+        run: echo '${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}' | base64 -d > service_account.json
+
       - name: Create whatsNewDirectory
         run: |
             mkdir -p distribution/whatsnew
-            echo '${{ needs.cd-build.outputs.release_notes }}' > distribution/whatsnew/whatsnew-ko-KR
+            echo "${{ needs.cd-build.outputs.release_notes }}" > distribution/whatsnew/whatsnew-ko-KR
 
       - name: Create Github Release
         uses: softprops/action-gh-release@v2
@@ -97,12 +104,12 @@ jobs:
           tag_name: ${{ needs.cd-build.outputs.version_tag }}
           release_name: ${{ needs.cd-build.outputs.version_tag }}
           body: ${{ needs.cd-build.outputs.release_notes }}
-          generate_release_notes: false
+          generate_release_notes: true
 
       - name: Deploy to Google Play Store
         uses: r0adkll/upload-google-play@v1
         with:
-          serviceAccountJson: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+          serviceAccountJson: service_account.json
           packageName: com.wiseduck.squadbuilder
           releaseName: ${{ needs.cd-build.outputs.version_tag }}
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
