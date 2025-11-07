@@ -4,8 +4,8 @@ applicationId = "com.wiseduck.squadbuilder"
 compileSdk = "36"
 targetSdk = "36"
 minSdk = "24"
-versionCode = "16"
-versionName = "2.0.3"
+versionCode = "20"
+versionName = "2.0.5"
 
 ## Android Gradle Plugin
 agp = "8.13.0"
