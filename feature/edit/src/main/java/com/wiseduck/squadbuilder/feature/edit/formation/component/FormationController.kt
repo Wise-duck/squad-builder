@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
@@ -26,62 +27,61 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.White
 fun FormationController(
     modifier: Modifier = Modifier,
     teamName: String,
-    onFormationResetClick: () -> Unit,
-    onFormationListClick: () -> Unit,
-    onFormationSaveClick: () -> Unit,
+    onFormationResetClick: () -> Unit = {},
+    onFormationShareClick: () -> Unit = {},
+    onFormationSaveClick: () -> Unit = {},
 ) {
-    Column(
+    Row(
         modifier = modifier
             .fillMaxWidth()
             .background(MainBg)
+            .padding(
+                top = SquadBuilderTheme.spacing.spacing4,
+                bottom = SquadBuilderTheme.spacing.spacing2,
+                start = SquadBuilderTheme.spacing.spacing2,
+                end = SquadBuilderTheme.spacing.spacing2
+            ),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 4.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_formation_team),
+            contentDescription = "Team Icon",
+            tint = White
+        )
+
+        Text(
+            text = teamName,
+            style = SquadBuilderTheme.typography.title1Bold,
+            modifier = Modifier.padding(start = 12.dp),
+            color = White
+        )
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        IconButton(onClick = onFormationResetClick) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_formation_team),
-                contentDescription = "팀 아이콘",
-                tint = White
+                painter = painterResource(id = R.drawable.ic_reset),
+                contentDescription = "Reset Icon",
+                tint = Red500
             )
+        }
 
-            Text(
-                text = teamName,
-                style = SquadBuilderTheme.typography.title1Bold,
-                modifier = Modifier.padding(start = 12.dp),
-                color = White
+        IconButton(onClick = onFormationShareClick) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_share),
+                contentDescription = "Share Icon",
+                tint = Blue500
             )
+        }
 
-            Spacer(modifier = Modifier.weight(1f))
-
-            IconButton(onClick = onFormationResetClick) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_reset),
-                    contentDescription = "초기화",
-                    tint = Red500
-                )
-            }
-
-            IconButton(onClick = onFormationListClick) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_list),
-                    contentDescription = "목록",
-                    tint = White
-                )
-            }
-
-            IconButton(onClick = onFormationSaveClick) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_save),
-                    contentDescription = "저장",
-                    tint = Green500
-                )
-            }
+        IconButton(onClick = onFormationSaveClick) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_save),
+                contentDescription = "Save Icon",
+                tint = Green500
+            )
         }
     }
-
 }
 
 @Preview(showBackground = true)
@@ -89,10 +89,7 @@ fun FormationController(
 private fun FormationControllerPreview() {
     SquadBuilderTheme {
         FormationController(
-            teamName = "비안코",
-            onFormationResetClick = {},
-            onFormationListClick = {},
-            onFormationSaveClick = {}
+            teamName = "비안코"
         )
     }
 }

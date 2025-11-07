@@ -16,8 +16,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -39,6 +42,9 @@ import com.wiseduck.squadbuilder.feature.screens.FormationScreen
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.layer.GraphicsLayer
+import androidx.compose.ui.graphics.layer.drawLayer
 
 @CircuitInject(FormationScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -47,6 +53,13 @@ fun FormationUi(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
+    val formationGraphicLayers = rememberGraphicsLayer()
+
+    FormationSideEffects(
+        state = state,
+        formationGraphicsLayer = formationGraphicLayers
+    )
+
     LaunchedEffect(state.toastMessage) {
         state.toastMessage?.let { message ->
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
@@ -142,15 +155,17 @@ fun FormationUi(
                 modifier = Modifier,
                 onBackClick = {
                     state.eventSink(FormationUiEvent.OnBackButtonClick)
+                },
+                onFormationListClick = {
+                    state.eventSink(FormationUiEvent.OnFormationListClick)
                 }
             )
 
             FormationController(
                 teamName = state.teamName,
                 onFormationResetClick = { state.eventSink(FormationUiEvent.OnFormationResetClick) },
-                onFormationListClick = { state.eventSink(FormationUiEvent.OnFormationListClick) },
-                onFormationSaveClick = { state.eventSink(FormationUiEvent.OnFormationSaveClick) }
-
+                onFormationShareClick = { state.eventSink(FormationUiEvent.OnFormationShareClick) },
+                onFormationSaveClick = { state.eventSink(FormationUiEvent.OnFormationSaveClick) },
             )
 
             Box(
@@ -162,7 +177,8 @@ fun FormationUi(
             ) {
                 SoccerField(
                     modifier = Modifier
-                        .fillMaxSize(),
+                        .fillMaxSize()
+                        .captureToGraphicsLayer(formationGraphicLayers),
                     content = {
                         val centerCircleRadius = this.maxWidth * 0.15f
                         val desiredShirtDiameter = centerCircleRadius * 0.9f
@@ -270,6 +286,12 @@ fun FormationUi(
         }
     }
 }
+
+fun Modifier.captureToGraphicsLayer(graphicsLayer: GraphicsLayer) =
+    this.drawWithContent {
+        graphicsLayer.record { this@drawWithContent.drawContent() }
+        drawLayer(graphicsLayer)
+    }
 
 @Composable
 private fun FormationContent(

@@ -1,5 +1,6 @@
 package com.wiseduck.squadbuilder.feature.edit.formation
 
+import androidx.compose.ui.graphics.ImageBitmap
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.wiseduck.squadbuilder.core.model.FormationListItemModel
@@ -31,13 +32,25 @@ data class FormationUiState(
     val toastMessage: String? = null,
     val availablePlayers: List<TeamPlayerModel> = emptyList(),
     val playerAssignmentState: PlayerAssignmentState = PlayerAssignmentState(),
-    val deleteConfirmationState: DeleteConfirmationState = DeleteConfirmationState()
+    val deleteConfirmationState: DeleteConfirmationState = DeleteConfirmationState(),
+    val isFormationSharing: Boolean = false,
+    val sideEffect: FormationSideEffect? = null
 ) : CircuitUiState
+
+sealed interface FormationSideEffect {
+    data class ShareFormation(
+        val imageBitmap: ImageBitmap
+    ) : FormationSideEffect
+}
 
 sealed interface FormationUiEvent : CircuitUiEvent {
     data object OnBackButtonClick : FormationUiEvent
     data object OnFormationResetClick : FormationUiEvent
     data object OnFormationListClick : FormationUiEvent
+    data object OnFormationShareClick: FormationUiEvent
+    data class ShareFormation(
+        val imageBitmap: ImageBitmap
+    ) : FormationUiEvent
     data object OnFormationSaveClick : FormationUiEvent
     data object OnDismissListModal : FormationUiEvent
     data class OnPlayerClick(val slotId: Int) : FormationUiEvent

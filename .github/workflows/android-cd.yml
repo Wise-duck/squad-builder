@@ -42,6 +42,9 @@ jobs:
       - name: Generate squadbuilder.jks
         run: echo '${{ secrets.JAVA_KEY_STORE }}' | base64 -d > ./squadbuilder.jks
 
+      - name: Generate google-services.json
+        run: echo '${{ secrets.GOOGLE_SERVICES }}' | base64 -d > ./app/google-services.json
+
       - name: Extract Version Name from libs.versions.toml
         id: extract_version_name
         run: |
@@ -101,7 +104,6 @@ jobs:
           tag_name: ${{ needs.cd-build.outputs.version_tag }}
           release_name: ${{ needs.cd-build.outputs.version_tag }}
           body: ${{ needs.cd-build.outputs.release_notes }}
-          files: app/build/outputs/bundle/release/app-release.aab
           generate_release_notes: true
 
       - name: Deploy to Google Play Store

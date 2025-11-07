@@ -21,12 +21,13 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.designsystem.theme.White
-import com.wiseduck.squadbuilder.core.ui.R
+import com.wiseduck.squadbuilder.feature.edit.R
 
 @Composable
 fun FormationHeader(
     modifier: Modifier = Modifier,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit = {},
+    onFormationListClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -43,7 +44,7 @@ fun FormationHeader(
                 onClick = onBackClick
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_back),
+                    painter = painterResource(com.wiseduck.squadbuilder.core.ui.R.drawable.ic_back),
                     contentDescription = "Back Icon",
                     tint = White
                 )
@@ -56,6 +57,16 @@ fun FormationHeader(
                 style = SquadBuilderTheme.typography.title1Bold,
                 color = White
             )
+            Spacer(
+                modifier = Modifier.weight(1f)
+            )
+            IconButton(onClick = onFormationListClick) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_list),
+                    contentDescription = "List Icon",
+                    tint = White
+                )
+            }
         }
         Spacer(
             modifier = modifier.fillMaxWidth()
@@ -69,8 +80,6 @@ fun FormationHeader(
 @Composable
 private fun FormationHeaderPreview() {
     SquadBuilderTheme {
-        FormationHeader(
-            onBackClick = {}
-        )
+        FormationHeader()
     }
 }
