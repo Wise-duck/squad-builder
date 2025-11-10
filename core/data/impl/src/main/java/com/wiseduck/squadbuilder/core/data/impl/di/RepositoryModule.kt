@@ -5,11 +5,13 @@ import com.wiseduck.squadbuilder.core.data.api.repository.FormationRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.PlayerRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.RemoteConfigRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.TeamRepository
+import com.wiseduck.squadbuilder.core.data.api.repository.UserRepository
 import com.wiseduck.squadbuilder.core.data.impl.repository.AuthRepositoryImpl
 import com.wiseduck.squadbuilder.core.data.impl.repository.FormationRepositoryImpl
 import com.wiseduck.squadbuilder.core.data.impl.repository.PlayerRepositoryImpl
 import com.wiseduck.squadbuilder.core.data.impl.repository.RemoteConfigRepositoryImpl
 import com.wiseduck.squadbuilder.core.data.impl.repository.TeamRepositoryImpl
+import com.wiseduck.squadbuilder.core.data.impl.repository.UserRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -23,6 +25,10 @@ internal abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl) : AuthRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl) : UserRepository
 
     @Binds
     @Singleton

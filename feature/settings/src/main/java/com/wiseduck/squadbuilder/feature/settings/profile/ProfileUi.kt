@@ -1,5 +1,6 @@
 package com.wiseduck.squadbuilder.feature.settings.profile
 
+import android.R.attr.name
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -51,6 +52,7 @@ fun ProfileUi(
             )
             ProfileContent(
                 modifier = modifier,
+                userName = state.userName,
                 onLogoutClick = {
                     state.eventSink(ProfileUiEvent.OnLogoutButtonClick)
                 },
@@ -83,6 +85,7 @@ fun ProfileUi(
 @Composable
 private fun ProfileContent(
     modifier: Modifier = Modifier,
+    userName: String,
     onLogoutClick: () -> Unit,
     onWithDrawClick: () -> Unit,
     onPrivacyPolicyClick: () -> Unit
@@ -92,7 +95,8 @@ private fun ProfileContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ProfileCard(
-            modifier = Modifier.padding(SquadBuilderTheme.spacing.spacing4)
+            modifier = Modifier.padding(SquadBuilderTheme.spacing.spacing4),
+            name = userName
         )
         Spacer(
             modifier = Modifier.weight(1f)
@@ -133,6 +137,7 @@ private fun ProfileUiPreview() {
     ProfileUi(
         state = ProfileUiState(
             isLoading = false,
+            userName = "주름이",
             eventSink = {}
         )
     )
