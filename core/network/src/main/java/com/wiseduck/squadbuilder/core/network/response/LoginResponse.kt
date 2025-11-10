@@ -8,5 +8,7 @@ data class LoginResponse(
     @SerialName("accessToken")
     val accessToken: String,
     @SerialName("refreshToken")
-    val refreshToken: String
+    val refreshToken: String,
+    @SerialName("username")
+    val username: String
 )

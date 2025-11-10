@@ -27,7 +27,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Yellow300
 @Composable
 fun ProfileCard(
     modifier: Modifier = Modifier,
-    name: String = "익명"
+    name: String
 ) {
     Card(
         modifier = modifier.fillMaxWidth()
