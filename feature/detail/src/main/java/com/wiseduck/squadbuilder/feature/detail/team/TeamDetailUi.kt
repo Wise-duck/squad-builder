@@ -69,7 +69,7 @@ private fun TeamDetailContent(
         state.team?.let { team ->
             Text(
                 text = team.name,
-                style = SquadBuilderTheme.typography.heading1Bold,
+                style = SquadBuilderTheme.typography.title1Bold,
                 color = SquadBuilderTheme.colors.basePrimary // 색상 지정
             )
 
