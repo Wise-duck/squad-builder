@@ -1,6 +1,7 @@
 package com.wiseduck.squadbuilder.feature.edit.player.component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -32,10 +33,12 @@ import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorS
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.compactButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
+import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
 import com.wiseduck.squadbuilder.feature.edit.R
@@ -80,7 +83,7 @@ fun PlayerFormCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(SquadBuilderTheme.spacing.spacing4),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = title,
@@ -88,7 +91,46 @@ fun PlayerFormCard(
                 style = SquadBuilderTheme.typography.heading1SemiBold
             )
             Spacer(
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+            )
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(Neutral800)
+            )
+            Spacer(
                 modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
+            )
+
+            Text(
+                text = "포지션 선택",
+                color = Green500,
+                style = SquadBuilderTheme.typography.body1Bold
+            )
+            Spacer(
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                positions.forEachIndexed { index, currentBtnPosition ->
+                    SquadBuilderButton(
+                        text = currentBtnPosition,
+                        onClick = { position = currentBtnPosition },
+                        sizeStyle = compactButtonStyle,
+                        colorStyle = if (position == currentBtnPosition) ButtonColorStyle.STROKE else ButtonColorStyle.TEXT_WHITE,
+                        enabled = true
+                    )
+                    if (index < positions.lastIndex) {
+                        Spacer(modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4))
+                    }
+                }
+            }
+            Spacer(
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
             )
 
             OutlinedTextField(
@@ -110,37 +152,6 @@ fun PlayerFormCard(
                 ),
                 singleLine = true
             )
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
-            )
-
-            Text(
-                text = "포지션 선택",
-                color = Neutral50,
-                style = SquadBuilderTheme.typography.body1Bold
-            )
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
-            )
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                positions.forEach { currentBtnPosition ->
-                    SquadBuilderButton(
-                        text = currentBtnPosition,
-                        onClick = { position = currentBtnPosition },
-                        sizeStyle = compactButtonStyle,
-                        colorStyle = if (position == currentBtnPosition) ButtonColorStyle.STROKE else ButtonColorStyle.TEXT_WHITE,
-                        enabled = true
-                    )
-                }
-                Spacer(
-                    modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
-                )
-            }
-
             Spacer(
                 modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
             )
@@ -168,9 +179,8 @@ fun PlayerFormCard(
                 ),
                 singleLine = true,
             )
-
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
             )
 
             Row(
@@ -185,7 +195,7 @@ fun PlayerFormCard(
                     enabled = isFormValid
                 )
                 Spacer(
-                    modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
+                    modifier = Modifier.width(SquadBuilderTheme.spacing.spacing8)
                 )
                 SquadBuilderButton(
                     text = "취소",
