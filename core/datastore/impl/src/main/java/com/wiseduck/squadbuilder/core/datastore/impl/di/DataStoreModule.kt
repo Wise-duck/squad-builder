@@ -5,7 +5,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.wiseduck.squadbuilder.core.datastore.api.datasource.TokenDataSource
+import com.wiseduck.squadbuilder.core.datastore.api.datasource.UserDataSource
 import com.wiseduck.squadbuilder.core.datastore.impl.datasource.TokenDataSourceImpl
+import com.wiseduck.squadbuilder.core.datastore.impl.datasource.UserDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -19,6 +21,8 @@ import javax.inject.Singleton
 object DataStoreModule {
 
     private val Context.tokenDataStore by preferencesDataStore(name = "TOKEN_DATASTORE")
+    private val Context.userDataStore by preferencesDataStore(name = "USER_DATASTORE")
+
 
     @TokenDataStore
     @Provides
@@ -26,6 +30,13 @@ object DataStoreModule {
     fun provideTokenDataStore(
         @ApplicationContext context: Context
     ): DataStore<Preferences> = context.tokenDataStore
+
+    @UserDataStore
+    @Provides
+    @Singleton
+    fun provideUserDataStore(
+        @ApplicationContext context: Context
+    ): DataStore<Preferences> = context.userDataStore
 }
 
 @Module
@@ -37,4 +48,10 @@ abstract class BindDataStoreModule {
     abstract fun bindTokenDataSource(
         tokenDataSourceImpl: TokenDataSourceImpl
     ) : TokenDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindUserDataSource(
+        userDataSourceImpl: UserDataSourceImpl
+    ) : UserDataSource
 }

@@ -7,6 +7,7 @@ import com.slack.circuit.runtime.screen.Screen
 data class ProfileUiState(
     val isLoading: Boolean,
     val errorMessage: String? = null,
+    val userName: String,
     val eventSink: (ProfileUiEvent) -> Unit
 ) : CircuitUiState
 

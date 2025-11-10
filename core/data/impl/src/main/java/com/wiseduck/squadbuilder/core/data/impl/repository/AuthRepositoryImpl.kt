@@ -2,6 +2,7 @@ package com.wiseduck.squadbuilder.core.data.impl.repository
 
 import com.wiseduck.squadbuilder.core.data.api.repository.AuthRepository
 import com.wiseduck.squadbuilder.core.datastore.api.datasource.TokenDataSource
+import com.wiseduck.squadbuilder.core.datastore.api.datasource.UserDataSource
 import com.wiseduck.squadbuilder.core.network.request.LoginRequest
 import com.wiseduck.squadbuilder.core.network.service.SquadBuilderService
 import javax.inject.Inject
@@ -10,7 +11,8 @@ private const val PROVIDER = "kakao"
 
 internal class AuthRepositoryImpl @Inject constructor(
     private val dataSource: TokenDataSource,
-    private val service: SquadBuilderService
+    private val service: SquadBuilderService,
+    private val userDataSource: UserDataSource
 ) : AuthRepository {
 
     override suspend fun login(accessToken: String): Result<Unit> = runCatching {
@@ -24,6 +26,10 @@ internal class AuthRepositoryImpl @Inject constructor(
         dataSource.apply {
             setAccessToken(response.accessToken)
             setRefreshToken(response.refreshToken)
+        }
+
+        userDataSource.apply {
+            setUsername(response.username)
         }
     }
 

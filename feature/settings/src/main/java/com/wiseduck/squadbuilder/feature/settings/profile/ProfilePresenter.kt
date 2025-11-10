@@ -2,6 +2,7 @@ package com.wiseduck.squadbuilder.feature.settings.profile
 
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -13,6 +14,7 @@ import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.common.constants.WebViewUrls
 import com.wiseduck.squadbuilder.core.data.api.repository.AuthRepository
+import com.wiseduck.squadbuilder.core.data.api.repository.UserRepository
 import com.wiseduck.squadbuilder.feature.screens.LoginScreen
 import com.wiseduck.squadbuilder.feature.screens.ProfileScreen
 import com.wiseduck.squadbuilder.feature.screens.WebViewScreen
@@ -25,13 +27,15 @@ import com.wiseduck.squadbuilder.feature.settings.R
 
 class ProfilePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository
 ) : Presenter<ProfileUiState> {
     @Composable
     override fun present(): ProfileUiState {
         val scope = rememberCoroutineScope()
         var isLoading by remember { mutableStateOf(false) }
         var errorMessage by remember { mutableStateOf<String?>(null) }
+        var userName by remember { mutableStateOf("익명") }
         val logoutErrorServerConnection = stringResource(R.string.logout_error_server_connection)
         val withdrawErrorServerConnection = stringResource(R.string.withdraw_error_server_connection)
 
@@ -88,9 +92,19 @@ class ProfilePresenter @AssistedInject constructor(
             }
         }
 
+        LaunchedEffect(Unit) {
+            try {
+                userName = userRepository.getUserName()
+                Log.d("ProfilePresenter", "유저 이름 로드 성공: $userName")
+            } catch (e: Exception) {
+                Log.e("ProfilePresenter", "유저 이름 로드 실패", e)
+            }
+        }
+
         return ProfileUiState(
             isLoading = isLoading,
             errorMessage = errorMessage,
+            userName = userName,
             eventSink = ::handleEvent
         )
     }
