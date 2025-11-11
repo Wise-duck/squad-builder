@@ -37,6 +37,7 @@ dependencies {
 
     implementation(projects.feature.main)
     implementation(projects.feature.screens)
+    implementation(projects.feature.splash)
     implementation(projects.feature.home)
     implementation(projects.feature.settings)
     implementation(projects.feature.login)

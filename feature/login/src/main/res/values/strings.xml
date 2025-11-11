@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Squad Builder</string>
-    <string name="update_dialog_title">업데이트 안내</string>
-    <string name="update_dialog_description">새로운 버전이 출시되었어요!</string>
-    <string name="update_dialog_confirm_text_button">업데이트 하기</string>
     <string name="login_button_kakao">Login with KaKao</string>
     <string name="login_error_kakao_failed">카카오 로그인 실패. 잠시 후 다시 시도해주세요.</string>
     <string name="login_error_server_connection">"서버 연결에 실패했습니다. 네트워크 상태를 확인하거나 잠시 후 다시 시도해 주세요."</string>
