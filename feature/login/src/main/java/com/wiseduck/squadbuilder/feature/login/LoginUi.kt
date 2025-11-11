@@ -65,17 +65,6 @@ fun LoginUi(
             )
         }
 
-        if (state.isUpdateDialogVisible) {
-            SquadBuilderDialog(
-                onConfirmRequest = {
-                    state.eventSink(LoginUiEvent.OnUpdateButtonClick)
-                },
-                confirmButtonText = stringResource(R.string.update_dialog_confirm_text_button),
-                title = stringResource(R.string.update_dialog_title),
-                description = stringResource(R.string.update_dialog_description),
-            )
-        }
-
         if (state.errorMessage != null) {
             SquadBuilderDialog(
                 onConfirmRequest = {
