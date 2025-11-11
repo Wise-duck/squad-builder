@@ -67,9 +67,9 @@ val mediumRoundedButtonStyle: ButtonSizeStyle
     @Composable get() = ButtonSizeStyle(
         paddingValues = PaddingValues(
             horizontal = SquadBuilderTheme.spacing.spacing4,
-            vertical = SquadBuilderTheme.spacing.spacing3,
+            vertical = SquadBuilderTheme.spacing.spacing2,
         ),
-        radius = SquadBuilderTheme.radius.full,
+        radius = SquadBuilderTheme.radius.md,
         textStyle = SquadBuilderTheme.typography.label1Medium,
         iconSpacing = SquadBuilderTheme.spacing.spacing1,
         iconSize = 22.dp,

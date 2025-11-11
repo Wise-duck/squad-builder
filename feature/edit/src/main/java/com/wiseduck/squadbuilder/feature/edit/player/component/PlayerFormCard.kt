@@ -32,6 +32,8 @@ import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.compactButtonStyle
+import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumRoundedButtonStyle
+import com.wiseduck.squadbuilder.core.designsystem.component.textfield.SquadBuilderTextField
 import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
@@ -82,7 +84,7 @@ fun PlayerFormCard(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(SquadBuilderTheme.spacing.spacing4),
+                .padding(SquadBuilderTheme.spacing.spacing6),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
@@ -100,7 +102,7 @@ fun PlayerFormCard(
                     .background(Neutral800)
             )
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
             )
 
             Text(
@@ -120,7 +122,7 @@ fun PlayerFormCard(
                     SquadBuilderButton(
                         text = currentBtnPosition,
                         onClick = { position = currentBtnPosition },
-                        sizeStyle = compactButtonStyle,
+                        sizeStyle = mediumRoundedButtonStyle,
                         colorStyle = if (position == currentBtnPosition) ButtonColorStyle.STROKE else ButtonColorStyle.TEXT_WHITE,
                         enabled = true
                     )
@@ -130,30 +132,17 @@ fun PlayerFormCard(
                 }
             }
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing3)
             )
 
-            OutlinedTextField(
+            SquadBuilderTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = name,
                 onValueChange = { name = it },
-                shape = RoundedCornerShape(
-                    SquadBuilderTheme.radius.md
-                ),
-                placeholder = {
-                    Text(stringResource(R.string.player_form_card_name_label))
-                },
-                colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedPlaceholderColor = Neutral500,
-                    focusedPlaceholderColor = Neutral500,
-                    unfocusedContainerColor = Neutral100,
-                    focusedContainerColor = Neutral100,
-                    focusedBorderColor = Blue500
-                ),
-                singleLine = true
+                placeholder = stringResource(R.string.player_form_card_name_label)
             )
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing3)
             )
 
             OutlinedTextField(
@@ -190,7 +179,7 @@ fun PlayerFormCard(
                 SquadBuilderButton(
                     text = commitButtonText,
                     onClick = { onCommitButtonClick(playerId, name, position, backNumber) },
-                    sizeStyle = compactButtonStyle,
+                    sizeStyle = mediumRoundedButtonStyle,
                     colorStyle = ButtonColorStyle.STROKE,
                     enabled = isFormValid
                 )
@@ -200,7 +189,7 @@ fun PlayerFormCard(
                 SquadBuilderButton(
                     text = "취소",
                     onClick = onCancelButtonClick,
-                    sizeStyle = compactButtonStyle,
+                    sizeStyle = mediumRoundedButtonStyle,
                     colorStyle = ButtonColorStyle.TEXT_WHITE
                 )
             }
