@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="splash_title">나만의 축구 팀 만들기</string>
+    <string name="update_dialog_title">업데이트 안내</string>
+    <string name="update_dialog_description">새로운 버전이 출시되었어요!</string>
+    <string name="update_dialog_confirm_text_button">업데이트 하기</string>
+</resources>

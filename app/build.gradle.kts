@@ -37,8 +37,10 @@ dependencies {
 
     implementation(projects.feature.main)
     implementation(projects.feature.screens)
+    implementation(projects.feature.splash)
     implementation(projects.feature.home)
     implementation(projects.feature.settings)
+    implementation(projects.feature.onboarding)
     implementation(projects.feature.login)
     implementation(projects.feature.webview)
     implementation(projects.feature.detail)
