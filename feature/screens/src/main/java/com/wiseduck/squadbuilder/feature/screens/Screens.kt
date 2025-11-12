@@ -7,6 +7,9 @@ import kotlinx.parcelize.Parcelize
 data object SplashScreen: Screen
 
 @Parcelize
+data object OnboardingScreen: Screen
+
+@Parcelize
 data object LoginScreen : Screen
 
 @Parcelize
