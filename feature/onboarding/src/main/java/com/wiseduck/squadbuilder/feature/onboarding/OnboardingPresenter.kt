@@ -6,6 +6,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.wiseduck.squadbuilder.core.data.api.repository.UserRepository
 import com.wiseduck.squadbuilder.feature.screens.LoginScreen
 import com.wiseduck.squadbuilder.feature.screens.OnboardingScreen
 import dagger.assisted.Assisted
@@ -16,9 +17,9 @@ import kotlinx.coroutines.launch
 
 const val ONBOARDING_STEPS = 3
 
-@CircuitInject(OnboardingScreen::class, ActivityRetainedComponent::class)
 class OnboardingPresenter @AssistedInject constructor(
-    @Assisted private val navigator: Navigator
+    @Assisted private val navigator: Navigator,
+    private val userRepository: UserRepository
 ) : Presenter<OnboardingUiState> {
 
     @Composable
@@ -32,7 +33,10 @@ class OnboardingPresenter @AssistedInject constructor(
             when (event) {
                 is OnboardingUiEvent.OnNextButtonClick -> {
                     if (event.currentPage == ONBOARDING_STEPS - 1) {
-                        navigator.goTo(LoginScreen)
+                        scope.launch {
+                            userRepository.setOnboardingCompleted(true)
+                            navigator.goTo(LoginScreen)
+                        }
                     } else {
                         scope.launch {
                             pagerState.animateScrollToPage(event.currentPage + 1)

@@ -5,3 +5,7 @@ plugins {
 android {
     namespace = "com.wiseduck.squadbuilder.feature.onboarding"
 }
+
+ksp {
+    arg("circuit.codegen.mode", "hilt")
+}
