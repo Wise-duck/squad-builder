@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,6 +20,7 @@ import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.largeButtonStyle
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
@@ -40,13 +42,22 @@ fun LoginUi(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Icon(
+                modifier = Modifier.width(250.dp),
+                painter = painterResource(com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_app_name),
+                contentDescription = "SquadBuilder App Name",
+                tint = Neutral50
+            )
+            Spacer(
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing6)
+            )
             Image(
-                modifier = Modifier.size(200.dp),
+                modifier = Modifier.size(250.dp),
                 painter = painterResource(id = com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_launcher_foreground),
                 contentDescription = "SquadBuilder App Logo"
             )
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing8)
             )
             SquadBuilderButton(
                 onClick = {

@@ -4,20 +4,21 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.Black
-import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.feature.screens.SplashScreen
@@ -40,16 +41,16 @@ fun SplashUi(
                 .padding(SquadBuilderTheme.spacing.spacing8),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Image(
-                painter = painterResource(R.drawable.ic_logo),
-                contentDescription = "App Logo",
+            Icon(
+                modifier = Modifier.width(200.dp),
+                painter = painterResource(R.drawable.ic_app_name),
+                contentDescription = "Squad Builder App Name",
+                tint = Neutral50
             )
-            Spacer(modifier = Modifier
-                .height(SquadBuilderTheme.spacing.spacing12))
-            Text(
-                text = stringResource(R.string.splash_title),
-                style = SquadBuilderTheme.typography.body1Bold,
-                color = Green500
+            Image(
+                modifier = Modifier.size(250.dp),
+                painter = painterResource(id = com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_launcher_foreground),
+                contentDescription = "SquadBuilder App Logo"
             )
         }
 
