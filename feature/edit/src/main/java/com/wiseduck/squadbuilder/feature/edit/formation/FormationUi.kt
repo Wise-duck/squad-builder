@@ -163,6 +163,7 @@ fun FormationUi(
 
             FormationController(
                 teamName = state.teamName,
+                formationName = state.currentFormationName,
                 onFormationResetClick = { state.eventSink(FormationUiEvent.OnFormationResetClick) },
                 onFormationShareClick = { state.eventSink(FormationUiEvent.OnFormationShareClick) },
                 onFormationSaveClick = { state.eventSink(FormationUiEvent.OnFormationSaveClick) },

@@ -30,6 +30,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Yellow300
 fun FormationController(
     modifier: Modifier = Modifier,
     teamName: String,
+    formationName: String,
     onFormationResetClick: () -> Unit = {},
     onFormationShareClick: () -> Unit = {},
     onFormationSaveClick: () -> Unit = {},
@@ -56,6 +57,12 @@ fun FormationController(
         Text(
             text = teamName,
             style = SquadBuilderTheme.typography.title1Bold,
+            modifier = Modifier.padding(start = 12.dp),
+            color = White
+        )
+        Text(
+            text = formationName,
+            style = SquadBuilderTheme.typography.body1Regular,
             modifier = Modifier.padding(start = 12.dp),
             color = White
         )
@@ -93,7 +100,8 @@ fun FormationController(
 private fun FormationControllerPreview() {
     SquadBuilderTheme {
         FormationController(
-            teamName = "비안코"
+            teamName = "비안코",
+            formationName = "4-4-2"
         )
     }
 }
