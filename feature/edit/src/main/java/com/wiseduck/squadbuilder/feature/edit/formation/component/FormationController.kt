@@ -1,11 +1,13 @@
 package com.wiseduck.squadbuilder.feature.edit.formation.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -22,6 +24,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.core.designsystem.theme.White
+import com.wiseduck.squadbuilder.core.designsystem.theme.Yellow300
 
 @Composable
 fun FormationController(
@@ -41,12 +44,13 @@ fun FormationController(
                 start = SquadBuilderTheme.spacing.spacing2,
                 end = SquadBuilderTheme.spacing.spacing2
             ),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
+            modifier = Modifier.size(50.dp),
             painter = painterResource(id = R.drawable.ic_formation_team),
             contentDescription = "Team Icon",
-            tint = White
+            tint = Yellow300
         )
 
         Text(
