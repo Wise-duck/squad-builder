@@ -2,7 +2,8 @@
 <resources>
     <string name="team_create_section_title">팀 추가하기</string>
     <string name="team_create_text_button">팀 생성</string>
-    <string name="team_name_input_hint">이름 입력(예: FC 서울 개발팀)</string>
+    <string name="team_name_input_hint">이름 입력(예: FC 서울)</string>
     <string name="team_create_error_server_connection">팀 생성에 실패했습니다. 잠시 후 다시 시도해주세요.</string>
     <string name="updated_team_list_load_failed">팀 목록 갱신에 실패했습니다.</string>
+    <string name="load_failed_team_list">팀 목록을 불러오는 중 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.</string>
 </resources>
