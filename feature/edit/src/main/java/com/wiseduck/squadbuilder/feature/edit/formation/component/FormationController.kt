@@ -1,11 +1,13 @@
 package com.wiseduck.squadbuilder.feature.edit.formation.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -22,11 +24,13 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.core.designsystem.theme.White
+import com.wiseduck.squadbuilder.core.designsystem.theme.Yellow300
 
 @Composable
 fun FormationController(
     modifier: Modifier = Modifier,
     teamName: String,
+    formationName: String,
     onFormationResetClick: () -> Unit = {},
     onFormationShareClick: () -> Unit = {},
     onFormationSaveClick: () -> Unit = {},
@@ -41,17 +45,24 @@ fun FormationController(
                 start = SquadBuilderTheme.spacing.spacing2,
                 end = SquadBuilderTheme.spacing.spacing2
             ),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
+            modifier = Modifier.size(50.dp),
             painter = painterResource(id = R.drawable.ic_formation_team),
             contentDescription = "Team Icon",
-            tint = White
+            tint = Yellow300
         )
 
         Text(
             text = teamName,
             style = SquadBuilderTheme.typography.title1Bold,
+            modifier = Modifier.padding(start = 12.dp),
+            color = White
+        )
+        Text(
+            text = formationName,
+            style = SquadBuilderTheme.typography.body1Regular,
             modifier = Modifier.padding(start = 12.dp),
             color = White
         )
@@ -89,7 +100,8 @@ fun FormationController(
 private fun FormationControllerPreview() {
     SquadBuilderTheme {
         FormationController(
-            teamName = "비안코"
+            teamName = "비안코",
+            formationName = "4-4-2"
         )
     }
 }

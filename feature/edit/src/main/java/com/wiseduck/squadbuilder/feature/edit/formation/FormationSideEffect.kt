@@ -10,7 +10,6 @@ import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
-import kotlinx.coroutines.delay
 import java.io.File
 import java.io.FileOutputStream
 

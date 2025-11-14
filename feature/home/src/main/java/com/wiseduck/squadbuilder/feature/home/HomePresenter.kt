@@ -38,6 +38,8 @@ class HomePresenter @AssistedInject constructor(
         var teams by remember { mutableStateOf(persistentListOf<TeamModel>()) }
         val teamCreateErrorServerConnection = stringResource(R.string.team_create_error_server_connection)
         val updatedTeamListLoadFailed = stringResource(R.string.updated_team_list_load_failed)
+        val loadFailedTeamList = stringResource(R.string.load_failed_team_list)
+
 
         LaunchedEffect(Unit) {
             isLoading = true
@@ -49,6 +51,7 @@ class HomePresenter @AssistedInject constructor(
                 }
                 .onFailure { error ->
                     isLoading = false
+                    errorMessage = loadFailedTeamList
                     Log.e("HomePresenter", "팀 목록 로드 실패", error)
                 }
         }
