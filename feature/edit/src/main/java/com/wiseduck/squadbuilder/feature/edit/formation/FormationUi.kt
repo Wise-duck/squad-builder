@@ -3,12 +3,17 @@ package com.wiseduck.squadbuilder.feature.edit.formation
 import android.widget.Toast
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -19,13 +24,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.layer.GraphicsLayer
+import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
+import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
+import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
+import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumRoundedButtonStyle
+import com.wiseduck.squadbuilder.core.designsystem.component.button.smallRoundedButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.PlayerChip
@@ -42,9 +52,6 @@ import com.wiseduck.squadbuilder.feature.screens.FormationScreen
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.layer.GraphicsLayer
-import androidx.compose.ui.graphics.layer.drawLayer
 
 @CircuitInject(FormationScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -167,6 +174,30 @@ fun FormationUi(
                 onFormationShareClick = { state.eventSink(FormationUiEvent.OnFormationShareClick) },
                 onFormationSaveClick = { state.eventSink(FormationUiEvent.OnFormationSaveClick) },
             )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                repeat(4) {
+                    SquadBuilderButton(
+                        text = "${it + 1} 쿼터",
+                        onClick = {
+                            state.eventSink(FormationUiEvent.OnQuarterChange(it + 1))
+                        },
+                        colorStyle = if (state.currentQuarter == it + 1) ButtonColorStyle.STROKE else ButtonColorStyle.TEXT_WHITE,
+                        sizeStyle = mediumRoundedButtonStyle
+                    )
+
+                    if (it != 3) {
+                        Spacer(modifier = Modifier.width(SquadBuilderTheme.spacing.spacing2))
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
 
             Box(
                 modifier = Modifier

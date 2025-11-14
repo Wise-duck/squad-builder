@@ -3,10 +3,12 @@ package com.wiseduck.squadbuilder.feature.edit.formation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -14,9 +16,10 @@ import com.wiseduck.squadbuilder.core.data.api.repository.FormationRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.PlayerRepository
 import com.wiseduck.squadbuilder.core.model.FormationListItemModel
 import com.wiseduck.squadbuilder.core.model.FormationSaveModel
-import com.wiseduck.squadbuilder.core.model.Placement
+import com.wiseduck.squadbuilder.core.model.PlacementModel
 import com.wiseduck.squadbuilder.core.model.PlacementSaveModel
 import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
+import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.formation.data.createDefaultPlayers
 import com.wiseduck.squadbuilder.feature.edit.formation.data.getPositionForCoordinates
 import com.wiseduck.squadbuilder.feature.screens.FormationScreen
@@ -37,20 +40,25 @@ class FormationPresenter @AssistedInject constructor(
         val teamId = screen.teamId
         val teamName = screen.teamName
 
+        var currentQuarter by remember { mutableIntStateOf(1) }
+        var allPlacements by remember { mutableStateOf(mapOf<Int, List<PlacementModel>>()) }
+
         val scope = rememberCoroutineScope()
         var formationList by remember { mutableStateOf(emptyList<FormationListItemModel>()) }
         var isListModalVisible by remember { mutableStateOf(false) }
         var isResetConfirmDialogVisible by remember { mutableStateOf(false) }
 
-        var players by remember { mutableStateOf(emptyList<Placement>()) }
+        var players by remember { mutableStateOf(emptyList<PlacementModel>()) }
         var selectedSlotId by remember { mutableStateOf<Int?>(null) }
 
-        var draggedPlayerInitialPosition by remember { mutableStateOf<Placement?>(null) }
+        var draggedPlayerInitialPosition by remember { mutableStateOf<PlacementModel?>(null) }
         var currentFormationId by remember { mutableStateOf<Int?>(null) }
         var currentFormationName by remember { mutableStateOf("") }
 
         var isSaveDialogVisible by remember { mutableStateOf(false) }
         var toastMessage by remember { mutableStateOf<String?>(null) }
+        val formationSaveAlert = stringResource(R.string.formation_save_alert)
+        val loadPlayerFailedServerConnection = stringResource(R.string.load_player_failed_server_connection)
 
         var availablePlayers by remember { mutableStateOf(emptyList<TeamPlayerModel>()) }
         var playerAssignmentState by remember { mutableStateOf(PlayerAssignmentState()) }
@@ -66,10 +74,17 @@ class FormationPresenter @AssistedInject constructor(
                     availablePlayers = it
                 }
                 .onFailure {
-                    // TODO: 선수 목록 불러오기 실패 처리
+                    toastMessage = loadPlayerFailedServerConnection
                 }
 
-            players = createDefaultPlayers()
+            allPlacements = mapOf(
+                1 to createDefaultPlayers(1),
+                2 to createDefaultPlayers(2),
+                3 to createDefaultPlayers(3),
+                4 to createDefaultPlayers(4)
+            )
+
+            players = allPlacements[currentQuarter]!!
         }
 
         fun handleEvent(event: FormationUiEvent) {
@@ -91,8 +106,21 @@ class FormationPresenter @AssistedInject constructor(
                     isResetConfirmDialogVisible = true
                 }
 
+                is FormationUiEvent.OnQuarterChange -> {
+                    currentQuarter = event.quarter
+                    players = allPlacements[currentQuarter] ?: createDefaultPlayers(currentQuarter)
+                    selectedSlotId = null
+                }
+
                 FormationUiEvent.OnConfirmReset -> {
-                    players = createDefaultPlayers()
+                    allPlacements = mapOf(
+                        1 to createDefaultPlayers(1),
+                        2 to createDefaultPlayers(2),
+                        3 to createDefaultPlayers(3),
+                        4 to createDefaultPlayers(4)
+                    )
+                    players = allPlacements[currentQuarter]!!
+
                     currentFormationId = null
                     currentFormationName = ""
                     isResetConfirmDialogVisible = false
@@ -118,7 +146,12 @@ class FormationPresenter @AssistedInject constructor(
                     scope.launch {
                         formationRepository.getFormationDetail(event.formationId)
                             .onSuccess { formationDetail ->
-                                players = formationDetail.placements
+                                val loadedPlacements = formationDetail.placements.groupBy { it.quarter }
+                                val initialPlacements = (1..4).associateWith { createDefaultPlayers(it) }
+                                allPlacements = initialPlacements + loadedPlacements
+
+                                players = allPlacements[currentQuarter] ?: createDefaultPlayers(currentQuarter)
+
                                 currentFormationId = formationDetail.formationId
                                 currentFormationName = formationDetail.name
                                 isListModalVisible = false
@@ -134,25 +167,29 @@ class FormationPresenter @AssistedInject constructor(
                 }
 
                 FormationUiEvent.OnFormationSaveClick -> {
-                    val isAnyPlayerAssigned = players.any { it.playerId != null }
-                    if (isAnyPlayerAssigned) {
+                    val isCurrentQuarterFullyAssigned = players.size == 11 &&
+                            players.all { it.playerId != null }
+
+                    if (isCurrentQuarterFullyAssigned) {
                         isSaveDialogVisible = true
                     } else {
-                        toastMessage = "선수를 배치해주세요."
+                        toastMessage = formationSaveAlert
                     }
                 }
 
                 FormationUiEvent.OnSaveDialogConfirm -> {
                     scope.launch {
                         val isUpdate = currentFormationId != null
-                        val placements = players.mapNotNull { placement ->
-                            placement.playerId?.let {
-                                PlacementSaveModel(
-                                    playerId = it,
-                                    quarter = 1,
-                                    coordX = (placement.coordX * 1000).toInt(),
-                                    coordY = (placement.coordY * 1000).toInt()
-                                )
+                        val placements = allPlacements.flatMap { (quarter, players) ->
+                            players.mapNotNull { placement ->
+                                placement.playerId?.let {
+                                    PlacementSaveModel(
+                                        playerId = it,
+                                        quarter = quarter,
+                                        coordX = (placement.coordX * 1000).toInt(),
+                                        coordY = (placement.coordY * 1000).toInt()
+                                    )
+                                }
                             }
                         }
 
@@ -234,6 +271,8 @@ class FormationPresenter @AssistedInject constructor(
                             player
                         }
                     }
+
+                    allPlacements = allPlacements + (currentQuarter to players)
                 }
 
                 is FormationUiEvent.OnPlayerDragEnd -> {
@@ -292,6 +331,8 @@ class FormationPresenter @AssistedInject constructor(
                         }
                     }
                     draggedPlayerInitialPosition = null
+
+                    allPlacements = allPlacements + (currentQuarter to players)
                 }
 
                 is FormationUiEvent.OnAssignPlayer -> {
@@ -312,6 +353,8 @@ class FormationPresenter @AssistedInject constructor(
                         }
                     }
                     playerAssignmentState = PlayerAssignmentState(isDialogVisible = false, slotId = null)
+
+                    allPlacements = allPlacements + (currentQuarter to players)
                 }
 
                 FormationUiEvent.OnUnassignPlayer -> {
@@ -330,6 +373,8 @@ class FormationPresenter @AssistedInject constructor(
                         }
                     }
                     selectedSlotId = null
+
+                    allPlacements = allPlacements + (currentQuarter to players)
                 }
 
                 FormationUiEvent.OnDismissPlayerAssignmentDialog -> {
@@ -387,6 +432,7 @@ class FormationPresenter @AssistedInject constructor(
         return FormationUiState(
             teamId = teamId,
             teamName = teamName,
+            currentQuarter = currentQuarter,
             formationList = formationList,
             isListModalVisible = isListModalVisible,
             players = players,
