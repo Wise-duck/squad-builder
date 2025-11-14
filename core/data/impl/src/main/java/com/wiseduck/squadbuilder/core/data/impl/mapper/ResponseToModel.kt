@@ -2,7 +2,7 @@ package com.wiseduck.squadbuilder.core.data.impl.mapper
 
 import com.wiseduck.squadbuilder.core.model.FormationDetailModel
 import com.wiseduck.squadbuilder.core.model.FormationListItemModel
-import com.wiseduck.squadbuilder.core.model.Placement
+import com.wiseduck.squadbuilder.core.model.PlacementModel
 import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
 import com.wiseduck.squadbuilder.core.network.response.FormationDetailResponse
@@ -39,13 +39,14 @@ internal fun FormationListItemResponse.toModel(): FormationListItemModel {
     )
 }
 
-internal fun PlacementResponse.toModel(): Placement {
-    return Placement(
+internal fun PlacementResponse.toModel(): PlacementModel {
+    return PlacementModel(
         slotId = playerId,
         playerId = playerId,
         playerName = playerName,
         playerPosition = playerPosition,
         playerBackNumber = playerBackNumber.toString(),
+        quarter = quarter,
         coordX = coordX / 1000f,
         coordY = coordY / 1000f
     )
