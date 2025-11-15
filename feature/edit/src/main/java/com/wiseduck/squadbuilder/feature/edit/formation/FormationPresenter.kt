@@ -18,6 +18,7 @@ import com.wiseduck.squadbuilder.core.model.FormationListItemModel
 import com.wiseduck.squadbuilder.core.model.FormationSaveModel
 import com.wiseduck.squadbuilder.core.model.PlacementModel
 import com.wiseduck.squadbuilder.core.model.PlacementSaveModel
+import com.wiseduck.squadbuilder.core.model.PlayerQuarterStatusModel
 import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
 import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.formation.data.createDefaultPlayers
@@ -67,6 +68,39 @@ class FormationPresenter @AssistedInject constructor(
 
         var isFormationSharing by remember { mutableStateOf(false) }
         var sideEffect by remember { mutableStateOf<FormationSideEffect?>(null) }
+
+        var isPlayerQuarterStatusVisible by remember { mutableStateOf(false) }
+        var playerQuarterStatus by remember { mutableStateOf(emptyList<PlayerQuarterStatusModel>()) }
+
+        fun calculatePlayerQuarterStatus(allPlacements: Map<Int, List<PlacementModel>>): List<PlayerQuarterStatusModel> {
+            val allPlacements = allPlacements.flatMap { (quarter, placements) ->
+                placements.mapNotNull { placement ->
+                    placement.playerId?.let {
+                        Triple(it, quarter, placement.playerName)
+                    }
+                }
+            }
+
+            return allPlacements
+                .groupBy { it.first }
+                .map { (playerId, placements) ->
+                    val playerInfo = availablePlayers.find { it.id == playerId }
+
+                    val playerName = playerInfo?.name ?: "Unknown Player"
+                    val backNumber = playerInfo?.backNumber ?: 0
+                    val position = playerInfo?.position ?: "Unknown Position"
+                    val quarters = placements.map { it.second }.distinct().sorted()
+
+                    PlayerQuarterStatusModel(
+                        playerId = playerId,
+                        playerName = playerName,
+                        quarters = quarters,
+                        backNumber = backNumber,
+                        position = position
+                    )
+                }
+                .sortedByDescending { it.quarters.size }
+        }
 
         LaunchedEffect(Unit) {
             playerRepository.getTeamPlayers(screen.teamId)
@@ -140,6 +174,13 @@ class FormationPresenter @AssistedInject constructor(
                             .onFailure {  }
 
                     }
+                }
+
+                FormationUiEvent.OnPlayerQuarterStatusClick -> {
+                    if (!isPlayerQuarterStatusVisible) {
+                        playerQuarterStatus = calculatePlayerQuarterStatus(allPlacements)
+                    }
+                    isPlayerQuarterStatusVisible = !isPlayerQuarterStatusVisible
                 }
 
                 is FormationUiEvent.OnFormationCardClick -> {
@@ -435,6 +476,8 @@ class FormationPresenter @AssistedInject constructor(
             currentQuarter = currentQuarter,
             formationList = formationList,
             isListModalVisible = isListModalVisible,
+            isPlayerQuarterStatusVisible = isPlayerQuarterStatusVisible,
+            playerQuarterStatus = playerQuarterStatus,
             players = players,
             selectedSlotId = selectedSlotId,
             draggedPlayerInitialPosition = draggedPlayerInitialPosition,

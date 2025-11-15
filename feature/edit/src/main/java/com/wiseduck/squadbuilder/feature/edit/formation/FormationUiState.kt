@@ -5,6 +5,7 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.wiseduck.squadbuilder.core.model.FormationListItemModel
 import com.wiseduck.squadbuilder.core.model.PlacementModel
+import com.wiseduck.squadbuilder.core.model.PlayerQuarterStatusModel
 import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
 
 data class PlayerAssignmentState(
@@ -16,6 +17,7 @@ data class DeleteConfirmationState(
     val isDialogVisible: Boolean = false,
     val formationIdToDelete: Int? = null
 )
+
 data class FormationUiState(
     val teamId: Int = 0,
     val teamName: String = "",
@@ -27,6 +29,10 @@ data class FormationUiState(
     val selectedSlotId: Int? = null,
     val draggedPlayerInitialPosition: PlacementModel? = null,
     val isResetConfirmDialogVisible: Boolean = false,
+    
+    val isPlayerQuarterStatusVisible: Boolean = false,
+    val playerQuarterStatus: List<PlayerQuarterStatusModel> = emptyList(),
+
     val currentFormationId: Int? = null,
     val currentFormationName: String = "",
     val isSaveDialogVisible: Boolean = false,
@@ -72,6 +78,8 @@ sealed interface FormationUiEvent : CircuitUiEvent {
     data object OnSaveDialogConfirm : FormationUiEvent
     data object OnSaveDialogDismiss : FormationUiEvent
     data object OnToastShown : FormationUiEvent
+
+    data object OnPlayerQuarterStatusClick : FormationUiEvent
 
     // --- 선수 배정 관련 이벤트 ---
     data class OnAssignPlayer(val playerIdToAssign: Int) : FormationUiEvent
