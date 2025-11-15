@@ -1,6 +1,7 @@
 package com.wiseduck.squadbuilder.feature.edit.formation
 
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -8,12 +9,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -29,23 +34,28 @@ import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumRoundedButtonStyle
-import com.wiseduck.squadbuilder.core.designsystem.component.button.smallRoundedButtonStyle
+import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral900
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.PlayerChip
 import com.wiseduck.squadbuilder.core.ui.component.SoccerField
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
+import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationController
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationHeader
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationListModal
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerAssignmentModal
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerInfoModal
+import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerQuarterStatusSideBar
 import com.wiseduck.squadbuilder.feature.edit.formation.data.createDefaultPlayers
 import com.wiseduck.squadbuilder.feature.edit.formation.data.getPositionForCoordinates
 import com.wiseduck.squadbuilder.feature.screens.FormationScreen
@@ -152,6 +162,7 @@ fun FormationUi(
             onDeleteFormationClick = { state.eventSink(FormationUiEvent.OnDeleteFormationClick(it)) }
         )
     }
+
     SquadBuilderScaffold(
         modifier = modifier.fillMaxSize()
     ) { innerPadding ->
@@ -223,11 +234,15 @@ fun FormationUi(
                                 val originalChipWidth = 56.dp
                                 val originalChipHeight = 64.dp
 
-                                val calculatedX = (this.maxWidth * player.coordX) - (originalChipWidth / 2)
-                                val calculatedY = (this.maxHeight * player.coordY) - (originalChipHeight / 2)
+                                val calculatedX =
+                                    (this.maxWidth * player.coordX) - (originalChipWidth / 2)
+                                val calculatedY =
+                                    (this.maxHeight * player.coordY) - (originalChipHeight / 2)
 
-                                val xOffset = calculatedX.coerceIn(0.dp, this.maxWidth - originalChipWidth)
-                                val yOffset = calculatedY.coerceIn(0.dp, this.maxHeight - originalChipHeight)
+                                val xOffset =
+                                    calculatedX.coerceIn(0.dp, this.maxWidth - originalChipWidth)
+                                val yOffset =
+                                    calculatedY.coerceIn(0.dp, this.maxHeight - originalChipHeight)
 
                                 Column(
                                     modifier = Modifier
@@ -235,7 +250,10 @@ fun FormationUi(
                                     horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
                                     Text(
-                                        text = getPositionForCoordinates(player.coordX, player.coordY),
+                                        text = getPositionForCoordinates(
+                                            player.coordX,
+                                            player.coordY
+                                        ),
                                         color = Color.White
                                     )
                                     PlayerChip(
@@ -260,8 +278,10 @@ fun FormationUi(
                                                                 val fieldHeightPx =
                                                                     this@SoccerField.maxHeight.toPx()
 
-                                                                val deltaX = dragAmount.x / fieldWidthPx
-                                                                val deltaY = dragAmount.y / fieldHeightPx
+                                                                val deltaX =
+                                                                    dragAmount.x / fieldWidthPx
+                                                                val deltaY =
+                                                                    dragAmount.y / fieldHeightPx
 
                                                                 state.eventSink(
                                                                     FormationUiEvent.OnPlayerDrag(
@@ -314,6 +334,44 @@ fun FormationUi(
                         }
                     }
                 )
+
+                Surface(
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .offset(x = 10.dp)
+                        .width(24.dp)
+                        .fillMaxHeight(0.15f),
+                    border = BorderStroke(
+                        width = 1.dp,
+                        color = Neutral500
+                    ),
+                    shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
+                    color = Neutral900,
+                    onClick = {
+                        state.eventSink(FormationUiEvent.OnPlayerQuarterStatusClick)
+                    }
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_side_tab_open),
+                            contentDescription = "Open Sidebar Icon",
+                            tint = Green500,
+                            modifier = Modifier.scale(0.8f)
+                        )
+                    }
+                }
+                if (state.isPlayerQuarterStatusVisible) {
+                    PlayerQuarterStatusSideBar(
+                        modifier = modifier,
+                        onDismissRequest = {
+                            state.eventSink(FormationUiEvent.OnPlayerQuarterStatusClick)
+                        },
+                        playerQuarterStatus = state.playerQuarterStatus,
+                    )
+                }
             }
         }
     }

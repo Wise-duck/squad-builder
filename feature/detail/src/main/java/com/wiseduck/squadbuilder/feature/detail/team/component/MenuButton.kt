@@ -63,7 +63,7 @@ fun MenuButton(
 
             Text(
                 text = title,
-                style = SquadBuilderTheme.typography.body1Bold,
+                style = SquadBuilderTheme.typography.title1Bold,
                 color = Neutral100
             )
 
@@ -71,7 +71,7 @@ fun MenuButton(
 
             Text(
                 text = description,
-                style = SquadBuilderTheme.typography.body2Regular,
+                style = SquadBuilderTheme.typography.body1Bold,
                 color = Green500
             )
 
