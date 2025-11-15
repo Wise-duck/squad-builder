@@ -22,6 +22,7 @@ import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.compactButtonStyle
+import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumRoundedButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
@@ -158,7 +159,7 @@ private fun PlayerContent(
                     },
                     onClick = { state.eventSink(PlayerUiEvent.OnTeamPlayerCreationButtonClick) },
                     colorStyle = ButtonColorStyle.TEXT_WHITE,
-                    sizeStyle = compactButtonStyle
+                    sizeStyle = mediumRoundedButtonStyle
                 )
             }
         }
