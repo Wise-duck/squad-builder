@@ -1,18 +1,38 @@
-# Squad Builder - 나만의 축구 팀 만들기
-![squad_builder_graphic (1)](https://github.com/user-attachments/assets/ab00c2f3-cf56-477c-84d6-a087c9dfbc11)
+### Language
 
-**Squad Builder**는 친구들과 함께 축구할 때 각자의 포지션을 손쉽게 정할 수 있는 최고의 도구입니다. 경기 전에 완벽한 팀을 구성해보세요!
+- Kotlin
 
-이 앱은 각 선수의 포지션을 쉽고 직관적으로 정하고, 팀 구성을 시각적으로 확인할 수 있도록 도와줍니다. 갤러리에서 사진을 불러와 선수 프로필을 설정하고, 드래그 앤 드롭 방식으로 간편하게 포지션을 배치해보세요!
+### Libraries
 
-## 주요 기능
+- AndroidX
+    - Activity Compose
+    - Core
+    - DataStore
+    - Splash
 
-1. **직관적인 팀 구성**: 드래그 앤 드롭 기능으로 간편하게 선수들의 포지션을 배치하고, 최적의 팀을 구성할 수 있습니다.
-2. **갤러리에서 사진 불러오기**: 갤러리에서 선수 사진을 선택하여 각자의 포지션을 설정해보세요.
-3. **다양한 포메이션**: 4-4-2, 4-3-3 등 다양한 포메이션을 생성하여 팀 전략에 맞게 활용할 수 있습니다.
-4. **팀 저장 및 불러오기**: 친구들과의 경기를 위해 여러 팀을 저장하고 필요할 때 불러올 수 있습니다.
+- Kotlin Libraries (Coroutine, Serialization)
+- Compose
+    - Material3
 
-## 모듈 의존 관계 그래프
+- Circuit
+- Dagger Hilt
+- Retrofit, OkHttp3
+- Firebase(Remote Config)
+- Kakao-Auth
+
+### Gradle Dependency
+
+- Gradle Version Catalog
+
+### Architecture
+- Android App Architecture
+- MVI
+
+### Dependency Graph
 <div align="center">
   <img width="1749" height="383" alt="project-dependency-graph" src="https://github.com/user-attachments/assets/bfcdae73-2e0d-4f71-b351-523ab852be43" />
 </div>
+
+## Backend 
+
+| 사용자 인증, 포메이션 데이터 관리 및 API 제공 | [[Server Repository Link](https://github.com/cmgjn1881/lineup-maker-api)] |
