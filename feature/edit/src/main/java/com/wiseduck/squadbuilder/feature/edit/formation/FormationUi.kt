@@ -2,8 +2,6 @@ package com.wiseduck.squadbuilder.feature.edit.formation
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
@@ -32,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -42,11 +38,11 @@ import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorS
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumRoundedButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral900
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
-import com.wiseduck.squadbuilder.core.ui.component.PlayerChip
 import com.wiseduck.squadbuilder.core.ui.component.SoccerField
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.feature.edit.R
@@ -55,13 +51,11 @@ import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationHeade
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationListModal
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerAssignmentModal
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerInfoModal
+import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerPlacementLayer
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerQuarterStatusSideBar
 import com.wiseduck.squadbuilder.feature.edit.formation.data.createDefaultPlayers
-import com.wiseduck.squadbuilder.feature.edit.formation.data.getPositionForCoordinates
 import com.wiseduck.squadbuilder.feature.screens.FormationScreen
 import dagger.hilt.android.components.ActivityRetainedComponent
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 
 @CircuitInject(FormationScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -225,113 +219,32 @@ fun FormationUi(
                     content = {
                         val centerCircleRadius = this.maxWidth * 0.15f
                         val desiredShirtDiameter = centerCircleRadius * 0.9f
-
                         val originalShirtDiameter = 40.dp
                         val scaleFactor = desiredShirtDiameter / originalShirtDiameter
 
-                        state.players.forEach { player ->
-                            key(player.slotId) {
-                                val originalChipWidth = 56.dp
-                                val originalChipHeight = 64.dp
-
-                                val calculatedX =
-                                    (this.maxWidth * player.coordX) - (originalChipWidth / 2)
-                                val calculatedY =
-                                    (this.maxHeight * player.coordY) - (originalChipHeight / 2)
-
-                                val xOffset =
-                                    calculatedX.coerceIn(0.dp, this.maxWidth - originalChipWidth)
-                                val yOffset =
-                                    calculatedY.coerceIn(0.dp, this.maxHeight - originalChipHeight)
-
-                                Column(
-                                    modifier = Modifier
-                                        .offset(x = xOffset, y = yOffset),
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    Text(
-                                        text = getPositionForCoordinates(
-                                            player.coordX,
-                                            player.coordY
-                                        ),
-                                        color = Color.White
-                                    )
-                                    PlayerChip(
-                                        modifier = Modifier
-                                            .scale(scaleFactor)
-                                            .pointerInput(player.slotId) {
-                                                coroutineScope {
-                                                    launch {
-                                                        detectDragGestures(
-                                                            onDragStart = {
-                                                                state.eventSink(
-                                                                    FormationUiEvent.OnPlayerDragStart(
-                                                                        player.slotId
-                                                                    )
-                                                                )
-                                                            },
-                                                            onDrag = { change, dragAmount ->
-                                                                change.consume()
-
-                                                                val fieldWidthPx =
-                                                                    this@SoccerField.maxWidth.toPx()
-                                                                val fieldHeightPx =
-                                                                    this@SoccerField.maxHeight.toPx()
-
-                                                                val deltaX =
-                                                                    dragAmount.x / fieldWidthPx
-                                                                val deltaY =
-                                                                    dragAmount.y / fieldHeightPx
-
-                                                                state.eventSink(
-                                                                    FormationUiEvent.OnPlayerDrag(
-                                                                        slotId = player.slotId,
-                                                                        deltaCoordX = deltaX,
-                                                                        deltaCoordY = deltaY
-                                                                    )
-                                                                )
-                                                            },
-                                                            onDragEnd = {
-                                                                val fieldWidthPx =
-                                                                    this@SoccerField.maxWidth.toPx()
-                                                                val fieldHeightPx =
-                                                                    this@SoccerField.maxHeight.toPx()
-
-                                                                val relativeChipWidth =
-                                                                    (originalChipWidth.toPx() * scaleFactor) / fieldWidthPx
-                                                                val relativeChipHeight =
-                                                                    (originalChipHeight.toPx() * scaleFactor) / fieldHeightPx
-
-                                                                state.eventSink(
-                                                                    FormationUiEvent.OnPlayerDragEnd(
-                                                                        slotId = player.slotId,
-                                                                        relativeChipWidth = relativeChipWidth,
-                                                                        relativeChipHeight = relativeChipHeight
-                                                                    )
-                                                                )
-                                                            }
-                                                        )
-                                                    }
-                                                    launch {
-                                                        detectTapGestures(
-                                                            onTap = {
-                                                                state.eventSink(
-                                                                    FormationUiEvent.OnPlayerClick(
-                                                                        player.slotId
-                                                                    )
-                                                                )
-                                                            }
-                                                        )
-                                                    }
-                                                }
-                                            },
-                                        position = player.playerPosition,
-                                        number = player.playerBackNumber,
-                                        name = player.playerName
-                                    )
-                                }
-                            }
+                        if (state.isFormationSharing) {
+                            Text(
+                                modifier = Modifier.padding(SquadBuilderTheme.spacing.spacing4),
+                                text = "${state.currentQuarter} 쿼터",
+                                color = Neutral50,
+                                style = SquadBuilderTheme.typography.title1Bold
+                            )
                         }
+
+                        PlayerPlacementLayer(
+                            players = state.players,
+                            scaleFactor = scaleFactor,
+                            onPlayerDragStart = { state.eventSink(FormationUiEvent.OnPlayerDragStart(it)) },
+                            onPlayerDrag = { slotId, deltaX, deltaY ->
+                                state.eventSink(FormationUiEvent.OnPlayerDrag(slotId, deltaX, deltaY))
+                            },
+                            onPlayerDragEnd = { slotId, relativeChipWidth, relativeChipHeight ->
+                                state.eventSink(FormationUiEvent.OnPlayerDragEnd(slotId, relativeChipWidth, relativeChipHeight))
+                            },
+                            onPlayerClick = { state.eventSink(FormationUiEvent.OnPlayerClick(it)) },
+                            soccerFieldWidth = this.maxWidth,
+                            soccerFieldHeight = this.maxHeight
+                        )
                     }
                 )
 
