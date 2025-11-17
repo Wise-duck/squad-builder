@@ -17,7 +17,7 @@
 - Circuit
 - Dagger Hilt
 - Retrofit, OkHttp3
-- Firebase(Remote Config)
+- Firebase(Crashlytics, Remote Config)
 - Kakao-Auth
 
 ### Gradle Dependency
