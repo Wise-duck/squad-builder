@@ -9,12 +9,14 @@ import kotlinx.collections.immutable.persistentListOf
 
 data class HomeUiState(
     val isLoading: Boolean = false,
+    val isRefreshing: Boolean = false,
     val errorMessage: String? = null,
     val teams: ImmutableList<TeamModel> = persistentListOf(),
     val eventSink: (HomeUiEvent) -> Unit
 ) : CircuitUiState
 
 sealed interface HomeUiEvent: CircuitUiEvent {
+    data object OnRefresh: HomeUiEvent
     data class OnTeamCreateButtonClick(
         val teamName: String
     ) : HomeUiEvent
