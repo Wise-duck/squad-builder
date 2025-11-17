@@ -1,6 +1,6 @@
 <div align="center">
     <h1>🔥 Squad Builder - 나만의 축구팀 만들기 🔥</h1>
-    <p>포메이션, 팀, 선수 관리를 위한 서비스</p>
+    <p>전술 설계와 팀 관리를 위한 안드로이드 앱</p>
     <p>
         <a href="https://play.google.com/store/apps/details?id=com.wiseduck.squadbuilder&hl=ko">
             <img src="https://github.com/user-attachments/assets/8699ffd3-3399-45eb-9e2b-88818ba62091" width="250" />
