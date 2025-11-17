@@ -2,8 +2,6 @@ package com.wiseduck.squadbuilder.feature.edit.formation
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
@@ -32,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -47,7 +43,6 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral900
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
-import com.wiseduck.squadbuilder.core.ui.component.PlayerChip
 import com.wiseduck.squadbuilder.core.ui.component.SoccerField
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.feature.edit.R
@@ -59,11 +54,8 @@ import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerInfoModa
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerPlacementLayer
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerQuarterStatusSideBar
 import com.wiseduck.squadbuilder.feature.edit.formation.data.createDefaultPlayers
-import com.wiseduck.squadbuilder.feature.edit.formation.data.getPositionForCoordinates
 import com.wiseduck.squadbuilder.feature.screens.FormationScreen
 import dagger.hilt.android.components.ActivityRetainedComponent
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 
 @CircuitInject(FormationScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -229,6 +221,15 @@ fun FormationUi(
                         val desiredShirtDiameter = centerCircleRadius * 0.9f
                         val originalShirtDiameter = 40.dp
                         val scaleFactor = desiredShirtDiameter / originalShirtDiameter
+
+                        if (state.isFormationSharing) {
+                            Text(
+                                modifier = Modifier.padding(SquadBuilderTheme.spacing.spacing4),
+                                text = "${state.currentQuarter} 쿼터",
+                                color = Neutral50,
+                                style = SquadBuilderTheme.typography.title1Bold
+                            )
+                        }
 
                         PlayerPlacementLayer(
                             players = state.players,
