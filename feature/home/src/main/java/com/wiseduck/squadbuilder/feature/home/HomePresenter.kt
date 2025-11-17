@@ -34,30 +34,43 @@ class HomePresenter @AssistedInject constructor(
     override fun present(): HomeUiState {
         val scope = rememberCoroutineScope()
         var isLoading by remember { mutableStateOf(true) }
+        var isRefreshing by remember { mutableStateOf(false) }
         var errorMessage by remember { mutableStateOf<String?>(null) }
         var teams by remember { mutableStateOf(persistentListOf<TeamModel>()) }
         val teamCreateErrorServerConnection = stringResource(R.string.team_create_error_server_connection)
         val updatedTeamListLoadFailed = stringResource(R.string.updated_team_list_load_failed)
         val loadFailedTeamList = stringResource(R.string.load_failed_team_list)
 
+        fun loadTeams() {
+            scope.launch {
+                teamRepository.getTeams()
+                    .onSuccess { teamModels ->
+                        teams = teamModels.toImmutableList() as PersistentList<TeamModel>
+                        Log.i("HomePresenter", "팀 목록 로드 성공: ${teams.size} teams")
+                    }
+                    .onFailure { error ->
+                        errorMessage = loadFailedTeamList
+                        Log.e("HomePresenter", "팀 목록 로드 실패", error)
+                    }
+                isLoading = false
+                isRefreshing = false
+            }
+        }
 
         LaunchedEffect(Unit) {
             isLoading = true
-            teamRepository.getTeams()
-                .onSuccess { teamModels ->
-                    isLoading = false
-                    teams = teamModels.toImmutableList() as PersistentList<TeamModel>
-                    Log.i("HomePresenter", "팀 목록 로드 성공: ${teams.size} teams")
-                }
-                .onFailure { error ->
-                    isLoading = false
-                    errorMessage = loadFailedTeamList
-                    Log.e("HomePresenter", "팀 목록 로드 실패", error)
-                }
+            loadTeams()
         }
 
         fun handleEvent(event: HomeUiEvent) {
             when (event) {
+                HomeUiEvent.OnRefresh -> {
+                    if (!isRefreshing) {
+                        isRefreshing = true
+                        loadTeams()
+                    }
+                }
+
                 is HomeUiEvent.OnTeamCreateButtonClick -> {
                     isLoading = true
                     scope.launch {
@@ -118,6 +131,7 @@ class HomePresenter @AssistedInject constructor(
 
         return HomeUiState(
             isLoading = isLoading,
+            isRefreshing = isRefreshing,
             errorMessage = errorMessage,
             teams = teams,
             eventSink = ::handleEvent

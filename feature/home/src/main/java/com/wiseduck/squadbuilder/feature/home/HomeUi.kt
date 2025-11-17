@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -94,7 +96,10 @@ private fun HomeContent(
             TeamList(
                 state = state,
                 onTeamClick = onTeamClick,
-                onTeamDeleteClick = onTeamDeleteClick
+                onTeamDeleteClick = onTeamDeleteClick,
+                onRefresh = {
+                    state.eventSink(HomeUiEvent.OnRefresh)
+                }
             )
             if (state.errorMessage != null) {
                 SquadBuilderDialog(
@@ -114,22 +119,31 @@ private fun HomeContent(
 private fun TeamList(
     modifier: Modifier = Modifier,
     state: HomeUiState,
+    onRefresh: () -> Unit,
     onTeamClick: (Int, String) -> Unit,
     onTeamDeleteClick: (Int) -> Unit
 ) {
-    LazyColumn(
-        modifier = modifier.fillMaxSize()
+    PullToRefreshBox(
+        modifier = modifier
+            .fillMaxSize(),
+        state = rememberPullToRefreshState(),
+        onRefresh = onRefresh,
+        isRefreshing = state.isRefreshing,
     ) {
-        items(
-            items = state.teams,
-            key = { team -> team.teamId }
-        ) { team ->
-            TeamCard(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                team = team,
-                onDeleteClick = onTeamDeleteClick,
-                onClick = onTeamClick
-            )
+        LazyColumn(
+            modifier = modifier.fillMaxSize()
+        ) {
+            items(
+                items = state.teams,
+                key = { team -> team.teamId }
+            ) { team ->
+                TeamCard(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    team = team,
+                    onDeleteClick = onTeamDeleteClick,
+                    onClick = onTeamClick
+                )
+            }
         }
     }
 }
