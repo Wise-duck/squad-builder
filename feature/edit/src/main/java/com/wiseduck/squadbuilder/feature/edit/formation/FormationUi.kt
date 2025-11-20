@@ -45,6 +45,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.SoccerField
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
+import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
 import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationController
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationHeader
@@ -53,6 +54,7 @@ import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerAssignme
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerInfoModal
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerPlacementLayer
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerQuarterStatusSideBar
+import com.wiseduck.squadbuilder.feature.edit.formation.component.QuarterSelectionDialog
 import com.wiseduck.squadbuilder.feature.edit.formation.data.createDefaultPlayers
 import com.wiseduck.squadbuilder.feature.screens.FormationScreen
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -157,6 +159,15 @@ fun FormationUi(
         )
     }
 
+    if (state.isQuarterSelectionDialogVisible) {
+        QuarterSelectionDialog(
+            onConfirm = { quarters ->
+                state.eventSink(FormationUiEvent.OnSelectQuartersToShare(quarters))
+            },
+            onDismiss = { state.eventSink(FormationUiEvent.OnDismissQuarterSelectionDialog) }
+        )
+    }
+
     SquadBuilderScaffold(
         modifier = modifier.fillMaxSize()
     ) { innerPadding ->
@@ -222,7 +233,7 @@ fun FormationUi(
                         val originalShirtDiameter = 40.dp
                         val scaleFactor = desiredShirtDiameter / originalShirtDiameter
 
-                        if (state.isFormationSharing) {
+                        if (state.isCapturing) {
                             Text(
                                 modifier = Modifier.padding(SquadBuilderTheme.spacing.spacing4),
                                 text = "${state.currentQuarter} 쿼터",
@@ -311,6 +322,7 @@ private fun FormationUiPreView() {
 
         FormationUi(
             state = FormationUiState(
+                isCapturing = true,
                 teamId = 1,
                 teamName = "비안코",
                 players = dummyPlayers,
