@@ -2,6 +2,7 @@ package com.wiseduck.squadbuilder.feature.edit.formation
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,7 +46,6 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.SoccerField
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
-import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
 import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationController
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationHeader
@@ -235,10 +235,18 @@ fun FormationUi(
 
                         if (state.isCapturing) {
                             Text(
-                                modifier = Modifier.padding(SquadBuilderTheme.spacing.spacing4),
-                                text = "${state.currentQuarter} 쿼터",
+                                modifier = Modifier
+                                    .padding(SquadBuilderTheme.spacing.spacing4)
+                                    .background(
+                                        color = Color.Black.copy(alpha = 0.6f),
+                                        shape = RoundedCornerShape(
+                                            SquadBuilderTheme.radius.sm
+                                        )
+                                    )
+                                    .padding(SquadBuilderTheme.spacing.spacing2),
+                                text = "Q ${state.currentQuarter}",
                                 color = Neutral50,
-                                style = SquadBuilderTheme.typography.title1Bold
+                                style = SquadBuilderTheme.typography.body1Regular
                             )
                         }
 
