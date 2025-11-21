@@ -36,17 +36,27 @@ class HomePresenter @AssistedInject constructor(
         var isLoading by remember { mutableStateOf(true) }
         var isRefreshing by remember { mutableStateOf(false) }
         var errorMessage by remember { mutableStateOf<String?>(null) }
+        var currentSortOption by remember { mutableStateOf(TeamSortOption.LATEST) }
         var teams by remember { mutableStateOf(persistentListOf<TeamModel>()) }
         val teamCreateErrorServerConnection = stringResource(R.string.team_create_error_server_connection)
         val updatedTeamListLoadFailed = stringResource(R.string.updated_team_list_load_failed)
         val loadFailedTeamList = stringResource(R.string.load_failed_team_list)
 
+        fun sortTeams(teamModels: List<TeamModel>, sortOption: TeamSortOption): PersistentList<TeamModel> {
+            val sortedList = when (sortOption) {
+                TeamSortOption.LATEST -> teamModels.sortedByDescending { it.createdAt }
+                TeamSortOption.NAME -> teamModels.sortedBy { it.name }
+            }
+
+            return sortedList.toImmutableList() as PersistentList<TeamModel>
+        }
+
         fun loadTeams() {
             scope.launch {
                 teamRepository.getTeams()
                     .onSuccess { teamModels ->
-                        teams = teamModels.toImmutableList() as PersistentList<TeamModel>
-                        Log.i("HomePresenter", "팀 목록 로드 성공: ${teams.size} teams")
+                        teams = sortTeams(teamModels, currentSortOption)
+                        Log.i("HomePresenter", "팀 목록 로드 성공: ${teams.size} teams, 정렬 기준: $currentSortOption")
                     }
                     .onFailure { error ->
                         errorMessage = loadFailedTeamList
@@ -64,6 +74,14 @@ class HomePresenter @AssistedInject constructor(
 
         fun handleEvent(event: HomeUiEvent) {
             when (event) {
+                is HomeUiEvent.OnSortOptionSelect -> {
+                    if (currentSortOption != event.sortOption) {
+                        currentSortOption = event.sortOption
+                        teams = sortTeams(teams, currentSortOption)
+                        Log.d("HomePresenter", "정렬 기준 변경: $currentSortOption")
+                    }
+                }
+
                 HomeUiEvent.OnRefresh -> {
                     if (!isRefreshing) {
                         isRefreshing = true
@@ -132,6 +150,7 @@ class HomePresenter @AssistedInject constructor(
         return HomeUiState(
             isLoading = isLoading,
             isRefreshing = isRefreshing,
+            currentSortOption = currentSortOption,
             errorMessage = errorMessage,
             teams = teams,
             eventSink = ::handleEvent
