@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="player_add_text_button">새 선수 등록</string>
+    <string name="quarter_selection_title">공유할 쿼터 선택</string>
     <string name="create_player_form_card_title">새 선수 등록</string>
     <string name="player_form_card_name_label">선수 이름(예: 손흥민)</string>
     <string name="player_form_card_back_number_label">등번호(예: 7)</string>
@@ -15,6 +16,11 @@
     <string name="formation_close_button">닫기</string>
     <string name="formation_save_button">저장"</string>
     <string name="formation_cancel_button">취소</string>
+    <string name="multiple_share_dialog_cancle_button">취소</string>
+    <string name="multiple_share_dialog_confirm_button">확인</string>
+    <string name="multiple_share_dialog_title">공유할 쿼터 선택</string>
+    <string name="multiple_share_quarter_selection_alert">공유할 쿼터를 1개 이상 선택해주세요.</string>
+    <string name="multiple_share_capture_error">이미지 캡처에 실패했습니다. 다시 시도해주세요.</string>
     <string name="formation_save_alert">11개 슬롯에 선수를 배치해야 저장할 수 있습니다.</string>
     <string name="load_player_failed_server_connection">선수 목록을 불러오는데 실패했습니다. 점시 후 다시 시도해주세요.</string>
 </resources>

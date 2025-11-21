@@ -23,6 +23,7 @@ import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
 import com.wiseduck.squadbuilder.feature.home.component.HomeHeader
 import com.wiseduck.squadbuilder.feature.home.component.TeamCard
 import com.wiseduck.squadbuilder.feature.home.component.TeamCreateSection
+import com.wiseduck.squadbuilder.feature.home.component.TeamSortDropdown
 import com.wiseduck.squadbuilder.feature.screens.HomeScreen
 import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomBar
 import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab
@@ -87,9 +88,21 @@ private fun HomeContent(
             modifier = Modifier.fillMaxWidth(),
             onTeamCreateClick = onTeamCreateClick,
         )
+
+        TeamSortDropdown(
+            modifier = Modifier
+                .padding(
+                    horizontal = SquadBuilderTheme.spacing.spacing2
+                ),
+            currentSortOption = state.currentSortOption,
+            onSortOptionSelected = {
+                state.eventSink(HomeUiEvent.OnSortOptionSelect(it))
+            }
+        )
         Spacer(
             modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
         )
+
         if (state.isLoading) {
             SquadBuilderLoadingIndicator()
         } else {

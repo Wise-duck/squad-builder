@@ -1,5 +1,6 @@
 package com.wiseduck.squadbuilder.feature.edit.formation
 
+import android.net.Uri
 import androidx.compose.ui.graphics.ImageBitmap
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
@@ -29,6 +30,7 @@ data class FormationUiState(
     val selectedSlotId: Int? = null,
     val draggedPlayerInitialPosition: PlacementModel? = null,
     val isResetConfirmDialogVisible: Boolean = false,
+    val isQuarterSelectionDialogVisible: Boolean = false,
     
     val isPlayerQuarterStatusVisible: Boolean = false,
     val playerQuarterStatus: List<PlayerQuarterStatusModel> = emptyList(),
@@ -40,13 +42,19 @@ data class FormationUiState(
     val availablePlayers: List<TeamPlayerModel> = emptyList(),
     val playerAssignmentState: PlayerAssignmentState = PlayerAssignmentState(),
     val deleteConfirmationState: DeleteConfirmationState = DeleteConfirmationState(),
-    val isFormationSharing: Boolean = false,
+    val isCapturing: Boolean = false,
+    val totalQuartersToCapture: Int = 0,
     val sideEffect: FormationSideEffect? = null
 ) : CircuitUiState
 
 sealed interface FormationSideEffect {
-    data class ShareFormation(
-        val imageBitmap: ImageBitmap
+    data class CaptureFormation(
+        val quarter: Int,
+        val onCaptureUri: (Int, Uri?) -> Unit
+    ) : FormationSideEffect
+
+    data class ShareMultipleImages(
+        val imageUris: List<Uri>
     ) : FormationSideEffect
 }
 
@@ -55,9 +63,6 @@ sealed interface FormationUiEvent : CircuitUiEvent {
     data object OnFormationResetClick : FormationUiEvent
     data object OnFormationListClick : FormationUiEvent
     data object OnFormationShareClick: FormationUiEvent
-    data class ShareFormation(
-        val imageBitmap: ImageBitmap
-    ) : FormationUiEvent
     data class OnQuarterChange(
         val quarter: Int
     ) : FormationUiEvent
@@ -65,6 +70,10 @@ sealed interface FormationUiEvent : CircuitUiEvent {
     data object OnDismissListModal : FormationUiEvent
     data class OnPlayerClick(val slotId: Int) : FormationUiEvent
     data object OnDismissPlayerInfoDialog : FormationUiEvent
+    data class OnSelectQuartersToShare(
+        val quarters: Set<Int>
+    ): FormationUiEvent
+    data object OnDismissQuarterSelectionDialog: FormationUiEvent
 
     data class OnPlayerDragStart(val slotId: Int) : FormationUiEvent
     data class OnPlayerDrag(val slotId: Int, val deltaCoordX: Float, val deltaCoordY: Float) : FormationUiEvent

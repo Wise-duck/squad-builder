@@ -15,12 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.designsystem.theme.White
-import com.wiseduck.squadbuilder.core.ui.R
+import com.wiseduck.squadbuilder.feature.detail.R
 
 @Composable
 fun TeamDetailHeader(
@@ -42,7 +43,7 @@ fun TeamDetailHeader(
                 onClick = onBackClick
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.ic_back),
+                    painter = painterResource(com.wiseduck.squadbuilder.core.ui.R.drawable.ic_back),
                     contentDescription = "Back Icon",
                     tint = White
                 )
@@ -51,7 +52,7 @@ fun TeamDetailHeader(
                 modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
             )
             Text(
-                "팀 상세 화면",
+                text = stringResource(R.string.team_detail_header_title),
                 style = SquadBuilderTheme.typography.title1Bold,
                 color = White
             )
