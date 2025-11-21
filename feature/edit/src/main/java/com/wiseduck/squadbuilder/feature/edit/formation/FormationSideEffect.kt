@@ -3,6 +3,7 @@ package com.wiseduck.squadbuilder.feature.edit.formation
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Log.e
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -40,7 +41,7 @@ fun FormationSideEffects(
                 }
 
                 is FormationSideEffect.ShareMultipleImages -> {
-                    context.shareMultipleImages(effect.imageUris)
+                    context.shareImages(effect.imageUris)
                 }
             }
         }
@@ -65,22 +66,30 @@ private suspend fun captureFormationAndGetUri(
     }
 }
 
-private fun Context.shareMultipleImages(imageUris: List<Uri>) {
+private fun Context.shareImages(imageUris: List<Uri>) {
     if (imageUris.isEmpty()) return
 
     try {
-         val builder = ShareCompat.IntentBuilder(this)
-             .setType("image/*")
+        val builder = ShareCompat.IntentBuilder(this)
+            .setType("image/*")
 
-         imageUris.forEach { builder.addStream(it) }
+        if (imageUris.size == 1) {
+            builder.setStream(imageUris.first())
 
-         val intent = builder.intent.apply {
-             action = android.content.Intent.ACTION_SEND_MULTIPLE
+            val intent = builder.intent.apply {
+                action = android.content.Intent.ACTION_SEND
+                addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            startActivity(intent)
+        } else {
+            imageUris.forEach { builder.addStream(it) }
 
-             addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
-         }
-
-         startActivity(intent)
+            val intent = builder.intent.apply {
+                action = android.content.Intent.ACTION_SEND_MULTIPLE
+                addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            startActivity(intent)
+        }
     } catch (e: Exception) {
         e.printStackTrace()
     }
