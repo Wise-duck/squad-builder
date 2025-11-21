@@ -18,17 +18,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.wiseduck.squadbuilder.feature.home.R
 import com.wiseduck.squadbuilder.core.common.extensions.DateFormats
 import com.wiseduck.squadbuilder.core.common.extensions.toFormattedDate
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainComponentBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.TeamModel
+import com.wiseduck.squadbuilder.feature.home.R
 
 @Composable
 fun TeamCard(
@@ -46,7 +46,7 @@ fun TeamCard(
         ),
         border = BorderStroke(
             width = 1.dp,
-            color = Neutral500
+            color = Neutral800
         )
     ) {
         Row(

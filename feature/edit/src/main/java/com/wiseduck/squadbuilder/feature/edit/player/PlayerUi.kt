@@ -21,8 +21,8 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
-import com.wiseduck.squadbuilder.core.designsystem.component.button.compactButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumRoundedButtonStyle
+import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
@@ -154,7 +154,7 @@ private fun PlayerContent(
                         Icon(
                             painter = painterResource(com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_add),
                             contentDescription = "Add Icon",
-                            tint = White
+                            tint = Blue500
                         )
                     },
                     onClick = { state.eventSink(PlayerUiEvent.OnTeamPlayerCreationButtonClick) },

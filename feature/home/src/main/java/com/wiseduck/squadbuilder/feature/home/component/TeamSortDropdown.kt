@@ -2,7 +2,6 @@ package com.wiseduck.squadbuilder.feature.home.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,8 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainComponentBg
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral700
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.feature.home.R
 import com.wiseduck.squadbuilder.feature.home.TeamSortOption
@@ -43,27 +43,24 @@ fun TeamSortDropdown(
     val customTextFieldColors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
         focusedContainerColor = MainComponentBg,
         unfocusedContainerColor = MainComponentBg,
-        focusedTextColor = Neutral50,
-        unfocusedTextColor = Neutral50,
-        unfocusedLabelColor = Neutral50,
-        focusedTrailingIconColor = Neutral50,
+        focusedTextColor = Neutral300,
+        unfocusedTextColor = Neutral300,
+        unfocusedLabelColor = Neutral300,
+        focusedTrailingIconColor = Neutral300,
         unfocusedTrailingIconColor = Neutral50,
-        focusedBorderColor = Neutral700,
-        unfocusedBorderColor = Neutral700,
+        focusedBorderColor = Neutral800,
+        unfocusedBorderColor = Neutral800,
     )
 
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded },
         modifier = modifier
+            .fillMaxWidth(0.5f)
     ) {
         OutlinedTextField(
             modifier = modifier
-                .fillMaxWidth(0.5f)
-                .padding(
-                    horizontal = SquadBuilderTheme.spacing.spacing2,
-                    vertical = SquadBuilderTheme.spacing.spacing1
-                )
+                .fillMaxWidth()
                 .menuAnchor(),
             readOnly = true,
             value = selectedText,
@@ -77,12 +74,13 @@ fun TeamSortDropdown(
             colors = customTextFieldColors,
             shape = RoundedCornerShape(
                 SquadBuilderTheme.radius.md
-            )
+            ),
         )
 
         ExposedDropdownMenu(
             modifier = Modifier
-                .background(MainComponentBg),
+                .background(MainComponentBg)
+                .exposedDropdownSize(true),
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
