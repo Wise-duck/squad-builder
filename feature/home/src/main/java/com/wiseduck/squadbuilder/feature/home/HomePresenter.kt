@@ -97,7 +97,7 @@ class HomePresenter @AssistedInject constructor(
                                 teamRepository.getTeams()
                                     .onSuccess { updatedTeamList ->
                                         isLoading = false
-                                        teams = updatedTeamList.toImmutableList() as PersistentList<TeamModel>
+                                        teams = sortTeams(updatedTeamList, currentSortOption)
                                         Log.d("HomePresenter", " ${teamModel.name}팀 생성 성공. UI 업데이트.")
                                     }
                                     .onFailure {
