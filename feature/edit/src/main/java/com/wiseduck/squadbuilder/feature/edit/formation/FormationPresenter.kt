@@ -1,6 +1,7 @@
 package com.wiseduck.squadbuilder.feature.edit.formation
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -153,6 +154,7 @@ class FormationPresenter @AssistedInject constructor(
                 val urisToSend = sharingQuarters.mapNotNull { capturedUris[it] }
 
                 if (urisToSend.size == totalQuartersToCapture && urisToSend.isNotEmpty()) {
+                    Log.d("SHARE_IMAGE", "handleCaptureComplete: $urisToSend")
                     sideEffect = FormationSideEffect.ShareMultipleImages(urisToSend)
                 } else {
                     toastMessage = multipleShareCaptureError
@@ -171,6 +173,7 @@ class FormationPresenter @AssistedInject constructor(
                     val quarterList = event.quarters.sorted().toList()
 
                     if (quarterList.isNotEmpty()) {
+                        Log.d("SHARE_IMAGE", "handleEvent: $quarterList")
                         sharingQuarters = quarterList
                         totalQuartersToCapture = quarterList.size
                         capturedUris = emptyMap()
