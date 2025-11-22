@@ -59,6 +59,7 @@ internal fun FormationDetailResponse.toModel(): FormationDetailModel {
         createdAt = createdAt,
         teamId = teamId,
         teamName = teamName,
-        placements = placements.map { it.toModel() }
+        placements = placements.map { it.toModel() },
+        referees = referees
     )
 }

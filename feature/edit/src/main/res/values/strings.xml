@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="referee_input_placeholder">이름 입력</string>
     <string name="player_add_text_button">새 선수 등록</string>
     <string name="quarter_selection_title">공유할 쿼터 선택</string>
     <string name="create_player_form_card_title">새 선수 등록</string>

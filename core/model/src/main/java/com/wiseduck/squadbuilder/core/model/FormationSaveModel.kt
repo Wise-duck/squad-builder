@@ -10,5 +10,6 @@ data class PlacementSaveModel(
 data class FormationSaveModel(
     val teamId: Int,
     val name: String,
-    val placements: List<PlacementSaveModel>
+    val placements: List<PlacementSaveModel>,
+    val referees: Map<String, String>
 )

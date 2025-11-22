@@ -23,6 +23,7 @@ data class FormationUiState(
     val teamName: String = "",
     val eventSink: (FormationUiEvent) -> Unit,
     val currentQuarter: Int = 1,
+    val allReferees: Map<Int, String> = mapOf(),
     val formationList: List<FormationListItemModel> = emptyList(),
     val isListModalVisible: Boolean = false,
     val players: List<PlacementModel> = emptyList(),
@@ -30,7 +31,7 @@ data class FormationUiState(
     val draggedPlayerInitialPosition: PlacementModel? = null,
     val isResetConfirmDialogVisible: Boolean = false,
     val isQuarterSelectionDialogVisible: Boolean = false,
-    
+
     val isPlayerQuarterStatusVisible: Boolean = false,
     val playerQuarterStatus: List<PlayerQuarterStatusModel> = emptyList(),
 
@@ -64,6 +65,10 @@ sealed interface FormationUiEvent : CircuitUiEvent {
     data object OnFormationShareClick: FormationUiEvent
     data class OnQuarterChange(
         val quarter: Int
+    ) : FormationUiEvent
+    data class OnRefereeNameChange(
+        val quarter: Int,
+        val refereeName: String
     ) : FormationUiEvent
     data object OnFormationSaveClick : FormationUiEvent
     data object OnDismissListModal : FormationUiEvent

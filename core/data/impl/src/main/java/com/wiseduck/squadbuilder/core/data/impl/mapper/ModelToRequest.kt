@@ -17,5 +17,6 @@ internal fun FormationSaveModel.toRequest(): FormationSaveRequest =
     FormationSaveRequest(
         teamId = teamId,
         name = name,
-        placements = placements.map { it.toRequest() }
+        placements = placements.map { it.toRequest() },
+        referees = referees
     )
