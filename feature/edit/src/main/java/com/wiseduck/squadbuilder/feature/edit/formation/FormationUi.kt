@@ -39,9 +39,9 @@ import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorS
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumRoundedButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral900
+import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.SoccerField
@@ -55,6 +55,7 @@ import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerInfoModa
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerPlacementLayer
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerQuarterStatusSideBar
 import com.wiseduck.squadbuilder.feature.edit.formation.component.QuarterSelectionDialog
+import com.wiseduck.squadbuilder.feature.edit.formation.component.RefereeInput
 import com.wiseduck.squadbuilder.feature.edit.formation.data.createDefaultPlayers
 import com.wiseduck.squadbuilder.feature.screens.FormationScreen
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -236,19 +237,34 @@ fun FormationUi(
                         if (state.isCapturing) {
                             Text(
                                 modifier = Modifier
-                                    .padding(SquadBuilderTheme.spacing.spacing4)
+                                    .padding(SquadBuilderTheme.spacing.spacing3)
                                     .background(
-                                        color = Color.Black.copy(alpha = 0.6f),
+                                        color = Color.Black.copy(alpha = 0.8f),
                                         shape = RoundedCornerShape(
-                                            SquadBuilderTheme.radius.sm
-                                        )
+                                            SquadBuilderTheme.radius.md
+                                        ),
                                     )
                                     .padding(SquadBuilderTheme.spacing.spacing2),
-                                text = "Q ${state.currentQuarter}",
-                                color = Neutral50,
+                                text = "\uD83D\uDD25 Q ${state.currentQuarter}",
+                                color = Red500,
                                 style = SquadBuilderTheme.typography.body1Regular
                             )
                         }
+
+                        RefereeInput(
+                            modifier = Modifier
+                                .fillMaxWidth(0.4f)
+                                .align(Alignment.TopEnd)
+                                .offset(
+                                    x = (-5).dp,
+                                    y = (14).dp
+                                ),
+                            currentQuarter = state.currentQuarter,
+                            currentRefereeName = state.allReferees[state.currentQuarter] ?: "",
+                            onRefereeNameChange = {
+                                state.eventSink(FormationUiEvent.OnRefereeNameChange(state.currentQuarter, it))
+                            }
+                        )
 
                         PlayerPlacementLayer(
                             players = state.players,

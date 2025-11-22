@@ -3,7 +3,6 @@ package com.wiseduck.squadbuilder.feature.edit.formation
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
-import android.util.Log.e
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -13,6 +12,7 @@ import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ShareCompat
 import androidx.core.content.FileProvider
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
@@ -29,6 +29,8 @@ fun FormationSideEffects(
         state.sideEffect?.let { effect ->
             when (effect) {
                 is FormationSideEffect.CaptureFormation -> {
+                    delay(50)
+
                     scope.launch {
                         val uri = captureFormationAndGetUri(
                             context = context,
