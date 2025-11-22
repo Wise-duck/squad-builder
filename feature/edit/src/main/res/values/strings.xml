@@ -9,10 +9,10 @@
     <string name="formation_management_title">포메이션 관리</string>
     <string name="player_side_bar_title">선수별 쿼터 현황</string>
     <string name="player_side_bar_no_content_description"> 해당 포메이션에 지정된 선수가 없습니다.\n새로운 포메이션을 만들거나, 기존의 포메이션을 불러오세요.</string>
-    <string name="formation_PlayerAssignmentModal_title">선수 목록</string>
-    <string name="formation_PlayerInfoModal_title">선수 정보</string>
-    <string name="formation_PlayerInfoModal_remove_button">제거</string>
-    <string name="formation_PlayerInfoModal_edit_button">수정</string>
+    <string name="player_assignment_modal_title">선수 목록</string>
+    <string name="player_info_modal_title">선수 정보</string>
+    <string name="player_info_modal_delete_button">제거</string>
+    <string name="player_info_modal_edit_button">수정</string>
     <string name="formation_close_button">닫기</string>
     <string name="formation_save_button">저장"</string>
     <string name="formation_cancel_button">취소</string>

@@ -1,7 +1,6 @@
 package com.wiseduck.squadbuilder.feature.edit.formation
 
 import android.net.Uri
-import androidx.compose.ui.graphics.ImageBitmap
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.wiseduck.squadbuilder.core.model.FormationListItemModel
