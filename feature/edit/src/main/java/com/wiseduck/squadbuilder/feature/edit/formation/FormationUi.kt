@@ -313,10 +313,7 @@ fun FormationUi(
                 }
                 if (state.isPlayerQuarterStatusVisible) {
                     PlayerQuarterStatusSideBar(
-                        modifier = Modifier
-                            .align(Alignment.CenterEnd)
-                            .fillMaxHeight()
-                            .fillMaxWidth(0.6f),
+                        modifier = modifier,
                         onDismissRequest = {
                             state.eventSink(FormationUiEvent.OnPlayerQuarterStatusClick)
                         },

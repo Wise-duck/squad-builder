@@ -57,7 +57,7 @@ fun PlayerQuarterStatusSideBar(
         Column(
             modifier = Modifier
                 .fillMaxHeight()
-                .fillMaxWidth()
+                .fillMaxWidth(0.6f)
                 .clip(
                     shape = RoundedCornerShape(
                         topStart = 10.dp,
