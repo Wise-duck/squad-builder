@@ -18,6 +18,20 @@ android {
     buildFeatures {
         buildConfig = true
     }
+
+    buildTypes {
+        getByName("debug") {
+            buildConfigField("String", "ADMOB_APP_ID", "\"ca-app-pub-3940256099942544~3347511713\"")
+            buildConfigField("String", "ADMOB_BANNER_ID", "\"ca-app-pub-3940256099942544/6300978111\"")
+            manifestPlaceholders["ADMOB_APP_ID"] = "\"ca-app-pub-3940256099942544~3347511713\""
+        }
+
+        getByName("release") {
+            buildConfigField("String", "ADMOB_APP_ID", getApiKey("PROD_ADMOB_APP_ID"))
+            buildConfigField("String", "ADMOB_BANNER_ID", getApiKey("PROD_ADMOB_BANNER_ID"))
+            manifestPlaceholders["ADMOB_APP_ID"] = getApiKey("PROD_ADMOB_APP_ID")
+        }
+    }
 }
 
 ksp {

@@ -137,7 +137,7 @@ private fun HomeContent(
                     vertical = SquadBuilderTheme.spacing.spacing2,
                     horizontal = SquadBuilderTheme.spacing.spacing2
                 ),
-            adUnitId = AD_UNIT_ID
+            adUnitId = state.adUnitId
         )
 
         Spacer(
