@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.squadbuilder.android.library)
+    alias(libs.plugins.squadbuilder.android.hilt)
 }
 
 android {

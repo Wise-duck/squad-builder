@@ -15,6 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SquadBuilder">
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="${ADMOB_APP_ID}"
+            tools:replace="android:value" />
+
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
             android:exported="true">
