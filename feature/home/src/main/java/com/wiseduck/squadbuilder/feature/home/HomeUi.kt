@@ -18,6 +18,7 @@ import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
+import com.wiseduck.squadbuilder.core.ui.component.AdBanner
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
 import com.wiseduck.squadbuilder.feature.home.component.HomeHeader
@@ -58,6 +59,8 @@ fun HomeUi(
                 modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
             )
             HomeContent(
+                modifier = Modifier
+                    .weight(1f),
                 state = state,
                 onTeamCreateClick = {
                     state.eventSink(HomeUiEvent.OnTeamCreateButtonClick(it))
@@ -82,7 +85,8 @@ private fun HomeContent(
     onTeamDeleteClick: (Int) -> Unit
 ) {
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxWidth()
     ) {
         TeamCreateSection(
             modifier = Modifier.fillMaxWidth(),
@@ -107,6 +111,7 @@ private fun HomeContent(
             SquadBuilderLoadingIndicator()
         } else {
             TeamList(
+                modifier = Modifier.weight(1f),
                 state = state,
                 onTeamClick = onTeamClick,
                 onTeamDeleteClick = onTeamDeleteClick,
@@ -125,6 +130,19 @@ private fun HomeContent(
                 )
             }
         }
+
+        AdBanner(
+            modifier = Modifier.fillMaxWidth()
+                .padding(
+                    vertical = SquadBuilderTheme.spacing.spacing2,
+                    horizontal = SquadBuilderTheme.spacing.spacing2
+                ),
+            adUnitId = AD_UNIT_ID
+        )
+
+        Spacer(
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+        )
     }
 }
 
@@ -137,8 +155,7 @@ private fun TeamList(
     onTeamDeleteClick: (Int) -> Unit
 ) {
     PullToRefreshBox(
-        modifier = modifier
-            .fillMaxSize(),
+        modifier = modifier,
         state = rememberPullToRefreshState(),
         onRefresh = onRefresh,
         isRefreshing = state.isRefreshing,

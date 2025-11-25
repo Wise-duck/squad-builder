@@ -25,6 +25,8 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
+internal const val AD_UNIT_ID = "ca-app-pub-3940256099942544/6300978111"
+
 class HomePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val teamRepository: TeamRepository

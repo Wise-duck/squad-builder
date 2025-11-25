@@ -9,4 +9,5 @@ android {
 
 dependencies {
     implementation(projects.core.designsystem)
+    implementation(libs.play.services.ads)
 }
