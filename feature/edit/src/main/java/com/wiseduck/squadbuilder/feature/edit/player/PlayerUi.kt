@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
@@ -112,6 +113,11 @@ private fun PlayerContent(
                 modifier = modifier
                     .fillMaxWidth()
                     .padding(start = SquadBuilderTheme.spacing.spacing1),
+//                text = pluralStringResource(
+//                    id = R.plurals.player_list_size_label,
+//                    count = state.players.size,
+//                    formatArgs = arrayOf(state.players.size)
+//                ),
                 text = "선수 목록 (${state.players.size})",
                 style = SquadBuilderTheme.typography.body1SemiBold,
                 color = Neutral300
@@ -220,7 +226,7 @@ private fun PlayerList(
                 PlayerFormCard(
                     title = "${player.name} 선수 정보 수정",
                     player = player,
-                    commitButtonText = "수정 완료",
+                    commitButtonText = stringResource(R.string.player_form_card_save_button),
                     onCommitButtonClick = { playerId, name, position, backNumber ->
                         state.eventSink(
                             PlayerUiEvent.OnPlayerUpdateConfirm(

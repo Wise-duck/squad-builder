@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="splash_title">Create Your Own Football Team</string>
+    <string name="update_dialog_title">Update Notice</string>
+    <string name="update_dialog_description">A new version has been released!</string>
+    <string name="update_dialog_confirm_text_button">Update Now</string>
+</resources>

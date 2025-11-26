@@ -12,6 +12,7 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
@@ -121,12 +122,12 @@ private fun HomeContent(
             )
             if (state.errorMessage != null) {
                 SquadBuilderDialog(
-                    title = "오류 발생",
+                    title = stringResource(R.string.load_failed_team_list_dialog_title),
                     description = state.errorMessage,
                     onConfirmRequest = {
                         state.eventSink(HomeUiEvent.OnDialogCloseButtonClick)
                     },
-                    confirmButtonText = "확인"
+                    confirmButtonText = stringResource(R.string.dialog_confirm_text_button)
                 )
             }
         }

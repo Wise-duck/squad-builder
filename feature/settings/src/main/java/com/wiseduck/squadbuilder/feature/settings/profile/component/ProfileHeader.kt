@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.wiseduck.squadbuilder.feature.settings.R
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
@@ -34,7 +36,7 @@ fun ProfileHeader(
                 modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
             )
             Text(
-                "내 정보",
+                text = stringResource(R.string.profile_screen_header_title),
                 style = SquadBuilderTheme.typography.title1Bold,
                 color = White
             )

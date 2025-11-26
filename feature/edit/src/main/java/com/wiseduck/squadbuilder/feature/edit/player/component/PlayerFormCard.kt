@@ -217,20 +217,5 @@ private fun PlayerFormCardPreview() {
             onCommitButtonClick = { _, _, _, _ -> },
             onCancelButtonClick = {}
         )
-//        PlayerFormCard(
-//            title = "선수 정보 수정",
-//            player = TeamPlayerModel(
-//                id = 1,
-//                teamId = 1,
-//                name = "선수 이름",
-//                backNumber = 1,
-//                position = "MD"
-//            ),
-//            commitButtonText = "선수 정보 수정",
-//            onCommitButtonClick = {
-//                id, name, position, backNumber ->
-//            },
-//            onCancelButtonClick = {}
-//        )
     }
 }

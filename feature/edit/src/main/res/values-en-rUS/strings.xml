@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="player_management_screen_header_title">Players</string>
+    <string name="player_list_size_label">Player List</string>
+
+    <string name="referee_input_placeholder">Enter Name</string>
+    <string name="player_add_text_button">Register New Player</string>
+    <string name="create_player_form_card_title">Register New Player</string>
+    <string name="player_form_card_name_label">Player Name (e.g., Son Heung-min)</string>
+    <string name="player_form_card_back_number_label">Back Number (e.g., 7)</string>
+    <string name="player_form_card_save_button">Save</string>
+
+    <string name="player_side_bar_title">Player Quarter Status</string>
+    <string name="player_side_bar_no_content_description">No players are assigned to this formation.\nCreate a new formation or load an existing one.</string>
+    <string name="player_assignment_modal_title">Player List</string>
+
+    <string name="player_info_modal_title">Player Information</string>
+    <string name="player_info_modal_delete_button">Remove</string>
+    <string name="player_info_modal_edit_button">Edit</string>
+
+    <string name="formation_management_title">Formation</string>
+    <string name="formation_close_button">Close</string>
+    <string name="formation_save_button">Save</string>
+    <string name="formation_cancel_button">Cancel</string>
+    <string name="formation_created_at_label">Created At</string>
+
+    <string name="quarter_selection_title">Select Quarter to Share</string>
+    <string name="multiple_share_dialog_cancle_button">Cancel</string>
+    <string name="multiple_share_dialog_confirm_button">Confirm</string>
+    <string name="multiple_share_dialog_title">Select Quarter to Share</string>
+    <string name="multiple_share_quarter_selection_alert">Please select at least one quarter to share.</string>
+    <string name="multiple_share_capture_error">Failed to capture image. Please try again.</string>
+
+    <string name="dialog_confirm_text_button">Confirm</string>
+
+    <string name="formation_save_alert">You must place players in all 11 slots to save.</string>
+    <string name="load_player_failed_server_connection">Failed to load the player list. Please try again shortly.</string>
+</resources>

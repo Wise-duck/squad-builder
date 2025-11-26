@@ -76,7 +76,7 @@ fun ProfileCard(
                     modifier = Modifier.weight(1f)
                 )
                 Text(
-                    text = "카카오 로그인",
+                    text = stringResource(R.string.profile_card_login_type_kakao),
                     color = Yellow300
                 )
             }
