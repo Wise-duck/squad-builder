@@ -5,6 +5,7 @@
     <string name="team_sort_label">팀 정렬 기준</string>
     <string name="team_sort_option_1">최신순</string>
     <string name="team_sort_option_2">가나다순</string>
+    <string name="creation_date_label">생성일: %s</string>
 
     <string name="team_create_section_title">팀 추가하기</string>
     <string name="team_create_text_button">추가</string>

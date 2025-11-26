@@ -5,9 +5,10 @@
     <string name="team_sort_label">Sort By</string>
     <string name="team_sort_option_1">Latest</string>
     <string name="team_sort_option_2">Alphabetical</string>
+    <string name="creation_date_label">created at: %s</string>
 
     <string name="team_create_section_title">Add Team</string>
-    <string name="team_create_text_button">Add</string>
+    <string name="team_create_text_button">ADD</string>
     <string name="team_name_input_hint">Enter Name (e.g., FC Seoul)</string>
 
     <string name="team_create_error_server_connection">Failed to create team. Please try again shortly.</string>

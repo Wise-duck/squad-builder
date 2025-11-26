@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="player_management_screen_header_title">Players</string>
-    <string name="player_list_size_label">Player List</string>
+    <string name="player_management_screen_header_title">Player</string>
+    <string name="player_list_size_label">Player List (%s)</string>
 
-    <string name="referee_input_placeholder">Enter Name</string>
     <string name="player_add_text_button">Register New Player</string>
     <string name="create_player_form_card_title">Register New Player</string>
+    <string name="player_form_card_edit_title">Edit %s Player</string>
+    <string name="player_form_card_select_position_label">Position</string>
     <string name="player_form_card_name_label">Player Name (e.g., Son Heung-min)</string>
     <string name="player_form_card_back_number_label">Back Number (e.g., 7)</string>
     <string name="player_form_card_save_button">Save</string>
+    <string name="player_form_card_cancel_button">Cancel</string>
+    <string name="player_form_card_register_button">Register</string>
+    <string name="player_card_backnumber_label">Back Number: %s</string>
 
-    <string name="player_side_bar_title">Player Quarter Status</string>
+    <string name="player_side_bar_title">Player Assigned</string>
     <string name="player_side_bar_no_content_description">No players are assigned to this formation.\nCreate a new formation or load an existing one.</string>
     <string name="player_assignment_modal_title">Player List</string>
+    <string name="assigned_quarters_label">Assigned Quarters: %s</string>
+    <string name="assigned_quarter_size">(%s Quarters)</string>
 
     <string name="player_info_modal_title">Player Information</string>
     <string name="player_info_modal_delete_button">Remove</string>
@@ -22,17 +28,37 @@
     <string name="formation_close_button">Close</string>
     <string name="formation_save_button">Save</string>
     <string name="formation_cancel_button">Cancel</string>
-    <string name="formation_created_at_label">Created At</string>
+    <string name="formation_created_at_label">created at: %s</string>
 
+    <string name="formation_list_modal_title">Formation List</string>
+    <string name="formation_list_modal_close_button">Close</string>
+
+    <string name="quarter_referee_label">Q%d Referee:</string>
+    <string name="referee_input_placeholder">Enter Name</string>
+
+    <string name="quarter_text_button">Quarter %d</string>
     <string name="quarter_selection_title">Select Quarter to Share</string>
-    <string name="multiple_share_dialog_cancle_button">Cancel</string>
+    <string name="multiple_share_dialog_cancel_button">Cancel</string>
     <string name="multiple_share_dialog_confirm_button">Confirm</string>
     <string name="multiple_share_dialog_title">Select Quarter to Share</string>
     <string name="multiple_share_quarter_selection_alert">Please select at least one quarter to share.</string>
     <string name="multiple_share_capture_error">Failed to capture image. Please try again.</string>
 
     <string name="dialog_confirm_text_button">Confirm</string>
+    <string name="dialog_cancel_text_button">Cancel</string>
+    <string name="dialog_save_text_button">Save</string>
+    <string name="dialog_delete_text_button">Delete</string>
+
+    <string name="formation_save_confirm_dialog_title">Save Formation</string>
+    <string name="formation_save_confirm_dialog_placeholder">Enter a formation name.</string>
+
+    <string name="formation_delete_confirm_dialog_title">Delete Formation</string>
+    <string name="formation_delete_confirm_dialog_description">Are you sure you want to delete this formation?</string>
+
+    <string name="formation_reset_confirm_dialog_title">Reset Formation</string>
+    <string name="formation_reset_confirm_dialog_description">Are you sure you want to reset this formation?</string>
 
     <string name="formation_save_alert">You must place players in all 11 slots to save.</string>
+    <string name="load_failed_team_list_dialog_title">Error Occurred</string>
     <string name="load_player_failed_server_connection">Failed to load the player list. Please try again shortly.</string>
 </resources>
