@@ -29,7 +29,7 @@ android {
         getByName("release") {
             buildConfigField("String", "ADMOB_APP_ID", getApiKey("PROD_ADMOB_APP_ID"))
             buildConfigField("String", "ADMOB_BANNER_ID", getApiKey("PROD_ADMOB_BANNER_ID"))
-            manifestPlaceholders["ADMOB_APP_ID"] = getApiKey("PROD_ADMOB_APP_ID")
+            manifestPlaceholders["ADMOB_APP_ID"] = getApiKey("PROD_ADMOB_APP_ID").trim('"')
         }
     }
 }
