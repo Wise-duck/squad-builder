@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Squad Builder</string>
-    <string name="login_button_kakao">Login with KaKao</string>
+    <string name="login_button_kakao">카카오로 로그인</string>
     <string name="login_error_kakao_failed">카카오 로그인 실패. 잠시 후 다시 시도해주세요.</string>
     <string name="login_error_server_connection">"서버 연결에 실패했습니다. 네트워크 상태를 확인하거나 잠시 후 다시 시도해 주세요."</string>
 </resources>

@@ -31,14 +31,12 @@ import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
-import com.wiseduck.squadbuilder.core.designsystem.component.button.compactButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumRoundedButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.textfield.SquadBuilderTextField
 import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
@@ -106,7 +104,7 @@ fun PlayerFormCard(
             )
 
             Text(
-                text = "포지션 선택",
+                text = stringResource(R.string.player_form_card_select_position_label),
                 color = Green500,
                 style = SquadBuilderTheme.typography.body1Bold
             )
@@ -156,7 +154,10 @@ fun PlayerFormCard(
                 shape = RoundedCornerShape(
                     SquadBuilderTheme.radius.md
                 ),
-                placeholder = { Text("등번호", color = Neutral500) },
+                placeholder = { Text(
+                    text = stringResource(R.string.player_form_card_back_number_label),
+                    color = Neutral500
+                ) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 isError = !isBackNumberValid && backNumberString.isNotEmpty(),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -187,7 +188,7 @@ fun PlayerFormCard(
                     modifier = Modifier.width(SquadBuilderTheme.spacing.spacing8)
                 )
                 SquadBuilderButton(
-                    text = "취소",
+                    text = stringResource(R.string.player_form_card_cancel_button),
                     onClick = onCancelButtonClick,
                     sizeStyle = mediumRoundedButtonStyle,
                     colorStyle = ButtonColorStyle.TEXT_WHITE
@@ -217,20 +218,5 @@ private fun PlayerFormCardPreview() {
             onCommitButtonClick = { _, _, _, _ -> },
             onCancelButtonClick = {}
         )
-//        PlayerFormCard(
-//            title = "선수 정보 수정",
-//            player = TeamPlayerModel(
-//                id = 1,
-//                teamId = 1,
-//                name = "선수 이름",
-//                backNumber = 1,
-//                position = "MD"
-//            ),
-//            commitButtonText = "선수 정보 수정",
-//            onCommitButtonClick = {
-//                id, name, position, backNumber ->
-//            },
-//            onCancelButtonClick = {}
-//        )
     }
 }

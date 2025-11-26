@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_screen_header_title">Home</string>
+
+    <string name="team_sort_label">Sort By</string>
+    <string name="team_sort_option_1">Latest</string>
+    <string name="team_sort_option_2">Alphabetical</string>
+    <string name="creation_date_label">created at: %s</string>
+
+    <string name="team_create_section_title">Add Team</string>
+    <string name="team_create_text_button">ADD</string>
+    <string name="team_name_input_hint">Enter Name (e.g., FC Seoul)</string>
+
+    <string name="team_create_error_server_connection">Failed to create team. Please try again shortly.</string>
+    <string name="updated_team_list_load_failed">Failed to update the team list.</string>
+    <string name="load_failed_team_list_dialog_title">Error Occurred</string>
+    <string name="load_failed_team_list">An error occurred while loading the team list.\nPlease try again shortly.</string>
+    <string name="dialog_confirm_text_button">Confirm</string>
+</resources>

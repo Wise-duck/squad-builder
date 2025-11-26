@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.common.extensions.DateFormats
 import com.wiseduck.squadbuilder.core.common.extensions.toFormattedDate
@@ -65,7 +66,10 @@ fun TeamCard(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "생성일: ${team.createdAt.toFormattedDate(DateFormats.YY_MM_DD_DASH)}",
+                    text = stringResource(
+                        R.string.creation_date_label,
+                        team.createdAt.toFormattedDate(DateFormats.YY_MM_DD_DASH)
+                    ),
                     style = SquadBuilderTheme.typography.label1Medium,
                     color = Blue500
                 )

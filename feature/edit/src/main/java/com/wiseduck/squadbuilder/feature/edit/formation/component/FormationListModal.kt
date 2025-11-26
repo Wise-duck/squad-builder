@@ -18,12 +18,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.smallButtonStyle
+import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
@@ -54,9 +57,11 @@ fun FormationListModal(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "포메이션 목록",
-                color = Neutral100,
-                style = SquadBuilderTheme.typography.title1Bold
+                text = stringResource(
+                    R.string.formation_list_modal_title
+                ),
+                color = Green500,
+                style = SquadBuilderTheme.typography.title1Medium
             )
             Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
 
@@ -77,7 +82,9 @@ fun FormationListModal(
 
             SquadBuilderButton(
                 onClick = { onDismissRequest() },
-                text = "닫기",
+                text = stringResource(
+                    R.string.formation_list_modal_close_button
+                ),
                 sizeStyle = smallButtonStyle.copy(
                     paddingValues = PaddingValues(
                         horizontal = SquadBuilderTheme.spacing.spacing3, // 기존 좌우 여백

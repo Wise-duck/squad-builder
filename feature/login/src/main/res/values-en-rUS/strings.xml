@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Squad Builder</string>
+    <string name="login_button_kakao">Login with Kakao</string>
+    <string name="login_error_kakao_failed">Kakao login failed. Please try again shortly.</string>
+    <string name="login_error_server_connection">Server connection failed. Please check your network status or try again shortly.</string>
+</resources>

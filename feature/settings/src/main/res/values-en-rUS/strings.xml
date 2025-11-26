@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_screen_header_title">My Profile</string>
+
+    <string name="profile_card_title">Account Info</string>
+    <string name="profile_card_name_label">Name</string>
+    <string name="profile_card_login_type_label">Login with</string>
+    <string name="profile_card_login_type_kakao">Kakao</string>
+
+    <string name="logout_button">Logout</string>
+    <string name="withdraw_button">Withdraw</string>
+    <string name="privacy_policy_button">Privacy Policy</string>
+
+    <string name="logout_error_server_connection">Logout failed. Please try again shortly.</string>
+    <string name="withdraw_error_server_connection">Account withdrawal failed. Please try again shortly.</string>
+</resources>

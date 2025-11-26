@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_skip_button">Skip</string>
+    <string name="onboarding_next_button">Next</string>
+    <string name="onboarding_page_1_description">Easily and quickly create formations\nusing drag and drop!</string>
+    <string name="onboarding_page_2_description">Register and manage your players!</string>
+    <string name="onboarding_page_3_description">Quickly share the formations\nyou\'ve created!</string>
+</resources>

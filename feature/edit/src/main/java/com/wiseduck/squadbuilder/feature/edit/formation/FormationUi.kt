@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
@@ -85,12 +86,12 @@ fun FormationUi(
         SquadBuilderDialog(
             onConfirmRequest = { state.eventSink(FormationUiEvent.OnDeleteFormationConfirm) },
             onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissDeleteDialog) },
-            confirmButtonText = "삭제",
-            dismissButtonText = "취소",
-            title = "포메이션 삭제",
+            confirmButtonText = stringResource(R.string.dialog_delete_text_button),
+            dismissButtonText = stringResource(R.string.dialog_cancel_text_button),
+            title = stringResource(R.string.formation_delete_confirm_dialog_title),
             content = {
                 Text(
-                    text = "정말로 이 포메이션을 삭제하시겠습니까?",
+                    text = stringResource(R.string.formation_delete_confirm_dialog_description),
                     color = Color.White
                 )
             }
@@ -109,14 +110,15 @@ fun FormationUi(
         SquadBuilderDialog(
             onConfirmRequest = { state.eventSink(FormationUiEvent.OnSaveDialogConfirm) },
             onDismissRequest = { state.eventSink(FormationUiEvent.OnSaveDialogDismiss) },
-            confirmButtonText = "저장",
-            dismissButtonText = "취소",
-            title = "포메이션 저장",
+            confirmButtonText = stringResource(R.string.dialog_save_text_button),
+            dismissButtonText = stringResource(R.string.dialog_cancel_text_button),
+            title = stringResource(R.string.formation_save_confirm_dialog_title),
             content = {
                 TextField(
                     value = state.currentFormationName,
                     onValueChange = { state.eventSink(FormationUiEvent.OnFormationNameChange(it)) },
-                    placeholder = { Text("포메이션 이름을 입력하세요") },
+                    placeholder = {
+                        Text(stringResource(R.string.formation_save_confirm_dialog_placeholder)) },
                     maxLines = 1,
                 )
             }
@@ -127,12 +129,12 @@ fun FormationUi(
         SquadBuilderDialog(
             onConfirmRequest = { state.eventSink(FormationUiEvent.OnConfirmReset) },
             onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissResetDialog) },
-            confirmButtonText = "확인",
-            dismissButtonText = "취소",
-            title = "포메이션 초기화",
+            confirmButtonText = stringResource(R.string.dialog_confirm_text_button),
+            dismissButtonText = stringResource(R.string.dialog_cancel_text_button),
+            title = stringResource(R.string.formation_reset_confirm_dialog_title),
             content = {
                 Text(
-                    text = "정말로 포메이션을 초기화하시겠습니까?",
+                    text = stringResource(R.string.formation_reset_confirm_dialog_description),
                     color = Color.White
                 )
             }
@@ -202,7 +204,10 @@ fun FormationUi(
             ) {
                 repeat(4) {
                     SquadBuilderButton(
-                        text = "${it + 1} 쿼터",
+                        text = stringResource(
+                            R.string.quarter_text_button,
+                            it + 1
+                        ),
                         onClick = {
                             state.eventSink(FormationUiEvent.OnQuarterChange(it + 1))
                         },

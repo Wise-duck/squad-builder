@@ -75,7 +75,10 @@ fun RefereeInput(
                     start = SquadBuilderTheme.spacing.spacing2,
                     end = SquadBuilderTheme.spacing.spacing1
                 ),
-            text = "Q$currentQuarter 심판:",
+            text = stringResource(
+                R.string.quarter_referee_label,
+                currentQuarter
+            ),
             color = Red500,
             style = SquadBuilderTheme.typography.caption1Regular
         )

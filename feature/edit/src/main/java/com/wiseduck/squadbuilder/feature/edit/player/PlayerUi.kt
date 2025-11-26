@@ -112,7 +112,10 @@ private fun PlayerContent(
                 modifier = modifier
                     .fillMaxWidth()
                     .padding(start = SquadBuilderTheme.spacing.spacing1),
-                text = "선수 목록 (${state.players.size})",
+                text = stringResource(
+                    id = R.string.player_list_size_label,
+                    formatArgs = arrayOf(state.players.size)
+                ),
                 style = SquadBuilderTheme.typography.body1SemiBold,
                 color = Neutral300
             )
@@ -126,7 +129,7 @@ private fun PlayerContent(
             PlayerFormCard(
                 title = stringResource(R.string.create_player_form_card_title),
                 player = null,
-                commitButtonText = "등록",
+                commitButtonText = stringResource(R.string.player_form_card_register_button),
                 onCommitButtonClick = { _, name, position, backNumber ->
                     state.eventSink(
                         PlayerUiEvent.OnTeamPlayerCreationConfirmButtonClick(
@@ -180,7 +183,7 @@ private fun PlayerContent(
             )
             if (state.errorMessage != null) {
                 SquadBuilderDialog(
-                    title = "오류 발생",
+                    title = stringResource(R.string.load_failed_team_list_dialog_title),
                     description = state.errorMessage,
                     onConfirmRequest = {
                         state.eventSink(PlayerUiEvent.OnDialogCloseButtonClick)
@@ -218,9 +221,12 @@ private fun PlayerList(
             )
             if (isCurrentlyEditing) {
                 PlayerFormCard(
-                    title = "${player.name} 선수 정보 수정",
+                    title = stringResource(
+                        R.string.player_form_card_edit_title,
+                        player.name,
+                    ),
                     player = player,
-                    commitButtonText = "수정 완료",
+                    commitButtonText = stringResource(R.string.player_form_card_save_button),
                     onCommitButtonClick = { playerId, name, position, backNumber ->
                         state.eventSink(
                             PlayerUiEvent.OnPlayerUpdateConfirm(

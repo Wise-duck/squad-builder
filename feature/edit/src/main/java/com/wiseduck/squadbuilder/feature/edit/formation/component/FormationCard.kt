@@ -18,11 +18,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.common.extensions.DateFormats
 import com.wiseduck.squadbuilder.core.common.extensions.toFormattedDate
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
-import com.wiseduck.squadbuilder.core.designsystem.R
+import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainComponentBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
@@ -66,7 +67,10 @@ fun FormationCard(
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = "생성일: ${formation.createdAt.toFormattedDate(DateFormats.YY_MM_DD_DASH)}",
+                    text = stringResource(
+                        R.string.formation_created_at_label,
+                        formation.createdAt.toFormattedDate(DateFormats.YY_MM_DD_DASH)
+                        ),
                     style = SquadBuilderTheme.typography.label1Medium,
                     color = Blue500
                 )
@@ -77,7 +81,7 @@ fun FormationCard(
             ) {
                 Icon(
                     modifier = Modifier.size(24.dp),
-                    painter = painterResource(R.drawable.ic_remove),
+                    painter = painterResource(com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_remove),
                     contentDescription = "Remove Icon",
                     tint = Red500
                 )
