@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="profile_screen_header_title">내 정보</string>
+
     <string name="profile_card_title">계정 정보</string>
     <string name="profile_card_name_label">이름</string>
     <string name="profile_card_login_type_label">로그인 방식</string>
+    <string name="profile_card_login_type_kakao">카카오 로그인</string>"
+
+    <string name="logout_button">로그아웃</string>
+    <string name="withdraw_button">계정 탈퇴"</string>
+    <string name="privacy_policy_button">개인정보처리방침</string>
+
     <string name="logout_error_server_connection">로그아웃 실패. 잠시 후 다시 시도해주세요.</string>
     <string name="withdraw_error_server_connection">계정 탈퇴 실패. 잠시 후 다시 시도해주세요.</string>
 </resources>

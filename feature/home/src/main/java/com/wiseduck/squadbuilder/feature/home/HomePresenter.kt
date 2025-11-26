@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.wiseduck.squadbuilder.core.common.di.AdmobBannerId
 import com.wiseduck.squadbuilder.core.data.api.repository.TeamRepository
 import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.feature.screens.HomeScreen
@@ -27,7 +28,8 @@ import kotlinx.coroutines.launch
 
 class HomePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    private val teamRepository: TeamRepository
+    private val teamRepository: TeamRepository,
+    @AdmobBannerId private val admobBannerId: String,
 ) : Presenter<HomeUiState> {
 
     @Composable
@@ -150,6 +152,7 @@ class HomePresenter @AssistedInject constructor(
         return HomeUiState(
             isLoading = isLoading,
             isRefreshing = isRefreshing,
+            adUnitId = admobBannerId,
             currentSortOption = currentSortOption,
             errorMessage = errorMessage,
             teams = teams,

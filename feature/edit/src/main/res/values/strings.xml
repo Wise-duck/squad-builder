@@ -1,26 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="player_management_screen_header_title">선수 관리</string>
+    <string name="player_list_size_label">선수 목록 (%s)</string>
+
     <string name="player_add_text_button">새 선수 등록</string>
-    <string name="quarter_selection_title">공유할 쿼터 선택</string>
     <string name="create_player_form_card_title">새 선수 등록</string>
+    <string name="player_form_card_edit_title">%s 선수 정보 수정</string>
+    <string name="player_form_card_select_position_label">포지션 선택</string>
     <string name="player_form_card_name_label">선수 이름(예: 손흥민)</string>
     <string name="player_form_card_back_number_label">등번호(예: 7)</string>
-    <string name="dialog_confirm_text_button">확인</string>
+    <string name="player_form_card_save_button">수정 완료</string>
+    <string name="player_form_card_cancel_button">취소</string>
+    <string name="player_form_card_register_button">등록"</string>
+    <string name="player_card_backnumber_label">등번호: %s</string>
+
     <string name="formation_management_title">포메이션 관리</string>
-    <string name="player_side_bar_title">선수별 쿼터 현황</string>
-    <string name="player_side_bar_no_content_description"> 해당 포메이션에 지정된 선수가 없습니다.\n새로운 포메이션을 만들거나, 기존의 포메이션을 불러오세요.</string>
-    <string name="formation_PlayerAssignmentModal_title">선수 목록</string>
-    <string name="formation_PlayerInfoModal_title">선수 정보</string>
-    <string name="formation_PlayerInfoModal_remove_button">제거</string>
-    <string name="formation_PlayerInfoModal_edit_button">수정</string>
     <string name="formation_close_button">닫기</string>
-    <string name="formation_save_button">저장"</string>
+    <string name="formation_save_button">저장</string>
     <string name="formation_cancel_button">취소</string>
-    <string name="multiple_share_dialog_cancle_button">취소</string>
-    <string name="multiple_share_dialog_confirm_button">확인</string>
+    <string name="formation_save_alert">11개 슬롯에 선수를 배치해야 저장할 수 있습니다.</string>
+    <string name="formation_created_at_label">생성일: %s</string>
+
+    <string name="formation_list_modal_title">포메이션 목록</string>
+    <string name="formation_list_modal_close_button">닫기</string>
+
+    <string name="quarter_referee_label">Q%d 심판:</string>
+    <string name="referee_input_placeholder">이름 입력</string>
+
+    <string name="player_side_bar_title">선수별 쿼터 현황</string>
+    <string name="player_side_bar_no_content_description">해당 포메이션에 지정된 선수가 없습니다.\n새로운 포메이션을 만들거나, 기존의 포메이션을 불러오세요.</string>
+    <string name="assigned_quarters_label">배정된 쿼터: %s</string>
+    <string name="assigned_quarter_size">(%s 쿼터)</string>
+
+    <string name="player_assignment_modal_title">선수 목록</string>
+    <string name="player_info_modal_title">선수 정보</string>
+    <string name="player_info_modal_delete_button">제거</string>
+    <string name="player_info_modal_edit_button">수정</string>
+
+    <string name="quarter_text_button">%d 쿼터</string>
+    <string name="quarter_selection_title">공유할 쿼터 선택</string>
     <string name="multiple_share_dialog_title">공유할 쿼터 선택</string>
+    <string name="multiple_share_dialog_cancel_button">취소</string>
+    <string name="multiple_share_dialog_confirm_button">확인</string>
     <string name="multiple_share_quarter_selection_alert">공유할 쿼터를 1개 이상 선택해주세요.</string>
     <string name="multiple_share_capture_error">이미지 캡처에 실패했습니다. 다시 시도해주세요.</string>
-    <string name="formation_save_alert">11개 슬롯에 선수를 배치해야 저장할 수 있습니다.</string>
+
+    <string name="dialog_confirm_text_button">확인</string>
+    <string name="dialog_cancel_text_button">취소</string>
+    <string name="dialog_save_text_button">저장</string>
+    <string name="dialog_delete_text_button">삭제</string>
+
+    <string name="formation_save_confirm_dialog_title">포메이션 저장</string>
+    <string name="formation_save_confirm_dialog_placeholder">포메이션 이름을 입력하세요.</string>
+
+    <string name="formation_delete_confirm_dialog_title">포메이션 삭제</string>
+    <string name="formation_delete_confirm_dialog_description">정말로 이 포메이션을 삭제하시겠습니까?</string>
+
+    <string name="formation_reset_confirm_dialog_title">포메이션 초기화</string>
+    <string name="formation_reset_confirm_dialog_description">정말로 포메이션을 초기화하시겠습니까?</string>
+
+    <string name="load_failed_team_list_dialog_title">오류 발생"</string>
     <string name="load_player_failed_server_connection">선수 목록을 불러오는데 실패했습니다. 점시 후 다시 시도해주세요.</string>
 </resources>

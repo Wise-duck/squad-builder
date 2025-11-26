@@ -30,6 +30,7 @@ import com.wiseduck.squadbuilder.core.designsystem.PlayerPosition
 import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainComponentBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral400
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
@@ -108,8 +109,8 @@ fun PlayerQuarterStatusSideBar(
             if (playerQuarterStatus.isEmpty()) {
                 Text(
                     text = stringResource(R.string.player_side_bar_no_content_description),
-                    style = SquadBuilderTheme.typography.body1Bold,
-                    color = Neutral500
+                    style = SquadBuilderTheme.typography.body1Regular,
+                    color = Neutral400
                 )
             }
 
@@ -176,7 +177,10 @@ private fun PlayerQuarterStatusRow(
             )
 
             Text(
-                text = "(${playerQuarterStatus[index].quarters.size}쿼터)",
+                text = stringResource(
+                    R.string.assigned_quarter_size,
+                    playerQuarterStatus[index].quarters.size
+                ),
                 style = SquadBuilderTheme.typography.caption1Regular,
                 color = Neutral300
             )
@@ -186,7 +190,10 @@ private fun PlayerQuarterStatusRow(
                 .fillMaxWidth()
         ) {
             Text(
-                text = "배정된 쿼터: ${playerQuarterStatus[index].quarters.joinToString(", ")}",
+                text = stringResource(
+                    id = R.string.assigned_quarters_label,
+                    playerQuarterStatus[index].quarters.joinToString(", ") // ⭐️ 콤마로 연결된 문자열 전체를 %s로 전달
+                ),
                 style = SquadBuilderTheme.typography.caption1Regular,
                 color = Neutral300
             )

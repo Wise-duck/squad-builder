@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="team_detail_header_title">Management</string>
+
+    <string name="card_title_manage_players">Team Players</string>
+    <string name="card_desc_manage_players">Add, edit, or remove players.</string>
+
+    <string name="card_title_manage_formation">Team Formations</string>
+    <string name="card_desc_manage_formation">Set up tactics and the default formation.</string>
+</resources>

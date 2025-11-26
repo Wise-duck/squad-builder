@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.PlayerPosition
@@ -26,7 +26,6 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.core.designsystem.theme.Yellow300
 import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
 import com.wiseduck.squadbuilder.feature.edit.R
 
@@ -82,8 +81,11 @@ fun PlayerCard(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = SquadBuilderTheme.spacing.spacing4),
-                    text = "등번호: ${player.backNumber}",
-                    style = SquadBuilderTheme.typography.body1Regular,
+                    text = stringResource(
+                        R.string.player_card_backnumber_label,
+                        player.backNumber
+                    ),
+                    style = SquadBuilderTheme.typography.caption1Regular,
                     color = Neutral300
                 )
             }

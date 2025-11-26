@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
@@ -39,9 +40,9 @@ import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorS
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumRoundedButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral900
+import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.SoccerField
@@ -55,6 +56,7 @@ import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerInfoModa
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerPlacementLayer
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerQuarterStatusSideBar
 import com.wiseduck.squadbuilder.feature.edit.formation.component.QuarterSelectionDialog
+import com.wiseduck.squadbuilder.feature.edit.formation.component.RefereeInput
 import com.wiseduck.squadbuilder.feature.edit.formation.data.createDefaultPlayers
 import com.wiseduck.squadbuilder.feature.screens.FormationScreen
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -84,12 +86,12 @@ fun FormationUi(
         SquadBuilderDialog(
             onConfirmRequest = { state.eventSink(FormationUiEvent.OnDeleteFormationConfirm) },
             onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissDeleteDialog) },
-            confirmButtonText = "삭제",
-            dismissButtonText = "취소",
-            title = "포메이션 삭제",
+            confirmButtonText = stringResource(R.string.dialog_delete_text_button),
+            dismissButtonText = stringResource(R.string.dialog_cancel_text_button),
+            title = stringResource(R.string.formation_delete_confirm_dialog_title),
             content = {
                 Text(
-                    text = "정말로 이 포메이션을 삭제하시겠습니까?",
+                    text = stringResource(R.string.formation_delete_confirm_dialog_description),
                     color = Color.White
                 )
             }
@@ -108,14 +110,15 @@ fun FormationUi(
         SquadBuilderDialog(
             onConfirmRequest = { state.eventSink(FormationUiEvent.OnSaveDialogConfirm) },
             onDismissRequest = { state.eventSink(FormationUiEvent.OnSaveDialogDismiss) },
-            confirmButtonText = "저장",
-            dismissButtonText = "취소",
-            title = "포메이션 저장",
+            confirmButtonText = stringResource(R.string.dialog_save_text_button),
+            dismissButtonText = stringResource(R.string.dialog_cancel_text_button),
+            title = stringResource(R.string.formation_save_confirm_dialog_title),
             content = {
                 TextField(
                     value = state.currentFormationName,
                     onValueChange = { state.eventSink(FormationUiEvent.OnFormationNameChange(it)) },
-                    placeholder = { Text("포메이션 이름을 입력하세요") },
+                    placeholder = {
+                        Text(stringResource(R.string.formation_save_confirm_dialog_placeholder)) },
                     maxLines = 1,
                 )
             }
@@ -126,12 +129,12 @@ fun FormationUi(
         SquadBuilderDialog(
             onConfirmRequest = { state.eventSink(FormationUiEvent.OnConfirmReset) },
             onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissResetDialog) },
-            confirmButtonText = "확인",
-            dismissButtonText = "취소",
-            title = "포메이션 초기화",
+            confirmButtonText = stringResource(R.string.dialog_confirm_text_button),
+            dismissButtonText = stringResource(R.string.dialog_cancel_text_button),
+            title = stringResource(R.string.formation_reset_confirm_dialog_title),
             content = {
                 Text(
-                    text = "정말로 포메이션을 초기화하시겠습니까?",
+                    text = stringResource(R.string.formation_reset_confirm_dialog_description),
                     color = Color.White
                 )
             }
@@ -201,7 +204,10 @@ fun FormationUi(
             ) {
                 repeat(4) {
                     SquadBuilderButton(
-                        text = "${it + 1} 쿼터",
+                        text = stringResource(
+                            R.string.quarter_text_button,
+                            it + 1
+                        ),
                         onClick = {
                             state.eventSink(FormationUiEvent.OnQuarterChange(it + 1))
                         },
@@ -236,19 +242,34 @@ fun FormationUi(
                         if (state.isCapturing) {
                             Text(
                                 modifier = Modifier
-                                    .padding(SquadBuilderTheme.spacing.spacing4)
+                                    .padding(SquadBuilderTheme.spacing.spacing3)
                                     .background(
-                                        color = Color.Black.copy(alpha = 0.6f),
+                                        color = Color.Black.copy(alpha = 0.8f),
                                         shape = RoundedCornerShape(
-                                            SquadBuilderTheme.radius.sm
-                                        )
+                                            SquadBuilderTheme.radius.md
+                                        ),
                                     )
                                     .padding(SquadBuilderTheme.spacing.spacing2),
-                                text = "Q ${state.currentQuarter}",
-                                color = Neutral50,
+                                text = "\uD83D\uDD25 Q ${state.currentQuarter}",
+                                color = Red500,
                                 style = SquadBuilderTheme.typography.body1Regular
                             )
                         }
+
+                        RefereeInput(
+                            modifier = Modifier
+                                .fillMaxWidth(0.4f)
+                                .align(Alignment.TopEnd)
+                                .offset(
+                                    x = (-5).dp,
+                                    y = (14).dp
+                                ),
+                            currentQuarter = state.currentQuarter,
+                            currentRefereeName = state.allReferees[state.currentQuarter] ?: "",
+                            onRefereeNameChange = {
+                                state.eventSink(FormationUiEvent.OnRefereeNameChange(state.currentQuarter, it))
+                            }
+                        )
 
                         PlayerPlacementLayer(
                             players = state.players,

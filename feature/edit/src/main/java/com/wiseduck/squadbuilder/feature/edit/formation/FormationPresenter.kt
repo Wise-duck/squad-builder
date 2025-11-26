@@ -47,6 +47,7 @@ class FormationPresenter @AssistedInject constructor(
         var allPlacements by remember { mutableStateOf(mapOf<Int, List<PlacementModel>>()) }
 
         val scope = rememberCoroutineScope()
+        var allReferees by remember { mutableStateOf(mapOf<Int, String>()) }
         var formationList by remember { mutableStateOf(emptyList<FormationListItemModel>()) }
         var isListModalVisible by remember { mutableStateOf(false) }
         var isResetConfirmDialogVisible by remember { mutableStateOf(false) }
@@ -255,6 +256,10 @@ class FormationPresenter @AssistedInject constructor(
 
                                 players = allPlacements[currentQuarter] ?: createDefaultPlayers(currentQuarter)
 
+                                allReferees = formationDetail.referees.mapKeys { (quarter, _) ->
+                                    quarter.toIntOrNull() ?: 0
+                                }.filterKeys { it != 0 }
+
                                 currentFormationId = formationDetail.formationId
                                 currentFormationName = formationDetail.name
                                 isListModalVisible = false
@@ -267,6 +272,12 @@ class FormationPresenter @AssistedInject constructor(
 
                 is FormationUiEvent.OnFormationNameChange -> {
                     currentFormationName = event.name
+                }
+
+                is FormationUiEvent.OnRefereeNameChange -> {
+                    allReferees = allReferees.toMutableMap().apply {
+                        this[event.quarter] = event.refereeName
+                    }
                 }
 
                 FormationUiEvent.OnFormationSaveClick -> {
@@ -296,10 +307,15 @@ class FormationPresenter @AssistedInject constructor(
                             }
                         }
 
+                        val refereesMap = allReferees.mapKeys { (quarter, _) ->
+                            quarter.toString()
+                        }
+
                         val request = FormationSaveModel(
                             teamId = teamId,
                             name = currentFormationName.ifBlank { "새 포메이션" },
-                            placements = placements
+                            placements = placements,
+                            referees = refereesMap
                         )
 
                         if (isUpdate) {
@@ -536,6 +552,7 @@ class FormationPresenter @AssistedInject constructor(
             teamId = teamId,
             teamName = teamName,
             currentQuarter = currentQuarter,
+            allReferees = allReferees,
             formationList = formationList,
             isListModalVisible = isListModalVisible,
             isQuarterSelectionDialogVisible = isQuarterSelectionDialogVisible,

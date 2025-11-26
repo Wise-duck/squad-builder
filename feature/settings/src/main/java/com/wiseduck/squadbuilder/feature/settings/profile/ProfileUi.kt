@@ -1,6 +1,5 @@
 package com.wiseduck.squadbuilder.feature.settings.profile
 
-import android.R.attr.name
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
@@ -25,6 +25,7 @@ import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab
 import com.wiseduck.squadbuilder.feature.settings.profile.component.ProfileCard
 import com.wiseduck.squadbuilder.feature.settings.profile.component.ProfileHeader
 import dagger.hilt.android.components.ActivityRetainedComponent
+import com.wiseduck.squadbuilder.feature.settings.R
 
 @CircuitInject(ProfileScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -107,19 +108,19 @@ private fun ProfileContent(
             horizontalAlignment = Alignment.Start
         ) {
             SquadBuilderButton(
-                text = "로그아웃",
+                text = stringResource(R.string.logout_button),
                 onClick = onLogoutClick,
                 sizeStyle = largeButtonStyle,
                 colorStyle = ButtonColorStyle.TEXT
             )
             SquadBuilderButton(
-                text = "계정 삭제",
+                text = stringResource(R.string.withdraw_button),
                 onClick = onWithDrawClick,
                 sizeStyle = largeButtonStyle,
                 colorStyle = ButtonColorStyle.TEXT
             )
             SquadBuilderButton(
-                text = "개인정보처리방침",
+                text = stringResource(R.string.privacy_policy_button),
                 onClick = onPrivacyPolicyClick,
                 sizeStyle = largeButtonStyle,
                 colorStyle = ButtonColorStyle.TEXT

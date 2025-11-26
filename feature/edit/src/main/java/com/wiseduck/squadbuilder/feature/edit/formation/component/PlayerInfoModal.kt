@@ -53,7 +53,7 @@ fun PlayerInfoModal(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(R.string.formation_PlayerInfoModal_title),
+                text = stringResource(R.string.player_info_modal_title),
                 color = Neutral100,
                 style = SquadBuilderTheme.typography.title1Bold
             )
@@ -74,14 +74,14 @@ fun PlayerInfoModal(
             ) {
                 SquadBuilderButton(
                     onClick = onUnassignClick,
-                    text = stringResource(R.string.formation_PlayerInfoModal_remove_button),
+                    text = stringResource(R.string.player_info_modal_delete_button),
                     sizeStyle = smallButtonStyle,
                     colorStyle = ButtonColorStyle.TEXT_RED,
                     modifier = Modifier.weight(1f)
                 )
                 SquadBuilderButton(
                     onClick = onModifyClick,
-                    text = stringResource(R.string.formation_PlayerInfoModal_edit_button),
+                    text = stringResource(R.string.player_info_modal_edit_button),
                     sizeStyle = smallButtonStyle,
                     colorStyle = ButtonColorStyle.STROKE,
                     modifier = Modifier.weight(1f)

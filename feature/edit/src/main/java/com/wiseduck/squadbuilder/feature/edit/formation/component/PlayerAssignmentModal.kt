@@ -62,7 +62,7 @@ fun PlayerAssignmentModal(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(R.string.formation_PlayerAssignmentModal_title),
+                text = stringResource(R.string.player_assignment_modal_title),
                 color = Neutral100,
                 style = SquadBuilderTheme.typography.title1Bold
             )

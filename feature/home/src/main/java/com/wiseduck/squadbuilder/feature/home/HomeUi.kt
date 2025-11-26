@@ -12,12 +12,14 @@ import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
+import com.wiseduck.squadbuilder.core.ui.component.AdBanner
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
 import com.wiseduck.squadbuilder.feature.home.component.HomeHeader
@@ -58,6 +60,8 @@ fun HomeUi(
                 modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
             )
             HomeContent(
+                modifier = Modifier
+                    .weight(1f),
                 state = state,
                 onTeamCreateClick = {
                     state.eventSink(HomeUiEvent.OnTeamCreateButtonClick(it))
@@ -82,7 +86,8 @@ private fun HomeContent(
     onTeamDeleteClick: (Int) -> Unit
 ) {
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxWidth()
     ) {
         TeamCreateSection(
             modifier = Modifier.fillMaxWidth(),
@@ -107,6 +112,7 @@ private fun HomeContent(
             SquadBuilderLoadingIndicator()
         } else {
             TeamList(
+                modifier = Modifier.weight(1f),
                 state = state,
                 onTeamClick = onTeamClick,
                 onTeamDeleteClick = onTeamDeleteClick,
@@ -116,15 +122,28 @@ private fun HomeContent(
             )
             if (state.errorMessage != null) {
                 SquadBuilderDialog(
-                    title = "오류 발생",
+                    title = stringResource(R.string.load_failed_team_list_dialog_title),
                     description = state.errorMessage,
                     onConfirmRequest = {
                         state.eventSink(HomeUiEvent.OnDialogCloseButtonClick)
                     },
-                    confirmButtonText = "확인"
+                    confirmButtonText = stringResource(R.string.dialog_confirm_text_button)
                 )
             }
         }
+
+        AdBanner(
+            modifier = Modifier.fillMaxWidth()
+                .padding(
+                    vertical = SquadBuilderTheme.spacing.spacing2,
+                    horizontal = SquadBuilderTheme.spacing.spacing2
+                ),
+            adUnitId = state.adUnitId
+        )
+
+        Spacer(
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+        )
     }
 }
 
@@ -137,8 +156,7 @@ private fun TeamList(
     onTeamDeleteClick: (Int) -> Unit
 ) {
     PullToRefreshBox(
-        modifier = modifier
-            .fillMaxSize(),
+        modifier = modifier,
         state = rememberPullToRefreshState(),
         onRefresh = onRefresh,
         isRefreshing = state.isRefreshing,

@@ -14,5 +14,6 @@ data class PlacementSaveRequest(
 data class FormationSaveRequest(
     val teamId: Int,
     val name: String,
-    val placements: List<PlacementSaveRequest>
+    val placements: List<PlacementSaveRequest>,
+    val referees: Map<String, String>
 )

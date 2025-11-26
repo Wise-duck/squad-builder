@@ -45,7 +45,7 @@ fun QuarterSelectionDialog(
         onConfirmRequest = { onConfirm(selectedQuarters)},
         onDismissRequest = onDismiss,
         confirmButtonText = stringResource(R.string.multiple_share_dialog_confirm_button),
-        dismissButtonText = stringResource(R.string.multiple_share_dialog_cancle_button),
+        dismissButtonText = stringResource(R.string.multiple_share_dialog_cancel_button),
         title = stringResource(R.string.multiple_share_dialog_title),
         content = {
             Column(

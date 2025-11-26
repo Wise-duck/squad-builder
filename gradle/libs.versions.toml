@@ -2,10 +2,11 @@
 ## Application
 applicationId = "com.wiseduck.squadbuilder"
 compileSdk = "36"
+playServicesAds = "24.8.0"
 targetSdk = "36"
 minSdk = "24"
-versionCode = "27"
-versionName = "2.1.2"
+versionCode = "28"
+versionName = "2.1.3"
 
 ## Android Gradle Plugin
 agp = "8.13.0"
@@ -83,6 +84,7 @@ accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-
 
 desugar-jdk-libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugarJdkLibs"}
 
+play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
