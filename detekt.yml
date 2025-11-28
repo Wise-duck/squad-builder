@@ -1,0 +1,72 @@
+complexity:
+    LongMethod:
+        threshold: 80
+        ignoreAnnotated: ["Composable"]
+    LongParameterList:
+        ignoreAnnotated: ["Composable"]
+    TooManyFunctions:
+        active: false
+    ComplexCondition:
+        threshold: 5
+    CyclomaticComplexMethod:
+        ignoreAnnotated: ["Composable"]
+    NestedBlockDepth:
+        threshold: 7
+
+exceptions:
+    TooGenericExceptionCaught:
+        active: false
+    SwallowedException:
+        active: false
+
+formatting:
+    AnnotationOnSeparateLine:
+        active: false
+    TrailingCommaOnCallSite:
+        active: true
+    TrailingCommaOnDeclarationSite:
+        active: true
+    ImportOrdering:
+        active: false
+    MaximumLineLength:
+        active: false
+    MultiLineIfElse:
+        active: false
+    Indentation:
+        indentSize: 4
+    ParameterListWrapping:
+        active: false
+    ArgumentListWrapping:
+        indentSize: 4
+        maxLineLength: 150
+    KdocWrapping:
+        active: true
+        indentSize: 4
+    Wrapping:
+        indentSize: 4
+        active: false
+    CommentWrapping:
+        active: false
+    Filename:
+        active: false
+
+naming:
+  FunctionNaming:
+    ignoreAnnotated: ['Composable']
+    functionPattern: '[a-zA-Z][a-zA-Z0-9]*'
+  MatchingDeclarationName:
+    active: false
+
+style:
+  WildcardImport:
+    active: true
+  MaxLineLength:
+    active: false
+  ReturnCount:
+    active: false
+  MagicNumber:
+    active: false
+  UnusedPrivateMember:
+    ignoreAnnotated: [ 'Preview', 'ComponentPreview', 'DevicePreview' ]
+  SpacingBetweenPackageAndImports:
+    active: true
