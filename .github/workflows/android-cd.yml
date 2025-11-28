@@ -60,8 +60,16 @@ jobs:
       - name: Generate Simple Release Note
         id: release_note_content
         run: |
-            COMMIT_MSG=$(git log -1 --pretty=%B)
-            NOTES="Latest Change: \n\n${COMMIT_MSG}"
+          set -euo pipefail
+          RELEASE_COMMIT_SHA=$(git log -n 1 --grep="^release:" --pretty=format:%H)
+ 
+          if [[ -z "$RELEASE_COMMIT_SHA" ]]; then
+            echo "Error: 'release:' prefix commit not found." >&2
+            exit 1
+          else
+            NOTES=$(git log -1 --format=%b $RELEASE_COMMIT_SHA | sed -e '/^\s*$/d' -e 's/^[[:space:]]*//')
+            echo "Release commit SHA: $RELEASE_COMMIT_SHA"
+          fi
           
             echo "notes<<EOF" >> $GITHUB_OUTPUT
             echo -e "$NOTES" >> $GITHUB_OUTPUT
