@@ -10,5 +10,5 @@ data class PlacementResponse(
     val playerBackNumber: Int,
     val quarter: Int,
     val coordX: Float,
-    val coordY: Float
+    val coordY: Float,
 )

@@ -13,10 +13,12 @@ import javax.inject.Inject
 
 class TokenAuthenticator @Inject constructor(
     private val dataSource: TokenDataSource,
-    private val service: Provider<SquadBuilderService>
+    private val service: Provider<SquadBuilderService>,
 ) : Authenticator {
-
-    override fun authenticate(route: Route?, response: Response): Request? {
+    override fun authenticate(
+        route: Route?,
+        response: Response,
+    ): Request? {
         return runBlocking {
             try {
                 val refreshToken = dataSource.getRefreshToken()

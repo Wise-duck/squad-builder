@@ -28,13 +28,13 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 @Composable
 fun SplashUi(
     modifier: Modifier = Modifier,
-    state: SplashUiState
+    state: SplashUiState,
 ) {
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(Black),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             modifier = Modifier
@@ -45,12 +45,12 @@ fun SplashUi(
                 modifier = Modifier.width(200.dp),
                 painter = painterResource(R.drawable.ic_app_name),
                 contentDescription = "Squad Builder App Name",
-                tint = Neutral50
+                tint = Neutral50,
             )
             Image(
                 modifier = Modifier.size(250.dp),
                 painter = painterResource(id = com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_launcher_foreground),
-                contentDescription = "SquadBuilder App Logo"
+                contentDescription = "SquadBuilder App Logo",
             )
         }
 
@@ -72,7 +72,7 @@ fun SplashUi(
 fun SplashUiPreview() {
     SplashUi(
         state = SplashUiState(
-            eventSink = {}
-        )
+            eventSink = {},
+        ),
     )
 }

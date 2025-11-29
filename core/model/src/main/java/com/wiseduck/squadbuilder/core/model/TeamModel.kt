@@ -5,5 +5,5 @@ data class TeamModel(
     val name: String = "",
     val ownerId: String = "",
     val ownerEmail: String? = null,
-    val createdAt: String = ""
+    val createdAt: String = "",
 )

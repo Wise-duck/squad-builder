@@ -7,13 +7,13 @@ import okhttp3.Response
 import javax.inject.Inject
 
 internal class TokenInterceptor @Inject constructor(
-    private val dataSource: TokenDataSource
+    private val dataSource: TokenDataSource,
 ) : Interceptor {
-
-    private val publicEndpoints = setOf(
-        "api/auth/social-login",
-        "api/auth/refresh"
-    )
+    private val publicEndpoints =
+        setOf(
+            "api/auth/social-login",
+            "api/auth/refresh",
+        )
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
@@ -24,14 +24,15 @@ internal class TokenInterceptor @Inject constructor(
         if (isPublic) {
             return chain.proceed(request)
         } else {
-            val accessToken = runBlocking {
-                dataSource.getAccessToken()
-            }
+            val accessToken =
+                runBlocking {
+                    dataSource.getAccessToken()
+                }
 
             return chain.proceed(
                 request.newBuilder()
                     .addHeader("Authorization", "Bearer $accessToken")
-                    .build()
+                    .build(),
             )
         }
     }

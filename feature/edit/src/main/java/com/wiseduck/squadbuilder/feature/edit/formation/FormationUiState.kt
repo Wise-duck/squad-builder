@@ -10,12 +10,12 @@ import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
 
 data class PlayerAssignmentState(
     val isDialogVisible: Boolean = false,
-    val slotId: Int? = null
+    val slotId: Int? = null,
 )
 
 data class DeleteConfirmationState(
     val isDialogVisible: Boolean = false,
-    val formationIdToDelete: Int? = null
+    val formationIdToDelete: Int? = null,
 )
 
 data class FormationUiState(
@@ -31,10 +31,8 @@ data class FormationUiState(
     val draggedPlayerInitialPosition: PlacementModel? = null,
     val isResetConfirmDialogVisible: Boolean = false,
     val isQuarterSelectionDialogVisible: Boolean = false,
-
     val isPlayerQuarterStatusVisible: Boolean = false,
     val playerQuarterStatus: List<PlayerQuarterStatusModel> = emptyList(),
-
     val currentFormationId: Int? = null,
     val currentFormationName: String = "",
     val isSaveDialogVisible: Boolean = false,
@@ -44,62 +42,86 @@ data class FormationUiState(
     val deleteConfirmationState: DeleteConfirmationState = DeleteConfirmationState(),
     val isCapturing: Boolean = false,
     val totalQuartersToCapture: Int = 0,
-    val sideEffect: FormationSideEffect? = null
+    val sideEffect: FormationSideEffect? = null,
 ) : CircuitUiState
 
 sealed interface FormationSideEffect {
     data class CaptureFormation(
         val quarter: Int,
-        val onCaptureUri: (Int, Uri?) -> Unit
+        val onCaptureUri: (Int, Uri?) -> Unit,
     ) : FormationSideEffect
 
     data class ShareMultipleImages(
-        val imageUris: List<Uri>
+        val imageUris: List<Uri>,
     ) : FormationSideEffect
 }
 
 sealed interface FormationUiEvent : CircuitUiEvent {
     data object OnBackButtonClick : FormationUiEvent
+
     data object OnFormationResetClick : FormationUiEvent
+
     data object OnFormationListClick : FormationUiEvent
-    data object OnFormationShareClick: FormationUiEvent
+
+    data object OnFormationShareClick : FormationUiEvent
+
     data class OnQuarterChange(
-        val quarter: Int
+        val quarter: Int,
     ) : FormationUiEvent
+
     data class OnRefereeNameChange(
         val quarter: Int,
-        val refereeName: String
+        val refereeName: String,
     ) : FormationUiEvent
+
     data object OnFormationSaveClick : FormationUiEvent
+
     data object OnDismissListModal : FormationUiEvent
+
     data class OnPlayerClick(val slotId: Int) : FormationUiEvent
+
     data object OnDismissPlayerInfoDialog : FormationUiEvent
+
     data class OnSelectQuartersToShare(
-        val quarters: Set<Int>
-    ): FormationUiEvent
-    data object OnDismissQuarterSelectionDialog: FormationUiEvent
+        val quarters: Set<Int>,
+    ) : FormationUiEvent
+
+    data object OnDismissQuarterSelectionDialog : FormationUiEvent
 
     data class OnPlayerDragStart(val slotId: Int) : FormationUiEvent
+
     data class OnPlayerDrag(val slotId: Int, val deltaCoordX: Float, val deltaCoordY: Float) : FormationUiEvent
+
     data class OnPlayerDragEnd(val slotId: Int, val relativeChipWidth: Float, val relativeChipHeight: Float) : FormationUiEvent
 
     data object OnConfirmReset : FormationUiEvent
+
     data object OnDismissResetDialog : FormationUiEvent
+
     data class OnFormationCardClick(val formationId: Int) : FormationUiEvent
+
     data class OnFormationNameChange(val name: String) : FormationUiEvent
 
     data object OnSaveDialogConfirm : FormationUiEvent
+
     data object OnSaveDialogDismiss : FormationUiEvent
+
     data object OnToastShown : FormationUiEvent
 
     data object OnPlayerQuarterStatusClick : FormationUiEvent
 
     // --- 선수 배정 관련 이벤트 ---
     data class OnAssignPlayer(val playerIdToAssign: Int) : FormationUiEvent
+
     data object OnUnassignPlayer : FormationUiEvent
+
     data object OnDismissPlayerAssignmentDialog : FormationUiEvent
+
     data object OnModifyPlayerClick : FormationUiEvent
+
     data class OnDeleteFormationClick(val formationId: Int) : FormationUiEvent
+
     data object OnDeleteFormationConfirm : FormationUiEvent
+
     data object OnDismissDeleteDialog : FormationUiEvent
 }

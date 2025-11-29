@@ -25,7 +25,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 
 @Composable
 fun SquadBuilderButton(
@@ -38,7 +37,6 @@ fun SquadBuilderButton(
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
-
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
@@ -52,13 +50,15 @@ fun SquadBuilderButton(
         onClick = {
             onClick()
         },
-        modifier = modifier.graphicsLayer {
+        modifier =
+        modifier.graphicsLayer {
             scaleX = scale
             scaleY = scale
         },
         enabled = enabled,
         shape = RoundedCornerShape(sizeStyle.radius),
-        colors = ButtonDefaults.buttonColors(
+        colors =
+        ButtonDefaults.buttonColors(
             containerColor = colorStyle.containerColor(isPressed),
             contentColor = colorStyle.contentColor(),
             disabledContentColor = colorStyle.disabledContentColor(),
@@ -83,7 +83,8 @@ fun SquadBuilderButton(
 
         Text(
             text = text,
-            style = sizeStyle.textStyle.copy(
+            style =
+            sizeStyle.textStyle.copy(
                 color = if (enabled) colorStyle.contentColor() else colorStyle.disabledContentColor(),
             ),
         )

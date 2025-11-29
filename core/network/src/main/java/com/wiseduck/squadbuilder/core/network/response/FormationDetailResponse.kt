@@ -10,5 +10,5 @@ data class FormationDetailResponse(
     val teamId: Int,
     val teamName: String,
     val placements: List<PlacementResponse>,
-    val referees: Map<String, String>
+    val referees: Map<String, String>,
 )

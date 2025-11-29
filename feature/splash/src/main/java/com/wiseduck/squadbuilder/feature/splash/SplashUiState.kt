@@ -6,10 +6,11 @@ import com.slack.circuit.runtime.CircuitUiState
 data class SplashUiState(
     val isLoading: Boolean = false,
     val isUpdateDialogVisible: Boolean = false,
-    val eventSink: (SplashUiEvent) -> Unit
+    val eventSink: (SplashUiEvent) -> Unit,
 ) : CircuitUiState
 
 sealed interface SplashUiEvent : CircuitUiEvent {
     data object OnCloseDialogButtonClick : SplashUiEvent
+
     data object OnUpdateButtonClick : SplashUiEvent
 }

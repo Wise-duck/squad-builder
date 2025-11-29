@@ -52,7 +52,7 @@ fun PlayerFormCard(
     player: TeamPlayerModel? = null,
     commitButtonText: String,
     onCommitButtonClick: OnFormCommitClick,
-    onCancelButtonClick: () -> Unit
+    onCancelButtonClick: () -> Unit,
 ) {
     val initialName = player?.name ?: ""
     val initialBackNumber = player?.backNumber ?: 0
@@ -72,12 +72,12 @@ fun PlayerFormCard(
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            MainBg
+            MainBg,
         ),
         border = BorderStroke(
             1.dp,
-            Neutral500
-        )
+            Neutral500,
+        ),
     ) {
         Column(
             modifier = Modifier
@@ -88,33 +88,33 @@ fun PlayerFormCard(
             Text(
                 text = title,
                 color = Neutral100,
-                style = SquadBuilderTheme.typography.heading1SemiBold
+                style = SquadBuilderTheme.typography.heading1SemiBold,
             )
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
             )
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(1.dp)
-                    .background(Neutral800)
+                    .background(Neutral800),
             )
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
             )
 
             Text(
                 text = stringResource(R.string.player_form_card_select_position_label),
                 color = Green500,
-                style = SquadBuilderTheme.typography.body1Bold
+                style = SquadBuilderTheme.typography.body1Bold,
             )
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
             )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 positions.forEachIndexed { index, currentBtnPosition ->
                     SquadBuilderButton(
@@ -122,7 +122,7 @@ fun PlayerFormCard(
                         onClick = { position = currentBtnPosition },
                         sizeStyle = mediumRoundedButtonStyle,
                         colorStyle = if (position == currentBtnPosition) ButtonColorStyle.STROKE else ButtonColorStyle.TEXT_WHITE,
-                        enabled = true
+                        enabled = true,
                     )
                     if (index < positions.lastIndex) {
                         Spacer(modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4))
@@ -130,17 +130,17 @@ fun PlayerFormCard(
                 }
             }
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing3)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing3),
             )
 
             SquadBuilderTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = name,
                 onValueChange = { name = it },
-                placeholder = stringResource(R.string.player_form_card_name_label)
+                placeholder = stringResource(R.string.player_form_card_name_label),
             )
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing3)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing3),
             )
 
             OutlinedTextField(
@@ -152,12 +152,14 @@ fun PlayerFormCard(
                     backNumber = filteredValue.toIntOrNull() ?: 0
                 },
                 shape = RoundedCornerShape(
-                    SquadBuilderTheme.radius.md
+                    SquadBuilderTheme.radius.md,
                 ),
-                placeholder = { Text(
-                    text = stringResource(R.string.player_form_card_back_number_label),
-                    color = Neutral500
-                ) },
+                placeholder = {
+                    Text(
+                        text = stringResource(R.string.player_form_card_back_number_label),
+                        color = Neutral500,
+                    )
+                },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 isError = !isBackNumberValid && backNumberString.isNotEmpty(),
                 colors = OutlinedTextFieldDefaults.colors(
@@ -165,36 +167,35 @@ fun PlayerFormCard(
                     focusedPlaceholderColor = Neutral500,
                     unfocusedContainerColor = Neutral100,
                     focusedContainerColor = Neutral100,
-                    focusedBorderColor = Blue500
+                    focusedBorderColor = Blue500,
                 ),
                 singleLine = true,
             )
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
             )
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
             ) {
                 SquadBuilderButton(
                     text = commitButtonText,
                     onClick = { onCommitButtonClick(playerId, name, position, backNumber) },
                     sizeStyle = mediumRoundedButtonStyle,
                     colorStyle = ButtonColorStyle.STROKE,
-                    enabled = isFormValid
+                    enabled = isFormValid,
                 )
                 Spacer(
-                    modifier = Modifier.width(SquadBuilderTheme.spacing.spacing8)
+                    modifier = Modifier.width(SquadBuilderTheme.spacing.spacing8),
                 )
                 SquadBuilderButton(
                     text = stringResource(R.string.player_form_card_cancel_button),
                     onClick = onCancelButtonClick,
                     sizeStyle = mediumRoundedButtonStyle,
-                    colorStyle = ButtonColorStyle.TEXT_WHITE
+                    colorStyle = ButtonColorStyle.TEXT_WHITE,
                 )
             }
-
         }
     }
 }
@@ -208,7 +209,7 @@ private fun PlayerFormCardPreview() {
             player = TeamPlayerModel(id = 1, teamId = 1, name = "선수1", backNumber = 1, position = "MD"),
             commitButtonText = "수정 완료",
             onCommitButtonClick = { _, _, _, _ -> },
-            onCancelButtonClick = {}
+            onCancelButtonClick = {},
         )
         Spacer(modifier = Modifier.height(16.dp))
         PlayerFormCard(
@@ -216,7 +217,7 @@ private fun PlayerFormCardPreview() {
             player = null,
             commitButtonText = "생성",
             onCommitButtonClick = { _, _, _, _ -> },
-            onCancelButtonClick = {}
+            onCancelButtonClick = {},
         )
     }
 }

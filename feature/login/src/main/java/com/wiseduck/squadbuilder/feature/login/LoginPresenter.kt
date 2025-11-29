@@ -29,7 +29,6 @@ class LoginPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val authRepository: AuthRepository,
 ) : Presenter<LoginUiState> {
-
     @Composable
     override fun present(): LoginUiState {
         val scope = rememberCoroutineScope()
@@ -38,7 +37,11 @@ class LoginPresenter @AssistedInject constructor(
         val loginErrorKakaoFailed = stringResource(R.string.login_error_kakao_failed)
         val loginErrorServerConnection = stringResource(R.string.login_error_server_connection)
 
-        fun handleLoginResult(token: OAuthToken?, error: Throwable?, scope: CoroutineScope) {
+        fun handleLoginResult(
+            token: OAuthToken?,
+            error: Throwable?,
+            scope: CoroutineScope,
+        ) {
             if (error != null) {
                 Log.e("KAKAO_LOGIN", "로그인 실패", error)
                 errorMessage = loginErrorKakaoFailed
@@ -57,7 +60,10 @@ class LoginPresenter @AssistedInject constructor(
             }
         }
 
-        fun handleKakaoLogin(scope: CoroutineScope, context: Context) {
+        fun handleKakaoLogin(
+            scope: CoroutineScope,
+            context: Context,
+        ) {
             if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
                 UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
                     handleLoginResult(token, error, scope)
@@ -84,13 +90,13 @@ class LoginPresenter @AssistedInject constructor(
 
         return LoginUiState(
             errorMessage = errorMessage,
-            eventSink = ::handleEvent
+            eventSink = ::handleEvent,
         )
     }
 
     @CircuitInject(LoginScreen::class, ActivityRetainedComponent::class)
     @AssistedFactory
     fun interface Factory {
-        fun create(navigator: Navigator) : LoginPresenter
+        fun create(navigator: Navigator): LoginPresenter
     }
 }

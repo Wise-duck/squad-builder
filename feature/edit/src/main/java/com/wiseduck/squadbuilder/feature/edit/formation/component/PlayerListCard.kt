@@ -29,23 +29,23 @@ fun PlayerListCard(
     name: String,
     backNumber: Int,
     position: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Card(
         modifier = modifier.clickable(onClick = onClick),
         shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF161B22))
+        colors = CardDefaults.cardColors(containerColor = Color(0xFF161B22)),
     ) {
         Column(
             modifier = Modifier.padding(vertical = 3.dp, horizontal = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             Text(
                 text = position,
                 style = SquadBuilderTheme.typography.body1Bold,
                 color = PlayerPosition.getColor(position),
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
 
             Box(contentAlignment = Alignment.Center) {
@@ -53,20 +53,20 @@ fun PlayerListCard(
                     painter = painterResource(R.drawable.ic_shirt),
                     contentDescription = "Shirt Icon",
                     modifier = Modifier.size(48.dp),
-                    tint = Color.White
+                    tint = Color.White,
                 )
                 Text(
                     text = backNumber.toString(),
                     style = SquadBuilderTheme.typography.body1Bold,
                     color = Color.White,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
             }
 
             Text(
                 text = name,
                 style = SquadBuilderTheme.typography.body2Medium,
-                color = Color.White
+                color = Color.White,
             )
         }
     }
@@ -80,7 +80,7 @@ private fun PlayerListCardPreview() {
             name = "손흥민",
             backNumber = 7,
             position = "FW",
-            onClick = {}
+            onClick = {},
         )
 //        PlayerListCard(
 //            name = "이강인",

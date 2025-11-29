@@ -29,14 +29,13 @@ fun PlayerPlacementLayer(
     onPlayerDragEnd: (Int, Float, Float) -> Unit,
     onPlayerClick: (Int) -> Unit,
     soccerFieldWidth: Dp,
-    soccerFieldHeight: Dp
+    soccerFieldHeight: Dp,
 ) {
     val originalChipWidth = 56.dp
     val originalChipHeight = 64.dp
 
     players.forEach { player ->
         key(player.slotId) {
-
             val calculatedX = (soccerFieldWidth * player.coordX) - (originalChipWidth / 2)
             val calculatedY = (soccerFieldHeight * player.coordY) - (originalChipHeight / 2)
 
@@ -46,14 +45,14 @@ fun PlayerPlacementLayer(
             Column(
                 modifier = Modifier
                     .offset(x = xOffset, y = yOffset),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
                     text = getPositionForCoordinates(
                         player.coordX,
-                        player.coordY
+                        player.coordY,
                     ),
-                    color = Color.White
+                    color = Color.White,
                 )
 
                 PlayerChip(
@@ -78,19 +77,19 @@ fun PlayerPlacementLayer(
                                             val relativeChipWidth = (originalChipWidth.toPx() * scaleFactor) / fieldWidthPx
                                             val relativeChipHeight = (originalChipHeight.toPx() * scaleFactor) / fieldHeightPx
                                             onPlayerDragEnd(player.slotId, relativeChipWidth, relativeChipHeight)
-                                        }
+                                        },
                                     )
                                 }
                                 launch {
                                     detectTapGestures(
-                                        onTap = { onPlayerClick(player.slotId) }
+                                        onTap = { onPlayerClick(player.slotId) },
                                     )
                                 }
                             }
                         },
                     position = player.playerPosition,
                     number = player.playerBackNumber,
-                    name = player.playerName
+                    name = player.playerName,
                 )
             }
         }

@@ -25,11 +25,11 @@ private val LineColor = Color.White.copy(alpha = 0.5f)
 @Composable
 fun SoccerField(
     modifier: Modifier = Modifier,
-    content: @Composable BoxWithConstraintsScope.() -> Unit = {}
+    content: @Composable BoxWithConstraintsScope.() -> Unit = {},
 ) {
     BoxWithConstraints(
         modifier = modifier
-            .aspectRatio(68f / 105f)
+            .aspectRatio(68f / 105f),
     ) {
         Canvas(modifier = Modifier.fillMaxSize()) {
             val fieldWidth = size.width
@@ -43,7 +43,7 @@ fun SoccerField(
                 drawRect(
                     color = if (i % 2 == 0) LightStripeColor else DarkStripeColor,
                     topLeft = Offset(x = 0f, y = i * stripeHeight),
-                    size = Size(width = fieldWidth, height = stripeHeight)
+                    size = Size(width = fieldWidth, height = stripeHeight),
                 )
             }
 
@@ -52,7 +52,7 @@ fun SoccerField(
                 color = lineColor,
                 topLeft = Offset.Zero,
                 size = size,
-                style = Stroke(width = lineWidth)
+                style = Stroke(width = lineWidth),
             )
 
             // Center Line
@@ -60,7 +60,7 @@ fun SoccerField(
                 color = lineColor,
                 start = Offset(x = 0f, y = fieldHeight / 2),
                 end = Offset(x = fieldWidth, y = fieldHeight / 2),
-                strokeWidth = lineWidth
+                strokeWidth = lineWidth,
             )
 
             // Center Circle
@@ -68,14 +68,14 @@ fun SoccerField(
                 color = lineColor,
                 radius = fieldWidth * 0.15f,
                 center = center,
-                style = Stroke(width = lineWidth)
+                style = Stroke(width = lineWidth),
             )
 
             // Center Spot
             drawCircle(
                 color = lineColor,
                 radius = lineWidth * 2,
-                center = center
+                center = center,
             )
 
             // Top Penalty Box
@@ -85,7 +85,7 @@ fun SoccerField(
                 color = lineColor,
                 topLeft = Offset(x = (fieldWidth - penaltyBoxWidth) / 2, y = 0f),
                 size = Size(width = penaltyBoxWidth, height = penaltyBoxHeight),
-                style = Stroke(width = lineWidth)
+                style = Stroke(width = lineWidth),
             )
 
             // Bottom Penalty Box
@@ -93,7 +93,7 @@ fun SoccerField(
                 color = lineColor,
                 topLeft = Offset(x = (fieldWidth - penaltyBoxWidth) / 2, y = fieldHeight - penaltyBoxHeight),
                 size = Size(width = penaltyBoxWidth, height = penaltyBoxHeight),
-                style = Stroke(width = lineWidth)
+                style = Stroke(width = lineWidth),
             )
 
             // Top Goal Area
@@ -103,7 +103,7 @@ fun SoccerField(
                 color = lineColor,
                 topLeft = Offset(x = (fieldWidth - goalAreaWidth) / 2, y = 0f),
                 size = Size(width = goalAreaWidth, height = goalAreaHeight),
-                style = Stroke(width = lineWidth)
+                style = Stroke(width = lineWidth),
             )
 
             // Bottom Goal Area
@@ -111,10 +111,10 @@ fun SoccerField(
                 color = lineColor,
                 topLeft = Offset(x = (fieldWidth - goalAreaWidth) / 2, y = fieldHeight - goalAreaHeight),
                 size = Size(width = goalAreaWidth, height = goalAreaHeight),
-                style = Stroke(width = lineWidth)
+                style = Stroke(width = lineWidth),
             )
         }
-        
+
         content()
     }
 }
@@ -127,7 +127,9 @@ private fun SoccerFieldPreview() {
             SoccerField {
                 PlayerChip(
                     modifier = Modifier.align(Alignment.Center),
-                    position = "FW", number = "9", name = "Player"
+                    position = "FW",
+                    number = "9",
+                    name = "Player",
                 )
             }
         }

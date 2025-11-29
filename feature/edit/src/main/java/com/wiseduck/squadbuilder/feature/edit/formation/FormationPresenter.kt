@@ -36,7 +36,7 @@ class FormationPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     @Assisted private val screen: FormationScreen,
     private val formationRepository: FormationRepository,
-    private val playerRepository: PlayerRepository
+    private val playerRepository: PlayerRepository,
 ) : Presenter<FormationUiState> {
     @Composable
     override fun present(): FormationUiState {
@@ -84,13 +84,14 @@ class FormationPresenter @AssistedInject constructor(
         var playerQuarterStatus by remember { mutableStateOf(emptyList<PlayerQuarterStatusModel>()) }
 
         fun calculatePlayerQuarterStatus(allPlacements: Map<Int, List<PlacementModel>>): List<PlayerQuarterStatusModel> {
-            val allPlacements = allPlacements.flatMap { (quarter, placements) ->
-                placements.mapNotNull { placement ->
-                    placement.playerId?.let {
-                        Triple(it, quarter, placement.playerName)
+            val allPlacements =
+                allPlacements.flatMap { (quarter, placements) ->
+                    placements.mapNotNull { placement ->
+                        placement.playerId?.let {
+                            Triple(it, quarter, placement.playerName)
+                        }
                     }
                 }
-            }
 
             return allPlacements
                 .groupBy { it.first }
@@ -107,7 +108,7 @@ class FormationPresenter @AssistedInject constructor(
                         playerName = playerName,
                         quarters = quarters,
                         backNumber = backNumber,
-                        position = position
+                        position = position,
                     )
                 }
                 .sortedByDescending { it.quarters.size }
@@ -126,13 +127,16 @@ class FormationPresenter @AssistedInject constructor(
                 1 to createDefaultPlayers(1),
                 2 to createDefaultPlayers(2),
                 3 to createDefaultPlayers(3),
-                4 to createDefaultPlayers(4)
+                4 to createDefaultPlayers(4),
             )
 
             players = allPlacements[currentQuarter]!!
         }
 
-        fun handleCaptureComplete(quarter: Int, uri: Uri?) {
+        fun handleCaptureComplete(
+            quarter: Int,
+            uri: Uri?,
+        ) {
             if (uri != null) {
                 capturedUris = capturedUris + (quarter to uri)
             }
@@ -145,10 +149,11 @@ class FormationPresenter @AssistedInject constructor(
                 currentQuarter = nextQuarter
                 players = allPlacements[nextQuarter]!!
 
-                sideEffect = FormationSideEffect.CaptureFormation(
-                    quarter = nextQuarter,
-                    onCaptureUri = ::handleCaptureComplete
-                )
+                sideEffect =
+                    FormationSideEffect.CaptureFormation(
+                        quarter = nextQuarter,
+                        onCaptureUri = ::handleCaptureComplete,
+                    )
             } else {
                 isCapturing = false
 
@@ -182,10 +187,11 @@ class FormationPresenter @AssistedInject constructor(
                         currentQuarter = quarterList.first()
                         players = allPlacements[currentQuarter]!!
 
-                        sideEffect = FormationSideEffect.CaptureFormation(
-                            quarter = currentQuarter,
-                            onCaptureUri = ::handleCaptureComplete
-                        )
+                        sideEffect =
+                            FormationSideEffect.CaptureFormation(
+                                quarter = currentQuarter,
+                                onCaptureUri = ::handleCaptureComplete,
+                            )
                     } else {
                         toastMessage = multipleShareQuarterSelectionAlert
                     }
@@ -214,7 +220,7 @@ class FormationPresenter @AssistedInject constructor(
                         1 to createDefaultPlayers(1),
                         2 to createDefaultPlayers(2),
                         3 to createDefaultPlayers(3),
-                        4 to createDefaultPlayers(4)
+                        4 to createDefaultPlayers(4),
                     )
                     players = allPlacements[currentQuarter]!!
 
@@ -234,8 +240,7 @@ class FormationPresenter @AssistedInject constructor(
                                 formationList = list
                                 isListModalVisible = true
                             }
-                            .onFailure {  }
-
+                            .onFailure { }
                     }
                 }
 
@@ -256,9 +261,10 @@ class FormationPresenter @AssistedInject constructor(
 
                                 players = allPlacements[currentQuarter] ?: createDefaultPlayers(currentQuarter)
 
-                                allReferees = formationDetail.referees.mapKeys { (quarter, _) ->
-                                    quarter.toIntOrNull() ?: 0
-                                }.filterKeys { it != 0 }
+                                allReferees =
+                                    formationDetail.referees.mapKeys { (quarter, _) ->
+                                        quarter.toIntOrNull() ?: 0
+                                    }.filterKeys { it != 0 }
 
                                 currentFormationId = formationDetail.formationId
                                 currentFormationName = formationDetail.name
@@ -275,13 +281,15 @@ class FormationPresenter @AssistedInject constructor(
                 }
 
                 is FormationUiEvent.OnRefereeNameChange -> {
-                    allReferees = allReferees.toMutableMap().apply {
-                        this[event.quarter] = event.refereeName
-                    }
+                    allReferees =
+                        allReferees.toMutableMap().apply {
+                            this[event.quarter] = event.refereeName
+                        }
                 }
 
                 FormationUiEvent.OnFormationSaveClick -> {
-                    val isCurrentQuarterFullyAssigned = players.size == 11 &&
+                    val isCurrentQuarterFullyAssigned =
+                        players.size == 11 &&
                             players.all { it.playerId != null }
 
                     if (isCurrentQuarterFullyAssigned) {
@@ -294,18 +302,19 @@ class FormationPresenter @AssistedInject constructor(
                 FormationUiEvent.OnSaveDialogConfirm -> {
                     scope.launch {
                         val isUpdate = currentFormationId != null
-                        val placements = allPlacements.flatMap { (quarter, players) ->
-                            players.mapNotNull { placement ->
-                                placement.playerId?.let {
-                                    PlacementSaveModel(
-                                        playerId = it,
-                                        quarter = quarter,
-                                        coordX = (placement.coordX * 1000).toInt(),
-                                        coordY = (placement.coordY * 1000).toInt()
-                                    )
+                        val placements =
+                            allPlacements.flatMap { (quarter, players) ->
+                                players.mapNotNull { placement ->
+                                    placement.playerId?.let {
+                                        PlacementSaveModel(
+                                            playerId = it,
+                                            quarter = quarter,
+                                            coordX = (placement.coordX * 1000).toInt(),
+                                            coordY = (placement.coordY * 1000).toInt(),
+                                        )
+                                    }
                                 }
                             }
-                        }
 
                         val refereesMap = allReferees.mapKeys { (quarter, _) ->
                             quarter.toString()
@@ -315,7 +324,7 @@ class FormationPresenter @AssistedInject constructor(
                             teamId = teamId,
                             name = currentFormationName.ifBlank { "새 포메이션" },
                             placements = placements,
-                            referees = refereesMap
+                            referees = refereesMap,
                         )
 
                         if (isUpdate) {
@@ -363,7 +372,7 @@ class FormationPresenter @AssistedInject constructor(
                         if (clickedSlot.playerId == null) {
                             playerAssignmentState = PlayerAssignmentState(
                                 isDialogVisible = true,
-                                slotId = clickedSlot.slotId
+                                slotId = clickedSlot.slotId,
                             )
                         } else {
                             selectedSlotId = if (selectedSlotId == event.slotId) null else event.slotId
@@ -384,7 +393,7 @@ class FormationPresenter @AssistedInject constructor(
                         if (player.slotId == event.slotId) {
                             player.copy(
                                 coordX = (player.coordX + event.deltaCoordX).coerceIn(0f, 1f),
-                                coordY = (player.coordY + event.deltaCoordY).coerceIn(0f, 1f)
+                                coordY = (player.coordY + event.deltaCoordY).coerceIn(0f, 1f),
                             )
                         } else {
                             player
@@ -398,55 +407,60 @@ class FormationPresenter @AssistedInject constructor(
                     val draggedPlayer = players.find { it.slotId == event.slotId }
                     val initialPos = draggedPlayerInitialPosition
                     if (draggedPlayer != null && initialPos != null) {
-                        val overlappedPlayer = players.firstOrNull { otherPlayer ->
-                            if (otherPlayer.slotId == draggedPlayer.slotId) {
-                                false
-                            } else {
-                                val draggedLeft = draggedPlayer.coordX - event.relativeChipWidth / 2
-                                val draggedRight = draggedPlayer.coordX + event.relativeChipWidth / 2
-                                val draggedTop = draggedPlayer.coordY - event.relativeChipHeight / 2
-                                val draggedBottom = draggedPlayer.coordY + event.relativeChipHeight / 2
-
-                                val otherLeft = otherPlayer.coordX - event.relativeChipWidth / 2
-                                val otherRight = otherPlayer.coordX + event.relativeChipWidth / 2
-                                val otherTop = otherPlayer.coordY - event.relativeChipHeight / 2
-                                val otherBottom = otherPlayer.coordY + event.relativeChipHeight / 2
-
-                                draggedLeft < otherRight && draggedRight > otherLeft &&
-                                        draggedTop < otherBottom && draggedBottom > otherTop
-                            }
-                        }
-                        if (overlappedPlayer != null) {
-                            players = players.map { p ->
-                                when (p.slotId) {
-                                    overlappedPlayer.slotId -> {
-                                        val newPosition = getPositionForCoordinates(initialPos.coordX, initialPos.coordY)
-                                        p.copy(
-                                            coordX = initialPos.coordX,
-                                            coordY = initialPos.coordY,
-                                            playerPosition = newPosition
-                                        )
-                                    }
-                                    draggedPlayer.slotId -> {
-                                        val newPosition = getPositionForCoordinates(overlappedPlayer.coordX, overlappedPlayer.coordY)
-                                        p.copy(
-                                            coordX = overlappedPlayer.coordX,
-                                            coordY = overlappedPlayer.coordY,
-                                            playerPosition = newPosition
-                                        )
-                                    }
-                                    else -> p
-                                }
-                            }
-                        } else {
-                            players = players.map { p ->
-                                if (p.slotId == draggedPlayer.slotId) {
-                                    val newPosition = getPositionForCoordinates(p.coordX, p.coordY)
-                                    p.copy(playerPosition = newPosition)
+                        val overlappedPlayer =
+                            players.firstOrNull { otherPlayer ->
+                                if (otherPlayer.slotId == draggedPlayer.slotId) {
+                                    false
                                 } else {
-                                    p
+                                    val draggedLeft = draggedPlayer.coordX - event.relativeChipWidth / 2
+                                    val draggedRight = draggedPlayer.coordX + event.relativeChipWidth / 2
+                                    val draggedTop = draggedPlayer.coordY - event.relativeChipHeight / 2
+                                    val draggedBottom = draggedPlayer.coordY + event.relativeChipHeight / 2
+
+                                    val otherLeft = otherPlayer.coordX - event.relativeChipWidth / 2
+                                    val otherRight = otherPlayer.coordX + event.relativeChipWidth / 2
+                                    val otherTop = otherPlayer.coordY - event.relativeChipHeight / 2
+                                    val otherBottom = otherPlayer.coordY + event.relativeChipHeight / 2
+
+                                    draggedLeft < otherRight && draggedRight > otherLeft &&
+                                        draggedTop < otherBottom && draggedBottom > otherTop
                                 }
                             }
+                        if (overlappedPlayer != null) {
+                            players =
+                                players.map { p ->
+                                    when (p.slotId) {
+                                        overlappedPlayer.slotId -> {
+                                            val newPosition =
+                                                getPositionForCoordinates(initialPos.coordX, initialPos.coordY)
+                                            p.copy(
+                                                coordX = initialPos.coordX,
+                                                coordY = initialPos.coordY,
+                                                playerPosition = newPosition,
+                                            )
+                                        }
+                                        draggedPlayer.slotId -> {
+                                            val newPosition =
+                                                getPositionForCoordinates(overlappedPlayer.coordX, overlappedPlayer.coordY)
+                                            p.copy(
+                                                coordX = overlappedPlayer.coordX,
+                                                coordY = overlappedPlayer.coordY,
+                                                playerPosition = newPosition,
+                                            )
+                                        }
+                                        else -> p
+                                    }
+                                }
+                        } else {
+                            players =
+                                players.map { p ->
+                                    if (p.slotId == draggedPlayer.slotId) {
+                                        val newPosition = getPositionForCoordinates(p.coordX, p.coordY)
+                                        p.copy(playerPosition = newPosition)
+                                    } else {
+                                        p
+                                    }
+                                }
                         }
                     }
                     draggedPlayerInitialPosition = null
@@ -459,17 +473,18 @@ class FormationPresenter @AssistedInject constructor(
                     val playerToAssign = availablePlayers.find { it.id == event.playerIdToAssign }
 
                     if (targetSlotId != null && playerToAssign != null) {
-                        players = players.map {
-                            if (it.slotId == targetSlotId) {
-                                it.copy(
-                                    playerId = playerToAssign.id,
-                                    playerName = playerToAssign.name,
-                                    playerBackNumber = playerToAssign.backNumber.toString()
-                                )
-                            } else {
-                                it
+                        players =
+                            players.map {
+                                if (it.slotId == targetSlotId) {
+                                    it.copy(
+                                        playerId = playerToAssign.id,
+                                        playerName = playerToAssign.name,
+                                        playerBackNumber = playerToAssign.backNumber.toString(),
+                                    )
+                                } else {
+                                    it
+                                }
                             }
-                        }
                     }
                     playerAssignmentState = PlayerAssignmentState(isDialogVisible = false, slotId = null)
 
@@ -479,17 +494,18 @@ class FormationPresenter @AssistedInject constructor(
                 FormationUiEvent.OnUnassignPlayer -> {
                     val targetSlotId = selectedSlotId
                     if (targetSlotId != null) {
-                        players = players.map {
-                            if (it.slotId == targetSlotId) {
-                                it.copy(
-                                    playerId = null,
-                                    playerName = "Player",
-                                    playerBackNumber = "+"
-                                )
-                            } else {
-                                it
+                        players =
+                            players.map {
+                                if (it.slotId == targetSlotId) {
+                                    it.copy(
+                                        playerId = null,
+                                        playerName = "Player",
+                                        playerBackNumber = "+",
+                                    )
+                                } else {
+                                    it
+                                }
                             }
-                        }
                     }
                     selectedSlotId = null
 
@@ -501,10 +517,11 @@ class FormationPresenter @AssistedInject constructor(
                 }
 
                 is FormationUiEvent.OnDeleteFormationClick -> {
-                    deleteConfirmationState = DeleteConfirmationState(
-                        isDialogVisible = true,
-                        formationIdToDelete = event.formationId
-                    )
+                    deleteConfirmationState =
+                        DeleteConfirmationState(
+                            isDialogVisible = true,
+                            formationIdToDelete = event.formationId,
+                        )
                 }
 
                 FormationUiEvent.OnDeleteFormationConfirm -> {
@@ -535,10 +552,11 @@ class FormationPresenter @AssistedInject constructor(
                 FormationUiEvent.OnModifyPlayerClick -> {
                     val targetSlotId = selectedSlotId
                     if (targetSlotId != null) {
-                        playerAssignmentState = PlayerAssignmentState(
-                            isDialogVisible = true,
-                            slotId = targetSlotId
-                        )
+                        playerAssignmentState =
+                            PlayerAssignmentState(
+                                isDialogVisible = true,
+                                slotId = targetSlotId,
+                            )
                     }
                     selectedSlotId = null
                 }
@@ -572,7 +590,7 @@ class FormationPresenter @AssistedInject constructor(
             isCapturing = isCapturing,
             totalQuartersToCapture = totalQuartersToCapture,
             sideEffect = sideEffect,
-            eventSink = ::handleEvent
+            eventSink = ::handleEvent,
         )
     }
 
@@ -581,7 +599,7 @@ class FormationPresenter @AssistedInject constructor(
     fun interface Factory {
         fun create(
             screen: FormationScreen,
-            navigator: Navigator
+            navigator: Navigator,
         ): FormationPresenter
     }
 }

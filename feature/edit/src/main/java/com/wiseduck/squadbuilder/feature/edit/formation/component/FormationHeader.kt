@@ -27,51 +27,51 @@ import com.wiseduck.squadbuilder.feature.edit.R
 fun FormationHeader(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {},
-    onFormationListClick: () -> Unit = {}
+    onFormationListClick: () -> Unit = {},
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(MainBg)
+            .background(MainBg),
     ) {
         Row(
             modifier = modifier.fillMaxWidth()
                 .padding(SquadBuilderTheme.spacing.spacing4),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(
                 modifier = modifier,
-                onClick = onBackClick
+                onClick = onBackClick,
             ) {
                 Icon(
                     painter = painterResource(com.wiseduck.squadbuilder.core.ui.R.drawable.ic_back),
                     contentDescription = "Back Icon",
-                    tint = White
+                    tint = White,
                 )
             }
             Spacer(
-                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
+                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4),
             )
             Text(
                 text = stringResource(com.wiseduck.squadbuilder.feature.edit.R.string.formation_management_title),
                 style = SquadBuilderTheme.typography.title1Bold,
-                color = White
+                color = White,
             )
             Spacer(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
             IconButton(onClick = onFormationListClick) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_list),
                     contentDescription = "List Icon",
-                    tint = White
+                    tint = White,
                 )
             }
         }
         Spacer(
             modifier = modifier.fillMaxWidth()
                 .height(SquadBuilderTheme.spacing.spacing05)
-                .background(Neutral800)
+                .background(Neutral800),
         )
     }
 }

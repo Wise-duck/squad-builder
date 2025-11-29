@@ -72,7 +72,7 @@ private fun ReedTextButtonPreview() {
     Row(
         modifier = Modifier.padding(20.dp)
             .background(MainBg),
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
     ) {
         SquadBuilderTextButton(
             onClick = {},

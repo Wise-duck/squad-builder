@@ -14,20 +14,19 @@ import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.data.api.repository.PlayerRepository
 import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
+import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.screens.PlayerScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import com.wiseduck.squadbuilder.feature.edit.R
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.launch
 
 class PlayerPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     @Assisted private val screen: PlayerScreen,
-    private val playerRepository: PlayerRepository
+    private val playerRepository: PlayerRepository,
 ) : Presenter<PlayerUiState> {
-
     @Composable
     override fun present(): PlayerUiState {
         val scope = rememberCoroutineScope()
@@ -72,7 +71,7 @@ class PlayerPresenter @AssistedInject constructor(
                             teamId = screen.teamId,
                             name = event.name,
                             position = event.position,
-                            backNumber = event.backNumber
+                            backNumber = event.backNumber,
                         )
                             .onSuccess {
                                 isLoading = false
@@ -93,7 +92,7 @@ class PlayerPresenter @AssistedInject constructor(
                     scope.launch {
                         playerRepository.deleteTeamPlayer(
                             teamId = screen.teamId,
-                            playerId = event.playerId
+                            playerId = event.playerId,
                         )
                             .onSuccess {
                                 isLoading = false
@@ -121,14 +120,15 @@ class PlayerPresenter @AssistedInject constructor(
                             playerId = currentEditingPlayerId!!,
                             name = event.name,
                             position = event.position,
-                            backNumber = event.backNumber
+                            backNumber = event.backNumber,
                         )
                             .onSuccess { updatedPlayer ->
                                 isLoading = false
                                 currentEditingPlayerId = null
-                                players = players.map {
-                                    if (it.id == updatedPlayer.id) updatedPlayer else it
-                                }
+                                players =
+                                    players.map {
+                                        if (it.id == updatedPlayer.id) updatedPlayer else it
+                                    }
                                 Log.d("PlayerPresenter", "선수 정보 수정 성공: ${updatedPlayer.name}")
                             }
                             .onFailure {
@@ -168,6 +168,9 @@ class PlayerPresenter @AssistedInject constructor(
     @CircuitInject(PlayerScreen::class, ActivityRetainedComponent::class)
     @AssistedFactory
     fun interface Factory {
-        fun create(navigator: Navigator, screen: PlayerScreen): PlayerPresenter
+        fun create(
+            navigator: Navigator,
+            screen: PlayerScreen,
+        ): PlayerPresenter
     }
 }

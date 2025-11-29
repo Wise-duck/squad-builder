@@ -45,7 +45,7 @@ import kotlinx.collections.immutable.toImmutableList
 @Composable
 fun PlayerUi(
     modifier: Modifier = Modifier,
-    state: PlayerUiState
+    state: PlayerUiState,
 ) {
     SquadBuilderScaffold(
         modifier = modifier.fillMaxSize(),
@@ -55,24 +55,24 @@ fun PlayerUi(
                 currentTab = SquadBuilderBottomTab.HOME,
                 onTabSelected = {
                     state.eventSink(PlayerUiEvent.OnTabSelect(it.screen))
-                }
+                },
             )
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = modifier.padding(innerPadding)
+            modifier = modifier.padding(innerPadding),
         ) {
             PlayerHeader(
                 modifier = modifier,
                 onBackClick = {
                     state.eventSink(PlayerUiEvent.OnBackButtonClick)
-                }
+                },
             )
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4),
             )
             PlayerContent(
-                state = state
+                state = state,
             )
         }
     }
@@ -84,7 +84,7 @@ private fun PlayerContent(
     state: PlayerUiState,
 ) {
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) {
         Text(
             modifier = modifier
@@ -92,21 +92,21 @@ private fun PlayerContent(
                 .padding(start = SquadBuilderTheme.spacing.spacing4),
             text = state.teamName,
             style = SquadBuilderTheme.typography.title1Bold,
-            color = White
+            color = White,
         )
         Spacer(
-            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
         )
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Spacer(
-                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
+                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4),
             )
             Icon(
                 painter = painterResource(R.drawable.ic_group),
                 contentDescription = "Group Icon",
-                tint = Green500
+                tint = Green500,
             )
             Text(
                 modifier = modifier
@@ -114,15 +114,15 @@ private fun PlayerContent(
                     .padding(start = SquadBuilderTheme.spacing.spacing1),
                 text = stringResource(
                     id = R.string.player_list_size_label,
-                    formatArgs = arrayOf(state.players.size)
+                    formatArgs = arrayOf(state.players.size),
                 ),
                 style = SquadBuilderTheme.typography.body1SemiBold,
-                color = Neutral300
+                color = Neutral300,
             )
         }
 
         Spacer(
-            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
         )
 
         if (state.isShowPlayerCreationSection) {
@@ -135,21 +135,21 @@ private fun PlayerContent(
                         PlayerUiEvent.OnTeamPlayerCreationConfirmButtonClick(
                             name = name,
                             position = position,
-                            backNumber = backNumber
-                        )
+                            backNumber = backNumber,
+                        ),
                     )
                 },
                 onCancelButtonClick = {
                     state.eventSink(PlayerUiEvent.OnTeamPlayerCreationCancelButtonClick)
-                }
+                },
             )
         } else {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             ) {
                 Spacer(
-                    modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
+                    modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4),
                 )
                 SquadBuilderButton(
                     text = stringResource(R.string.player_add_text_button),
@@ -157,17 +157,17 @@ private fun PlayerContent(
                         Icon(
                             painter = painterResource(com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_add),
                             contentDescription = "Add Icon",
-                            tint = Blue500
+                            tint = Blue500,
                         )
                     },
                     onClick = { state.eventSink(PlayerUiEvent.OnTeamPlayerCreationButtonClick) },
                     colorStyle = ButtonColorStyle.TEXT_WHITE,
-                    sizeStyle = mediumRoundedButtonStyle
+                    sizeStyle = mediumRoundedButtonStyle,
                 )
             }
         }
         Spacer(
-            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
         )
         if (state.isLoading) {
             SquadBuilderLoadingIndicator()
@@ -179,7 +179,7 @@ private fun PlayerContent(
                 },
                 onPlayerEditClick = {
                     state.eventSink(PlayerUiEvent.OnTeamPlayerEditButtonClick(it))
-                }
+                },
             )
             if (state.errorMessage != null) {
                 SquadBuilderDialog(
@@ -188,7 +188,7 @@ private fun PlayerContent(
                     onConfirmRequest = {
                         state.eventSink(PlayerUiEvent.OnDialogCloseButtonClick)
                     },
-                    confirmButtonText = stringResource(R.string.dialog_confirm_text_button)
+                    confirmButtonText = stringResource(R.string.dialog_confirm_text_button),
                 )
             }
         }
@@ -200,24 +200,24 @@ private fun PlayerList(
     modifier: Modifier = Modifier,
     state: PlayerUiState,
     onPlayerDeleteClick: (Int) -> Unit,
-    onPlayerEditClick: (Int) -> Unit
+    onPlayerEditClick: (Int) -> Unit,
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) {
         items(
             items = state.players,
-            key = { player -> player.id }
+            key = { player -> player.id },
         ) { player ->
             val isCurrentlyEditing = state.currentEditingPlayerId == player.id
             PlayerCard(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 player = player,
                 onDeleteClick = { onPlayerDeleteClick(player.id) },
-                onEditClick = { onPlayerEditClick(player.id) }
+                onEditClick = { onPlayerEditClick(player.id) },
             )
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
             )
             if (isCurrentlyEditing) {
                 PlayerFormCard(
@@ -234,12 +234,12 @@ private fun PlayerList(
                                 name = name,
                                 position = position,
                                 backNumber = backNumber,
-                            )
+                            ),
                         )
                     },
                     onCancelButtonClick = {
                         state.eventSink(PlayerUiEvent.OnPlayerUpdateCancel)
-                    }
+                    },
                 )
             }
         }
@@ -249,22 +249,23 @@ private fun PlayerList(
 @DevicePreview
 @Composable
 private fun PlayerUiPreview() {
-    val mockPlayers = listOf(
-        TeamPlayerModel(
-            id = 1,
-            teamId = 1,
-            name = "선수 1",
-            backNumber = 1,
-            position = "MD"
-        ),
-        TeamPlayerModel(
-            id = 2,
-            teamId = 3,
-            name = "잉",
-            backNumber = 3,
-            position = "FD"
-        ),
-    )
+    val mockPlayers =
+        listOf(
+            TeamPlayerModel(
+                id = 1,
+                teamId = 1,
+                name = "선수 1",
+                backNumber = 1,
+                position = "MD",
+            ),
+            TeamPlayerModel(
+                id = 2,
+                teamId = 3,
+                name = "잉",
+                backNumber = 3,
+                position = "FD",
+            ),
+        )
 
     SquadBuilderTheme {
         PlayerUi(
@@ -272,7 +273,7 @@ private fun PlayerUiPreview() {
                 players = mockPlayers.toImmutableList(),
                 teamName = "서울 FC 개발팀",
                 eventSink = {},
-            )
+            ),
         )
     }
 }

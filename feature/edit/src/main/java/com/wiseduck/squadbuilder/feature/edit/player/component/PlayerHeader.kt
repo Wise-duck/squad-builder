@@ -26,41 +26,41 @@ import com.wiseduck.squadbuilder.core.ui.R
 @Composable
 fun PlayerHeader(
     modifier: Modifier = Modifier,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(MainBg)
+            .background(MainBg),
     ) {
         Row(
             modifier = modifier.fillMaxWidth()
                 .padding(SquadBuilderTheme.spacing.spacing4),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(
                 modifier = modifier,
-                onClick = onBackClick
+                onClick = onBackClick,
             ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_back),
                     contentDescription = "Back Icon",
-                    tint = White
+                    tint = White,
                 )
             }
             Spacer(
-                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
+                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4),
             )
             Text(
                 stringResource(com.wiseduck.squadbuilder.feature.edit.R.string.player_management_screen_header_title),
                 style = SquadBuilderTheme.typography.title1Bold,
-                color = White
+                color = White,
             )
         }
         Spacer(
             modifier = modifier.fillMaxWidth()
                 .height(SquadBuilderTheme.spacing.spacing05)
-                .background(Neutral800)
+                .background(Neutral800),
         )
     }
 }
@@ -70,7 +70,7 @@ fun PlayerHeader(
 private fun PlayerHeaderPreview() {
     SquadBuilderTheme {
         PlayerHeader(
-            onBackClick = {}
+            onBackClick = {},
         )
     }
 }

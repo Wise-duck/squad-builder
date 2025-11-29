@@ -24,7 +24,6 @@ import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorS
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
-import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
@@ -34,33 +33,33 @@ import com.wiseduck.squadbuilder.feature.home.R
 @Composable
 fun TeamCreateSection(
     modifier: Modifier = Modifier,
-    onTeamCreateClick: (String) -> Unit
+    onTeamCreateClick: (String) -> Unit,
 ) {
     var teamNameInput by remember { mutableStateOf("") }
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(SquadBuilderTheme.spacing.spacing4)
+            .padding(SquadBuilderTheme.spacing.spacing4),
     ) {
         Text(
             text = stringResource(R.string.team_create_section_title),
             style = SquadBuilderTheme.typography.heading1SemiBold,
-            color = Neutral50
+            color = Neutral50,
         )
         Spacer(
-            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4),
         )
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             OutlinedTextField(
                 modifier = Modifier.weight(1f),
                 value = teamNameInput,
                 onValueChange = { teamNameInput = it },
                 shape = RoundedCornerShape(
-                    SquadBuilderTheme.radius.md
+                    SquadBuilderTheme.radius.md,
                 ),
                 placeholder = {
                     Text(stringResource(R.string.team_name_input_hint))
@@ -70,18 +69,18 @@ fun TeamCreateSection(
                     focusedPlaceholderColor = Neutral500,
                     unfocusedContainerColor = Neutral100,
                     focusedContainerColor = Neutral100,
-                    focusedBorderColor = Blue500
+                    focusedBorderColor = Blue500,
                 ),
-                singleLine = true
+                singleLine = true,
             )
             Spacer(
-                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
+                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4),
             )
             SquadBuilderButton(
                 onClick = { onTeamCreateClick(teamNameInput) },
                 text = stringResource(R.string.team_create_text_button),
                 sizeStyle = mediumButtonStyle,
-                colorStyle = ButtonColorStyle.STROKE
+                colorStyle = ButtonColorStyle.STROKE,
             )
         }
     }
@@ -92,7 +91,7 @@ fun TeamCreateSection(
 private fun TeamCreateSectionPreview() {
     SquadBuilderTheme {
         TeamCreateSection(
-            onTeamCreateClick = {}
+            onTeamCreateClick = {},
         )
     }
 }

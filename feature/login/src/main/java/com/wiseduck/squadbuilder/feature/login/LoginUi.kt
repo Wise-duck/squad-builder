@@ -32,32 +32,32 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 @Composable
 fun LoginUi(
     modifier: Modifier = Modifier,
-    state: LoginUiState
+    state: LoginUiState,
 ) {
     SquadBuilderScaffold(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) {
         Column(
             modifier = modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Icon(
                 modifier = Modifier.width(250.dp),
                 painter = painterResource(com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_app_name),
                 contentDescription = "SquadBuilder App Name",
-                tint = Neutral50
+                tint = Neutral50,
             )
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing6)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing6),
             )
             Image(
                 modifier = Modifier.size(250.dp),
                 painter = painterResource(id = com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_launcher_foreground),
-                contentDescription = "SquadBuilder App Logo"
+                contentDescription = "SquadBuilder App Logo",
             )
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing8)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing8),
             )
             SquadBuilderButton(
                 onClick = {
@@ -70,9 +70,9 @@ fun LoginUi(
                     Icon(
                         painter = painterResource(R.drawable.ic_kakao),
                         contentDescription = "KaKao Icon",
-                        tint = Neutral800
+                        tint = Neutral800,
                     )
-                }
+                },
             )
         }
 
@@ -95,8 +95,8 @@ private fun LoginUi() {
     SquadBuilderTheme {
         LoginUi(
             state = LoginUiState(
-                eventSink = {}
-            )
+                eventSink = {},
+            ),
         )
     }
 }

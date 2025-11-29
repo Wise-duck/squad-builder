@@ -42,7 +42,8 @@ fun QuarterSelectionDialog(
     val quarters = (1..4).toList()
 
     SquadBuilderDialog(
-        onConfirmRequest = { onConfirm(selectedQuarters)},
+        modifier = modifier,
+        onConfirmRequest = { onConfirm(selectedQuarters) },
         onDismissRequest = onDismiss,
         confirmButtonText = stringResource(R.string.multiple_share_dialog_confirm_button),
         dismissButtonText = stringResource(R.string.multiple_share_dialog_cancel_button),
@@ -56,36 +57,38 @@ fun QuarterSelectionDialog(
                     )
                     .clip(
                         RoundedCornerShape(
-                            SquadBuilderTheme.radius.md
-                        )
+                            SquadBuilderTheme.radius.md,
+                        ),
                     )
-                    .background(MainComponentBg)
+                    .background(MainComponentBg),
             ) {
                 quarters.forEach { quarter ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(
-                                horizontal = SquadBuilderTheme.spacing.spacing4)
+                                horizontal = SquadBuilderTheme.spacing.spacing4,
+                            )
                             .height(40.dp)
                             .toggleable(
                                 value = quarter in selectedQuarters,
                                 role = Role.Checkbox,
                                 onValueChange = { checked ->
-                                    selectedQuarters = if (checked) {
-                                        selectedQuarters + quarter
-                                    } else {
-                                        selectedQuarters - quarter
-                                    }
-                                }
+                                    selectedQuarters =
+                                        if (checked) {
+                                            selectedQuarters + quarter
+                                        } else {
+                                            selectedQuarters - quarter
+                                        }
+                                },
                             ),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceAround
+                        horizontalArrangement = Arrangement.SpaceAround,
                     ) {
                         Text(
                             text = "Q $quarter",
                             color = Neutral50,
-                            style = SquadBuilderTheme.typography.body1Regular
+                            style = SquadBuilderTheme.typography.body1Regular,
                         )
                         Checkbox(
                             checked = quarter in selectedQuarters,
@@ -93,13 +96,13 @@ fun QuarterSelectionDialog(
                             colors = CheckboxDefaults.colors(
                                 uncheckedColor = Neutral50,
                                 checkedColor = Green500,
-                                checkmarkColor = Black
-                            )
+                                checkmarkColor = Black,
+                            ),
                         )
                     }
                 }
             }
-        }
+        },
     )
 }
 
@@ -109,7 +112,7 @@ private fun QuarterSelectionDialogPreview() {
     SquadBuilderTheme {
         QuarterSelectionDialog(
             onConfirm = {},
-            onDismiss = {}
+            onDismiss = {},
         )
     }
 }

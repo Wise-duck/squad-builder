@@ -31,32 +31,34 @@ import com.wiseduck.squadbuilder.feature.home.TeamSortOption
 fun TeamSortDropdown(
     modifier: Modifier = Modifier,
     currentSortOption: TeamSortOption,
-    onSortOptionSelected: (TeamSortOption) -> Unit
+    onSortOptionSelected: (TeamSortOption) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    val selectedText = when (currentSortOption) {
-        TeamSortOption.LATEST -> stringResource(R.string.team_sort_option_1)
-        TeamSortOption.NAME -> stringResource(R.string.team_sort_option_2)
-    }
+    val selectedText =
+        when (currentSortOption) {
+            TeamSortOption.LATEST -> stringResource(R.string.team_sort_option_1)
+            TeamSortOption.NAME -> stringResource(R.string.team_sort_option_2)
+        }
 
-    val customTextFieldColors = ExposedDropdownMenuDefaults.outlinedTextFieldColors(
-        focusedContainerColor = MainComponentBg,
-        unfocusedContainerColor = MainComponentBg,
-        focusedTextColor = Neutral300,
-        unfocusedTextColor = Neutral300,
-        unfocusedLabelColor = Neutral300,
-        focusedTrailingIconColor = Neutral300,
-        unfocusedTrailingIconColor = Neutral50,
-        focusedBorderColor = Neutral800,
-        unfocusedBorderColor = Neutral800,
-    )
+    val customTextFieldColors =
+        ExposedDropdownMenuDefaults.outlinedTextFieldColors(
+            focusedContainerColor = MainComponentBg,
+            unfocusedContainerColor = MainComponentBg,
+            focusedTextColor = Neutral300,
+            unfocusedTextColor = Neutral300,
+            unfocusedLabelColor = Neutral300,
+            focusedTrailingIconColor = Neutral300,
+            unfocusedTrailingIconColor = Neutral50,
+            focusedBorderColor = Neutral800,
+            unfocusedBorderColor = Neutral800,
+        )
 
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded },
         modifier = modifier
-            .fillMaxWidth(0.5f)
+            .fillMaxWidth(0.5f),
     ) {
         OutlinedTextField(
             modifier = modifier
@@ -73,7 +75,7 @@ fun TeamSortDropdown(
             },
             colors = customTextFieldColors,
             shape = RoundedCornerShape(
-                SquadBuilderTheme.radius.md
+                SquadBuilderTheme.radius.md,
             ),
         )
 
@@ -82,26 +84,27 @@ fun TeamSortDropdown(
                 .background(MainComponentBg)
                 .exposedDropdownSize(true),
             expanded = expanded,
-            onDismissRequest = { expanded = false }
+            onDismissRequest = { expanded = false },
         ) {
             TeamSortOption.entries.forEach { selectionOption ->
-                val optionText = when (selectionOption) {
-                    TeamSortOption.LATEST -> stringResource(R.string.team_sort_option_1)
-                    TeamSortOption.NAME -> stringResource(R.string.team_sort_option_2)
-                }
+                val optionText =
+                    when (selectionOption) {
+                        TeamSortOption.LATEST -> stringResource(R.string.team_sort_option_1)
+                        TeamSortOption.NAME -> stringResource(R.string.team_sort_option_2)
+                    }
                 DropdownMenuItem(
                     text = {
                         Text(
                             text = optionText,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = Neutral50
+                            color = Neutral50,
                         )
                     },
                     onClick = {
                         onSortOptionSelected(selectionOption)
                         expanded = false
                     },
-                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
                 )
             }
         }
@@ -114,7 +117,7 @@ private fun TeamSortDropdownPreview() {
     SquadBuilderTheme {
         TeamSortDropdown(
             currentSortOption = TeamSortOption.LATEST,
-            onSortOptionSelected = { }
+            onSortOptionSelected = { },
         )
     }
 }

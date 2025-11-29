@@ -19,15 +19,15 @@ const val ONBOARDING_STEPS = 3
 
 class OnboardingPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) : Presenter<OnboardingUiState> {
-
     @Composable
     override fun present(): OnboardingUiState {
         val scope = rememberCoroutineScope()
-        val pagerState = rememberPagerState(
-            pageCount = { ONBOARDING_STEPS }
-        )
+        val pagerState =
+            rememberPagerState(
+                pageCount = { ONBOARDING_STEPS },
+            )
 
         fun handleEvent(event: OnboardingUiEvent) {
             when (event) {
@@ -52,15 +52,13 @@ class OnboardingPresenter @AssistedInject constructor(
 
         return OnboardingUiState(
             pagerState = pagerState,
-            eventSink = ::handleEvent
+            eventSink = ::handleEvent,
         )
     }
 
     @CircuitInject(OnboardingScreen::class, ActivityRetainedComponent::class)
     @AssistedFactory
     fun interface Factory {
-        fun create(
-            navigator: Navigator
-        ): OnboardingPresenter
+        fun create(navigator: Navigator): OnboardingPresenter
     }
 }

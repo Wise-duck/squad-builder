@@ -17,17 +17,17 @@ internal fun TeamResponse.toModel(): TeamModel {
         name = name,
         ownerId = ownerId,
         ownerEmail = ownerEmail,
-        createdAt = createdAt
+        createdAt = createdAt,
     )
 }
 
-internal fun TeamPlayerResponse.toModel() : TeamPlayerModel {
+internal fun TeamPlayerResponse.toModel(): TeamPlayerModel {
     return TeamPlayerModel(
         id = playerId,
         teamId = teamId,
         name = name,
         backNumber = number,
-        position = position
+        position = position,
     )
 }
 
@@ -35,7 +35,7 @@ internal fun FormationListItemResponse.toModel(): FormationListItemModel {
     return FormationListItemModel(
         formationId = formationId,
         name = name,
-        createdAt = createdAt
+        createdAt = createdAt,
     )
 }
 
@@ -48,7 +48,7 @@ internal fun PlacementResponse.toModel(): PlacementModel {
         playerBackNumber = playerBackNumber.toString(),
         quarter = quarter,
         coordX = coordX / 1000f,
-        coordY = coordY / 1000f
+        coordY = coordY / 1000f,
     )
 }
 
@@ -60,6 +60,6 @@ internal fun FormationDetailResponse.toModel(): FormationDetailModel {
         teamId = teamId,
         teamName = teamName,
         placements = placements.map { it.toModel() },
-        referees = referees
+        referees = referees,
     )
 }

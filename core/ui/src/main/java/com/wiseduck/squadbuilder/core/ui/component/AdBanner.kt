@@ -16,7 +16,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 @Composable
 fun AdBanner(
     modifier: Modifier = Modifier,
-    adUnitId: String
+    adUnitId: String,
 ) {
     AndroidView(
         modifier = modifier.fillMaxWidth(),
@@ -25,13 +25,13 @@ fun AdBanner(
                 setAdSize(AdSize.BANNER)
                 this.adUnitId = adUnitId
 
-                adListener = object : AdListener() {
-
-                }
+                adListener =
+                    object : AdListener() {
+                    }
 
                 loadAd(AdRequest.Builder().build())
             }
-        }
+        },
     )
 }
 
@@ -40,7 +40,7 @@ fun AdBanner(
 private fun AdBannerPreview() {
     SquadBuilderTheme {
         AdBanner(
-            adUnitId = "ca-app-pub-3940256099942544/6300978111"
+            adUnitId = "ca-app-pub-3940256099942544/6300978111",
         )
     }
 }

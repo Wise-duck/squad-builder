@@ -21,24 +21,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.smallButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.FormationListItemModel
+import com.wiseduck.squadbuilder.feature.edit.R
 
 @Composable
 fun FormationListModal(
     formationList: List<FormationListItemModel>,
     onDismissRequest: () -> Unit,
     onFormationCardClick: (Int) -> Unit,
-    onDeleteFormationClick: (Int) -> Unit
+    onDeleteFormationClick: (Int) -> Unit,
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
         Column(
@@ -46,34 +45,34 @@ fun FormationListModal(
                 .fillMaxWidth()
                 .background(
                     MainBg,
-                    shape = RoundedCornerShape(SquadBuilderTheme.radius.md)
+                    shape = RoundedCornerShape(SquadBuilderTheme.radius.md),
                 )
                 .border(
                     width = 1.dp,
                     color = Neutral500,
-                    shape = RoundedCornerShape(size = SquadBuilderTheme.radius.md)
+                    shape = RoundedCornerShape(size = SquadBuilderTheme.radius.md),
                 )
                 .padding(SquadBuilderTheme.spacing.spacing4),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = stringResource(
-                    R.string.formation_list_modal_title
+                    R.string.formation_list_modal_title,
                 ),
                 color = Green500,
-                style = SquadBuilderTheme.typography.title1Medium
+                style = SquadBuilderTheme.typography.title1Medium,
             )
             Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
 
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 items(formationList) { formationItem ->
                     FormationCard(
                         formation = formationItem,
                         onClick = { onFormationCardClick(formationItem.formationId) },
-                        onDeleteClick = { onDeleteFormationClick(formationItem.formationId) }
+                        onDeleteClick = { onDeleteFormationClick(formationItem.formationId) },
                     )
                 }
             }
@@ -83,17 +82,18 @@ fun FormationListModal(
             SquadBuilderButton(
                 onClick = { onDismissRequest() },
                 text = stringResource(
-                    R.string.formation_list_modal_close_button
+                    R.string.formation_list_modal_close_button,
                 ),
                 sizeStyle = smallButtonStyle.copy(
                     paddingValues = PaddingValues(
-                        horizontal = SquadBuilderTheme.spacing.spacing3, // 기존 좌우 여백
-                        vertical = 5.dp
-                    )
+                        horizontal = SquadBuilderTheme.spacing.spacing3,
+                        vertical = 5.dp,
+                    ),
                 ),
                 colorStyle = ButtonColorStyle.TEXT_WHITE,
-                modifier = Modifier.width(60.dp)
-                    .defaultMinSize(minHeight = 1.dp)
+                modifier = Modifier
+                    .width(60.dp)
+                    .defaultMinSize(minHeight = 1.dp),
             )
         }
     }
@@ -107,11 +107,11 @@ private fun FormationListModalPreview() {
             formationList = listOf(
                 FormationListItemModel(1, "4-3-3", "2023-01-01T00:00:00Z"),
                 FormationListItemModel(2, "4-4-2", "2023-01-02T00:00:00Z"),
-                FormationListItemModel(3, "3-5-2", "2023-01-03T00:00:00Z")
+                FormationListItemModel(3, "3-5-2", "2023-01-03T00:00:00Z"),
             ),
             onDismissRequest = {},
             onFormationCardClick = {},
-            onDeleteFormationClick = {}
+            onDeleteFormationClick = {},
         )
     }
 }
