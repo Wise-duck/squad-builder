@@ -34,6 +34,10 @@
 - Firebase(Analytics, Crashlytics, Remote Config)
 - Kakao-Auth
 
+### Code Quality
+- Detekt
+- Ktlint
+
 ### Gradle Dependency
 
 - Gradle Version Catalog
