@@ -14,5 +14,5 @@ data class TeamResponse(
     @SerialName("ownerEmail")
     val ownerEmail: String? = null,
     @SerialName("createdAt")
-    val createdAt: String
+    val createdAt: String,
 )

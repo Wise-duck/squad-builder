@@ -36,7 +36,7 @@ import kotlinx.collections.immutable.toImmutableList
 @Composable
 fun HomeUi(
     modifier: Modifier = Modifier,
-    state: HomeUiState
+    state: HomeUiState,
 ) {
     SquadBuilderScaffold(
         modifier = modifier.fillMaxSize(),
@@ -46,18 +46,18 @@ fun HomeUi(
                 currentTab = SquadBuilderBottomTab.HOME,
                 onTabSelected = {
                     state.eventSink(HomeUiEvent.OnTabSelect(it.screen))
-                }
+                },
             )
-        }
+        },
     ) { innerPadding ->
         Column(
-            modifier = modifier.padding(innerPadding)
+            modifier = modifier.padding(innerPadding),
         ) {
             HomeHeader(
-                modifier = modifier
+                modifier = modifier,
             )
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4),
             )
             HomeContent(
                 modifier = Modifier
@@ -71,7 +71,7 @@ fun HomeUi(
                 },
                 onTeamDeleteClick = {
                     state.eventSink(HomeUiEvent.OnTeamDeleteButtonClick(it))
-                }
+                },
             )
         }
     }
@@ -83,11 +83,11 @@ private fun HomeContent(
     state: HomeUiState,
     onTeamCreateClick: (String) -> Unit,
     onTeamClick: (Int, String) -> Unit,
-    onTeamDeleteClick: (Int) -> Unit
+    onTeamDeleteClick: (Int) -> Unit,
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
     ) {
         TeamCreateSection(
             modifier = Modifier.fillMaxWidth(),
@@ -97,15 +97,15 @@ private fun HomeContent(
         TeamSortDropdown(
             modifier = Modifier
                 .padding(
-                    horizontal = SquadBuilderTheme.spacing.spacing2
+                    horizontal = SquadBuilderTheme.spacing.spacing2,
                 ),
             currentSortOption = state.currentSortOption,
             onSortOptionSelected = {
                 state.eventSink(HomeUiEvent.OnSortOptionSelect(it))
-            }
+            },
         )
         Spacer(
-            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
         )
 
         if (state.isLoading) {
@@ -118,7 +118,7 @@ private fun HomeContent(
                 onTeamDeleteClick = onTeamDeleteClick,
                 onRefresh = {
                     state.eventSink(HomeUiEvent.OnRefresh)
-                }
+                },
             )
             if (state.errorMessage != null) {
                 SquadBuilderDialog(
@@ -127,22 +127,23 @@ private fun HomeContent(
                     onConfirmRequest = {
                         state.eventSink(HomeUiEvent.OnDialogCloseButtonClick)
                     },
-                    confirmButtonText = stringResource(R.string.dialog_confirm_text_button)
+                    confirmButtonText = stringResource(R.string.dialog_confirm_text_button),
                 )
             }
         }
 
         AdBanner(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(
                     vertical = SquadBuilderTheme.spacing.spacing2,
-                    horizontal = SquadBuilderTheme.spacing.spacing2
+                    horizontal = SquadBuilderTheme.spacing.spacing2,
                 ),
-            adUnitId = state.adUnitId
+            adUnitId = state.adUnitId,
         )
 
         Spacer(
-            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
         )
     }
 }
@@ -153,7 +154,7 @@ private fun TeamList(
     state: HomeUiState,
     onRefresh: () -> Unit,
     onTeamClick: (Int, String) -> Unit,
-    onTeamDeleteClick: (Int) -> Unit
+    onTeamDeleteClick: (Int) -> Unit,
 ) {
     PullToRefreshBox(
         modifier = modifier,
@@ -162,17 +163,17 @@ private fun TeamList(
         isRefreshing = state.isRefreshing,
     ) {
         LazyColumn(
-            modifier = modifier.fillMaxSize()
+            modifier = modifier.fillMaxSize(),
         ) {
             items(
                 items = state.teams,
-                key = { team -> team.teamId }
+                key = { team -> team.teamId },
             ) { team ->
                 TeamCard(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                     team = team,
                     onDeleteClick = onTeamDeleteClick,
-                    onClick = onTeamClick
+                    onClick = onTeamClick,
                 )
             }
         }
@@ -182,29 +183,30 @@ private fun TeamList(
 @DevicePreview
 @Composable
 private fun HomeUi() {
-    val sampleTeams = listOf(
-        TeamModel(
-            teamId = 1,
-            name = "비얀코",
-            ownerId = "owner1",
-            ownerEmail = "owner1@example.com",
-            createdAt = "2025-10-29T17:30:00.000Z"
-        ),
-        TeamModel(
-            teamId = 2,
-            name = "빠삐코",
-            ownerId = "owner2",
-            ownerEmail = "owner2@example.com",
-            createdAt = "2025-10-29T17:31:00.000Z"
+    val sampleTeams =
+        listOf(
+            TeamModel(
+                teamId = 1,
+                name = "비얀코",
+                ownerId = "owner1",
+                ownerEmail = "owner1@example.com",
+                createdAt = "2025-10-29T17:30:00.000Z",
+            ),
+            TeamModel(
+                teamId = 2,
+                name = "빠삐코",
+                ownerId = "owner2",
+                ownerEmail = "owner2@example.com",
+                createdAt = "2025-10-29T17:31:00.000Z",
+            ),
         )
-    )
 
     SquadBuilderTheme {
         HomeUi(
             state = HomeUiState(
                 teams = sampleTeams.toImmutableList(),
-                eventSink = {}
-            )
+                eventSink = {},
+            ),
         )
     }
 }

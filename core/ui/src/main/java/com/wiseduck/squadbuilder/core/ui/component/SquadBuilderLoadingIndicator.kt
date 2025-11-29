@@ -11,16 +11,14 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 
 @Composable
-fun SquadBuilderLoadingIndicator(
-    modifier: Modifier = Modifier
-) {
+fun SquadBuilderLoadingIndicator(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator(
-            color = Neutral500
+            color = Neutral500,
         )
     }
 }

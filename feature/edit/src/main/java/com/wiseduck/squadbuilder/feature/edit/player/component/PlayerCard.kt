@@ -39,25 +39,25 @@ fun PlayerCard(
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = MainBg
+            containerColor = MainBg,
         ),
         border = BorderStroke(
             width = 1.dp,
-            color = Neutral500
+            color = Neutral500,
         ),
     ) {
         Row(
             modifier = Modifier
                 .padding(SquadBuilderTheme.spacing.spacing4)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
                         modifier = Modifier
@@ -65,7 +65,7 @@ fun PlayerCard(
                             .weight(0.4f),
                         text = player.position,
                         style = SquadBuilderTheme.typography.body1Bold,
-                        color = PlayerPosition.getColor(player.position)
+                        color = PlayerPosition.getColor(player.position),
                     )
                     Text(
                         modifier = Modifier
@@ -73,7 +73,7 @@ fun PlayerCard(
                             .padding(start = SquadBuilderTheme.spacing.spacing4),
                         text = player.name,
                         style = SquadBuilderTheme.typography.body1SemiBold,
-                        color = Neutral300
+                        color = Neutral300,
                     )
                 }
 
@@ -83,17 +83,17 @@ fun PlayerCard(
                         .padding(start = SquadBuilderTheme.spacing.spacing4),
                     text = stringResource(
                         R.string.player_card_backnumber_label,
-                        player.backNumber
+                        player.backNumber,
                     ),
                     style = SquadBuilderTheme.typography.caption1Regular,
-                    color = Neutral300
+                    color = Neutral300,
                 )
             }
             Spacer(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 IconButton(
                     onClick = onEditClick,
@@ -106,12 +106,12 @@ fun PlayerCard(
                 }
                 Spacer(modifier = Modifier.width(SquadBuilderTheme.spacing.spacing1))
                 IconButton(
-                    onClick = onDeleteClick
+                    onClick = onDeleteClick,
                 ) {
                     Icon(
                         painter = painterResource(com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_remove),
                         tint = Red500,
-                        contentDescription = "Delete Icon"
+                        contentDescription = "Delete Icon",
                     )
                 }
             }
@@ -131,8 +131,8 @@ private fun PlayerCardPreview() {
                 teamId = 1,
                 name = "주ㄹ므",
                 backNumber = 1,
-                position = "MF"
-            )
+                position = "MF",
+            ),
         )
     }
 }

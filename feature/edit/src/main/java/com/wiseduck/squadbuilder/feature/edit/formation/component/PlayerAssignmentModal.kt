@@ -36,14 +36,15 @@ import com.wiseduck.squadbuilder.feature.edit.R
 fun PlayerAssignmentModal(
     availablePlayers: List<TeamPlayerModel>,
     onDismissRequest: () -> Unit,
-    onAssignPlayer: (Int) -> Unit
+    onAssignPlayer: (Int) -> Unit,
 ) {
     val positionOrder = listOf("FW", "MF", "DF", "GK")
 
-    val sortedPlayers = availablePlayers.sortedBy { player ->
-        val index = positionOrder.indexOf(player.position.uppercase())
-        if (index == -1) Int.MAX_VALUE else index
-    }
+    val sortedPlayers =
+        availablePlayers.sortedBy { player ->
+            val index = positionOrder.indexOf(player.position.uppercase())
+            if (index == -1) Int.MAX_VALUE else index
+        }
 
     Dialog(onDismissRequest = onDismissRequest) {
         Column(
@@ -51,33 +52,33 @@ fun PlayerAssignmentModal(
                 .fillMaxWidth()
                 .background(
                     MainBg,
-                    shape = RoundedCornerShape(SquadBuilderTheme.radius.md)
+                    shape = RoundedCornerShape(SquadBuilderTheme.radius.md),
                 )
                 .border(
                     width = 1.dp,
                     color = Neutral500,
-                    shape = RoundedCornerShape(size = SquadBuilderTheme.radius.md)
+                    shape = RoundedCornerShape(size = SquadBuilderTheme.radius.md),
                 )
                 .padding(SquadBuilderTheme.spacing.spacing4),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = stringResource(R.string.player_assignment_modal_title),
                 color = Neutral100,
-                style = SquadBuilderTheme.typography.title1Bold
+                style = SquadBuilderTheme.typography.title1Bold,
             )
             Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
 
             LazyRow(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 items(sortedPlayers) { player ->
                     PlayerListCard(
                         name = player.name,
                         backNumber = player.backNumber,
                         position = player.position,
-                        onClick = { onAssignPlayer(player.id) }
+                        onClick = { onAssignPlayer(player.id) },
                     )
                 }
             }
@@ -90,13 +91,13 @@ fun PlayerAssignmentModal(
                 sizeStyle = smallButtonStyle.copy(
                     paddingValues = PaddingValues(
                         horizontal = SquadBuilderTheme.spacing.spacing3,
-                        vertical = 5.dp
-                    )
+                        vertical = 5.dp,
+                    ),
                 ),
                 colorStyle = ButtonColorStyle.TEXT_WHITE,
                 modifier = Modifier
                     .width(60.dp)
-                    .defaultMinSize(minHeight = 1.dp)
+                    .defaultMinSize(minHeight = 1.dp),
             )
         }
     }
@@ -114,7 +115,7 @@ private fun PlayerAssignmentModalPreview() {
                 TeamPlayerModel(teamId = 1, id = 4, name = "조현우", backNumber = 1, position = "GK"),
             ),
             onDismissRequest = {},
-            onAssignPlayer = {}
+            onAssignPlayer = {},
         )
     }
 }

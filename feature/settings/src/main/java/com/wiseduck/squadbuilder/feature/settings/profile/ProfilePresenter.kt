@@ -18,17 +18,17 @@ import com.wiseduck.squadbuilder.core.data.api.repository.UserRepository
 import com.wiseduck.squadbuilder.feature.screens.LoginScreen
 import com.wiseduck.squadbuilder.feature.screens.ProfileScreen
 import com.wiseduck.squadbuilder.feature.screens.WebViewScreen
+import com.wiseduck.squadbuilder.feature.settings.R
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.launch
-import com.wiseduck.squadbuilder.feature.settings.R
 
 class ProfilePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val authRepository: AuthRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ) : Presenter<ProfileUiState> {
     @Composable
     override fun present(): ProfileUiState {
@@ -85,9 +85,11 @@ class ProfilePresenter @AssistedInject constructor(
                 ProfileUiEvent.OnPrivacyPolicyButtonClick -> {
                     val webView = WebViewUrls.PRIVACY_POLICY
 
-                    navigator.goTo(WebViewScreen(
-                        url = webView.url
-                    ))
+                    navigator.goTo(
+                        WebViewScreen(
+                            url = webView.url,
+                        ),
+                    )
                 }
             }
         }
@@ -105,13 +107,13 @@ class ProfilePresenter @AssistedInject constructor(
             isLoading = isLoading,
             errorMessage = errorMessage,
             userName = userName,
-            eventSink = ::handleEvent
+            eventSink = ::handleEvent,
         )
     }
 
     @CircuitInject(ProfileScreen::class, ActivityRetainedComponent::class)
     @AssistedFactory
     fun interface Factory {
-        fun create(navigator: Navigator) : ProfilePresenter
+        fun create(navigator: Navigator): ProfilePresenter
     }
 }

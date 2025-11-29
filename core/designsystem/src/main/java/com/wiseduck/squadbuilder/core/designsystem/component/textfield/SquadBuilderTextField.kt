@@ -17,18 +17,18 @@ fun SquadBuilderTextField(
     value: String,
     placeholder: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
         shape = RoundedCornerShape(
-            SquadBuilderTheme.radius.md
+            SquadBuilderTheme.radius.md,
         ),
         placeholder = {
             Text(
-                text = placeholder
+                text = placeholder,
             )
         },
         singleLine = true,
@@ -37,7 +37,7 @@ fun SquadBuilderTextField(
             focusedPlaceholderColor = Neutral500,
             unfocusedContainerColor = Neutral100,
             focusedContainerColor = Neutral100,
-            focusedBorderColor = Blue500
+            focusedBorderColor = Blue500,
         ),
     )
 }
@@ -49,7 +49,7 @@ fun SquadBuilderTextFieldPreview() {
         SquadBuilderTextField(
             value = "",
             placeholder = "이름 입력",
-            onValueChange = {}
+            onValueChange = {},
         )
     }
 }

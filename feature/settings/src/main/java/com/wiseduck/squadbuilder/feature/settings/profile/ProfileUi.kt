@@ -22,16 +22,16 @@ import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
 import com.wiseduck.squadbuilder.feature.screens.ProfileScreen
 import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomBar
 import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab
+import com.wiseduck.squadbuilder.feature.settings.R
 import com.wiseduck.squadbuilder.feature.settings.profile.component.ProfileCard
 import com.wiseduck.squadbuilder.feature.settings.profile.component.ProfileHeader
 import dagger.hilt.android.components.ActivityRetainedComponent
-import com.wiseduck.squadbuilder.feature.settings.R
 
 @CircuitInject(ProfileScreen::class, ActivityRetainedComponent::class)
 @Composable
 fun ProfileUi(
     modifier: Modifier = Modifier,
-    state: ProfileUiState
+    state: ProfileUiState,
 ) {
     SquadBuilderScaffold(
         modifier = modifier.fillMaxSize(),
@@ -41,15 +41,15 @@ fun ProfileUi(
                 currentTab = SquadBuilderBottomTab.PROFILE,
                 onTabSelected = {
                     state.eventSink(ProfileUiEvent.OnTabSelect(it.screen))
-                }
+                },
             )
-        } 
+        },
     ) { innerPadding ->
         Column(
             modifier = modifier.padding(innerPadding),
         ) {
             ProfileHeader(
-                modifier = modifier
+                modifier = modifier,
             )
             ProfileContent(
                 modifier = modifier,
@@ -77,7 +77,7 @@ fun ProfileUi(
                 onConfirmRequest = {
                     state.eventSink(ProfileUiEvent.OnDialogCloseButtonClick)
                 },
-                confirmButtonText = "확인"
+                confirmButtonText = "확인",
             )
         }
     }
@@ -89,45 +89,46 @@ private fun ProfileContent(
     userName: String,
     onLogoutClick: () -> Unit,
     onWithDrawClick: () -> Unit,
-    onPrivacyPolicyClick: () -> Unit
+    onPrivacyPolicyClick: () -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         ProfileCard(
             modifier = Modifier.padding(SquadBuilderTheme.spacing.spacing4),
-            name = userName
+            name = userName,
         )
         Spacer(
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         )
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(SquadBuilderTheme.spacing.spacing4),
-            horizontalAlignment = Alignment.Start
+            horizontalAlignment = Alignment.Start,
         ) {
             SquadBuilderButton(
                 text = stringResource(R.string.logout_button),
                 onClick = onLogoutClick,
                 sizeStyle = largeButtonStyle,
-                colorStyle = ButtonColorStyle.TEXT
+                colorStyle = ButtonColorStyle.TEXT,
             )
             SquadBuilderButton(
                 text = stringResource(R.string.withdraw_button),
                 onClick = onWithDrawClick,
                 sizeStyle = largeButtonStyle,
-                colorStyle = ButtonColorStyle.TEXT
+                colorStyle = ButtonColorStyle.TEXT,
             )
             SquadBuilderButton(
                 text = stringResource(R.string.privacy_policy_button),
                 onClick = onPrivacyPolicyClick,
                 sizeStyle = largeButtonStyle,
-                colorStyle = ButtonColorStyle.TEXT
+                colorStyle = ButtonColorStyle.TEXT,
             )
         }
         Spacer(
-            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
         )
     }
 }
@@ -139,7 +140,7 @@ private fun ProfileUiPreview() {
         state = ProfileUiState(
             isLoading = false,
             userName = "주름이",
-            eventSink = {}
-        )
+            eventSink = {},
+        ),
     )
 }

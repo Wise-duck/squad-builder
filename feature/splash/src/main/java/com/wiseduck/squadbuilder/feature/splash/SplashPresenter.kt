@@ -34,9 +34,8 @@ class SplashPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val remoteConfigRepository: RemoteConfigRepository,
     private val userRepository: UserRepository,
-    private val authRepository: AuthRepository
-): Presenter<SplashUiState> {
-
+    private val authRepository: AuthRepository,
+) : Presenter<SplashUiState> {
     @Composable
     override fun present(): SplashUiState {
         val scope = rememberCoroutineScope()
@@ -103,15 +102,13 @@ class SplashPresenter @AssistedInject constructor(
 
         return SplashUiState(
             isUpdateDialogVisible = isUpdateDialogVisible,
-            eventSink = ::handleEvent
+            eventSink = ::handleEvent,
         )
     }
 
     @CircuitInject(SplashScreen::class, ActivityRetainedComponent::class)
     @AssistedFactory
     fun interface Factory {
-        fun create(
-            navigator: Navigator
-        ): SplashPresenter
+        fun create(navigator: Navigator): SplashPresenter
     }
 }

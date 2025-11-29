@@ -22,25 +22,25 @@ import com.wiseduck.squadbuilder.feature.onboarding.R
 fun OnboardingPage(
     modifier: Modifier = Modifier,
     image: Painter,
-    description: String
+    description: String,
 ) {
     Box(
         modifier = modifier
             .fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
                 painter = image,
-                contentDescription = "Onboarding Image"
+                contentDescription = "Onboarding Image",
             )
             Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
             Text(
                 text = description,
                 style = SquadBuilderTheme.typography.heading1Bold,
-                color = Neutral50
+                color = Neutral50,
             )
         }
     }
@@ -52,7 +52,7 @@ private fun OnboardingPagePreview() {
     SquadBuilderTheme {
         OnboardingPage(
             image = painterResource(R.drawable.ic_onboarding_page_1_image),
-            description = stringResource(R.string.onboarding_page_1_description)
+            description = stringResource(R.string.onboarding_page_1_description),
         )
     }
 }

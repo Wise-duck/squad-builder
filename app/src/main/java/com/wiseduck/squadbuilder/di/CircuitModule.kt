@@ -13,7 +13,6 @@ import dagger.multibindings.Multibinds
 @Module
 @InstallIn(ActivityRetainedComponent::class)
 abstract class CircuitModule {
-
     @Multibinds
     abstract fun presenterFactories(): Set<Presenter.Factory>
 
@@ -25,9 +24,10 @@ abstract class CircuitModule {
         fun provideCircuit(
             presenterFactories: @JvmSuppressWildcards Set<Presenter.Factory>,
             uiFactories: @JvmSuppressWildcards Set<Ui.Factory>,
-        ): Circuit = Circuit.Builder()
-            .addPresenterFactories(presenterFactories)
-            .addUiFactories(uiFactories)
-            .build()
+        ): Circuit =
+            Circuit.Builder()
+                .addPresenterFactories(presenterFactories)
+                .addUiFactories(uiFactories)
+                .build()
     }
 }

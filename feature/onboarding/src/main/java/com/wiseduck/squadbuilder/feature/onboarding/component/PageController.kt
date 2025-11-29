@@ -23,11 +23,11 @@ import com.wiseduck.squadbuilder.feature.onboarding.ONBOARDING_STEPS
 fun PageController(
     modifier: Modifier = Modifier,
     stepCount: Int,
-    pagerState: PagerState
+    pagerState: PagerState,
 ) {
     Row(
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
     ) {
         repeat(stepCount) {
             val color = if (pagerState.currentPage == it) Green500 else Neutral500
@@ -38,8 +38,9 @@ fun PageController(
                     .background(
                         color,
                         shape = RoundedCornerShape(
-                            SquadBuilderTheme.radius.full
-                        ))
+                            SquadBuilderTheme.radius.full,
+                        ),
+                    ),
             )
 
             if (it != stepCount - 1) {
@@ -52,9 +53,10 @@ fun PageController(
 @ComponentPreview
 @Composable
 fun PageControllerPreview() {
-    val pagerState = rememberPagerState(
-        pageCount = { ONBOARDING_STEPS }
-    )
+    val pagerState =
+        rememberPagerState(
+            pageCount = { ONBOARDING_STEPS },
+        )
 
     SquadBuilderTheme {
         PageController(

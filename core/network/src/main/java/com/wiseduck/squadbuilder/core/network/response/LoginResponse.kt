@@ -10,5 +10,5 @@ data class LoginResponse(
     @SerialName("refreshToken")
     val refreshToken: String,
     @SerialName("username")
-    val username: String
+    val username: String,
 )

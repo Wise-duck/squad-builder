@@ -14,14 +14,15 @@ import javax.inject.Inject
 class TokenDataSourceImpl @Inject constructor(
     @TokenDataStore private val dataStore: DataStore<Preferences>,
 ) : TokenDataSource {
+    override val accessToken: Flow<String> =
+        dataStore.data.map { preferences ->
+            preferences[ACCESS_TOKEN] ?: ""
+        }
 
-    override val accessToken: Flow<String> = dataStore.data.map { preferences ->
-        preferences[ACCESS_TOKEN] ?: ""
-    }
-
-    override val refreshToken: Flow<String> = dataStore.data.map { preferences ->
-        preferences[REFRESH_TOKEN] ?: ""
-    }
+    override val refreshToken: Flow<String> =
+        dataStore.data.map { preferences ->
+            preferences[REFRESH_TOKEN] ?: ""
+        }
 
     override suspend fun getAccessToken(): String = accessToken.first()
 

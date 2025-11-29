@@ -2,7 +2,6 @@ package com.wiseduck.squadbuilder.feature.edit.formation
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,7 +41,6 @@ import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumRounde
 import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral900
-import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.SoccerField
@@ -56,6 +54,7 @@ import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerInfoModa
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerPlacementLayer
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerQuarterStatusSideBar
 import com.wiseduck.squadbuilder.feature.edit.formation.component.QuarterSelectionDialog
+import com.wiseduck.squadbuilder.feature.edit.formation.component.QuarterTag
 import com.wiseduck.squadbuilder.feature.edit.formation.component.RefereeInput
 import com.wiseduck.squadbuilder.feature.edit.formation.data.createDefaultPlayers
 import com.wiseduck.squadbuilder.feature.screens.FormationScreen
@@ -72,7 +71,7 @@ fun FormationUi(
 
     FormationSideEffects(
         state = state,
-        formationGraphicsLayer = formationGraphicLayers
+        formationGraphicsLayer = formationGraphicLayers,
     )
 
     LaunchedEffect(state.toastMessage) {
@@ -92,9 +91,9 @@ fun FormationUi(
             content = {
                 Text(
                     text = stringResource(R.string.formation_delete_confirm_dialog_description),
-                    color = Color.White
+                    color = Color.White,
                 )
-            }
+            },
         )
     }
 
@@ -102,7 +101,7 @@ fun FormationUi(
         PlayerAssignmentModal(
             availablePlayers = state.availablePlayers,
             onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissPlayerAssignmentDialog) },
-            onAssignPlayer = { state.eventSink(FormationUiEvent.OnAssignPlayer(it)) }
+            onAssignPlayer = { state.eventSink(FormationUiEvent.OnAssignPlayer(it)) },
         )
     }
 
@@ -118,10 +117,11 @@ fun FormationUi(
                     value = state.currentFormationName,
                     onValueChange = { state.eventSink(FormationUiEvent.OnFormationNameChange(it)) },
                     placeholder = {
-                        Text(stringResource(R.string.formation_save_confirm_dialog_placeholder)) },
+                        Text(stringResource(R.string.formation_save_confirm_dialog_placeholder))
+                    },
                     maxLines = 1,
                 )
-            }
+            },
         )
     }
 
@@ -135,9 +135,9 @@ fun FormationUi(
             content = {
                 Text(
                     text = stringResource(R.string.formation_reset_confirm_dialog_description),
-                    color = Color.White
+                    color = Color.White,
                 )
-            }
+            },
         )
     }
 
@@ -149,7 +149,7 @@ fun FormationUi(
             playerBackNumber = selectedPlayer.playerBackNumber,
             onModifyClick = { state.eventSink(FormationUiEvent.OnModifyPlayerClick) },
             onUnassignClick = { state.eventSink(FormationUiEvent.OnUnassignPlayer) },
-            onCancelClick = { state.eventSink(FormationUiEvent.OnDismissPlayerInfoDialog) }
+            onCancelClick = { state.eventSink(FormationUiEvent.OnDismissPlayerInfoDialog) },
         )
     }
 
@@ -158,7 +158,7 @@ fun FormationUi(
             formationList = state.formationList,
             onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissListModal) },
             onFormationCardClick = { state.eventSink(FormationUiEvent.OnFormationCardClick(it)) },
-            onDeleteFormationClick = { state.eventSink(FormationUiEvent.OnDeleteFormationClick(it)) }
+            onDeleteFormationClick = { state.eventSink(FormationUiEvent.OnDeleteFormationClick(it)) },
         )
     }
 
@@ -167,15 +167,15 @@ fun FormationUi(
             onConfirm = { quarters ->
                 state.eventSink(FormationUiEvent.OnSelectQuartersToShare(quarters))
             },
-            onDismiss = { state.eventSink(FormationUiEvent.OnDismissQuarterSelectionDialog) }
+            onDismiss = { state.eventSink(FormationUiEvent.OnDismissQuarterSelectionDialog) },
         )
     }
 
     SquadBuilderScaffold(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) { innerPadding ->
         Column(
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
         ) {
             FormationHeader(
                 modifier = Modifier,
@@ -184,7 +184,7 @@ fun FormationUi(
                 },
                 onFormationListClick = {
                     state.eventSink(FormationUiEvent.OnFormationListClick)
-                }
+                },
             )
 
             FormationController(
@@ -200,19 +200,19 @@ fun FormationUi(
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
             ) {
                 repeat(4) {
                     SquadBuilderButton(
                         text = stringResource(
                             R.string.quarter_text_button,
-                            it + 1
+                            it + 1,
                         ),
                         onClick = {
                             state.eventSink(FormationUiEvent.OnQuarterChange(it + 1))
                         },
                         colorStyle = if (state.currentQuarter == it + 1) ButtonColorStyle.STROKE else ButtonColorStyle.TEXT_WHITE,
-                        sizeStyle = mediumRoundedButtonStyle
+                        sizeStyle = mediumRoundedButtonStyle,
                     )
 
                     if (it != 3) {
@@ -227,7 +227,7 @@ fun FormationUi(
                     .weight(1f)
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp, vertical = 8.dp),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
             ) {
                 SoccerField(
                     modifier = Modifier
@@ -240,19 +240,9 @@ fun FormationUi(
                         val scaleFactor = desiredShirtDiameter / originalShirtDiameter
 
                         if (state.isCapturing) {
-                            Text(
-                                modifier = Modifier
-                                    .padding(SquadBuilderTheme.spacing.spacing3)
-                                    .background(
-                                        color = Color.Black.copy(alpha = 0.8f),
-                                        shape = RoundedCornerShape(
-                                            SquadBuilderTheme.radius.md
-                                        ),
-                                    )
-                                    .padding(SquadBuilderTheme.spacing.spacing2),
-                                text = "\uD83D\uDD25 Q ${state.currentQuarter}",
-                                color = Red500,
-                                style = SquadBuilderTheme.typography.body1Regular
+                            QuarterTag(
+                                modifier = modifier,
+                                quarter = state.currentQuarter,
                             )
                         }
 
@@ -262,13 +252,13 @@ fun FormationUi(
                                 .align(Alignment.TopEnd)
                                 .offset(
                                     x = (-5).dp,
-                                    y = (14).dp
+                                    y = (14).dp,
                                 ),
                             currentQuarter = state.currentQuarter,
                             currentRefereeName = state.allReferees[state.currentQuarter] ?: "",
                             onRefereeNameChange = {
                                 state.eventSink(FormationUiEvent.OnRefereeNameChange(state.currentQuarter, it))
-                            }
+                            },
                         )
 
                         PlayerPlacementLayer(
@@ -283,9 +273,9 @@ fun FormationUi(
                             },
                             onPlayerClick = { state.eventSink(FormationUiEvent.OnPlayerClick(it)) },
                             soccerFieldWidth = this.maxWidth,
-                            soccerFieldHeight = this.maxHeight
+                            soccerFieldHeight = this.maxHeight,
                         )
-                    }
+                    },
                 )
 
                 Surface(
@@ -296,23 +286,23 @@ fun FormationUi(
                         .fillMaxHeight(0.15f),
                     border = BorderStroke(
                         width = 1.dp,
-                        color = Neutral500
+                        color = Neutral500,
                     ),
                     shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
                     color = Neutral900,
                     onClick = {
                         state.eventSink(FormationUiEvent.OnPlayerQuarterStatusClick)
-                    }
+                    },
                 ) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
+                        contentAlignment = Alignment.Center,
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.ic_side_tab_open),
                             contentDescription = "Open Sidebar Icon",
                             tint = Green500,
-                            modifier = Modifier.scale(0.8f)
+                            modifier = Modifier.scale(0.8f),
                         )
                     }
                 }
@@ -336,17 +326,10 @@ fun Modifier.captureToGraphicsLayer(graphicsLayer: GraphicsLayer) =
         drawLayer(graphicsLayer)
     }
 
-@Composable
-private fun FormationContent(
-    modifier: Modifier = Modifier,
-    state: FormationUiState
-) {}
-
 @DevicePreview
 @Composable
 private fun FormationUiPreView() {
     SquadBuilderTheme {
-
         val dummyPlayers = createDefaultPlayers()
 
         FormationUi(
@@ -355,8 +338,8 @@ private fun FormationUiPreView() {
                 teamId = 1,
                 teamName = "비안코",
                 players = dummyPlayers,
-                eventSink = {}
-            )
+                eventSink = {},
+            ),
         )
     }
 }

@@ -4,10 +4,10 @@ import com.slack.circuit.runtime.screen.Screen
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data object SplashScreen: Screen
+data object SplashScreen : Screen
 
 @Parcelize
-data object OnboardingScreen: Screen
+data object OnboardingScreen : Screen
 
 @Parcelize
 data object LoginScreen : Screen
@@ -16,27 +16,27 @@ data object LoginScreen : Screen
 data object HomeScreen : Screen
 
 @Parcelize
-data object ProfileScreen: Screen
+data object ProfileScreen : Screen
 
 @Parcelize
 data class WebViewScreen(
-    val url: String
+    val url: String,
 ) : Screen
 
 @Parcelize
 data class TeamDetailScreen(
     val teamId: Int,
-    val teamName: String
+    val teamName: String,
 ) : Screen
 
 @Parcelize
 data class FormationScreen(
     val teamId: Int,
-    val teamName: String
+    val teamName: String,
 ) : Screen
 
 @Parcelize
 data class PlayerScreen(
     val teamId: Int,
-    val teamName: String
+    val teamName: String,
 ) : Screen

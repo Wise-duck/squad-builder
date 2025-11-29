@@ -29,51 +29,47 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 @Composable
 fun OnboardingUi(
     modifier: Modifier = Modifier,
-    state: OnboardingUiState
+    state: OnboardingUiState,
 ) {
     Column(
         modifier = modifier
             .background(MainBg)
             .padding(SquadBuilderTheme.spacing.spacing8),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        // skip button
-
-        // onboarding page
         HorizontalPager(
             state = state.pagerState,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         ) {
             when (state.pagerState.currentPage) {
-                0 -> OnboardingPage(
-                    modifier = modifier,
-                    image = painterResource(R.drawable.ic_onboarding_page_1_image),
-                    description = stringResource(R.string.onboarding_page_1_description),
-                )
-                1 -> OnboardingPage(
-                    modifier = modifier,
-                    image = painterResource(R.drawable.ic_onboarding_page_2_image),
-                    description = stringResource(R.string.onboarding_page_2_description),
-                )
-                2 -> OnboardingPage(
-                    modifier = modifier,
-                    image = painterResource(R.drawable.ic_onboarding_page_3_image),
-                    description = stringResource(R.string.onboarding_page_3_description),
-                )
+                0 ->
+                    OnboardingPage(
+                        modifier = modifier,
+                        image = painterResource(R.drawable.ic_onboarding_page_1_image),
+                        description = stringResource(R.string.onboarding_page_1_description),
+                    )
+                1 ->
+                    OnboardingPage(
+                        modifier = modifier,
+                        image = painterResource(R.drawable.ic_onboarding_page_2_image),
+                        description = stringResource(R.string.onboarding_page_2_description),
+                    )
+                2 ->
+                    OnboardingPage(
+                        modifier = modifier,
+                        image = painterResource(R.drawable.ic_onboarding_page_3_image),
+                        description = stringResource(R.string.onboarding_page_3_description),
+                    )
             }
         }
-
-        // indicator
         PageController(
             modifier = modifier,
             stepCount = ONBOARDING_STEPS,
-            pagerState = state.pagerState
+            pagerState = state.pagerState,
         )
         Spacer(
-            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing12)
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing12),
         )
-
-        // next button
         SquadBuilderButton(
             modifier = Modifier
                 .fillMaxWidth()
@@ -83,10 +79,10 @@ fun OnboardingUi(
                 state.eventSink(OnboardingUiEvent.OnNextButtonClick(state.pagerState.currentPage))
             },
             colorStyle = ButtonColorStyle.STROKE,
-            sizeStyle = mediumRoundedButtonStyle
+            sizeStyle = mediumRoundedButtonStyle,
         )
         Spacer(
-            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing12)
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing12),
         )
     }
 }
@@ -95,15 +91,17 @@ fun OnboardingUi(
 @Composable
 private fun OnboardingUiPreview() {
     val pagerState = rememberPagerState(
-        pageCount = { ONBOARDING_STEPS }
+        pageCount = {
+            ONBOARDING_STEPS
+        },
     )
 
     SquadBuilderTheme {
         OnboardingUi(
             state = OnboardingUiState(
                 pagerState = pagerState,
-                eventSink = {}
-            )
+                eventSink = {},
+            ),
         )
     }
 }

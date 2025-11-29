@@ -16,13 +16,13 @@ import javax.inject.Inject
 class UserDataSourceImpl @Inject constructor(
     @UserDataStore private val userDataStore: DataStore<Preferences>,
 ) : UserDataSource {
-
-    override val onboardingState: Flow<OnboardingState> = userDataStore.data.map { preferences ->
-        when (preferences[ONBOARDING_STATE] ?: false) {
-            false -> OnboardingState.NOT_YET
-            true -> OnboardingState.COMPLETED
+    override val onboardingState: Flow<OnboardingState> =
+        userDataStore.data.map { preferences ->
+            when (preferences[ONBOARDING_STATE] ?: false) {
+                false -> OnboardingState.NOT_YET
+                true -> OnboardingState.COMPLETED
+            }
         }
-    }
 
     override suspend fun setOnboardingCompleted(completed: Boolean) {
         userDataStore.edit { preferences ->
@@ -30,9 +30,10 @@ class UserDataSourceImpl @Inject constructor(
         }
     }
 
-    override val username: Flow<String> = userDataStore.data.map { preferences ->
-        preferences[USER_NAME] ?: ""
-    }
+    override val username: Flow<String> =
+        userDataStore.data.map { preferences ->
+            preferences[USER_NAME] ?: ""
+        }
 
     override suspend fun setUsername(username: String) {
         userDataStore.edit { preferences ->

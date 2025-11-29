@@ -17,25 +17,28 @@ class TeamDetailPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     @Assisted private val screen: TeamDetailScreen,
 ) : Presenter<TeamDetailUiState> {
-
     @Composable
     override fun present(): TeamDetailUiState {
         val teamId = screen.teamId
         val teamName = screen.teamName
 
         fun handleEvent(event: TeamDetailEvent) {
-            when(event) {
+            when (event) {
                 is TeamDetailEvent.OnManagePlayersClick -> {
-                    navigator.goTo(PlayerScreen(
-                        teamId = screen.teamId,
-                        teamName = screen.teamName
-                    ))
+                    navigator.goTo(
+                        PlayerScreen(
+                            teamId = screen.teamId,
+                            teamName = screen.teamName,
+                        ),
+                    )
                 }
                 is TeamDetailEvent.OnManageFormationClick -> {
-                    navigator.goTo(FormationScreen(
-                        teamId = screen.teamId,
-                        teamName = screen.teamName
-                    ))
+                    navigator.goTo(
+                        FormationScreen(
+                            teamId = screen.teamId,
+                            teamName = screen.teamName,
+                        ),
+                    )
                 }
                 is TeamDetailEvent.OnBackButtonClick -> {
                     navigator.pop()
@@ -47,15 +50,18 @@ class TeamDetailPresenter @AssistedInject constructor(
             isLoading = false,
             team = TeamModel(
                 teamId = teamId,
-                name = teamName
+                name = teamName,
             ),
-            eventSink = ::handleEvent
+            eventSink = ::handleEvent,
         )
     }
 
     @CircuitInject(TeamDetailScreen::class, ActivityRetainedComponent::class)
     @AssistedFactory
     fun interface Factory {
-        fun create(screen: TeamDetailScreen, navigator: Navigator): TeamDetailPresenter
+        fun create(
+            screen: TeamDetailScreen,
+            navigator: Navigator,
+        ): TeamDetailPresenter
     }
 }

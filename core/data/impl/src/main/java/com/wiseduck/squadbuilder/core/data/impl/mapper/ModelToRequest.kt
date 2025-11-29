@@ -10,7 +10,7 @@ internal fun PlacementSaveModel.toRequest(): PlacementSaveRequest =
         playerId = playerId,
         quarter = quarter,
         coordX = coordX,
-        coordY = coordY
+        coordY = coordY,
     )
 
 internal fun FormationSaveModel.toRequest(): FormationSaveRequest =
@@ -18,5 +18,5 @@ internal fun FormationSaveModel.toRequest(): FormationSaveRequest =
         teamId = teamId,
         name = name,
         placements = placements.map { it.toRequest() },
-        referees = referees
+        referees = referees,
     )

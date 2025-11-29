@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class HomeResponse(
     @SerialName("teams")
-    val teams: List<Team>
+    val teams: List<Team>,
 )
 
 @Serializable
@@ -20,5 +20,5 @@ data class Team(
     @SerialName("ownerEmail")
     val ownerEmail: String,
     @SerialName("createdAt")
-    val createdAt: String
+    val createdAt: String,
 )

@@ -8,22 +8,20 @@ interface PlayerRepository {
         playerId: Int,
         name: String,
         position: String,
-        backNumber: Int
-    ) : Result<TeamPlayerModel>
+        backNumber: Int,
+    ): Result<TeamPlayerModel>
 
     suspend fun deleteTeamPlayer(
         teamId: Int,
-        playerId: Int
-    ) : Result<Unit>
+        playerId: Int,
+    ): Result<Unit>
 
-    suspend fun getTeamPlayers(
-        teamId: Int
-    ) : Result<List<TeamPlayerModel>>
+    suspend fun getTeamPlayers(teamId: Int): Result<List<TeamPlayerModel>>
 
     suspend fun createTeamPlayer(
         teamId: Int,
         name: String,
         position: String,
-        backNumber: Int
-    ) : Result<TeamPlayerModel>
+        backNumber: Int,
+    ): Result<TeamPlayerModel>
 }
