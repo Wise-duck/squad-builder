@@ -35,7 +35,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Code Style Check
-        run: ./gradlew detekt
+        run: ./gradlew ktlintCheck detekt
 
       - name: Debug Build with Gradle
         run: ./gradlew buildDebug --stacktrace

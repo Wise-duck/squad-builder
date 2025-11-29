@@ -68,10 +68,11 @@ accompanistSystemUiController = "0.36.0"
 jetbrainsKotlinJvm = "2.2.21"
 
 ## Lint
-ktlintPlugin = "14.0.1"
-ktlintEngine = "1.0.1"
+ktlintPlugin = "11.6.1"
+ktlintEngine = "0.50.0"
+
+# Static Analysis
 detektPlugin = "1.23.8"
-detektFormatting = "1.23.8"
 
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -130,7 +131,7 @@ androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 
-detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektFormatting" }
+detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektPlugin" }
 
 [bundles]
 androidx-compose = [
