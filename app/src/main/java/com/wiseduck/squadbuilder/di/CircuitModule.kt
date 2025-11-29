@@ -24,10 +24,9 @@ abstract class CircuitModule {
         fun provideCircuit(
             presenterFactories: @JvmSuppressWildcards Set<Presenter.Factory>,
             uiFactories: @JvmSuppressWildcards Set<Ui.Factory>,
-        ): Circuit =
-            Circuit.Builder()
-                .addPresenterFactories(presenterFactories)
-                .addUiFactories(uiFactories)
-                .build()
+        ): Circuit = Circuit.Builder()
+            .addPresenterFactories(presenterFactories)
+            .addUiFactories(uiFactories)
+            .build()
     }
 }

@@ -39,6 +39,7 @@ private fun compareVersionParts(
                 Log.d("VersionParser", "Current part $currentPart is less than min part $minPart")
                 return true
             }
+
             currentPart > minPart -> {
                 Log.d("VersionParser", "Current part $currentPart is greater than min part $minPart")
                 return false
