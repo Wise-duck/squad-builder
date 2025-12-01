@@ -34,6 +34,10 @@ fun LoginUi(
     modifier: Modifier = Modifier,
     state: LoginUiState,
 ) {
+    HandleLoginSideEffects(
+        state = state,
+    )
+
     SquadBuilderScaffold(
         modifier = modifier.fillMaxSize(),
     ) {
