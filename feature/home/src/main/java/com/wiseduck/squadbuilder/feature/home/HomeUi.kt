@@ -136,8 +136,8 @@ private fun HomeContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    vertical = SquadBuilderTheme.spacing.spacing2,
-                    horizontal = SquadBuilderTheme.spacing.spacing2,
+                    vertical = SquadBuilderTheme.spacing.spacing4,
+                    horizontal = SquadBuilderTheme.spacing.spacing4,
                 ),
             adUnitId = state.adUnitId,
         )
