@@ -1,6 +1,5 @@
 package com.wiseduck.squadbuilder.feature.edit.formation
 
-import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,7 +19,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
@@ -45,6 +43,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.SoccerField
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
+import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
 import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationController
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationHeader
@@ -73,13 +72,6 @@ fun FormationUi(
         state = state,
         formationGraphicsLayer = formationGraphicLayers,
     )
-
-    LaunchedEffect(state.toastMessage) {
-        state.toastMessage?.let { message ->
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-            state.eventSink(FormationUiEvent.OnToastShown)
-        }
-    }
 
     if (state.deleteConfirmationState.isDialogVisible) {
         SquadBuilderDialog(
@@ -244,6 +236,10 @@ fun FormationUi(
                                 modifier = modifier,
                                 quarter = state.currentQuarter,
                             )
+                        }
+
+                        if (state.isLoading) {
+                            SquadBuilderLoadingIndicator()
                         }
 
                         RefereeInput(

@@ -47,6 +47,7 @@ class FormationPresenter @AssistedInject constructor(
         var allPlacements by remember { mutableStateOf(mapOf<Int, List<PlacementModel>>()) }
 
         val scope = rememberCoroutineScope()
+        var isLoading by remember { mutableStateOf(false) }
         var allReferees by remember { mutableStateOf(mapOf<Int, String>()) }
         var formationList by remember { mutableStateOf(emptyList<FormationListItemModel>()) }
         var isListModalVisible by remember { mutableStateOf(false) }
@@ -69,7 +70,7 @@ class FormationPresenter @AssistedInject constructor(
         val multipleShareCaptureError = stringResource(R.string.multiple_share_capture_error)
 
         var isSaveDialogVisible by remember { mutableStateOf(false) }
-        var toastMessage by remember { mutableStateOf<String?>(null) }
+        val formationDefaultName = stringResource(R.string.formation_default_name)
         val formationSaveAlert = stringResource(R.string.formation_save_alert)
         val loadPlayerFailedServerConnection = stringResource(R.string.load_player_failed_server_connection)
 
@@ -77,6 +78,9 @@ class FormationPresenter @AssistedInject constructor(
         var playerAssignmentState by remember { mutableStateOf(PlayerAssignmentState()) }
 
         var deleteConfirmationState by remember { mutableStateOf(DeleteConfirmationState()) }
+        val successToastMessage = stringResource(R.string.success_toast_message)
+        val failedToastMessage = stringResource(R.string.failed_toast_message)
+        val loadFailedToastMessage = stringResource(R.string.load_failed_toast_message)
 
         var sideEffect by remember { mutableStateOf<FormationSideEffect?>(null) }
 
@@ -120,7 +124,7 @@ class FormationPresenter @AssistedInject constructor(
                     availablePlayers = it
                 }
                 .onFailure {
-                    toastMessage = loadPlayerFailedServerConnection
+                    sideEffect = FormationSideEffect.ShowToast(loadPlayerFailedServerConnection)
                 }
 
             allPlacements = mapOf(
@@ -149,11 +153,10 @@ class FormationPresenter @AssistedInject constructor(
                 currentQuarter = nextQuarter
                 players = allPlacements[nextQuarter]!!
 
-                sideEffect =
-                    FormationSideEffect.CaptureFormation(
-                        quarter = nextQuarter,
-                        onCaptureUri = ::handleCaptureComplete,
-                    )
+                sideEffect = FormationSideEffect.CaptureFormation(
+                    quarter = nextQuarter,
+                    onCaptureUri = ::handleCaptureComplete,
+                )
             } else {
                 isCapturing = false
 
@@ -163,13 +166,17 @@ class FormationPresenter @AssistedInject constructor(
                     Log.d("SHARE_IMAGE", "handleCaptureComplete: $urisToSend")
                     sideEffect = FormationSideEffect.ShareMultipleImages(urisToSend)
                 } else {
-                    toastMessage = multipleShareCaptureError
+                    sideEffect = FormationSideEffect.ShowToast(multipleShareCaptureError)
                 }
             }
         }
 
         fun handleEvent(event: FormationUiEvent) {
             when (event) {
+                is FormationUiEvent.InitSideEffect -> {
+                    sideEffect = null
+                }
+
                 is FormationUiEvent.OnFormationShareClick -> {
                     isQuarterSelectionDialogVisible = true
                 }
@@ -187,13 +194,12 @@ class FormationPresenter @AssistedInject constructor(
                         currentQuarter = quarterList.first()
                         players = allPlacements[currentQuarter]!!
 
-                        sideEffect =
-                            FormationSideEffect.CaptureFormation(
-                                quarter = currentQuarter,
-                                onCaptureUri = ::handleCaptureComplete,
-                            )
+                        sideEffect = FormationSideEffect.CaptureFormation(
+                            quarter = currentQuarter,
+                            onCaptureUri = ::handleCaptureComplete,
+                        )
                     } else {
-                        toastMessage = multipleShareQuarterSelectionAlert
+                        sideEffect = FormationSideEffect.ShowToast(multipleShareQuarterSelectionAlert)
                     }
                 }
 
@@ -271,7 +277,7 @@ class FormationPresenter @AssistedInject constructor(
                                 isListModalVisible = false
                             }
                             .onFailure {
-                                toastMessage = "불러오기에 실패했습니다."
+                                sideEffect = FormationSideEffect.ShowToast(loadFailedToastMessage)
                             }
                     }
                 }
@@ -295,71 +301,75 @@ class FormationPresenter @AssistedInject constructor(
                     if (isCurrentQuarterFullyAssigned) {
                         isSaveDialogVisible = true
                     } else {
-                        toastMessage = formationSaveAlert
+                        sideEffect = FormationSideEffect.ShowToast(formationSaveAlert)
                     }
                 }
 
                 FormationUiEvent.OnSaveDialogConfirm -> {
+                    isSaveDialogVisible = false
+
                     scope.launch {
-                        val isUpdate = currentFormationId != null
-                        val placements =
-                            allPlacements.flatMap { (quarter, players) ->
-                                players.mapNotNull { placement ->
-                                    placement.playerId?.let {
-                                        PlacementSaveModel(
-                                            playerId = it,
-                                            quarter = quarter,
-                                            coordX = (placement.coordX * 1000).toInt(),
-                                            coordY = (placement.coordY * 1000).toInt(),
-                                        )
+                        isLoading = true
+
+                        try {
+                            val placements =
+                                allPlacements.flatMap { (quarter, players) ->
+                                    players.mapNotNull { placement ->
+                                        placement.playerId?.let {
+                                            PlacementSaveModel(
+                                                playerId = it,
+                                                quarter = quarter,
+                                                coordX = (placement.coordX * 1000).toInt(),
+                                                coordY = (placement.coordY * 1000).toInt(),
+                                            )
+                                        }
                                     }
                                 }
+
+                            val refereesMap = allReferees.mapKeys { (quarter, _) ->
+                                quarter.toString()
                             }
 
-                        val refereesMap = allReferees.mapKeys { (quarter, _) ->
-                            quarter.toString()
-                        }
+                            val request = FormationSaveModel(
+                                teamId = teamId,
+                                name = currentFormationName.ifBlank { formationDefaultName },
+                                placements = placements,
+                                referees = refereesMap,
+                            )
 
-                        val request = FormationSaveModel(
-                            teamId = teamId,
-                            name = currentFormationName.ifBlank { "새 포메이션" },
-                            placements = placements,
-                            referees = refereesMap,
-                        )
+                            val isUpdate = currentFormationId != null
 
-                        if (isUpdate) {
-                            formationRepository.updateFormation(currentFormationId!!, request)
-                                .onSuccess {
-                                    toastMessage = "수정되었습니다."
-                                }
-                                .onFailure {
-                                    toastMessage = "저장에 실패했습니다."
-                                }
-                        } else {
-                            formationRepository.createFormation(request)
-                                .onSuccess {
-                                    toastMessage = "저장되었습니다."
-                                    scope.launch {
-                                        formationRepository.getFormationList(teamId)
-                                            .onSuccess { newList ->
-                                                formationList = newList
-                                            }
+                            if (isUpdate) {
+                                formationRepository.updateFormation(currentFormationId!!, request)
+                                    .onSuccess {
+                                        sideEffect = FormationSideEffect.ShowToast(successToastMessage)
                                     }
-                                }
-                                .onFailure {
-                                    toastMessage = "저장에 실패했습니다."
-                                }
+                                    .onFailure {
+                                        sideEffect = FormationSideEffect.ShowToast(failedToastMessage)
+                                    }
+                            } else {
+                                formationRepository.createFormation(request)
+                                    .onSuccess {
+                                        sideEffect = FormationSideEffect.ShowToast(successToastMessage)
+                                        scope.launch {
+                                            formationRepository.getFormationList(teamId)
+                                                .onSuccess { newList ->
+                                                    formationList = newList
+                                                }
+                                        }
+                                    }
+                                    .onFailure {
+                                        sideEffect = FormationSideEffect.ShowToast(failedToastMessage)
+                                    }
+                            }
+                        } finally {
+                            isLoading = false
                         }
                     }
-                    isSaveDialogVisible = false
                 }
 
                 FormationUiEvent.OnSaveDialogDismiss -> {
                     isSaveDialogVisible = false
-                }
-
-                FormationUiEvent.OnToastShown -> {
-                    toastMessage = null
                 }
 
                 FormationUiEvent.OnDismissListModal -> {
@@ -530,7 +540,7 @@ class FormationPresenter @AssistedInject constructor(
                         scope.launch {
                             formationRepository.deleteFormation(formationId)
                                 .onSuccess {
-                                    toastMessage = "삭제되었습니다."
+                                    sideEffect = FormationSideEffect.ShowToast(successToastMessage)
                                     formationList = formationList.filter { it.formationId != formationId }
                                     if (currentFormationId == formationId) {
                                         currentFormationId = null
@@ -538,7 +548,7 @@ class FormationPresenter @AssistedInject constructor(
                                     }
                                 }
                                 .onFailure {
-                                    toastMessage = "삭제에 실패했습니다."
+                                    sideEffect = FormationSideEffect.ShowToast(failedToastMessage)
                                 }
                         }
                     }
@@ -569,6 +579,7 @@ class FormationPresenter @AssistedInject constructor(
         return FormationUiState(
             teamId = teamId,
             teamName = teamName,
+            isLoading = isLoading,
             currentQuarter = currentQuarter,
             allReferees = allReferees,
             formationList = formationList,
@@ -583,7 +594,6 @@ class FormationPresenter @AssistedInject constructor(
             currentFormationId = currentFormationId,
             currentFormationName = currentFormationName,
             isSaveDialogVisible = isSaveDialogVisible,
-            toastMessage = toastMessage,
             availablePlayers = filteredAvailablePlayers,
             playerAssignmentState = playerAssignmentState,
             deleteConfirmationState = deleteConfirmationState,

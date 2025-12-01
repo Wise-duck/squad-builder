@@ -21,7 +21,7 @@ data class DeleteConfirmationState(
 data class FormationUiState(
     val teamId: Int = 0,
     val teamName: String = "",
-    val eventSink: (FormationUiEvent) -> Unit,
+    val isLoading: Boolean = false,
     val currentQuarter: Int = 1,
     val allReferees: Map<Int, String> = mapOf(),
     val formationList: List<FormationListItemModel> = emptyList(),
@@ -36,13 +36,13 @@ data class FormationUiState(
     val currentFormationId: Int? = null,
     val currentFormationName: String = "",
     val isSaveDialogVisible: Boolean = false,
-    val toastMessage: String? = null,
     val availablePlayers: List<TeamPlayerModel> = emptyList(),
     val playerAssignmentState: PlayerAssignmentState = PlayerAssignmentState(),
     val deleteConfirmationState: DeleteConfirmationState = DeleteConfirmationState(),
     val isCapturing: Boolean = false,
     val totalQuartersToCapture: Int = 0,
     val sideEffect: FormationSideEffect? = null,
+    val eventSink: (FormationUiEvent) -> Unit,
 ) : CircuitUiState
 
 sealed interface FormationSideEffect {
@@ -54,9 +54,15 @@ sealed interface FormationSideEffect {
     data class ShareMultipleImages(
         val imageUris: List<Uri>,
     ) : FormationSideEffect
+
+    data class ShowToast(
+        val message: String,
+    ) : FormationSideEffect
 }
 
 sealed interface FormationUiEvent : CircuitUiEvent {
+    data object InitSideEffect : FormationUiEvent
+
     data object OnBackButtonClick : FormationUiEvent
 
     data object OnFormationResetClick : FormationUiEvent
@@ -105,8 +111,6 @@ sealed interface FormationUiEvent : CircuitUiEvent {
     data object OnSaveDialogConfirm : FormationUiEvent
 
     data object OnSaveDialogDismiss : FormationUiEvent
-
-    data object OnToastShown : FormationUiEvent
 
     data object OnPlayerQuarterStatusClick : FormationUiEvent
 
