@@ -39,7 +39,7 @@ fun AdBanner(
             .fillMaxWidth()
             .clip(
                 shape = RoundedCornerShape(
-                    SquadBuilderTheme.radius.md
+                    SquadBuilderTheme.radius.md,
                 ),
             ),
         factory = { context ->
@@ -60,7 +60,7 @@ fun AdBanner(
                 adView.adUnitId = adUnitId
                 adView.loadAd(AdRequest.Builder().build())
             }
-        }
+        },
     )
 }
 
