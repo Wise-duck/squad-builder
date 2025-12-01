@@ -72,12 +72,12 @@ fun ProfileUi(
 
         if (state.errorMessage != null) {
             SquadBuilderDialog(
-                title = "오류 발생",
+                title = stringResource(R.string.error_dialog_title),
                 description = state.errorMessage,
                 onConfirmRequest = {
                     state.eventSink(ProfileUiEvent.OnDialogCloseButtonClick)
                 },
-                confirmButtonText = "확인",
+                confirmButtonText = stringResource(R.string.dialog_close_text_button),
             )
         }
     }

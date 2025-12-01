@@ -11,6 +11,9 @@
     <string name="withdraw_button">Withdraw</string>
     <string name="privacy_policy_button">Privacy Policy</string>
 
+    <string name="error_dialog_title">Error</string>
+    <string name="dialog_close_text_button">Close</string>
+
     <string name="logout_error_server_connection">Logout failed. Please try again shortly.</string>
     <string name="withdraw_error_server_connection">Account withdrawal failed. Please try again shortly.</string>
 </resources>
