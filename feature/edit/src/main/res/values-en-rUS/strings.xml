@@ -51,9 +51,14 @@
 
     <string name="formation_save_confirm_dialog_title">Save Formation</string>
     <string name="formation_save_confirm_dialog_placeholder">Enter a formation name.</string>
+    <string name="formation_default_name">New Formation</string>
 
     <string name="formation_delete_confirm_dialog_title">Delete Formation</string>
     <string name="formation_delete_confirm_dialog_description">Are you sure you want to delete this formation?</string>
+
+    <string name="success_toast_message">Success</string>
+    <string name="failed_toast_message">Failed</string>
+    <string name="load_failed_toast_message">Failed to load</string>
 
     <string name="formation_reset_confirm_dialog_title">Reset Formation</string>
     <string name="formation_reset_confirm_dialog_description">Are you sure you want to reset this formation?</string>

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -29,6 +30,10 @@ fun FormationSideEffects(
     LaunchedEffect(state.sideEffect) {
         state.sideEffect?.let { effect ->
             when (effect) {
+                is FormationSideEffect.ShowToast -> {
+                    Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+                }
+
                 is FormationSideEffect.CaptureFormation -> {
                     delay(50)
 
@@ -48,6 +53,10 @@ fun FormationSideEffects(
                     context.shareImages(effect.imageUris)
                 }
             }
+        }
+
+        if (state.sideEffect != null) {
+            state.eventSink(FormationUiEvent.InitSideEffect)
         }
     }
 }
