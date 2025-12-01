@@ -24,7 +24,7 @@ sealed interface LoginUiEvent : CircuitUiEvent {
     ) : LoginUiEvent
 
     data class OnLoginFailure(
-        val errorMessage: String
+        val errorMessage: String,
     ) : LoginUiEvent
 
     data object InitSideEffect : LoginUiEvent

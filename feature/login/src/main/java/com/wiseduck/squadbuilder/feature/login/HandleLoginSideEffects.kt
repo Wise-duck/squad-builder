@@ -10,7 +10,7 @@ import com.wiseduck.squadbuilder.feature.login.LoginUiEvent.OnLoginFailure
 import com.wiseduck.squadbuilder.feature.login.LoginUiEvent.OnLoginSuccess
 
 @Composable
-fun HandleLoginSideEffects (
+fun HandleLoginSideEffects(
     state: LoginUiState,
 ) {
     val context = LocalContext.current
@@ -19,7 +19,6 @@ fun HandleLoginSideEffects (
     LaunchedEffect(state.sideEffect) {
         when (val sideEffect = state.sideEffect) {
             is LoginSideEffects.LaunchKakaoLogin -> {
-
                 val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
                     if (error != null) {
                         state.eventSink(OnLoginFailure(loginErrorKakaoFailed))
