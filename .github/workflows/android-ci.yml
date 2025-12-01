@@ -22,6 +22,23 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
 
+      - name: Cache Gradle Wrapper
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-wrapper-
+
+      - name: Cache Build Cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.gradle/caches/build-cache-1
+          key: ${{ runner.os }}-build-cache-${{ hashFiles('**/build.gradle*', '**/gradle-wrapper.properties') }}-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-build-cache-${{ hashFiles('**/build.gradle*', '**/gradle-wrapper.properties') }}
+            ${{ runner.os }}-build-cache-
+
       - name: Generate local.properties
         run: echo '${{ secrets.LOCAL_PROPERTIES }}' | base64 -d > ./local.properties
 
@@ -38,4 +55,4 @@ jobs:
         run: ./gradlew ktlintCheck detekt
 
       - name: Debug Build with Gradle
-        run: ./gradlew buildDebug --stacktrace
+        run: ./gradlew buildDebug --stacktrace --build-cache
