@@ -27,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -65,7 +64,6 @@ fun FormationUi(
     state: FormationUiState,
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
     val formationGraphicLayers = rememberGraphicsLayer()
 
     FormationSideEffects(
