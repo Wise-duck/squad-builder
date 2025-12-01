@@ -81,8 +81,8 @@ fun LoginUi(
                 onConfirmRequest = {
                     state.eventSink(LoginUiEvent.OnCloseDialogButtonClick)
                 },
-                confirmButtonText = "확인",
-                title = "오류 발생",
+                confirmButtonText = stringResource(R.string.dialog_close_text_button),
+                title = stringResource(R.string.login_error_dialog_title),
                 description = state.errorMessage,
             )
         }
