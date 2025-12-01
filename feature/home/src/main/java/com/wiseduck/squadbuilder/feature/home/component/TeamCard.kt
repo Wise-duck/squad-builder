@@ -53,7 +53,10 @@ fun TeamCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(SquadBuilderTheme.spacing.spacing4),
+                .padding(
+                    horizontal = SquadBuilderTheme.spacing.spacing4,
+                    vertical = SquadBuilderTheme.spacing.spacing2,
+                ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
@@ -64,7 +67,7 @@ fun TeamCard(
                     style = SquadBuilderTheme.typography.heading1Bold,
                     color = Neutral100,
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing1))
                 Text(
                     text = stringResource(
                         R.string.creation_date_label,
