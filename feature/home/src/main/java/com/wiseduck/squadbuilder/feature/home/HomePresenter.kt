@@ -10,12 +10,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.common.di.AdmobBannerId
+import com.wiseduck.squadbuilder.core.data.api.repository.AuthRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.TeamRepository
+import com.wiseduck.squadbuilder.core.model.LoginState
 import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.feature.screens.HomeScreen
+import com.wiseduck.squadbuilder.feature.screens.LoginScreen
 import com.wiseduck.squadbuilder.feature.screens.TeamDetailScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -28,17 +32,24 @@ import kotlinx.coroutines.launch
 
 class HomePresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
+    private val authRepository: AuthRepository,
     private val teamRepository: TeamRepository,
     @AdmobBannerId private val admobBannerId: String,
 ) : Presenter<HomeUiState> {
     @Composable
     override fun present(): HomeUiState {
         val scope = rememberCoroutineScope()
+
         var isLoading by remember { mutableStateOf(true) }
         var isRefreshing by remember { mutableStateOf(false) }
         var errorMessage by remember { mutableStateOf<String?>(null) }
+
+        val loginState by authRepository.loginState.collectAsRetainedState(LoginState.NOT_YET)
+        val isLoggedIn = loginState == LoginState.LOGGED_IN
+
         var currentSortOption by remember { mutableStateOf(TeamSortOption.LATEST) }
         var teams by remember { mutableStateOf(persistentListOf<TeamModel>()) }
+
         val teamCreateErrorServerConnection = stringResource(R.string.team_create_error_server_connection)
         val updatedTeamListLoadFailed = stringResource(R.string.updated_team_list_load_failed)
         val loadFailedTeamList = stringResource(R.string.load_failed_team_list)
@@ -58,6 +69,13 @@ class HomePresenter @AssistedInject constructor(
 
         fun loadTeams() {
             scope.launch {
+                if (!isLoggedIn) {
+                    teams = persistentListOf()
+                    isLoading = false
+                    isRefreshing = false
+                    return@launch
+                }
+
                 teamRepository.getTeams()
                     .onSuccess { teamModels ->
                         teams = sortTeams(teamModels, currentSortOption)
@@ -72,7 +90,7 @@ class HomePresenter @AssistedInject constructor(
             }
         }
 
-        LaunchedEffect(Unit) {
+        LaunchedEffect(isLoggedIn) {
             isLoading = true
             loadTeams()
         }
@@ -95,6 +113,11 @@ class HomePresenter @AssistedInject constructor(
                 }
 
                 is HomeUiEvent.OnTeamCreateButtonClick -> {
+                    if (!isLoggedIn) {
+                        navigator.goTo(LoginScreen)
+                        return
+                    }
+
                     isLoading = true
                     scope.launch {
                         teamRepository.createTeam(event.teamName)
@@ -157,6 +180,7 @@ class HomePresenter @AssistedInject constructor(
         return HomeUiState(
             isLoading = isLoading,
             isRefreshing = isRefreshing,
+            isLoggedIn = isLoggedIn,
             adUnitId = admobBannerId,
             currentSortOption = currentSortOption,
             errorMessage = errorMessage,

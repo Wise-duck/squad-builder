@@ -2,6 +2,11 @@
 <resources>
     <string name="home_screen_header_title">팀 관리</string>
 
+    <string name="guest_mode_team_list_empty">게스트 모드에서는 팀을 관리할 수 없습니다.\n로그인하여 나만의 팀을 만드세요!</string>
+    <string name="login_text_button">로그인하러 가기</string>
+
+    <string name="logged_in_team_list_empty">아직 생성된 팀이 없습니다.</string>
+
     <string name="team_sort_label">팀 정렬 기준</string>
     <string name="team_sort_option_1">최신순</string>
     <string name="team_sort_option_2">가나다순</string>
