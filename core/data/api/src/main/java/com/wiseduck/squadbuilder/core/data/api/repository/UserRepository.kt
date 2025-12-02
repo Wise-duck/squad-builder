@@ -9,4 +9,6 @@ interface UserRepository {
     suspend fun setOnboardingCompleted(completed: Boolean)
 
     suspend fun getUserName(): String
+
+    suspend fun setUsername(username: String)
 }

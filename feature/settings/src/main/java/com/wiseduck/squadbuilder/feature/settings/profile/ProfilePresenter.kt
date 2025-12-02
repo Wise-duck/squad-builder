@@ -10,12 +10,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
+import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.common.constants.WebViewUrls
 import com.wiseduck.squadbuilder.core.data.api.repository.AuthRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.UserRepository
-import com.wiseduck.squadbuilder.feature.screens.LoginScreen
+import com.wiseduck.squadbuilder.core.model.LoginState
+import com.wiseduck.squadbuilder.feature.screens.HomeScreen
 import com.wiseduck.squadbuilder.feature.screens.ProfileScreen
 import com.wiseduck.squadbuilder.feature.screens.WebViewScreen
 import com.wiseduck.squadbuilder.feature.settings.R
@@ -33,9 +35,15 @@ class ProfilePresenter @AssistedInject constructor(
     @Composable
     override fun present(): ProfileUiState {
         val scope = rememberCoroutineScope()
+
         var isLoading by remember { mutableStateOf(false) }
         var errorMessage by remember { mutableStateOf<String?>(null) }
+
+        val loginState by authRepository.loginState.collectAsRetainedState(LoginState.NOT_YET)
+        val isLoggedIn = loginState == LoginState.LOGGED_IN
+
         var userName by remember { mutableStateOf("익명") }
+
         val logoutErrorServerConnection = stringResource(R.string.logout_error_server_connection)
         val withdrawErrorServerConnection = stringResource(R.string.withdraw_error_server_connection)
 
@@ -47,8 +55,9 @@ class ProfilePresenter @AssistedInject constructor(
                         authRepository.logout()
                             .onSuccess {
                                 isLoading = false
+                                userRepository.setUsername("")
                                 Log.d("ProfilePresenter", "로그아웃 성공")
-                                navigator.resetRoot(LoginScreen)
+                                navigator.resetRoot(HomeScreen)
                             }
                             .onFailure {
                                 isLoading = false
@@ -106,6 +115,7 @@ class ProfilePresenter @AssistedInject constructor(
         return ProfileUiState(
             isLoading = isLoading,
             errorMessage = errorMessage,
+            isLoggedIn = isLoggedIn,
             userName = userName,
             eventSink = ::handleEvent,
         )
