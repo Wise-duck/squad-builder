@@ -7,6 +7,7 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.data.api.repository.UserRepository
+import com.wiseduck.squadbuilder.feature.screens.HomeScreen
 import com.wiseduck.squadbuilder.feature.screens.LoginScreen
 import com.wiseduck.squadbuilder.feature.screens.OnboardingScreen
 import dagger.assisted.Assisted
@@ -35,7 +36,7 @@ class OnboardingPresenter @AssistedInject constructor(
                     if (event.currentPage == ONBOARDING_STEPS - 1) {
                         scope.launch {
                             userRepository.setOnboardingCompleted(true)
-                            navigator.goTo(LoginScreen)
+                            navigator.goTo(HomeScreen)
                         }
                     } else {
                         scope.launch {
@@ -45,7 +46,7 @@ class OnboardingPresenter @AssistedInject constructor(
                 }
 
                 OnboardingUiEvent.OnSkipButtonClick -> {
-                    navigator.goTo(LoginScreen)
+                    navigator.goTo(HomeScreen)
                 }
             }
         }
