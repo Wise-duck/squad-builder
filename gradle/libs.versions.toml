@@ -5,8 +5,8 @@ compileSdk = "36"
 playServicesAds = "24.8.0"
 targetSdk = "36"
 minSdk = "24"
-versionCode = "29"
-versionName = "2.1.4"
+versionCode = "30"
+versionName = "2.1.5"
 
 ## Android Gradle Plugin
 agp = "8.13.0"
