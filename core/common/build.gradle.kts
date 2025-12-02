@@ -14,3 +14,12 @@ android {
         buildConfigField("String", "PACKAGE_NAME", "\"${libs.versions.applicationId.get()}\"")
     }
 }
+
+ksp {
+    arg("circuit.codegen.mode", "hilt")
+}
+
+dependencies {
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+}
