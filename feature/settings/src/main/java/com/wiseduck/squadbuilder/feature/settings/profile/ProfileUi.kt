@@ -54,6 +54,7 @@ fun ProfileUi(
             ProfileContent(
                 modifier = modifier,
                 userName = state.userName,
+                isLoggedIn = state.isLoggedIn,
                 onLogoutClick = {
                     state.eventSink(ProfileUiEvent.OnLogoutButtonClick)
                 },
@@ -87,6 +88,7 @@ fun ProfileUi(
 private fun ProfileContent(
     modifier: Modifier = Modifier,
     userName: String,
+    isLoggedIn: Boolean,
     onLogoutClick: () -> Unit,
     onWithDrawClick: () -> Unit,
     onPrivacyPolicyClick: () -> Unit,
@@ -108,18 +110,20 @@ private fun ProfileContent(
                 .padding(SquadBuilderTheme.spacing.spacing4),
             horizontalAlignment = Alignment.Start,
         ) {
-            SquadBuilderButton(
-                text = stringResource(R.string.logout_button),
-                onClick = onLogoutClick,
-                sizeStyle = largeButtonStyle,
-                colorStyle = ButtonColorStyle.TEXT,
-            )
-            SquadBuilderButton(
-                text = stringResource(R.string.withdraw_button),
-                onClick = onWithDrawClick,
-                sizeStyle = largeButtonStyle,
-                colorStyle = ButtonColorStyle.TEXT,
-            )
+            if (isLoggedIn) {
+                SquadBuilderButton(
+                    text = stringResource(R.string.logout_button),
+                    onClick = onLogoutClick,
+                    sizeStyle = largeButtonStyle,
+                    colorStyle = ButtonColorStyle.TEXT,
+                )
+                SquadBuilderButton(
+                    text = stringResource(R.string.withdraw_button),
+                    onClick = onWithDrawClick,
+                    sizeStyle = largeButtonStyle,
+                    colorStyle = ButtonColorStyle.TEXT,
+                )
+            }
             SquadBuilderButton(
                 text = stringResource(R.string.privacy_policy_button),
                 onClick = onPrivacyPolicyClick,
@@ -139,6 +143,7 @@ private fun ProfileUiPreview() {
     ProfileUi(
         state = ProfileUiState(
             isLoading = false,
+            isLoggedIn = true,
             userName = "주름이",
             eventSink = {},
         ),

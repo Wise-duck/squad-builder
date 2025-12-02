@@ -2,6 +2,11 @@
 <resources>
     <string name="home_screen_header_title">Home</string>
 
+    <string name="guest_mode_team_list_empty">You cannot create teams in guest mode.\nLogin to create your own team!</string>
+    <string name="login_text_button">Login</string>
+
+    <string name="logged_in_team_list_empty">You have not created any teams yet.</string>
+
     <string name="team_sort_label">Sort By</string>
     <string name="team_sort_option_1">Latest</string>
     <string name="team_sort_option_2">Alphabetical</string>

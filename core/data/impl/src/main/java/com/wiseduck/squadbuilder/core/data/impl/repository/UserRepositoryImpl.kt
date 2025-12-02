@@ -16,4 +16,8 @@ internal class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUserName(): String = userDataSource.getUsername()
+
+    override suspend fun setUsername(username: String) {
+        userDataSource.setUsername(username)
+    }
 }

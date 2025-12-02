@@ -10,6 +10,7 @@ import kotlinx.collections.immutable.persistentListOf
 data class HomeUiState(
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
+    val isLoggedIn: Boolean = false,
     val adUnitId: String = "",
     val currentSortOption: TeamSortOption = TeamSortOption.LATEST,
     val errorMessage: String? = null,
