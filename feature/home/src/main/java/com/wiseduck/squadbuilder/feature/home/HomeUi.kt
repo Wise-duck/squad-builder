@@ -132,10 +132,9 @@ private fun HomeContent(
                 state = state,
                 onLoginClick = {
                     onTeamCreateClick("")
-                }
+                },
             )
-        }
-        else {
+        } else {
             TeamList(
                 modifier = Modifier.weight(1f),
                 state = state,
@@ -184,7 +183,7 @@ private fun HomeEmptyContent(
     } else {
         GuestInfoMessage(
             modifier = modifier,
-            onLoginClick = onLoginClick
+            onLoginClick = onLoginClick,
         )
     }
 }
@@ -280,23 +279,23 @@ private fun TeamList(
 @DevicePreview
 @Composable
 private fun HomeUi() {
-    val sampleTeams =
-        listOf(
-            TeamModel(
-                teamId = 1,
-                name = "비얀코",
-                ownerId = "owner1",
-                ownerEmail = "owner1@example.com",
-                createdAt = "2025-10-29T17:30:00.000Z",
-            ),
-            TeamModel(
-                teamId = 2,
-                name = "빠삐코",
-                ownerId = "owner2",
-                ownerEmail = "owner2@example.com",
-                createdAt = "2025-10-29T17:31:00.000Z",
-            ),
-        )
+//    val sampleTeams =
+//        listOf(
+//            TeamModel(
+//                teamId = 1,
+//                name = "비얀코",
+//                ownerId = "owner1",
+//                ownerEmail = "owner1@example.com",
+//                createdAt = "2025-10-29T17:30:00.000Z",
+//            ),
+//            TeamModel(
+//                teamId = 2,
+//                name = "빠삐코",
+//                ownerId = "owner2",
+//                ownerEmail = "owner2@example.com",
+//                createdAt = "2025-10-29T17:31:00.000Z",
+//            ),
+//        )
 
     SquadBuilderTheme {
         HomeUi(
@@ -308,7 +307,7 @@ private fun HomeUi() {
         )
 //        HomeUi(
 //            state = HomeUiState(
-////                teams = sampleTeams.toImmutableList(),
+// //                teams = sampleTeams.toImmutableList(),
 //                teams = emptyList<TeamModel>().toImmutableList(),
 //                isLoggedIn = true,
 //                eventSink = {},

@@ -14,7 +14,6 @@ import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.common.extensions.goToPlayStore
-import com.wiseduck.squadbuilder.core.data.api.repository.AuthRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.RemoteConfigRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.UserRepository
 import com.wiseduck.squadbuilder.core.model.OnboardingState

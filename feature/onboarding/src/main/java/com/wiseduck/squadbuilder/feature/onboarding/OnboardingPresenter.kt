@@ -8,7 +8,6 @@ import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.data.api.repository.UserRepository
 import com.wiseduck.squadbuilder.feature.screens.HomeScreen
-import com.wiseduck.squadbuilder.feature.screens.LoginScreen
 import com.wiseduck.squadbuilder.feature.screens.OnboardingScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
