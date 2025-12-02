@@ -61,7 +61,7 @@ jobs:
           start=$(date +%s)
           ./gradlew ktlintCheck detekt --parallel
           end=$(date +%s)
-          echo "time=$((end-start)) >> $GITHUB_OUTPUT"
+          echo "time=$((end-start))" >> $GITHUB_OUTPUT
 
       - name: Debug Build with Gradle
         id: assemble
