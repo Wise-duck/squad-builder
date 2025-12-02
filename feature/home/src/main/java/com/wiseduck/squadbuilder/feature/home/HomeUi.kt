@@ -1,21 +1,35 @@
 package com.wiseduck.squadbuilder.feature.home
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
+import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
+import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
+import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumButtonStyle
+import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
+import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
@@ -89,27 +103,37 @@ private fun HomeContent(
         modifier = modifier
             .fillMaxWidth(),
     ) {
-        TeamCreateSection(
-            modifier = Modifier.fillMaxWidth(),
-            onTeamCreateClick = onTeamCreateClick,
-        )
+        if (state.isLoggedIn) {
+            TeamCreateSection(
+                modifier = Modifier.fillMaxWidth(),
+                onTeamCreateClick = onTeamCreateClick,
+            )
 
-        TeamSortDropdown(
-            modifier = Modifier
-                .padding(
-                    horizontal = SquadBuilderTheme.spacing.spacing2,
-                ),
-            currentSortOption = state.currentSortOption,
-            onSortOptionSelected = {
-                state.eventSink(HomeUiEvent.OnSortOptionSelect(it))
-            },
-        )
-        Spacer(
-            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
-        )
+            TeamSortDropdown(
+                modifier = Modifier
+                    .padding(
+                        horizontal = SquadBuilderTheme.spacing.spacing2,
+                    ),
+                currentSortOption = state.currentSortOption,
+                onSortOptionSelected = {
+                    state.eventSink(HomeUiEvent.OnSortOptionSelect(it))
+                },
+            )
+            Spacer(
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
+            )
+        }
 
         if (state.isLoading) {
             SquadBuilderLoadingIndicator()
+        } else if (state.teams.isEmpty()) {
+            HomeEmptyContent(
+                modifier = Modifier.weight(1f),
+                state = state,
+                onLoginClick = {
+                    onTeamCreateClick("")
+                },
+            )
         } else {
             TeamList(
                 modifier = Modifier.weight(1f),
@@ -149,6 +173,78 @@ private fun HomeContent(
 }
 
 @Composable
+private fun HomeEmptyContent(
+    modifier: Modifier = Modifier,
+    state: HomeUiState,
+    onLoginClick: () -> Unit,
+) {
+    if (state.isLoggedIn) {
+        LoggedInTeamListEmptyMessage(modifier = modifier)
+    } else {
+        GuestInfoMessage(
+            modifier = modifier,
+            onLoginClick = onLoginClick,
+        )
+    }
+}
+
+@Composable
+private fun LoggedInTeamListEmptyMessage(
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = stringResource(R.string.logged_in_team_list_empty),
+            style = SquadBuilderTheme.typography.body1Regular,
+            color = Neutral500,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(SquadBuilderTheme.spacing.spacing8),
+        )
+    }
+}
+
+@Composable
+private fun GuestInfoMessage(
+    modifier: Modifier = Modifier,
+    onLoginClick: () -> Unit,
+) {
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            painter = painterResource(R.drawable.ic_lock),
+            contentDescription = "Lock Icon",
+            tint = Neutral800,
+            modifier = Modifier.size(300.dp),
+        )
+        Column(
+            modifier = modifier
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                text = stringResource(R.string.guest_mode_team_list_empty),
+                style = SquadBuilderTheme.typography.body1Regular,
+                color = Green500,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(SquadBuilderTheme.spacing.spacing6),
+            )
+            SquadBuilderButton(
+                text = stringResource(R.string.login_text_button),
+                onClick = onLoginClick,
+                sizeStyle = mediumButtonStyle,
+                colorStyle = ButtonColorStyle.TEXT,
+            )
+        }
+    }
+}
+
+@Composable
 private fun TeamList(
     modifier: Modifier = Modifier,
     state: HomeUiState,
@@ -183,30 +279,39 @@ private fun TeamList(
 @DevicePreview
 @Composable
 private fun HomeUi() {
-    val sampleTeams =
-        listOf(
-            TeamModel(
-                teamId = 1,
-                name = "비얀코",
-                ownerId = "owner1",
-                ownerEmail = "owner1@example.com",
-                createdAt = "2025-10-29T17:30:00.000Z",
-            ),
-            TeamModel(
-                teamId = 2,
-                name = "빠삐코",
-                ownerId = "owner2",
-                ownerEmail = "owner2@example.com",
-                createdAt = "2025-10-29T17:31:00.000Z",
-            ),
-        )
+//    val sampleTeams =
+//        listOf(
+//            TeamModel(
+//                teamId = 1,
+//                name = "비얀코",
+//                ownerId = "owner1",
+//                ownerEmail = "owner1@example.com",
+//                createdAt = "2025-10-29T17:30:00.000Z",
+//            ),
+//            TeamModel(
+//                teamId = 2,
+//                name = "빠삐코",
+//                ownerId = "owner2",
+//                ownerEmail = "owner2@example.com",
+//                createdAt = "2025-10-29T17:31:00.000Z",
+//            ),
+//        )
 
     SquadBuilderTheme {
         HomeUi(
             state = HomeUiState(
-                teams = sampleTeams.toImmutableList(),
+                teams = emptyList<TeamModel>().toImmutableList(),
+                isLoggedIn = false,
                 eventSink = {},
             ),
         )
+//        HomeUi(
+//            state = HomeUiState(
+// //                teams = sampleTeams.toImmutableList(),
+//                teams = emptyList<TeamModel>().toImmutableList(),
+//                isLoggedIn = true,
+//                eventSink = {},
+//            ),
+//        )
     }
 }

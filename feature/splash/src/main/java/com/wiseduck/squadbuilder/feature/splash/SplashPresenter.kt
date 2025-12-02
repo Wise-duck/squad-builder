@@ -14,13 +14,10 @@ import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.common.extensions.goToPlayStore
-import com.wiseduck.squadbuilder.core.data.api.repository.AuthRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.RemoteConfigRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.UserRepository
-import com.wiseduck.squadbuilder.core.model.LoginState
 import com.wiseduck.squadbuilder.core.model.OnboardingState
 import com.wiseduck.squadbuilder.feature.screens.HomeScreen
-import com.wiseduck.squadbuilder.feature.screens.LoginScreen
 import com.wiseduck.squadbuilder.feature.screens.OnboardingScreen
 import com.wiseduck.squadbuilder.feature.screens.SplashScreen
 import dagger.assisted.Assisted
@@ -34,13 +31,11 @@ class SplashPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val remoteConfigRepository: RemoteConfigRepository,
     private val userRepository: UserRepository,
-    private val authRepository: AuthRepository,
 ) : Presenter<SplashUiState> {
     @Composable
     override fun present(): SplashUiState {
         val scope = rememberCoroutineScope()
         val context = LocalContext.current
-        val loginState by authRepository.loginState.collectAsRetainedState(LoginState.NOT_YET)
         val onboardingState by userRepository.onboardingState.collectAsRetainedState(OnboardingState.NOT_YET)
         var isUpdateDialogVisible by remember { mutableStateOf(false) }
 
@@ -65,15 +60,7 @@ class SplashPresenter @AssistedInject constructor(
                 }
 
                 OnboardingState.COMPLETED -> {
-                    when (loginState) {
-                        LoginState.NOT_YET -> {
-                            navigator.resetRoot(LoginScreen)
-                        }
-
-                        LoginState.LOGGED_IN -> {
-                            navigator.resetRoot(HomeScreen)
-                        }
-                    }
+                    navigator.resetRoot(HomeScreen)
                 }
             }
         }
