@@ -12,9 +12,7 @@ private val LocalRadius = staticCompositionLocalOf { SquadBuilderRadius() }
 private val LocalBorder = staticCompositionLocalOf { SquadBuilderBorder() }
 
 @Composable
-fun SquadBuilderTheme(
-    content: @Composable () -> Unit,
-) {
+fun SquadBuilderTheme(content: @Composable () -> Unit) {
     CompositionLocalProvider(
         content = content,
     )

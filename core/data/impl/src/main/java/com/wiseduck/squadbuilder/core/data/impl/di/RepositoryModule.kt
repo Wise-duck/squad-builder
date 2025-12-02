@@ -21,28 +21,27 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal abstract class RepositoryModule {
+    @Binds
+    @Singleton
+    abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
 
     @Binds
     @Singleton
-    abstract fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl) : AuthRepository
+    abstract fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
 
     @Binds
     @Singleton
-    abstract fun bindUserRepository(userRepositoryImpl: UserRepositoryImpl) : UserRepository
+    abstract fun bindTeamRepository(teamRepositoryImpl: TeamRepositoryImpl): TeamRepository
 
     @Binds
     @Singleton
-    abstract fun bindTeamRepository(teamRepositoryImpl: TeamRepositoryImpl) : TeamRepository
+    abstract fun bindPlayerRepository(playerRepositoryImpl: PlayerRepositoryImpl): PlayerRepository
 
     @Binds
     @Singleton
-    abstract fun bindPlayerRepository(playerRepositoryImpl: PlayerRepositoryImpl) : PlayerRepository
+    abstract fun bindFormationRepository(formationRepositoryImpl: FormationRepositoryImpl): FormationRepository
 
     @Binds
     @Singleton
-    abstract fun bindFormationRepository(formationRepositoryImpl: FormationRepositoryImpl) : FormationRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindRemoteConfigRepository(remoteConfigRepositoryImpl: RemoteConfigRepositoryImpl) : RemoteConfigRepository
+    abstract fun bindRemoteConfigRepository(remoteConfigRepositoryImpl: RemoteConfigRepositoryImpl): RemoteConfigRepository
 }

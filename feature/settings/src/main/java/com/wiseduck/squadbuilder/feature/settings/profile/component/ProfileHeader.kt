@@ -12,39 +12,39 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import com.wiseduck.squadbuilder.feature.settings.R
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.designsystem.theme.White
+import com.wiseduck.squadbuilder.feature.settings.R
 
 @Composable
-fun ProfileHeader(
-    modifier: Modifier = Modifier
-) {
+fun ProfileHeader(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(MainBg)
+            .background(MainBg),
     ) {
         Row(
-            modifier = modifier.fillMaxWidth()
-                .padding(SquadBuilderTheme.spacing.spacing4)
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(SquadBuilderTheme.spacing.spacing4),
         ) {
             Spacer(
-                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
+                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4),
             )
             Text(
                 text = stringResource(R.string.profile_screen_header_title),
                 style = SquadBuilderTheme.typography.title1Bold,
-                color = White
+                color = White,
             )
         }
         Spacer(
-            modifier = modifier.fillMaxWidth()
+            modifier = modifier
+                .fillMaxWidth()
                 .height(SquadBuilderTheme.spacing.spacing05)
-                .background(Neutral800)
+                .background(Neutral800),
         )
     }
 }
@@ -52,7 +52,5 @@ fun ProfileHeader(
 @ComponentPreview
 @Composable
 private fun ProfileHeaderPreview() {
-    ProfileHeader(
-
-    )
+    ProfileHeader()
 }

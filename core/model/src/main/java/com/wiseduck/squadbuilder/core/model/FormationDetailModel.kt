@@ -7,5 +7,5 @@ data class FormationDetailModel(
     val teamId: Int,
     val teamName: String,
     val placements: List<PlacementModel>,
-    val referees: Map<String, String>
+    val referees: Map<String, String>,
 )

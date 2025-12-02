@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.common.extensions.DateFormats
 import com.wiseduck.squadbuilder.core.common.extensions.toFormattedDate
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
-import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainComponentBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
@@ -31,59 +30,60 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.FormationListItemModel
+import com.wiseduck.squadbuilder.feature.edit.R
 
 @Composable
 fun FormationCard(
     modifier: Modifier = Modifier,
     formation: FormationListItemModel,
     onDeleteClick: (Int) -> Unit,
-    onClick: (Int) -> Unit
+    onClick: (Int) -> Unit,
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick(formation.formationId) },
         colors = CardDefaults.cardColors(
-            containerColor = MainComponentBg
+            containerColor = MainComponentBg,
         ),
         border = BorderStroke(
             width = 1.dp,
-            color = Neutral500
-        )
+            color = Neutral500,
+        ),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp, horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             ) {
                 Text(
                     text = formation.name,
                     style = SquadBuilderTheme.typography.body1Bold,
-                    color = Neutral100
+                    color = Neutral100,
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = stringResource(
                         R.string.formation_created_at_label,
-                        formation.createdAt.toFormattedDate(DateFormats.YY_MM_DD_DASH)
-                        ),
+                        formation.createdAt.toFormattedDate(DateFormats.YY_MM_DD_DASH),
+                    ),
                     style = SquadBuilderTheme.typography.label1Medium,
-                    color = Blue500
+                    color = Blue500,
                 )
             }
             IconButton(
                 onClick = { onDeleteClick(formation.formationId) },
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(24.dp),
             ) {
                 Icon(
                     modifier = Modifier.size(24.dp),
                     painter = painterResource(com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_remove),
                     contentDescription = "Remove Icon",
-                    tint = Red500
+                    tint = Red500,
                 )
             }
         }
@@ -98,10 +98,10 @@ private fun FormationCardPreview() {
             formation = FormationListItemModel(
                 formationId = 1,
                 name = "테스트 포메이션",
-                createdAt = "2025-10-28T14:25:27.097Z"
+                createdAt = "2025-10-28T14:25:27.097Z",
             ),
             onDeleteClick = {},
-            onClick = {}
+            onClick = {},
         )
     }
 }

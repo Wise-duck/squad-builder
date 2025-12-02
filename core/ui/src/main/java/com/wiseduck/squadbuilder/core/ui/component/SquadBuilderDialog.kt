@@ -48,11 +48,11 @@ fun SquadBuilderDialog(
             description?.let {
                 Text(
                     text = it,
-                    color = Neutral300
+                    color = Neutral300,
                 )
             }
         },
-        properties = properties
+        properties = properties,
     )
 }
 
@@ -76,12 +76,12 @@ fun SquadBuilderDialog(
                 .fillMaxWidth()
                 .background(
                     MainBg,
-                    shape = RoundedCornerShape(SquadBuilderTheme.radius.md)
+                    shape = RoundedCornerShape(SquadBuilderTheme.radius.md),
                 )
                 .border(
                     width = 1.dp,
                     color = Neutral500,
-                    shape = RoundedCornerShape(size = SquadBuilderTheme.radius.md)
+                    shape = RoundedCornerShape(size = SquadBuilderTheme.radius.md),
                 ),
         ) {
             Column(
@@ -91,15 +91,15 @@ fun SquadBuilderDialog(
                         top = SquadBuilderTheme.spacing.spacing5,
                         start = SquadBuilderTheme.spacing.spacing4,
                         end = SquadBuilderTheme.spacing.spacing4,
-                        bottom = SquadBuilderTheme.spacing.spacing2
+                        bottom = SquadBuilderTheme.spacing.spacing2,
                     ),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 title?.let {
                     Text(
                         text = title,
                         color = Green500,
-                        style = SquadBuilderTheme.typography.heading1SemiBold
+                        style = SquadBuilderTheme.typography.heading1SemiBold,
                     )
                 }
                 Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
@@ -131,7 +131,6 @@ fun SquadBuilderDialog(
     }
 }
 
-
 @ComponentPreview
 @Composable
 private fun SquadBuilderDialogPreview() {
@@ -143,8 +142,8 @@ private fun SquadBuilderDialogPreview() {
         content = {
             Text(
                 text = "Composable을 받는 다이얼로그 내용입니다.",
-                color = Neutral300
+                color = Neutral300,
             )
-        }
+        },
     )
 }

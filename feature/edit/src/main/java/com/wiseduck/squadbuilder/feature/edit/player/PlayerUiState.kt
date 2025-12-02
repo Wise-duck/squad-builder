@@ -12,7 +12,7 @@ data class PlayerUiState(
     val currentEditingPlayerId: Int? = null,
     val isShowPlayerCreationSection: Boolean = false,
     val players: List<TeamPlayerModel> = emptyList(),
-    val eventSink: (PlayerUiEvent) -> Unit
+    val eventSink: (PlayerUiEvent) -> Unit,
 ) : CircuitUiState
 
 sealed interface PlayerUiEvent : CircuitUiEvent {
@@ -25,29 +25,29 @@ sealed interface PlayerUiEvent : CircuitUiEvent {
     data class OnTeamPlayerCreationConfirmButtonClick(
         val name: String,
         val position: String,
-        val backNumber: Int
+        val backNumber: Int,
     ) : PlayerUiEvent
 
     data class OnTeamPlayerEditButtonClick(
-        val playerId: Int
+        val playerId: Int,
     ) : PlayerUiEvent
 
     data class OnPlayerUpdateConfirm(
         val playerId: Int,
         val name: String,
         val position: String,
-        val backNumber: Int
+        val backNumber: Int,
     ) : PlayerUiEvent
 
     data object OnPlayerUpdateCancel : PlayerUiEvent
 
     data class OnTeamPlayerDeleteButtonClick(
-        val playerId: Int
+        val playerId: Int,
     ) : PlayerUiEvent
 
     data object OnDialogCloseButtonClick : PlayerUiEvent
 
     data class OnTabSelect(
-        val screen: Screen
+        val screen: Screen,
     ) : PlayerUiEvent
 }

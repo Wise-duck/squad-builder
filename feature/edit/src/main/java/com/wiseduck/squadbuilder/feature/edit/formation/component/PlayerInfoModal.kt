@@ -34,7 +34,7 @@ fun PlayerInfoModal(
     playerBackNumber: String,
     onModifyClick: () -> Unit,
     onUnassignClick: () -> Unit,
-    onCancelClick: () -> Unit
+    onCancelClick: () -> Unit,
 ) {
     Dialog(onDismissRequest = onUnassignClick) {
         Column(
@@ -42,20 +42,20 @@ fun PlayerInfoModal(
                 .fillMaxWidth()
                 .background(
                     MainBg,
-                    shape = RoundedCornerShape(SquadBuilderTheme.radius.md)
+                    shape = RoundedCornerShape(SquadBuilderTheme.radius.md),
                 )
                 .border(
                     width = 1.dp,
                     color = Neutral500,
-                    shape = RoundedCornerShape(size = SquadBuilderTheme.radius.md)
+                    shape = RoundedCornerShape(size = SquadBuilderTheme.radius.md),
                 )
                 .padding(SquadBuilderTheme.spacing.spacing4),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
                 text = stringResource(R.string.player_info_modal_title),
                 color = Neutral100,
-                style = SquadBuilderTheme.typography.title1Bold
+                style = SquadBuilderTheme.typography.title1Bold,
             )
             Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
 
@@ -63,35 +63,35 @@ fun PlayerInfoModal(
                 name = playerName,
                 position = playerPosition,
                 backNumber = playerBackNumber.toIntOrNull() ?: 0,
-                onClick = {} // 카드 자체는 클릭되지 않도록 설정
+                onClick = {},
             )
 
             Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(SquadBuilderTheme.spacing.spacing2)
+                horizontalArrangement = Arrangement.spacedBy(SquadBuilderTheme.spacing.spacing2),
             ) {
                 SquadBuilderButton(
                     onClick = onUnassignClick,
                     text = stringResource(R.string.player_info_modal_delete_button),
                     sizeStyle = smallButtonStyle,
                     colorStyle = ButtonColorStyle.TEXT_RED,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
                 SquadBuilderButton(
                     onClick = onModifyClick,
                     text = stringResource(R.string.player_info_modal_edit_button),
                     sizeStyle = smallButtonStyle,
                     colorStyle = ButtonColorStyle.STROKE,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
                 SquadBuilderButton(
                     onClick = onCancelClick,
                     text = stringResource(R.string.formation_close_button),
                     sizeStyle = smallButtonStyle,
                     colorStyle = ButtonColorStyle.TEXT_WHITE,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
             }
         }
@@ -108,7 +108,7 @@ private fun PlayerInfoModalPreview() {
             playerBackNumber = "7",
             onModifyClick = {},
             onUnassignClick = {},
-            onCancelClick = {}
+            onCancelClick = {},
         )
     }
 }

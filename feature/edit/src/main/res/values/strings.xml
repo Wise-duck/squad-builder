@@ -52,9 +52,14 @@
 
     <string name="formation_save_confirm_dialog_title">포메이션 저장</string>
     <string name="formation_save_confirm_dialog_placeholder">포메이션 이름을 입력하세요.</string>
+    <string name="formation_default_name">새 포메이션</string>
 
     <string name="formation_delete_confirm_dialog_title">포메이션 삭제</string>
     <string name="formation_delete_confirm_dialog_description">정말로 이 포메이션을 삭제하시겠습니까?</string>
+
+    <string name="success_toast_message">성공</string>
+    <string name="failed_toast_message">실패</string>
+    <string name="load_failed_toast_message">불러오기 실패</string>
 
     <string name="formation_reset_confirm_dialog_title">포메이션 초기화</string>
     <string name="formation_reset_confirm_dialog_description">정말로 포메이션을 초기화하시겠습니까?</string>

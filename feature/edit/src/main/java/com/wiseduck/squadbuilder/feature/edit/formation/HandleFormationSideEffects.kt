@@ -3,6 +3,8 @@ package com.wiseduck.squadbuilder.feature.edit.formation
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -20,7 +22,7 @@ import java.io.FileOutputStream
 @Composable
 fun FormationSideEffects(
     state: FormationUiState,
-    formationGraphicsLayer: GraphicsLayer
+    formationGraphicsLayer: GraphicsLayer,
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -28,15 +30,20 @@ fun FormationSideEffects(
     LaunchedEffect(state.sideEffect) {
         state.sideEffect?.let { effect ->
             when (effect) {
+                is FormationSideEffect.ShowToast -> {
+                    Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+                }
+
                 is FormationSideEffect.CaptureFormation -> {
                     delay(50)
 
                     scope.launch {
-                        val uri = captureFormationAndGetUri(
-                            context = context,
-                            graphicsLayer = formationGraphicsLayer,
-                            quarter = effect.quarter
-                        )
+                        val uri =
+                            captureFormationAndGetUri(
+                                context = context,
+                                graphicsLayer = formationGraphicsLayer,
+                                quarter = effect.quarter,
+                            )
 
                         effect.onCaptureUri(effect.quarter, uri)
                     }
@@ -47,23 +54,27 @@ fun FormationSideEffects(
                 }
             }
         }
+
+        if (state.sideEffect != null) {
+            state.eventSink(FormationUiEvent.InitSideEffect)
+        }
     }
 }
 
 private suspend fun captureFormationAndGetUri(
     context: Context,
     graphicsLayer: GraphicsLayer,
-    quarter: Int
+    quarter: Int,
 ): Uri? {
     return try {
         val imageBitmap = graphicsLayer.toImageBitmap()
 
-        val filePath = imageBitmap.saveToDisk(context, "formation_q${quarter}")
+        val filePath = imageBitmap.saveToDisk(context, "formation_q$quarter")
 
         val file = File(filePath)
         FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
     } catch (e: Exception) {
-        e.printStackTrace()
+        Log.e("CaptureFormation", "Error capturing formation", e)
         null
     }
 }
@@ -72,32 +83,38 @@ private fun Context.shareImages(imageUris: List<Uri>) {
     if (imageUris.isEmpty()) return
 
     try {
-        val builder = ShareCompat.IntentBuilder(this)
-            .setType("image/*")
+        val builder =
+            ShareCompat.IntentBuilder(this)
+                .setType("image/*")
 
         if (imageUris.size == 1) {
             builder.setStream(imageUris.first())
 
-            val intent = builder.intent.apply {
-                action = android.content.Intent.ACTION_SEND
-                addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
+            val intent =
+                builder.intent.apply {
+                    action = android.content.Intent.ACTION_SEND
+                    addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
             startActivity(intent)
         } else {
             imageUris.forEach { builder.addStream(it) }
 
-            val intent = builder.intent.apply {
-                action = android.content.Intent.ACTION_SEND_MULTIPLE
-                addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
+            val intent =
+                builder.intent.apply {
+                    action = android.content.Intent.ACTION_SEND_MULTIPLE
+                    addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
             startActivity(intent)
         }
     } catch (e: Exception) {
-        e.printStackTrace()
+        Log.e("ShareImages", "Error sharing images", e)
     }
 }
 
-private fun ImageBitmap.saveToDisk(context: Context, baseName: String) : String {
+private fun ImageBitmap.saveToDisk(
+    context: Context,
+    baseName: String,
+): String {
     val fileName = "${baseName}_${System.currentTimeMillis()}.png"
     val cachePath = File(context.cacheDir, "shared_images")
     cachePath.mkdirs()
@@ -108,5 +125,5 @@ private fun ImageBitmap.saveToDisk(context: Context, baseName: String) : String 
     outputStream.flush()
     outputStream.close()
 
-    return  file.absolutePath
+    return file.absolutePath
 }

@@ -24,9 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
@@ -35,7 +33,7 @@ import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 fun SquadBuilderBottomBar(
     modifier: Modifier = Modifier,
     currentTab: SquadBuilderBottomTab,
-    onTabSelected: (SquadBuilderBottomTab) -> Unit
+    onTabSelected: (SquadBuilderBottomTab) -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -45,7 +43,7 @@ fun SquadBuilderBottomBar(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .navigationBarsPadding()
+                .navigationBarsPadding(),
         ) {
             Spacer(
                 modifier = Modifier
@@ -57,7 +55,7 @@ fun SquadBuilderBottomBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 SquadBuilderBottomTab.entries.forEach { tab ->
                     BottomBarItem(
@@ -65,7 +63,7 @@ fun SquadBuilderBottomBar(
                         isSelected = (tab == currentTab),
                         onClick = {
                             onTabSelected(tab)
-                        }
+                        },
                     )
                 }
             }
@@ -77,7 +75,7 @@ fun SquadBuilderBottomBar(
 private fun RowScope.BottomBarItem(
     tab: SquadBuilderBottomTab,
     isSelected: Boolean,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Box(
         modifier = Modifier
@@ -87,26 +85,26 @@ private fun RowScope.BottomBarItem(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null,
             ),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             val color = if (isSelected) Green500 else Neutral300
 
             Icon(
                 painter = painterResource(tab.iconResId),
                 contentDescription = "Bottom Tab Icon",
-                tint = color
+                tint = color,
             )
             Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2)
+                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
             )
             Text(
                 text = stringResource(tab.labelResId),
                 color = color,
-                style = SquadBuilderTheme.typography.caption1Regular
+                style = SquadBuilderTheme.typography.caption1Regular,
             )
         }
     }
@@ -120,11 +118,10 @@ private fun SquadBuilderBottomBarPreview() {
             bottomBar = {
                 SquadBuilderBottomBar(
                     currentTab = SquadBuilderBottomTab.PROFILE,
-                    onTabSelected = {}
+                    onTabSelected = {},
                 )
-            }
+            },
         ) {
-
         }
     }
 }

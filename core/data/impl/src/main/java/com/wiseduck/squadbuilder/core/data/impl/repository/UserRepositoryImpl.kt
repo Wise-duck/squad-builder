@@ -8,8 +8,7 @@ import javax.inject.Inject
 
 internal class UserRepositoryImpl @Inject constructor(
     private val userDataSource: UserDataSource,
-) : UserRepository{
-
+) : UserRepository {
     override val onboardingState: Flow<OnboardingState> = userDataSource.onboardingState
 
     override suspend fun setOnboardingCompleted(completed: Boolean) {

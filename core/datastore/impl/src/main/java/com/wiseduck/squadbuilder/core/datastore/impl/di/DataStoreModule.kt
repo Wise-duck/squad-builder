@@ -19,39 +19,32 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
-
     private val Context.tokenDataStore by preferencesDataStore(name = "TOKEN_DATASTORE")
     private val Context.userDataStore by preferencesDataStore(name = "USER_DATASTORE")
-
 
     @TokenDataStore
     @Provides
     @Singleton
     fun provideTokenDataStore(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): DataStore<Preferences> = context.tokenDataStore
 
     @UserDataStore
     @Provides
     @Singleton
     fun provideUserDataStore(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
     ): DataStore<Preferences> = context.userDataStore
 }
 
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class BindDataStoreModule {
+    @Binds
+    @Singleton
+    abstract fun bindTokenDataSource(tokenDataSourceImpl: TokenDataSourceImpl): TokenDataSource
 
     @Binds
     @Singleton
-    abstract fun bindTokenDataSource(
-        tokenDataSourceImpl: TokenDataSourceImpl
-    ) : TokenDataSource
-
-    @Binds
-    @Singleton
-    abstract fun bindUserDataSource(
-        userDataSourceImpl: UserDataSourceImpl
-    ) : UserDataSource
+    abstract fun bindUserDataSource(userDataSourceImpl: UserDataSourceImpl): UserDataSource
 }

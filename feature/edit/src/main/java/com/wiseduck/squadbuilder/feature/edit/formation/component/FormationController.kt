@@ -41,7 +41,7 @@ fun FormationController(
                 top = SquadBuilderTheme.spacing.spacing4,
                 bottom = SquadBuilderTheme.spacing.spacing2,
                 start = SquadBuilderTheme.spacing.spacing2,
-                end = SquadBuilderTheme.spacing.spacing2
+                end = SquadBuilderTheme.spacing.spacing2,
             ),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -49,20 +49,20 @@ fun FormationController(
             modifier = Modifier.size(50.dp),
             painter = painterResource(id = R.drawable.ic_formation_team),
             contentDescription = "Team Icon",
-            tint = Yellow300
+            tint = Yellow300,
         )
 
         Text(
             text = teamName,
             style = SquadBuilderTheme.typography.title1Bold,
             modifier = Modifier.padding(start = 12.dp),
-            color = White
+            color = White,
         )
         Text(
             text = formationName,
             style = SquadBuilderTheme.typography.body1Regular,
             modifier = Modifier.padding(start = 12.dp),
-            color = White
+            color = White,
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -71,7 +71,7 @@ fun FormationController(
             Icon(
                 painter = painterResource(id = R.drawable.ic_reset),
                 contentDescription = "Reset Icon",
-                tint = Red500
+                tint = Red500,
             )
         }
 
@@ -79,7 +79,7 @@ fun FormationController(
             Icon(
                 painter = painterResource(id = R.drawable.ic_share),
                 contentDescription = "Share Icon",
-                tint = Blue500
+                tint = Blue500,
             )
         }
 
@@ -87,7 +87,7 @@ fun FormationController(
             Icon(
                 painter = painterResource(id = R.drawable.ic_save),
                 contentDescription = "Save Icon",
-                tint = Green500
+                tint = Green500,
             )
         }
     }
@@ -99,7 +99,7 @@ private fun FormationControllerPreview() {
     SquadBuilderTheme {
         FormationController(
             teamName = "비안코",
-            formationName = "4-4-2"
+            formationName = "4-4-2",
         )
     }
 }

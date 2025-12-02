@@ -17,40 +17,43 @@ internal class AuthRepositoryImpl @Inject constructor(
     private val service: SquadBuilderService,
     private val userDataSource: UserDataSource,
 ) : AuthRepository {
-
-    override val loginState: Flow<LoginState> = dataSource.accessToken.map { accessToken ->
-        if (accessToken.isBlank()) {
-            LoginState.NOT_YET
-        } else {
-            LoginState.LOGGED_IN
+    override val loginState: Flow<LoginState> =
+        dataSource.accessToken.map { accessToken ->
+            if (accessToken.isBlank()) {
+                LoginState.NOT_YET
+            } else {
+                LoginState.LOGGED_IN
+            }
         }
-    }
 
-    override suspend fun login(accessToken: String): Result<Unit> = runCatching {
-        val response = service.login(
-            LoginRequest(
-                provider = PROVIDER,
-                accessToken = accessToken
+    override suspend fun login(accessToken: String): Result<Unit> =
+        runCatching {
+            val response = service.login(
+                LoginRequest(
+                    provider = PROVIDER,
+                    accessToken = accessToken,
+                ),
             )
-        )
 
-        dataSource.apply {
-            setAccessToken(response.accessToken)
-            setRefreshToken(response.refreshToken)
+            dataSource.apply {
+                setAccessToken(response.accessToken)
+                setRefreshToken(response.refreshToken)
+            }
+
+            userDataSource.apply {
+                setUsername(response.username)
+            }
         }
 
-        userDataSource.apply {
-            setUsername(response.username)
+    override suspend fun logout(): Result<Unit> =
+        runCatching {
+            service.logout()
+            dataSource.resetTokens()
         }
-    }
 
-    override suspend fun logout(): Result<Unit> = runCatching {
-        service.logout()
-        dataSource.resetTokens()
-    }
-
-    override suspend fun withdraw(): Result<Unit> = runCatching {
-        service.withdraw()
-        dataSource.resetTokens()
-    }
+    override suspend fun withdraw(): Result<Unit> =
+        runCatching {
+            service.withdraw()
+            dataSource.resetTokens()
+        }
 }

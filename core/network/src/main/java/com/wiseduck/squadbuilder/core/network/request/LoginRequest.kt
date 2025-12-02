@@ -8,5 +8,5 @@ data class LoginRequest(
     @SerialName("provider")
     val provider: String,
     @SerialName("accessToken")
-    val accessToken: String
+    val accessToken: String,
 )

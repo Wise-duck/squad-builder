@@ -10,5 +10,5 @@ data class FormationListItemResponse(
     @SerialName("name")
     val name: String,
     @SerialName("createdAt")
-    val createdAt: String
+    val createdAt: String,
 )

@@ -36,42 +36,45 @@ fun TeamCard(
     modifier: Modifier = Modifier,
     team: TeamModel,
     onDeleteClick: (Int) -> Unit,
-    onClick: (Int, String) -> Unit
+    onClick: (Int, String) -> Unit,
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick(team.teamId, team.name) },
         colors = CardDefaults.cardColors(
-            containerColor = MainComponentBg
+            containerColor = MainComponentBg,
         ),
         border = BorderStroke(
             width = 1.dp,
-            color = Neutral800
-        )
+            color = Neutral800,
+        ),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(SquadBuilderTheme.spacing.spacing4),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(
+                    horizontal = SquadBuilderTheme.spacing.spacing4,
+                    vertical = SquadBuilderTheme.spacing.spacing2,
+                ),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             ) {
                 Text(
                     text = team.name,
                     style = SquadBuilderTheme.typography.heading1Bold,
-                    color = Neutral100
+                    color = Neutral100,
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing1))
                 Text(
                     text = stringResource(
                         R.string.creation_date_label,
-                        team.createdAt.toFormattedDate(DateFormats.YY_MM_DD_DASH)
+                        team.createdAt.toFormattedDate(DateFormats.YY_MM_DD_DASH),
                     ),
                     style = SquadBuilderTheme.typography.label1Medium,
-                    color = Blue500
+                    color = Blue500,
                 )
             }
             IconButton(
@@ -80,7 +83,7 @@ fun TeamCard(
                 Icon(
                     painter = painterResource(R.drawable.ic_delete),
                     contentDescription = "Bin Icon",
-                    tint = Red500
+                    tint = Red500,
                 )
             }
         }
@@ -97,10 +100,10 @@ private fun TeamCardPreview() {
                 name = "Team1",
                 ownerId = "1",
                 ownerEmail = "1@.com",
-                createdAt = "2025-10-28T14:25:27.097Z"
+                createdAt = "2025-10-28T14:25:27.097Z",
             ),
             onDeleteClick = {},
-            onClick = { _, _ -> }
+            onClick = { _, _ -> },
         )
     }
 }

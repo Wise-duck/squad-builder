@@ -32,31 +32,31 @@ fun MenuButton(
     icon: Painter,
     title: String,
     description: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick), // 카드 전체를 클릭 가능하게
+            .clickable(onClick = onClick),
         colors = CardDefaults.cardColors(
-            containerColor = MainComponentBg
+            containerColor = MainComponentBg,
         ),
         border = BorderStroke(
             width = 1.dp,
-            color = Neutral500
-        )
+            color = Neutral500,
+        ),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(SquadBuilderTheme.spacing.spacing4),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Icon(
                 painter = icon,
-                contentDescription = title, // 접근성을 위해 제목을 설명으로 사용
+                contentDescription = title,
                 modifier = Modifier.size(40.dp),
-                tint = Neutral100
+                tint = Neutral100,
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -64,7 +64,7 @@ fun MenuButton(
             Text(
                 text = title,
                 style = SquadBuilderTheme.typography.title1Bold,
-                color = Neutral100
+                color = Neutral100,
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -72,9 +72,8 @@ fun MenuButton(
             Text(
                 text = description,
                 style = SquadBuilderTheme.typography.body1Bold,
-                color = Green500
+                color = Green500,
             )
-
         }
     }
 }
@@ -87,7 +86,7 @@ private fun MenuButtonPreview() {
             icon = painterResource(id = R.drawable.ic_player),
             title = "선수 관리",
             description = "팀의 선수 목록을 확인하고 편집합니다.",
-            onClick = {}
+            onClick = {},
         )
     }
 }

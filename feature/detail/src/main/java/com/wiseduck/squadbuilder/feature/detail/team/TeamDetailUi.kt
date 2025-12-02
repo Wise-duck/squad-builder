@@ -27,26 +27,26 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 @Composable
 fun TeamDetailUi(
     modifier: Modifier = Modifier,
-    state: TeamDetailUiState
+    state: TeamDetailUiState,
 ) {
-    SquadBuilderScaffold (
-        modifier = modifier.fillMaxSize()
+    SquadBuilderScaffold(
+        modifier = modifier.fillMaxSize(),
     ) { innerPadding ->
-        Column (
-            modifier = modifier.padding(innerPadding)
+        Column(
+            modifier = modifier.padding(innerPadding),
         ) {
             TeamDetailHeader(
                 modifier = modifier,
                 onBackClick = {
                     state.eventSink(TeamDetailEvent.OnBackButtonClick)
-                }
+                },
             )
             TeamDetailContent(
                 state = state,
-                OnManagePlayersClick = {
+                onManagePlayersClick = {
                     state.eventSink(TeamDetailEvent.OnManagePlayersClick)
                 },
-                OnManageFormationClick = {
+                onManageFormationClick = {
                     state.eventSink(TeamDetailEvent.OnManageFormationClick)
                 },
             )
@@ -58,19 +58,20 @@ fun TeamDetailUi(
 private fun TeamDetailContent(
     modifier: Modifier = Modifier,
     state: TeamDetailUiState,
-    OnManagePlayersClick: () -> Unit,
-    OnManageFormationClick: () -> Unit,
+    onManagePlayersClick: () -> Unit,
+    onManageFormationClick: () -> Unit,
 ) {
-    Column(modifier = modifier
-        .fillMaxSize()
-        .padding(SquadBuilderTheme.spacing.spacing8),
-        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(SquadBuilderTheme.spacing.spacing8),
+        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
     ) {
         state.team?.let { team ->
             Text(
                 text = team.name,
                 style = SquadBuilderTheme.typography.title1Bold,
-                color = SquadBuilderTheme.colors.basePrimary // 색상 지정
+                color = SquadBuilderTheme.colors.basePrimary,
             )
 
             Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing8))
@@ -79,7 +80,7 @@ private fun TeamDetailContent(
                 icon = painterResource(id = R.drawable.ic_player),
                 title = stringResource(R.string.card_title_manage_players),
                 description = stringResource(R.string.card_desc_manage_players),
-                onClick = OnManagePlayersClick
+                onClick = onManagePlayersClick,
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -88,7 +89,7 @@ private fun TeamDetailContent(
                 icon = painterResource(id = R.drawable.ic_formation),
                 title = stringResource(R.string.card_title_manage_formation),
                 description = stringResource(R.string.card_desc_manage_formation),
-                onClick = OnManageFormationClick
+                onClick = onManageFormationClick,
             )
         }
 
@@ -98,25 +99,25 @@ private fun TeamDetailContent(
     }
 }
 
-
 @DevicePreview
 @Composable
 private fun TeamDetailUi() {
-    val previewTeam = TeamModel(
-        teamId = 1,
-        name = "미리보기용 팀 이름",
-        ownerId = "owner",
-        ownerEmail = "email",
-        createdAt = ""
-    )
+    val previewTeam =
+        TeamModel(
+            teamId = 1,
+            name = "미리보기용 팀 이름",
+            ownerId = "owner",
+            ownerEmail = "email",
+            createdAt = "",
+        )
 
     SquadBuilderTheme {
         TeamDetailUi(
             state = TeamDetailUiState(
                 isLoading = false,
                 team = previewTeam,
-                eventSink = {}
-            )
+                eventSink = {},
+            ),
         )
     }
 }

@@ -1,15 +1,15 @@
 <div align="center">
     <h1>🔥 Squad Builder - 나만의 축구팀 만들기 🔥</h1>
+    <p>
+        <img width="200" alt="dingurbob" src="https://github.com/user-attachments/assets/6e872222-8dc4-4556-9175-57bf83760fbd"/>
+    </p>
     <p>전술 설계와 팀 관리를 위한 안드로이드 앱</p>
     <p>
         <a href="https://play.google.com/store/apps/details?id=com.wiseduck.squadbuilder&hl=ko">
-            <img src="https://github.com/user-attachments/assets/8699ffd3-3399-45eb-9e2b-88818ba62091" width="250" />
+            <img src="https://github.com/user-attachments/assets/8699ffd3-3399-45eb-9e2b-88818ba62091" width="280" />
         </a>
     </p>
-    <!-- <p><img src="https://github.com/cmgjn1881/lineup-frontend/blob/develop/public/android-icon-512x512.v2.png" alt="Squad Builder Logo" width="150"/></p> -->
 </div>
-
-<!--   -->
 
 ## Skill Stacks
 ### Language
@@ -33,6 +33,10 @@
 - Retrofit, OkHttp3
 - Firebase(Analytics, Crashlytics, Remote Config)
 - Kakao-Auth
+
+### Code Quality
+- Detekt
+- Ktlint
 
 ### Gradle Dependency
 

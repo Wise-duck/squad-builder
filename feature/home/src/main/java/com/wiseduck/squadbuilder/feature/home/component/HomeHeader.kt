@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.wiseduck.squadbuilder.feature.home.R
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
@@ -18,33 +17,33 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.designsystem.theme.White
+import com.wiseduck.squadbuilder.feature.home.R
 
 @Composable
-fun HomeHeader(
-    modifier: Modifier = Modifier,
-) {
+fun HomeHeader(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(MainBg)
+            .background(MainBg),
     ) {
         Row(
             modifier = modifier.fillMaxWidth()
-                .padding(SquadBuilderTheme.spacing.spacing4)
+                .padding(SquadBuilderTheme.spacing.spacing4),
         ) {
             Spacer(
-                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4)
+                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4),
             )
             Text(
                 text = stringResource(R.string.home_screen_header_title),
                 style = SquadBuilderTheme.typography.title1Bold,
-                color = White
+                color = White,
             )
         }
         Spacer(
-            modifier = modifier.fillMaxWidth()
+            modifier = modifier
+                .fillMaxWidth()
                 .height(SquadBuilderTheme.spacing.spacing05)
-                .background(Neutral800)
+                .background(Neutral800),
         )
     }
 }

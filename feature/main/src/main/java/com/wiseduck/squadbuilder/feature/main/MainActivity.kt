@@ -39,7 +39,7 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(isDarkTheme) {
                 systemUiController.setStatusBarColor(
                     color = Color.Transparent,
-                    darkIcons = false
+                    darkIcons = false,
                 )
             }
 
@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
                     NavigableCircuitContent(
                         modifier = Modifier.fillMaxSize(),
                         backStack = backStack,
-                        navigator = navigator
+                        navigator = navigator,
                     )
                 }
             }

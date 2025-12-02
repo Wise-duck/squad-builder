@@ -1,8 +1,8 @@
 package com.wiseduck.squadbuilder.core.ui.component
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.offset
@@ -33,16 +33,15 @@ fun PlayerChip(
     number: String,
     name: String,
     shirtColor: Color = Blue600,
-    textColor: Color = Neutral100
+    textColor: Color = Neutral100,
 ) {
     Column(
         modifier = modifier.size(width = 56.dp, height = 64.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-
         Box(
             modifier = Modifier.size(48.dp),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Box(
                 modifier = Modifier
@@ -51,16 +50,16 @@ fun PlayerChip(
                     .background(shirtColor)
                     .border(
                         BorderStroke(1.5.dp, Neutral100),
-                        CircleShape
+                        CircleShape,
                     ),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
             ) {
                 Text(
                     text = number,
                     color = textColor,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Black,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
             }
 
@@ -73,7 +72,7 @@ fun PlayerChip(
                     .padding(horizontal = 4.dp, vertical = 1.dp),
                 color = textColor,
                 fontSize = 9.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
             )
         }
 
@@ -83,7 +82,7 @@ fun PlayerChip(
             color = Neutral100,
             fontSize = 10.sp,
             fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }
@@ -95,12 +94,12 @@ private fun PlayerChipPreview() {
         Box(
             modifier = Modifier
                 .background(Color.DarkGray)
-                .padding(16.dp)
+                .padding(16.dp),
         ) {
             PlayerChip(
                 position = "FW",
                 number = "7",
-                name = "Son"
+                name = "Son",
             )
         }
     }

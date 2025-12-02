@@ -13,7 +13,6 @@ import dagger.multibindings.Multibinds
 @Module
 @InstallIn(ActivityRetainedComponent::class)
 abstract class CircuitModule {
-
     @Multibinds
     abstract fun presenterFactories(): Set<Presenter.Factory>
 

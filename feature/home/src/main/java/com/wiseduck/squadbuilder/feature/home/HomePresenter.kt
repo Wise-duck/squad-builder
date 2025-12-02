@@ -31,7 +31,6 @@ class HomePresenter @AssistedInject constructor(
     private val teamRepository: TeamRepository,
     @AdmobBannerId private val admobBannerId: String,
 ) : Presenter<HomeUiState> {
-
     @Composable
     override fun present(): HomeUiState {
         val scope = rememberCoroutineScope()
@@ -44,11 +43,15 @@ class HomePresenter @AssistedInject constructor(
         val updatedTeamListLoadFailed = stringResource(R.string.updated_team_list_load_failed)
         val loadFailedTeamList = stringResource(R.string.load_failed_team_list)
 
-        fun sortTeams(teamModels: List<TeamModel>, sortOption: TeamSortOption): PersistentList<TeamModel> {
-            val sortedList = when (sortOption) {
-                TeamSortOption.LATEST -> teamModels.sortedByDescending { it.createdAt }
-                TeamSortOption.NAME -> teamModels.sortedBy { it.name }
-            }
+        fun sortTeams(
+            teamModels: List<TeamModel>,
+            sortOption: TeamSortOption,
+        ): PersistentList<TeamModel> {
+            val sortedList =
+                when (sortOption) {
+                    TeamSortOption.LATEST -> teamModels.sortedByDescending { it.createdAt }
+                    TeamSortOption.NAME -> teamModels.sortedBy { it.name }
+                }
 
             return sortedList.toImmutableList() as PersistentList<TeamModel>
         }
@@ -117,11 +120,13 @@ class HomePresenter @AssistedInject constructor(
                 }
 
                 is HomeUiEvent.OnTeamCardClick -> {
-                        navigator.goTo(TeamDetailScreen(
+                    navigator.goTo(
+                        TeamDetailScreen(
                             teamId = event.teamId,
-                            teamName = event.teamName
-                        ))
-                    }
+                            teamName = event.teamName,
+                        ),
+                    )
+                }
 
                 is HomeUiEvent.OnTeamDeleteButtonClick -> {
                     scope.launch {
@@ -156,13 +161,13 @@ class HomePresenter @AssistedInject constructor(
             currentSortOption = currentSortOption,
             errorMessage = errorMessage,
             teams = teams,
-            eventSink = ::handleEvent
+            eventSink = ::handleEvent,
         )
     }
 
     @CircuitInject(HomeScreen::class, ActivityRetainedComponent::class)
     @AssistedFactory
     fun interface Factory {
-        fun create(navigator: Navigator) : HomePresenter
+        fun create(navigator: Navigator): HomePresenter
     }
 }

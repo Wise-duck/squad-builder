@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TeamCreationRequest(
     @SerialName("name")
-    val name: String
+    val name: String,
 )

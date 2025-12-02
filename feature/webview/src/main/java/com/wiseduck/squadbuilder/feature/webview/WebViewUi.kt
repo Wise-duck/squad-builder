@@ -21,22 +21,22 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 @Composable
 internal fun WebViewUi(
     state: WebViewUiState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     SquadBuilderScaffold(
         modifier = modifier
-            .fillMaxSize()
+            .fillMaxSize(),
     ) { innerpadding ->
         WebViewHeader(
             modifier = modifier
                 .padding(
-                innerpadding
-            ),
-            onBackClick = { state.eventSink(WebViewUiEvent.OnBackButtonClick) }
+                    innerpadding,
+                ),
+            onBackClick = { state.eventSink(WebViewUiEvent.OnBackButtonClick) },
         )
         WebViewContent(
             state = state,
-            innerPadding = innerpadding
+            innerPadding = innerpadding,
         )
     }
 }
@@ -46,12 +46,12 @@ internal fun WebViewUi(
 internal fun WebViewContent(
     state: WebViewUiState,
     modifier: Modifier = Modifier,
-    innerPadding : PaddingValues,
+    innerPadding: PaddingValues,
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(innerPadding)
+            .padding(innerPadding),
     ) {
         AndroidView(
             factory = { context ->

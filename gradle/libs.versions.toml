@@ -5,8 +5,8 @@ compileSdk = "36"
 playServicesAds = "24.8.0"
 targetSdk = "36"
 minSdk = "24"
-versionCode = "29"
-versionName = "2.1.4"
+versionCode = "30"
+versionName = "2.1.5"
 
 ## Android Gradle Plugin
 agp = "8.13.0"
@@ -67,6 +67,13 @@ accompanistSystemUiController = "0.36.0"
 
 jetbrainsKotlinJvm = "2.2.21"
 
+## Lint
+ktlintPlugin = "11.6.1"
+ktlintEngine = "0.50.0"
+
+# Static Analysis
+detektPlugin = "1.23.8"
+
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -124,6 +131,8 @@ androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 
+detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektPlugin" }
+
 [bundles]
 androidx-compose = [
     "androidx-activity-compose",
@@ -156,6 +165,9 @@ firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "
 
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintPlugin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektPlugin" }
 
 # Convention Plugin
 squadbuilder-android-application = { id = "squadbuilder.android.application", version = "unspecified" }

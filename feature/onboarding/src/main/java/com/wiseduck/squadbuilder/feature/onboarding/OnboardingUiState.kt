@@ -6,12 +6,13 @@ import com.slack.circuit.runtime.CircuitUiState
 
 data class OnboardingUiState(
     val pagerState: PagerState,
-    val eventSink: (OnboardingUiEvent) -> Unit
+    val eventSink: (OnboardingUiEvent) -> Unit,
 ) : CircuitUiState
 
 sealed interface OnboardingUiEvent : CircuitUiEvent {
     data class OnNextButtonClick(
-        val currentPage: Int
-    ): OnboardingUiEvent
-    data object OnSkipButtonClick: OnboardingUiEvent
+        val currentPage: Int,
+    ) : OnboardingUiEvent
+
+    data object OnSkipButtonClick : OnboardingUiEvent
 }

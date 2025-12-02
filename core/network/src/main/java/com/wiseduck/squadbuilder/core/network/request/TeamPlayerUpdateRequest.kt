@@ -10,5 +10,5 @@ data class TeamPlayerUpdateRequest(
     @SerialName("position")
     val position: String,
     @SerialName("backNumber")
-    val backNumber: Int
+    val backNumber: Int,
 )

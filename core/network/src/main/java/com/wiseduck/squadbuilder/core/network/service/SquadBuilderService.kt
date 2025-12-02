@@ -23,10 +23,14 @@ import retrofit2.http.Query
 interface SquadBuilderService {
     // [AUTH] [PUBLIC] ENDPOINTS
     @POST("api/auth/social-login")
-    suspend fun login(@Body loginRequest: LoginRequest) : LoginResponse
+    suspend fun login(
+        @Body loginRequest: LoginRequest,
+    ): LoginResponse
 
     @POST("api/auth/refresh")
-    suspend fun refreshToken(@Body refreshTokenRequest: RefreshTokenRequest) : RefreshTokenResponse
+    suspend fun refreshToken(
+        @Body refreshTokenRequest: RefreshTokenRequest,
+    ): RefreshTokenResponse
 
     // [AUTH] [PRIVATE] ENDPOINTS
     @POST("api/auth/logout")
@@ -37,14 +41,16 @@ interface SquadBuilderService {
 
     // [TEAM] [PRIVATE] ENDPOINTS
     @POST("api/teams")
-    suspend fun createTeam(@Body request: TeamCreationRequest) : TeamResponse
+    suspend fun createTeam(
+        @Body request: TeamCreationRequest,
+    ): TeamResponse
 
     @GET("api/teams")
     suspend fun getTeams(): List<TeamResponse>
 
     @DELETE("api/teams/{teamId}")
     suspend fun deleteTeam(
-        @Path("teamId") teamId: Int
+        @Path("teamId") teamId: Int,
     )
 
     // [TEAM PLAYER] [PRIVATE] ENDPOINTS
@@ -52,8 +58,8 @@ interface SquadBuilderService {
     suspend fun updateTeamPlayer(
         @Path("teamId") teamId: Int,
         @Path("playerId") playerId: Int,
-        @Body() teamPlayerUpdateRequest: TeamPlayerUpdateRequest
-    ) : TeamPlayerResponse
+        @Body() teamPlayerUpdateRequest: TeamPlayerUpdateRequest,
+    ): TeamPlayerResponse
 
     @DELETE("api/teams/{teamId}/players/{playerId}")
     suspend fun deleteTeamPlayer(
@@ -63,39 +69,39 @@ interface SquadBuilderService {
 
     @GET("api/teams/{teamId}/players")
     suspend fun getTeamPlayers(
-        @Path("teamId") teamId: Int
-    ) : List<TeamPlayerResponse>
+        @Path("teamId") teamId: Int,
+    ): List<TeamPlayerResponse>
 
     @POST("api/teams/{teamId}/players")
     suspend fun createTeamPlayer(
         @Path("teamId") teamId: Int,
-        @Body() teamPlayerCreationRequest: TeamPlayerCreationRequest
-    ) : TeamPlayerResponse
+        @Body() teamPlayerCreationRequest: TeamPlayerCreationRequest,
+    ): TeamPlayerResponse
 
     // [FORMATION] [PRIVATE] ENDPOINTS
     @GET("api/formation")
     suspend fun getFormationList(
-        @Query("teamId") teamId: Int
-    ) : List<FormationListItemResponse>
+        @Query("teamId") teamId: Int,
+    ): List<FormationListItemResponse>
 
     @GET("api/formation/{formationId}")
     suspend fun getFormationDetail(
-        @Path("formationId") formationId: Int
+        @Path("formationId") formationId: Int,
     ): FormationDetailResponse
 
     @POST("api/formation")
     suspend fun createFormation(
-        @Body request: FormationSaveRequest
+        @Body request: FormationSaveRequest,
     ): Unit
 
     @PUT("api/formation/{formationId}")
     suspend fun updateFormation(
         @Path("formationId") formationId: Int,
-        @Body request: FormationSaveRequest
+        @Body request: FormationSaveRequest,
     ): Unit
 
     @DELETE("api/formation/{formationId}")
     suspend fun deleteFormation(
-        @Path("formationId") formationId: Int
+        @Path("formationId") formationId: Int,
     ): Unit
 }

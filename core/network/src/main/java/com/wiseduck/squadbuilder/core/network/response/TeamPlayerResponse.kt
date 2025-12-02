@@ -14,5 +14,5 @@ data class TeamPlayerResponse(
     @SerialName("position")
     val position: String,
     @SerialName("number")
-    val number: Int
+    val number: Int,
 )
