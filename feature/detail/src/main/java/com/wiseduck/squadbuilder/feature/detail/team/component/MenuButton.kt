@@ -55,11 +55,11 @@ fun MenuButton(
             Icon(
                 painter = icon,
                 contentDescription = title,
-                modifier = Modifier.size(40.dp),
+                modifier = Modifier.size(SquadBuilderTheme.spacing.spacing10),
                 tint = Neutral100,
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
 
             Text(
                 text = title,
@@ -67,7 +67,7 @@ fun MenuButton(
                 color = Neutral100,
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
 
             Text(
                 text = description,

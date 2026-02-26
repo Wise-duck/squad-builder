@@ -1,8 +1,10 @@
 package com.wiseduck.squadbuilder.feature.detail.team
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -10,16 +12,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
+import com.wiseduck.squadbuilder.core.ui.component.AdBanner
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
 import com.wiseduck.squadbuilder.feature.detail.R
 import com.wiseduck.squadbuilder.feature.detail.team.component.MenuButton
 import com.wiseduck.squadbuilder.feature.detail.team.component.TeamDetailHeader
+import com.wiseduck.squadbuilder.feature.detail.team.mock.teamDetailUiStateMock
 import com.wiseduck.squadbuilder.feature.screens.TeamDetailScreen
 import dagger.hilt.android.components.ActivityRetainedComponent
 
@@ -32,66 +34,16 @@ fun TeamDetailUi(
     SquadBuilderScaffold(
         modifier = modifier.fillMaxSize(),
     ) { innerPadding ->
-        Column(
-            modifier = modifier.padding(innerPadding),
-        ) {
-            TeamDetailHeader(
-                modifier = modifier,
-                onBackClick = {
-                    state.eventSink(TeamDetailEvent.OnBackButtonClick)
-                },
-            )
-            TeamDetailContent(
-                state = state,
-                onManagePlayersClick = {
-                    state.eventSink(TeamDetailEvent.OnManagePlayersClick)
-                },
-                onManageFormationClick = {
-                    state.eventSink(TeamDetailEvent.OnManageFormationClick)
-                },
-            )
-        }
-    }
-}
-
-@Composable
-private fun TeamDetailContent(
-    modifier: Modifier = Modifier,
-    state: TeamDetailUiState,
-    onManagePlayersClick: () -> Unit,
-    onManageFormationClick: () -> Unit,
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(SquadBuilderTheme.spacing.spacing8),
-        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
-    ) {
-        state.team?.let { team ->
-            Text(
-                text = team.name,
-                style = SquadBuilderTheme.typography.title1Bold,
-                color = SquadBuilderTheme.colors.basePrimary,
-            )
-
-            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing8))
-
-            MenuButton(
-                icon = painterResource(id = R.drawable.ic_player),
-                title = stringResource(R.string.card_title_manage_players),
-                description = stringResource(R.string.card_desc_manage_players),
-                onClick = onManagePlayersClick,
-            )
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            MenuButton(
-                icon = painterResource(id = R.drawable.ic_formation),
-                title = stringResource(R.string.card_title_manage_formation),
-                description = stringResource(R.string.card_desc_manage_formation),
-                onClick = onManageFormationClick,
-            )
-        }
+        TeamDetailContent(
+            state = state,
+            innerPadding = innerPadding,
+            onManagePlayersClick = {
+                state.eventSink(TeamDetailEvent.OnManagePlayersClick)
+            },
+            onManageFormationClick = {
+                state.eventSink(TeamDetailEvent.OnManageFormationClick)
+            },
+        )
 
         if (state.isLoading) {
             SquadBuilderLoadingIndicator()
@@ -99,25 +51,66 @@ private fun TeamDetailContent(
     }
 }
 
+@Composable
+private fun TeamDetailContent(
+    state: TeamDetailUiState,
+    innerPadding: PaddingValues,
+    onManagePlayersClick: () -> Unit,
+    onManageFormationClick: () -> Unit,
+) {
+    Column(
+        modifier = Modifier.padding(innerPadding),
+    ) {
+        TeamDetailHeader(
+            onBackClick = {
+                state.eventSink(TeamDetailEvent.OnBackButtonClick)
+            },
+        )
+        Column(
+            modifier = Modifier.padding(SquadBuilderTheme.spacing.spacing4),
+        ) {
+            state.team?.let { team ->
+                Text(
+                    text = team.name,
+                    style = SquadBuilderTheme.typography.title1Bold,
+                    color = SquadBuilderTheme.colors.basePrimary,
+                )
+
+                Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing8))
+
+                MenuButton(
+                    icon = painterResource(id = R.drawable.ic_player),
+                    title = stringResource(R.string.card_title_manage_players),
+                    description = stringResource(R.string.card_desc_manage_players),
+                    onClick = onManagePlayersClick,
+                )
+
+                Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing8))
+
+                MenuButton(
+                    icon = painterResource(id = R.drawable.ic_formation),
+                    title = stringResource(R.string.card_title_manage_formation),
+                    description = stringResource(R.string.card_desc_manage_formation),
+                    onClick = onManageFormationClick,
+                )
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            AdBanner(
+                modifier = Modifier.fillMaxWidth(),
+                adUnitId = state.admobBannerId,
+            )
+        }
+    }
+}
+
 @DevicePreview
 @Composable
-private fun TeamDetailUi() {
-    val previewTeam =
-        TeamModel(
-            teamId = 1,
-            name = "미리보기용 팀 이름",
-            ownerId = "owner",
-            ownerEmail = "email",
-            createdAt = "",
-        )
-
+private fun TeamDetailUiPreview() {
     SquadBuilderTheme {
         TeamDetailUi(
-            state = TeamDetailUiState(
-                isLoading = false,
-                team = previewTeam,
-                eventSink = {},
-            ),
+            state = teamDetailUiStateMock,
         )
     }
 }

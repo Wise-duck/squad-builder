@@ -27,7 +27,6 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.designsystem.theme.White
-import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
@@ -35,11 +34,11 @@ import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.player.component.PlayerCard
 import com.wiseduck.squadbuilder.feature.edit.player.component.PlayerFormCard
 import com.wiseduck.squadbuilder.feature.edit.player.component.PlayerHeader
+import com.wiseduck.squadbuilder.feature.edit.player.mock.fakePlayerUiStateMock
 import com.wiseduck.squadbuilder.feature.screens.PlayerScreen
 import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomBar
 import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab
 import dagger.hilt.android.components.ActivityRetainedComponent
-import kotlinx.collections.immutable.toImmutableList
 
 @CircuitInject(PlayerScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -249,31 +248,9 @@ private fun PlayerList(
 @DevicePreview
 @Composable
 private fun PlayerUiPreview() {
-    val mockPlayers =
-        listOf(
-            TeamPlayerModel(
-                id = 1,
-                teamId = 1,
-                name = "선수 1",
-                backNumber = 1,
-                position = "MD",
-            ),
-            TeamPlayerModel(
-                id = 2,
-                teamId = 3,
-                name = "잉",
-                backNumber = 3,
-                position = "FD",
-            ),
-        )
-
     SquadBuilderTheme {
         PlayerUi(
-            state = PlayerUiState(
-                players = mockPlayers.toImmutableList(),
-                teamName = "서울 FC 개발팀",
-                eventSink = {},
-            ),
+            state = fakePlayerUiStateMock,
         )
     }
 }
