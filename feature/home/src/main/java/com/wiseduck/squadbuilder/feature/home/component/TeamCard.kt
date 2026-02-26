@@ -30,6 +30,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.feature.home.R
+import com.wiseduck.squadbuilder.feature.home.mock.fakeTeam
 
 @Composable
 fun TeamCard(
@@ -95,13 +96,7 @@ fun TeamCard(
 private fun TeamCardPreview() {
     SquadBuilderTheme {
         TeamCard(
-            team = TeamModel(
-                teamId = 1,
-                name = "Team1",
-                ownerId = "1",
-                ownerEmail = "1@.com",
-                createdAt = "2025-10-28T14:25:27.097Z",
-            ),
+            team = fakeTeam,
             onDeleteClick = {},
             onClick = { _, _ -> },
         )
