@@ -25,6 +25,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
+import com.wiseduck.squadbuilder.feature.login.mock.loginUiStateMock
 import com.wiseduck.squadbuilder.feature.screens.LoginScreen
 import dagger.hilt.android.components.ActivityRetainedComponent
 
@@ -95,12 +96,10 @@ fun LoginUi(
 
 @ComponentPreview
 @Composable
-private fun LoginUi() {
+private fun LoginUiPreview() {
     SquadBuilderTheme {
         LoginUi(
-            state = LoginUiState(
-                eventSink = {},
-            ),
+            state = loginUiStateMock,
         )
     }
 }

@@ -40,6 +40,7 @@ import com.wiseduck.squadbuilder.feature.home.component.HomeHeader
 import com.wiseduck.squadbuilder.feature.home.component.TeamCard
 import com.wiseduck.squadbuilder.feature.home.component.TeamCreateSection
 import com.wiseduck.squadbuilder.feature.home.component.TeamSortDropdown
+import com.wiseduck.squadbuilder.feature.home.mock.homeUiStateMock
 import com.wiseduck.squadbuilder.feature.screens.HomeScreen
 import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomBar
 import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab
@@ -278,40 +279,35 @@ private fun TeamList(
 
 @DevicePreview
 @Composable
-private fun HomeUi() {
-//    val sampleTeams =
-//        listOf(
-//            TeamModel(
-//                teamId = 1,
-//                name = "비얀코",
-//                ownerId = "owner1",
-//                ownerEmail = "owner1@example.com",
-//                createdAt = "2025-10-29T17:30:00.000Z",
-//            ),
-//            TeamModel(
-//                teamId = 2,
-//                name = "빠삐코",
-//                ownerId = "owner2",
-//                ownerEmail = "owner2@example.com",
-//                createdAt = "2025-10-29T17:31:00.000Z",
-//            ),
-//        )
-
+private fun HomeUiPreview() {
     SquadBuilderTheme {
         HomeUi(
-            state = HomeUiState(
+            state = homeUiStateMock,
+        )
+    }
+}
+
+@DevicePreview
+@Composable
+private fun HomeUiEmptyPreview() {
+    SquadBuilderTheme {
+        HomeUi(
+            state = homeUiStateMock.copy(
                 teams = emptyList<TeamModel>().toImmutableList(),
-                isLoggedIn = false,
-                eventSink = {},
             ),
         )
-//        HomeUi(
-//            state = HomeUiState(
-// //                teams = sampleTeams.toImmutableList(),
-//                teams = emptyList<TeamModel>().toImmutableList(),
-//                isLoggedIn = true,
-//                eventSink = {},
-//            ),
-//        )
+    }
+}
+
+@DevicePreview
+@Composable
+private fun HomeUiGuestPreview() {
+    SquadBuilderTheme {
+        HomeUi(
+            state = homeUiStateMock.copy(
+                isLoggedIn = false,
+                teams = emptyList<TeamModel>().toImmutableList(),
+            ),
+        )
     }
 }

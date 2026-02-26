@@ -54,7 +54,7 @@ import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerQuarterS
 import com.wiseduck.squadbuilder.feature.edit.formation.component.QuarterSelectionDialog
 import com.wiseduck.squadbuilder.feature.edit.formation.component.QuarterTag
 import com.wiseduck.squadbuilder.feature.edit.formation.component.RefereeInput
-import com.wiseduck.squadbuilder.feature.edit.formation.data.createDefaultPlayers
+import com.wiseduck.squadbuilder.feature.edit.formation.mock.formationUiStateMock
 import com.wiseduck.squadbuilder.feature.screens.FormationScreen
 import dagger.hilt.android.components.ActivityRetainedComponent
 
@@ -324,16 +324,8 @@ fun Modifier.captureToGraphicsLayer(graphicsLayer: GraphicsLayer) =
 @Composable
 private fun FormationUiPreView() {
     SquadBuilderTheme {
-        val dummyPlayers = createDefaultPlayers()
-
         FormationUi(
-            state = FormationUiState(
-                isCapturing = true,
-                teamId = 1,
-                teamName = "비안코",
-                players = dummyPlayers,
-                eventSink = {},
-            ),
+            state = formationUiStateMock,
         )
     }
 }

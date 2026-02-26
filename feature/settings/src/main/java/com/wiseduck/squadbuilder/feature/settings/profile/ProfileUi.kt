@@ -25,6 +25,7 @@ import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab
 import com.wiseduck.squadbuilder.feature.settings.R
 import com.wiseduck.squadbuilder.feature.settings.profile.component.ProfileCard
 import com.wiseduck.squadbuilder.feature.settings.profile.component.ProfileHeader
+import com.wiseduck.squadbuilder.feature.settings.profile.mock.profileUiStateMock
 import dagger.hilt.android.components.ActivityRetainedComponent
 
 @CircuitInject(ProfileScreen::class, ActivityRetainedComponent::class)
@@ -141,11 +142,6 @@ private fun ProfileContent(
 @Composable
 private fun ProfileUiPreview() {
     ProfileUi(
-        state = ProfileUiState(
-            isLoading = false,
-            isLoggedIn = true,
-            userName = "주름이",
-            eventSink = {},
-        ),
+        state = profileUiStateMock,
     )
 }
