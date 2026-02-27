@@ -37,6 +37,7 @@
 ### Code Quality
 - Detekt
 - Ktlint
+- [Compose Stability Analyzer](https://github.com/skydoves/compose-stability-analyzer)
 
 ### Gradle Dependency
 
