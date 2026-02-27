@@ -1,6 +1,7 @@
 package com.wiseduck.squadbuilder.feature.edit.formation
 
 import android.net.Uri
+import androidx.compose.runtime.Immutable
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.wiseduck.squadbuilder.core.model.FormationListItemModel
@@ -45,6 +46,7 @@ data class FormationUiState(
     val eventSink: (FormationUiEvent) -> Unit,
 ) : CircuitUiState
 
+@Immutable
 sealed interface FormationSideEffect {
     data class CaptureFormation(
         val quarter: Int,

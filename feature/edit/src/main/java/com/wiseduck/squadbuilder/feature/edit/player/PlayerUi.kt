@@ -1,6 +1,7 @@
 package com.wiseduck.squadbuilder.feature.edit.player
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,15 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
@@ -31,9 +29,9 @@ import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
 import com.wiseduck.squadbuilder.feature.edit.R
-import com.wiseduck.squadbuilder.feature.edit.player.component.PlayerCard
 import com.wiseduck.squadbuilder.feature.edit.player.component.PlayerFormCard
 import com.wiseduck.squadbuilder.feature.edit.player.component.PlayerHeader
+import com.wiseduck.squadbuilder.feature.edit.player.component.PlayerList
 import com.wiseduck.squadbuilder.feature.edit.player.mock.fakePlayerUiStateMock
 import com.wiseduck.squadbuilder.feature.screens.PlayerScreen
 import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomBar
@@ -58,33 +56,28 @@ fun PlayerUi(
             )
         },
     ) { innerPadding ->
-        Column(
-            modifier = modifier.padding(innerPadding),
-        ) {
-            PlayerHeader(
-                modifier = modifier,
-                onBackClick = {
-                    state.eventSink(PlayerUiEvent.OnBackButtonClick)
-                },
-            )
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4),
-            )
-            PlayerContent(
-                state = state,
-            )
-        }
+        PlayerContent(
+            innerPadding = innerPadding,
+            state = state,
+        )
     }
 }
 
 @Composable
 private fun PlayerContent(
+    innerPadding: PaddingValues,
     modifier: Modifier = Modifier,
     state: PlayerUiState,
 ) {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.padding(innerPadding),
     ) {
+        PlayerHeader(
+            onBackClick = {
+                state.eventSink(PlayerUiEvent.OnBackButtonClick)
+            },
+        )
+        Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
         Text(
             modifier = modifier
                 .fillMaxWidth()
@@ -99,9 +92,7 @@ private fun PlayerContent(
         Row(
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Spacer(
-                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4),
-            )
+            Spacer(modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4))
             Icon(
                 painter = painterResource(R.drawable.ic_group),
                 contentDescription = "Group Icon",
@@ -120,9 +111,7 @@ private fun PlayerContent(
             )
         }
 
-        Spacer(
-            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
-        )
+        Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
 
         if (state.isShowPlayerCreationSection) {
             PlayerFormCard(
@@ -165,9 +154,7 @@ private fun PlayerContent(
                 )
             }
         }
-        Spacer(
-            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
-        )
+        Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
         if (state.isLoading) {
             SquadBuilderLoadingIndicator()
         } else {
@@ -188,57 +175,6 @@ private fun PlayerContent(
                         state.eventSink(PlayerUiEvent.OnDialogCloseButtonClick)
                     },
                     confirmButtonText = stringResource(R.string.dialog_confirm_text_button),
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun PlayerList(
-    modifier: Modifier = Modifier,
-    state: PlayerUiState,
-    onPlayerDeleteClick: (Int) -> Unit,
-    onPlayerEditClick: (Int) -> Unit,
-) {
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-    ) {
-        items(
-            items = state.players,
-            key = { player -> player.id },
-        ) { player ->
-            val isCurrentlyEditing = state.currentEditingPlayerId == player.id
-            PlayerCard(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                player = player,
-                onDeleteClick = { onPlayerDeleteClick(player.id) },
-                onEditClick = { onPlayerEditClick(player.id) },
-            )
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
-            )
-            if (isCurrentlyEditing) {
-                PlayerFormCard(
-                    title = stringResource(
-                        R.string.player_form_card_edit_title,
-                        player.name,
-                    ),
-                    player = player,
-                    commitButtonText = stringResource(R.string.player_form_card_save_button),
-                    onCommitButtonClick = { playerId, name, position, backNumber ->
-                        state.eventSink(
-                            PlayerUiEvent.OnPlayerUpdateConfirm(
-                                playerId = playerId!!,
-                                name = name,
-                                position = position,
-                                backNumber = backNumber,
-                            ),
-                        )
-                    },
-                    onCancelButtonClick = {
-                        state.eventSink(PlayerUiEvent.OnPlayerUpdateCancel)
-                    },
                 )
             }
         }
