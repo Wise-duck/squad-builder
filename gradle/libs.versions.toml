@@ -74,9 +74,13 @@ ktlintEngine = "0.50.0"
 # Static Analysis
 detektPlugin = "1.23.8"
 
+# Compose Stability
+composeStabilityAnalyzer = "0.7.0"
+
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+compose-compiler-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
@@ -168,6 +172,7 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintPlugin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektPlugin" }
+compose-stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version.ref = "composeStabilityAnalyzer" }
 
 # Convention Plugin
 squadbuilder-android-application = { id = "squadbuilder.android.application", version = "unspecified" }

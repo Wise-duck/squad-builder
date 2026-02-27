@@ -11,6 +11,7 @@ internal class AndroidApplicationComposeConventionPlugin : Plugin<Project> {
             pluginManager.run {
                 apply(Plugins.ANDROID_APPLICATION)
                 apply(Plugins.KOTLIN_COMPOSE)
+                apply(Plugins.COMPOSE_STABILITY_ANALYZER)
             }
 
             extensions.configure<ApplicationExtension> {
