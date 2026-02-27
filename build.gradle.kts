@@ -5,6 +5,7 @@ import org.jlleitschuh.gradle.ktlint.KtlintExtension
 plugins {
     alias(libs.plugins.ktlint)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.compose.stability.analyzer) apply false
 
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
