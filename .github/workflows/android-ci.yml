@@ -170,4 +170,4 @@ jobs:
             run: chmod +x gradlew
 
           - name: Compose Stability Check
-            run: ./gradlew stabilityCheck
+            run: ./gradlew compileDebugKotlin stabilityCheck
