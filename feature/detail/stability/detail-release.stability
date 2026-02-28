@@ -6,10 +6,10 @@
 
 @Composable
 private fun com.wiseduck.squadbuilder.feature.detail.team.TeamDetailContent(state: com.wiseduck.squadbuilder.feature.detail.team.TeamDetailUiState, innerPadding: androidx.compose.foundation.layout.PaddingValues, onManagePlayersClick: kotlin.Function0<kotlin.Unit>, onManageFormationClick: kotlin.Function0<kotlin.Unit>): kotlin.Unit
-  skippable: false
+  skippable: true
   restartable: true
   params:
-    - state: UNSTABLE (has mutable properties or unstable members)
+    - state: STABLE (class with no mutable properties)
     - innerPadding: STABLE (marked @Stable or @Immutable)
     - onManagePlayersClick: STABLE (function type)
     - onManageFormationClick: STABLE (function type)
@@ -22,11 +22,11 @@ public fun com.wiseduck.squadbuilder.feature.detail.team.TeamDetailPresenter.pre
 
 @Composable
 public fun com.wiseduck.squadbuilder.feature.detail.team.TeamDetailUi(modifier: androidx.compose.ui.Modifier, state: com.wiseduck.squadbuilder.feature.detail.team.TeamDetailUiState): kotlin.Unit
-  skippable: false
+  skippable: true
   restartable: true
   params:
     - modifier: STABLE (marked @Stable or @Immutable)
-    - state: UNSTABLE (has mutable properties or unstable members)
+    - state: STABLE (class with no mutable properties)
 
 @Composable
 private fun com.wiseduck.squadbuilder.feature.detail.team.TeamDetailUiPreview(): kotlin.Unit

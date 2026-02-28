@@ -75,11 +75,11 @@ private fun com.wiseduck.squadbuilder.feature.home.component.HomeHeaderPreview()
 
 @Composable
 public fun com.wiseduck.squadbuilder.feature.home.component.TeamCard(modifier: androidx.compose.ui.Modifier, team: com.wiseduck.squadbuilder.core.model.TeamModel, onDeleteClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, onClick: kotlin.Function2<kotlin.Int, kotlin.String, kotlin.Unit>): kotlin.Unit
-  skippable: false
+  skippable: true
   restartable: true
   params:
     - modifier: STABLE (marked @Stable or @Immutable)
-    - team: UNSTABLE (has mutable properties or unstable members)
+    - team: STABLE (marked @Stable or @Immutable)
     - onDeleteClick: STABLE (function type)
     - onClick: STABLE (function type)
 
