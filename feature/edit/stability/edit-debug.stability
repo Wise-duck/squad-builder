@@ -15,7 +15,7 @@ public fun com.wiseduck.squadbuilder.feature.edit.formation.FormationSideEffects
   skippable: false
   restartable: true
   params:
-    - state: UNSTABLE (has mutable properties or unstable members)
+    - state: RUNTIME (requires runtime check)
     - formationGraphicsLayer: UNSTABLE (has mutable properties or unstable members)
 
 @Composable
@@ -23,7 +23,7 @@ public fun com.wiseduck.squadbuilder.feature.edit.formation.FormationUi(state: c
   skippable: false
   restartable: true
   params:
-    - state: UNSTABLE (has mutable properties or unstable members)
+    - state: RUNTIME (requires runtime check)
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
@@ -34,11 +34,11 @@ private fun com.wiseduck.squadbuilder.feature.edit.formation.FormationUiPreView(
 
 @Composable
 public fun com.wiseduck.squadbuilder.feature.edit.formation.component.FormationCard(modifier: androidx.compose.ui.Modifier, formation: com.wiseduck.squadbuilder.core.model.FormationListItemModel, onDeleteClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, onClick: kotlin.Function1<kotlin.Int, kotlin.Unit>): kotlin.Unit
-  skippable: false
+  skippable: true
   restartable: true
   params:
     - modifier: STABLE (marked @Stable or @Immutable)
-    - formation: UNSTABLE (has mutable properties or unstable members)
+    - formation: STABLE (marked @Stable or @Immutable)
     - onDeleteClick: STABLE (function type)
     - onClick: STABLE (function type)
 
@@ -249,11 +249,11 @@ private fun com.wiseduck.squadbuilder.feature.edit.player.PlayerUiPreview(): kot
 
 @Composable
 public fun com.wiseduck.squadbuilder.feature.edit.player.component.PlayerCard(modifier: androidx.compose.ui.Modifier, player: com.wiseduck.squadbuilder.core.model.TeamPlayerModel, onEditClick: kotlin.Function0<kotlin.Unit>, onDeleteClick: kotlin.Function0<kotlin.Unit>): kotlin.Unit
-  skippable: false
+  skippable: true
   restartable: true
   params:
     - modifier: STABLE (marked @Stable or @Immutable)
-    - player: UNSTABLE (has mutable properties or unstable members)
+    - player: STABLE (marked @Stable or @Immutable)
     - onEditClick: STABLE (function type)
     - onDeleteClick: STABLE (function type)
 
@@ -265,12 +265,12 @@ private fun com.wiseduck.squadbuilder.feature.edit.player.component.PlayerCardPr
 
 @Composable
 public fun com.wiseduck.squadbuilder.feature.edit.player.component.PlayerFormCard(modifier: androidx.compose.ui.Modifier, title: kotlin.String, player: com.wiseduck.squadbuilder.core.model.TeamPlayerModel?, commitButtonText: kotlin.String, onCommitButtonClick: kotlin.Function4<@[ParameterName(name = \, onCancelButtonClick: kotlin.Function0<kotlin.Unit>): kotlin.Unit
-  skippable: false
+  skippable: true
   restartable: true
   params:
     - modifier: STABLE (marked @Stable or @Immutable)
     - title: STABLE (String is immutable)
-    - player: UNSTABLE (has mutable properties or unstable members)
+    - player: STABLE (marked @Stable or @Immutable)
     - commitButtonText: STABLE (String is immutable)
     - onCommitButtonClick: STABLE (function type)
     - onCancelButtonClick: STABLE (function type)
