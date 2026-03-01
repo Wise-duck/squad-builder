@@ -25,7 +25,7 @@ coreSplashscreen = "1.2.0"
 ksp = "2.2.20-2.0.3"
 
 ## Kotlin
-kotlin = "2.2.20"
+kotlin = "2.2.21"
 kotlinxCoroutines =  "1.10.2"
 kotlinxSerializationJson = "1.9.0"
 
@@ -76,7 +76,7 @@ ktlintEngine = "0.50.0"
 detektPlugin = "1.23.8"
 
 # Compose Stability
-composeStabilityAnalyzer = "0.7.0"
+composeStabilityAnalyzer = "0.6.4"
 
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }

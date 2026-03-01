@@ -28,5 +28,9 @@ internal fun Project.configureCompose(
 private fun Project.configureComposeCompiler() {
     extensions.configure<ComposeCompilerGradlePluginExtension> {
         reportsDestination = layout.buildDirectory.dir("compose_compiler")
+
+        stabilityConfigurationFiles.addAll(
+            project.rootProject.layout.projectDirectory.file("compose_compiler_config.conf"),
+        )
     }
 }
