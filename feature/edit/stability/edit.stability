@@ -27,6 +27,15 @@ public fun com.wiseduck.squadbuilder.feature.edit.formation.FormationUi(state: c
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
+private fun com.wiseduck.squadbuilder.feature.edit.formation.FormationUiContent(innerPadding: androidx.compose.foundation.layout.PaddingValues, state: com.wiseduck.squadbuilder.feature.edit.formation.FormationUiState, formationGraphicLayers: androidx.compose.ui.graphics.layer.GraphicsLayer): kotlin.Unit
+  skippable: false
+  restartable: true
+  params:
+    - innerPadding: STABLE (marked @Stable or @Immutable)
+    - state: RUNTIME (requires runtime check)
+    - formationGraphicLayers: UNSTABLE (has mutable properties or unstable members)
+
+@Composable
 private fun com.wiseduck.squadbuilder.feature.edit.formation.FormationUiPreView(): kotlin.Unit
   skippable: true
   restartable: true
@@ -220,12 +229,12 @@ private fun com.wiseduck.squadbuilder.feature.edit.formation.component.RefereeIn
 
 @Composable
 private fun com.wiseduck.squadbuilder.feature.edit.player.PlayerContent(innerPadding: androidx.compose.foundation.layout.PaddingValues, modifier: androidx.compose.ui.Modifier, state: com.wiseduck.squadbuilder.feature.edit.player.PlayerUiState): kotlin.Unit
-  skippable: false
+  skippable: true
   restartable: true
   params:
     - innerPadding: STABLE (marked @Stable or @Immutable)
     - modifier: STABLE (marked @Stable or @Immutable)
-    - state: RUNTIME (requires runtime check)
+    - state: STABLE (class with no mutable properties)
 
 @Composable
 public fun com.wiseduck.squadbuilder.feature.edit.player.PlayerPresenter.present(): com.wiseduck.squadbuilder.feature.edit.player.PlayerUiState
@@ -235,11 +244,11 @@ public fun com.wiseduck.squadbuilder.feature.edit.player.PlayerPresenter.present
 
 @Composable
 public fun com.wiseduck.squadbuilder.feature.edit.player.PlayerUi(modifier: androidx.compose.ui.Modifier, state: com.wiseduck.squadbuilder.feature.edit.player.PlayerUiState): kotlin.Unit
-  skippable: false
+  skippable: true
   restartable: true
   params:
     - modifier: STABLE (marked @Stable or @Immutable)
-    - state: RUNTIME (requires runtime check)
+    - state: STABLE (class with no mutable properties)
 
 @Composable
 private fun com.wiseduck.squadbuilder.feature.edit.player.PlayerUiPreview(): kotlin.Unit
@@ -291,11 +300,11 @@ public fun com.wiseduck.squadbuilder.feature.edit.player.component.PlayerHeader(
 
 @Composable
 public fun com.wiseduck.squadbuilder.feature.edit.player.component.PlayerList(modifier: androidx.compose.ui.Modifier, state: com.wiseduck.squadbuilder.feature.edit.player.PlayerUiState, onPlayerDeleteClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, onPlayerEditClick: kotlin.Function1<kotlin.Int, kotlin.Unit>): kotlin.Unit
-  skippable: false
+  skippable: true
   restartable: true
   params:
     - modifier: STABLE (marked @Stable or @Immutable)
-    - state: RUNTIME (requires runtime check)
+    - state: STABLE (class with no mutable properties)
     - onPlayerDeleteClick: STABLE (function type)
     - onPlayerEditClick: STABLE (function type)
 
