@@ -1,5 +1,6 @@
 package com.wiseduck.squadbuilder.feature.onboarding.component
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
@@ -21,7 +21,7 @@ import com.wiseduck.squadbuilder.feature.onboarding.R
 @Composable
 fun OnboardingPage(
     modifier: Modifier = Modifier,
-    image: Painter,
+    @DrawableRes imageRes: Int,
     description: String,
 ) {
     Box(
@@ -33,7 +33,7 @@ fun OnboardingPage(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
-                painter = image,
+                painter = painterResource(imageRes),
                 contentDescription = "Onboarding Image",
             )
             Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
@@ -51,7 +51,7 @@ fun OnboardingPage(
 private fun OnboardingPagePreview() {
     SquadBuilderTheme {
         OnboardingPage(
-            image = painterResource(R.drawable.ic_onboarding_page_1_image),
+            imageRes = R.drawable.ic_onboarding_page_1_image,
             description = stringResource(R.string.onboarding_page_1_description),
         )
     }

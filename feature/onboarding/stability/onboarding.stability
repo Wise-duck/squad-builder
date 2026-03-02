@@ -25,12 +25,12 @@ private fun com.wiseduck.squadbuilder.feature.onboarding.OnboardingUiPreview(): 
   params:
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.onboarding.component.OnboardingPage(modifier: androidx.compose.ui.Modifier, image: androidx.compose.ui.graphics.painter.Painter, description: kotlin.String): kotlin.Unit
-  skippable: false
+public fun com.wiseduck.squadbuilder.feature.onboarding.component.OnboardingPage(modifier: androidx.compose.ui.Modifier, imageRes: kotlin.Int, description: kotlin.String): kotlin.Unit
+  skippable: true
   restartable: true
   params:
     - modifier: STABLE (marked @Stable or @Immutable)
-    - image: RUNTIME (requires runtime check)
+    - imageRes: STABLE (primitive type)
     - description: STABLE (String is immutable)
 
 @Composable
