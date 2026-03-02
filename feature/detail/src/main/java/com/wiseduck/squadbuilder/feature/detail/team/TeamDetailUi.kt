@@ -11,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
@@ -82,7 +81,7 @@ private fun TeamDetailContent(
                 Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing8))
 
                 MenuButton(
-                    icon = painterResource(id = R.drawable.ic_player),
+                    iconRes = R.drawable.ic_player,
                     title = stringResource(R.string.card_title_manage_players),
                     description = stringResource(R.string.card_desc_manage_players),
                     onClick = onManagePlayersClick,
@@ -91,7 +90,7 @@ private fun TeamDetailContent(
                 Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing8))
 
                 MenuButton(
-                    icon = painterResource(id = R.drawable.ic_formation),
+                    iconRes = R.drawable.ic_formation,
                     title = stringResource(R.string.card_title_manage_formation),
                     description = stringResource(R.string.card_desc_manage_formation),
                     onClick = onManageFormationClick,

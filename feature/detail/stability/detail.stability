@@ -35,12 +35,12 @@ private fun com.wiseduck.squadbuilder.feature.detail.team.TeamDetailUiPreview():
   params:
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.detail.team.component.MenuButton(modifier: androidx.compose.ui.Modifier, icon: androidx.compose.ui.graphics.painter.Painter, title: kotlin.String, description: kotlin.String, onClick: kotlin.Function0<kotlin.Unit>): kotlin.Unit
-  skippable: false
+public fun com.wiseduck.squadbuilder.feature.detail.team.component.MenuButton(modifier: androidx.compose.ui.Modifier, iconRes: kotlin.Int, title: kotlin.String, description: kotlin.String, onClick: kotlin.Function0<kotlin.Unit>): kotlin.Unit
+  skippable: true
   restartable: true
   params:
     - modifier: STABLE (marked @Stable or @Immutable)
-    - icon: RUNTIME (requires runtime check)
+    - iconRes: STABLE (primitive type)
     - title: STABLE (String is immutable)
     - description: STABLE (String is immutable)
     - onClick: STABLE (function type)

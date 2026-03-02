@@ -11,7 +11,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
@@ -45,19 +44,19 @@ fun OnboardingUi(
                 0 ->
                     OnboardingPage(
                         modifier = modifier,
-                        image = painterResource(R.drawable.ic_onboarding_page_1_image),
+                        imageRes = R.drawable.ic_onboarding_page_1_image,
                         description = stringResource(R.string.onboarding_page_1_description),
                     )
                 1 ->
                     OnboardingPage(
                         modifier = modifier,
-                        image = painterResource(R.drawable.ic_onboarding_page_2_image),
+                        imageRes = R.drawable.ic_onboarding_page_2_image,
                         description = stringResource(R.string.onboarding_page_2_description),
                     )
                 2 ->
                     OnboardingPage(
                         modifier = modifier,
-                        image = painterResource(R.drawable.ic_onboarding_page_3_image),
+                        imageRes = R.drawable.ic_onboarding_page_3_image,
                         description = stringResource(R.string.onboarding_page_3_description),
                     )
             }
