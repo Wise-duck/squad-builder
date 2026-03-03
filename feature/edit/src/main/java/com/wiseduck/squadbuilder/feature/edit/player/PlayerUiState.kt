@@ -9,6 +9,7 @@ import kotlinx.collections.immutable.persistentListOf
 
 data class PlayerUiState(
     val isLoading: Boolean = false,
+    val admobBannerId: String,
     val teamName: String,
     val errorMessage: String? = null,
     val currentEditingPlayerId: Int? = null,
