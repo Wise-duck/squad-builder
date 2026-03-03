@@ -1,5 +1,6 @@
 package com.wiseduck.squadbuilder.feature.login
 
+import androidx.compose.runtime.Immutable
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 
@@ -10,6 +11,7 @@ data class LoginUiState(
     val sideEffect: LoginSideEffects? = null,
 ) : CircuitUiState
 
+@Immutable
 sealed interface LoginSideEffects {
     data object LaunchKakaoLogin : LoginSideEffects
 }

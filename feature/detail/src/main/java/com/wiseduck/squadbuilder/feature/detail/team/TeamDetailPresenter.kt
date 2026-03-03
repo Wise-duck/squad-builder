@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.wiseduck.squadbuilder.core.common.di.AdmobBannerId
 import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.feature.screens.FormationScreen
 import com.wiseduck.squadbuilder.feature.screens.PlayerScreen
@@ -16,6 +17,7 @@ import dagger.hilt.android.components.ActivityRetainedComponent
 class TeamDetailPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     @Assisted private val screen: TeamDetailScreen,
+    @AdmobBannerId private val admobBannerId: String,
 ) : Presenter<TeamDetailUiState> {
     @Composable
     override fun present(): TeamDetailUiState {
@@ -52,6 +54,7 @@ class TeamDetailPresenter @AssistedInject constructor(
                 teamId = teamId,
                 name = teamName,
             ),
+            admobBannerId = admobBannerId,
             eventSink = ::handleEvent,
         )
     }

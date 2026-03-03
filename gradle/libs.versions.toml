@@ -5,8 +5,8 @@ compileSdk = "36"
 playServicesAds = "24.8.0"
 targetSdk = "36"
 minSdk = "24"
-versionCode = "31"
-versionName = "2.1.6"
+versionCode = "32"
+versionName = "2.1.7"
 
 ## Android Gradle Plugin
 agp = "8.13.0"
@@ -25,7 +25,7 @@ coreSplashscreen = "1.2.0"
 ksp = "2.2.20-2.0.3"
 
 ## Kotlin
-kotlin = "2.2.20"
+kotlin = "2.2.21"
 kotlinxCoroutines =  "1.10.2"
 kotlinxSerializationJson = "1.9.0"
 
@@ -50,6 +50,7 @@ kakaoCore = "2.22.0"
 ## Compose
 composeBom = "2025.10.01"
 constraintlayoutCompose = "1.1.1"
+composeStableMarker = "1.0.7"
 
 ## Circuit
 circuit = "0.30.0"
@@ -74,9 +75,13 @@ ktlintEngine = "0.50.0"
 # Static Analysis
 detektPlugin = "1.23.8"
 
+# Compose Stability
+composeStabilityAnalyzer = "0.6.4"
+
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+compose-compiler-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
 
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
@@ -125,6 +130,7 @@ androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
 compose-system-ui-controller = { group = "tech.thdev", name = "extensions-compose-system-ui-controller", version.ref = "composeExtensions" }
+compose-stable-marker = { group = "com.github.skydoves", name = "compose-stable-marker", version.ref = "composeStableMarker" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
@@ -168,6 +174,7 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintPlugin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektPlugin" }
+compose-stability-analyzer = { id = "com.github.skydoves.compose.stability.analyzer", version.ref = "composeStabilityAnalyzer" }
 
 # Convention Plugin
 squadbuilder-android-application = { id = "squadbuilder.android.application", version = "unspecified" }

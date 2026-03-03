@@ -2,6 +2,7 @@ package com.wiseduck.squadbuilder.feature.home.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -58,10 +59,10 @@ fun TeamSortDropdown(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded },
         modifier = modifier
-            .fillMaxWidth(0.5f),
+            .padding(SquadBuilderTheme.spacing.spacing4),
     ) {
         OutlinedTextField(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .menuAnchor(),
             readOnly = true,

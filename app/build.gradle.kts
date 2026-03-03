@@ -38,6 +38,10 @@ ksp {
     arg("circuit.codegen.mode", "hilt")
 }
 
+composeStabilityAnalyzer {
+    enabled.set(true)
+}
+
 dependencies {
     implementation(projects.core.common)
     implementation(projects.core.data.api)

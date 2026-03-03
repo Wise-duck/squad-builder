@@ -25,6 +25,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
+import com.wiseduck.squadbuilder.feature.login.mock.loginUiStateMock
 import com.wiseduck.squadbuilder.feature.screens.LoginScreen
 import dagger.hilt.android.components.ActivityRetainedComponent
 
@@ -41,44 +42,9 @@ fun LoginUi(
     SquadBuilderScaffold(
         modifier = modifier.fillMaxSize(),
     ) {
-        Column(
-            modifier = modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Icon(
-                modifier = Modifier.width(250.dp),
-                painter = painterResource(com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_app_name),
-                contentDescription = "SquadBuilder App Name",
-                tint = Neutral50,
-            )
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing6),
-            )
-            Image(
-                modifier = Modifier.size(250.dp),
-                painter = painterResource(id = com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_launcher_foreground),
-                contentDescription = "SquadBuilder App Logo",
-            )
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing8),
-            )
-            SquadBuilderButton(
-                onClick = {
-                    state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
-                },
-                text = stringResource(R.string.login_button_kakao),
-                sizeStyle = largeButtonStyle,
-                colorStyle = ButtonColorStyle.KAKAO,
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_kakao),
-                        contentDescription = "KaKao Icon",
-                        tint = Neutral800,
-                    )
-                },
-            )
-        }
+        LoginUiContent(
+            state = state,
+        )
 
         if (state.errorMessage != null) {
             SquadBuilderDialog(
@@ -93,14 +59,56 @@ fun LoginUi(
     }
 }
 
+@Composable
+private fun LoginUiContent(
+    state: LoginUiState,
+) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Icon(
+            modifier = Modifier.width(250.dp),
+            painter = painterResource(com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_app_name),
+            contentDescription = "SquadBuilder App Name",
+            tint = Neutral50,
+        )
+        Spacer(
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing6),
+        )
+        Image(
+            modifier = Modifier.size(250.dp),
+            painter = painterResource(id = com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_launcher_foreground),
+            contentDescription = "SquadBuilder App Logo",
+        )
+        Spacer(
+            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing8),
+        )
+        SquadBuilderButton(
+            onClick = {
+                state.eventSink(LoginUiEvent.OnKakaoLoginButtonClick)
+            },
+            text = stringResource(R.string.login_button_kakao),
+            sizeStyle = largeButtonStyle,
+            colorStyle = ButtonColorStyle.KAKAO,
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(R.drawable.ic_kakao),
+                    contentDescription = "KaKao Icon",
+                    tint = Neutral800,
+                )
+            },
+        )
+    }
+}
+
 @ComponentPreview
 @Composable
-private fun LoginUi() {
+private fun LoginUiPreview() {
     SquadBuilderTheme {
         LoginUi(
-            state = LoginUiState(
-                eventSink = {},
-            ),
+            state = loginUiStateMock,
         )
     }
 }

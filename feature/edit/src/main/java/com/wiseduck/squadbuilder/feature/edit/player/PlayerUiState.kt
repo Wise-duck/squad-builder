@@ -4,14 +4,17 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 data class PlayerUiState(
     val isLoading: Boolean = false,
+    val admobBannerId: String,
     val teamName: String,
     val errorMessage: String? = null,
     val currentEditingPlayerId: Int? = null,
     val isShowPlayerCreationSection: Boolean = false,
-    val players: List<TeamPlayerModel> = emptyList(),
+    val players: ImmutableList<TeamPlayerModel> = persistentListOf(),
     val eventSink: (PlayerUiEvent) -> Unit,
 ) : CircuitUiState
 

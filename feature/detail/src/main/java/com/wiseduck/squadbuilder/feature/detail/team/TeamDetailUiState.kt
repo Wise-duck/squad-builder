@@ -6,6 +6,7 @@ import com.wiseduck.squadbuilder.core.model.TeamModel
 
 data class TeamDetailUiState(
     val isLoading: Boolean = false,
+    val admobBannerId: String,
     val team: TeamModel? = null,
     val eventSink: (TeamDetailEvent) -> Unit,
 ) : CircuitUiState

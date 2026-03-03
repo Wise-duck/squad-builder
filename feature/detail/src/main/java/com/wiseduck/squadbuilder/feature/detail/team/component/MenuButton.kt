@@ -1,5 +1,6 @@
 package com.wiseduck.squadbuilder.feature.detail.team.component
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -15,7 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,7 +29,7 @@ import com.wiseduck.squadbuilder.feature.detail.R
 @Composable
 fun MenuButton(
     modifier: Modifier = Modifier,
-    icon: Painter,
+    @DrawableRes iconRes: Int,
     title: String,
     description: String,
     onClick: () -> Unit,
@@ -53,13 +53,13 @@ fun MenuButton(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Icon(
-                painter = icon,
+                painter = painterResource(iconRes),
                 contentDescription = title,
-                modifier = Modifier.size(40.dp),
+                modifier = Modifier.size(SquadBuilderTheme.spacing.spacing10),
                 tint = Neutral100,
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
 
             Text(
                 text = title,
@@ -67,7 +67,7 @@ fun MenuButton(
                 color = Neutral100,
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
 
             Text(
                 text = description,
@@ -83,7 +83,7 @@ fun MenuButton(
 private fun MenuButtonPreview() {
     SquadBuilderTheme {
         MenuButton(
-            icon = painterResource(id = R.drawable.ic_player),
+            iconRes = R.drawable.ic_player,
             title = "선수 관리",
             description = "팀의 선수 목록을 확인하고 편집합니다.",
             onClick = {},

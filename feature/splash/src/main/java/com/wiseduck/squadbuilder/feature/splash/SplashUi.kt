@@ -22,6 +22,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.feature.screens.SplashScreen
+import com.wiseduck.squadbuilder.feature.splash.mock.splashUiStateMock
 import dagger.hilt.android.components.ActivityRetainedComponent
 
 @CircuitInject(SplashScreen::class, ActivityRetainedComponent::class)
@@ -71,8 +72,16 @@ fun SplashUi(
 @Composable
 fun SplashUiPreview() {
     SplashUi(
-        state = SplashUiState(
-            eventSink = {},
+        state = splashUiStateMock,
+    )
+}
+
+@DevicePreview
+@Composable
+fun SplashUiUpdatePreview() {
+    SplashUi(
+        state = splashUiStateMock.copy(
+            isUpdateDialogVisible = true,
         ),
     )
 }

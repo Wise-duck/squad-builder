@@ -1,5 +1,8 @@
 package com.wiseduck.squadbuilder.core.model
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class PlacementSaveModel(
     val playerId: Int,
     val quarter: Int,
@@ -7,6 +10,7 @@ data class PlacementSaveModel(
     val coordY: Int,
 )
 
+@Immutable
 data class FormationSaveModel(
     val teamId: Int,
     val name: String,

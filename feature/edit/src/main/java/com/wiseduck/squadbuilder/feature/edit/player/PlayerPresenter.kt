@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.wiseduck.squadbuilder.core.common.di.AdmobBannerId
 import com.wiseduck.squadbuilder.core.data.api.repository.PlayerRepository
 import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
 import com.wiseduck.squadbuilder.feature.edit.R
@@ -20,12 +21,16 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.collections.immutable.mutate
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
 class PlayerPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     @Assisted private val screen: PlayerScreen,
     private val playerRepository: PlayerRepository,
+    @AdmobBannerId private val admobBannerId: String,
 ) : Presenter<PlayerUiState> {
     @Composable
     override fun present(): PlayerUiState {
@@ -35,13 +40,13 @@ class PlayerPresenter @AssistedInject constructor(
         var errorMessage by remember { mutableStateOf<String?>(null) }
         var isShowPlayerCreationSection by remember { mutableStateOf<Boolean>(false) }
         var currentEditingPlayerId by remember { mutableStateOf<Int?>(null) }
-        var players by remember { mutableStateOf<List<TeamPlayerModel>>(emptyList()) }
+        var players by remember { mutableStateOf(persistentListOf<TeamPlayerModel>()) }
         val errorMessgeServerConnection = stringResource(R.string.load_player_failed_server_connection)
 
         LaunchedEffect(Unit) {
             playerRepository.getTeamPlayers(teamId = screen.teamId)
                 .onSuccess {
-                    players = it
+                    players = it.toPersistentList()
                     Log.d("PlayerPresenter", "선수 목록 로드 성공: ${players.size}")
                 }
                 .onFailure { error ->
@@ -76,7 +81,7 @@ class PlayerPresenter @AssistedInject constructor(
                             .onSuccess {
                                 isLoading = false
                                 isShowPlayerCreationSection = false
-                                players = players + it
+                                players = players.add(it)
                                 Log.d("PlayerPresenter", "선수 생성 성공: ${it.name}")
                             }
                             .onFailure { error ->
@@ -96,7 +101,9 @@ class PlayerPresenter @AssistedInject constructor(
                         )
                             .onSuccess {
                                 isLoading = false
-                                players = players.filter { it.id != event.playerId }
+                                players = players.mutate { list ->
+                                    list.removeIf { it.id == event.playerId }
+                                }
                                 currentEditingPlayerId = null
                                 Log.d("PlayerPresenter", "선수 삭제 성공")
                             }
@@ -125,10 +132,10 @@ class PlayerPresenter @AssistedInject constructor(
                             .onSuccess { updatedPlayer ->
                                 isLoading = false
                                 currentEditingPlayerId = null
-                                players =
-                                    players.map {
-                                        if (it.id == updatedPlayer.id) updatedPlayer else it
-                                    }
+                                players = players.mutate { list ->
+                                    val index = list.indexOfFirst { it.id == updatedPlayer.id }
+                                    if (index != -1) list[index] = updatedPlayer
+                                }
                                 Log.d("PlayerPresenter", "선수 정보 수정 성공: ${updatedPlayer.name}")
                             }
                             .onFailure {
@@ -156,6 +163,7 @@ class PlayerPresenter @AssistedInject constructor(
 
         return PlayerUiState(
             isLoading = isLoading,
+            admobBannerId = admobBannerId,
             teamName = teamName,
             errorMessage = errorMessage,
             isShowPlayerCreationSection = isShowPlayerCreationSection,

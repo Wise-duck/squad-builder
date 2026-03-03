@@ -1,6 +1,7 @@
 package com.wiseduck.squadbuilder.feature.settings.profile
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +26,7 @@ import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab
 import com.wiseduck.squadbuilder.feature.settings.R
 import com.wiseduck.squadbuilder.feature.settings.profile.component.ProfileCard
 import com.wiseduck.squadbuilder.feature.settings.profile.component.ProfileHeader
+import com.wiseduck.squadbuilder.feature.settings.profile.mock.profileUiStateMock
 import dagger.hilt.android.components.ActivityRetainedComponent
 
 @CircuitInject(ProfileScreen::class, ActivityRetainedComponent::class)
@@ -45,27 +47,20 @@ fun ProfileUi(
             )
         },
     ) { innerPadding ->
-        Column(
-            modifier = modifier.padding(innerPadding),
-        ) {
-            ProfileHeader(
-                modifier = modifier,
-            )
-            ProfileContent(
-                modifier = modifier,
-                userName = state.userName,
-                isLoggedIn = state.isLoggedIn,
-                onLogoutClick = {
-                    state.eventSink(ProfileUiEvent.OnLogoutButtonClick)
-                },
-                onWithDrawClick = {
-                    state.eventSink(ProfileUiEvent.OnWithDrawButtonClick)
-                },
-                onPrivacyPolicyClick = {
-                    state.eventSink(ProfileUiEvent.OnPrivacyPolicyButtonClick)
-                },
-            )
-        }
+        ProfileContent(
+            innerPadding = innerPadding,
+            userName = state.userName,
+            isLoggedIn = state.isLoggedIn,
+            onLogoutClick = {
+                state.eventSink(ProfileUiEvent.OnLogoutButtonClick)
+            },
+            onWithDrawClick = {
+                state.eventSink(ProfileUiEvent.OnWithDrawButtonClick)
+            },
+            onPrivacyPolicyClick = {
+                state.eventSink(ProfileUiEvent.OnPrivacyPolicyButtonClick)
+            },
+        )
 
         if (state.isLoading) {
             SquadBuilderLoadingIndicator()
@@ -86,6 +81,7 @@ fun ProfileUi(
 
 @Composable
 private fun ProfileContent(
+    innerPadding: PaddingValues,
     modifier: Modifier = Modifier,
     userName: String,
     isLoggedIn: Boolean,
@@ -94,16 +90,17 @@ private fun ProfileContent(
     onPrivacyPolicyClick: () -> Unit,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.padding(innerPadding),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        ProfileHeader()
+
         ProfileCard(
             modifier = Modifier.padding(SquadBuilderTheme.spacing.spacing4),
             name = userName,
         )
-        Spacer(
-            modifier = Modifier.weight(1f),
-        )
+        Spacer(modifier = Modifier.weight(1f))
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -131,9 +128,7 @@ private fun ProfileContent(
                 colorStyle = ButtonColorStyle.TEXT,
             )
         }
-        Spacer(
-            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
-        )
+        Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
     }
 }
 
@@ -141,11 +136,16 @@ private fun ProfileContent(
 @Composable
 private fun ProfileUiPreview() {
     ProfileUi(
-        state = ProfileUiState(
-            isLoading = false,
-            isLoggedIn = true,
-            userName = "주름이",
-            eventSink = {},
+        state = profileUiStateMock,
+    )
+}
+
+@DevicePreview
+@Composable
+private fun ProfileUiGuestPreview() {
+    ProfileUi(
+        state = profileUiStateMock.copy(
+            isLoggedIn = false,
         ),
     )
 }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -16,7 +17,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
+import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
@@ -27,6 +30,7 @@ import com.wiseduck.squadbuilder.core.ui.R
 fun PlayerHeader(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
+    onAddClick: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -34,12 +38,11 @@ fun PlayerHeader(
             .background(MainBg),
     ) {
         Row(
-            modifier = modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
                 .padding(SquadBuilderTheme.spacing.spacing4),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             IconButton(
-                modifier = modifier,
                 onClick = onBackClick,
             ) {
                 Icon(
@@ -48,29 +51,39 @@ fun PlayerHeader(
                     tint = White,
                 )
             }
-            Spacer(
-                modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4),
-            )
+            Spacer(modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4))
             Text(
                 stringResource(com.wiseduck.squadbuilder.feature.edit.R.string.player_management_screen_header_title),
                 style = SquadBuilderTheme.typography.title1Bold,
                 color = White,
             )
+            Spacer(modifier = Modifier.weight(1f))
+            IconButton(
+                onClick = onAddClick,
+            ) {
+                Icon(
+                    modifier = Modifier.size(20.dp),
+                    painter = painterResource(com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_add),
+                    contentDescription = "Add Icon",
+                    tint = Blue500,
+                )
+            }
         }
         Spacer(
-            modifier = modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
                 .height(SquadBuilderTheme.spacing.spacing05)
                 .background(Neutral800),
         )
     }
 }
 
-@Preview(showBackground = true)
+@ComponentPreview
 @Composable
 private fun PlayerHeaderPreview() {
     SquadBuilderTheme {
         PlayerHeader(
             onBackClick = {},
+            onAddClick = {},
         )
     }
 }
