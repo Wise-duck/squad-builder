@@ -37,12 +37,15 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.PlayerQuarterStatusModel
 import com.wiseduck.squadbuilder.feature.edit.R
+import com.wiseduck.squadbuilder.feature.edit.formation.mock.dummyPlayerQuarterStatus
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toPersistentList
 
 @Composable
 fun PlayerQuarterStatusSideBar(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit = {},
-    playerQuarterStatus: List<PlayerQuarterStatusModel>,
+    playerQuarterStatus: ImmutableList<PlayerQuarterStatusModel>,
 ) {
     Box(
         modifier = modifier
@@ -130,7 +133,7 @@ fun PlayerQuarterStatusSideBar(
 @Composable
 private fun PlayerQuarterStatusRow(
     modifier: Modifier = Modifier,
-    playerQuarterStatus: List<PlayerQuarterStatusModel>,
+    playerQuarterStatus: ImmutableList<PlayerQuarterStatusModel>,
     index: Int,
 ) {
     Column(
@@ -201,35 +204,10 @@ private fun PlayerQuarterStatusRow(
 @ComponentPreview
 @Composable
 private fun PlayerQuarterStatusSideBarPreview() {
-    val dummyStatus =
-        listOf(
-            PlayerQuarterStatusModel(
-                playerId = 1,
-                playerName = "손흥민",
-                quarters = listOf(1, 2, 4),
-                backNumber = 7,
-                position = "FW",
-            ),
-            PlayerQuarterStatusModel(
-                playerId = 2,
-                playerName = "이강인",
-                quarters = listOf(1, 3),
-                backNumber = 10,
-                position = "MF",
-            ),
-            PlayerQuarterStatusModel(
-                playerId = 3,
-                playerName = "김민재",
-                quarters = listOf(2, 3, 4),
-                backNumber = 4,
-                position = "DF",
-            ),
-        )
-
     SquadBuilderTheme {
         PlayerQuarterStatusSideBar(
             onDismissRequest = {},
-            playerQuarterStatus = dummyStatus,
+            playerQuarterStatus = dummyPlayerQuarterStatus.toPersistentList(),
         )
     }
 }

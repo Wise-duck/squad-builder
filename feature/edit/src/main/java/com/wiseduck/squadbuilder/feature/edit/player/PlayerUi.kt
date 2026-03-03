@@ -17,15 +17,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
-import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
-import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
-import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumRoundedButtonStyle
-import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.designsystem.theme.White
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
+import com.wiseduck.squadbuilder.core.ui.component.AdBanner
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
 import com.wiseduck.squadbuilder.feature.edit.R
@@ -60,6 +57,21 @@ fun PlayerUi(
             innerPadding = innerPadding,
             state = state,
         )
+
+        if (state.isLoading) {
+            SquadBuilderLoadingIndicator()
+        }
+
+        if (state.errorMessage != null) {
+            SquadBuilderDialog(
+                title = stringResource(R.string.load_failed_team_list_dialog_title),
+                description = state.errorMessage,
+                onConfirmRequest = {
+                    state.eventSink(PlayerUiEvent.OnDialogCloseButtonClick)
+                },
+                confirmButtonText = stringResource(R.string.dialog_confirm_text_button),
+            )
+        }
     }
 }
 
@@ -70,14 +82,20 @@ private fun PlayerContent(
     state: PlayerUiState,
 ) {
     Column(
-        modifier = modifier.padding(innerPadding),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(innerPadding),
     ) {
         PlayerHeader(
             onBackClick = {
                 state.eventSink(PlayerUiEvent.OnBackButtonClick)
             },
+            onAddClick = {
+                state.eventSink(PlayerUiEvent.OnTeamPlayerCreationButtonClick)
+            },
         )
         Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
+
         Text(
             modifier = modifier
                 .fillMaxWidth()
@@ -86,9 +104,8 @@ private fun PlayerContent(
             style = SquadBuilderTheme.typography.title1Bold,
             color = White,
         )
-        Spacer(
-            modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
-        )
+        Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
         ) {
@@ -110,7 +127,6 @@ private fun PlayerContent(
                 color = Neutral300,
             )
         }
-
         Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
 
         if (state.isShowPlayerCreationSection) {
@@ -131,53 +147,27 @@ private fun PlayerContent(
                     state.eventSink(PlayerUiEvent.OnTeamPlayerCreationCancelButtonClick)
                 },
             )
-        } else {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-            ) {
-                Spacer(
-                    modifier = Modifier.width(SquadBuilderTheme.spacing.spacing4),
-                )
-                SquadBuilderButton(
-                    text = stringResource(R.string.player_add_text_button),
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_add),
-                            contentDescription = "Add Icon",
-                            tint = Blue500,
-                        )
-                    },
-                    onClick = { state.eventSink(PlayerUiEvent.OnTeamPlayerCreationButtonClick) },
-                    colorStyle = ButtonColorStyle.TEXT_WHITE,
-                    sizeStyle = mediumRoundedButtonStyle,
-                )
-            }
         }
         Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
-        if (state.isLoading) {
-            SquadBuilderLoadingIndicator()
-        } else {
-            PlayerList(
-                state = state,
-                onPlayerDeleteClick = {
-                    state.eventSink(PlayerUiEvent.OnTeamPlayerDeleteButtonClick(it))
-                },
-                onPlayerEditClick = {
-                    state.eventSink(PlayerUiEvent.OnTeamPlayerEditButtonClick(it))
-                },
-            )
-            if (state.errorMessage != null) {
-                SquadBuilderDialog(
-                    title = stringResource(R.string.load_failed_team_list_dialog_title),
-                    description = state.errorMessage,
-                    onConfirmRequest = {
-                        state.eventSink(PlayerUiEvent.OnDialogCloseButtonClick)
-                    },
-                    confirmButtonText = stringResource(R.string.dialog_confirm_text_button),
-                )
-            }
-        }
+
+        PlayerList(
+            modifier = Modifier.weight(1f),
+            state = state,
+            players = state.players,
+            currentEditingPlayerId = state.currentEditingPlayerId,
+            onPlayerDeleteClick = {
+                state.eventSink(PlayerUiEvent.OnTeamPlayerDeleteButtonClick(it))
+            },
+            onPlayerEditClick = {
+                state.eventSink(PlayerUiEvent.OnTeamPlayerEditButtonClick(it))
+            },
+        )
+
+        AdBanner(
+            modifier = Modifier.fillMaxWidth(),
+            adUnitId = state.admobBannerId,
+        )
+        Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
     }
 }
 

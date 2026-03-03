@@ -10,15 +10,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
+import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
 import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.player.PlayerUiEvent
 import com.wiseduck.squadbuilder.feature.edit.player.PlayerUiState
+import com.wiseduck.squadbuilder.feature.edit.player.mock.fakePlayerUiStateMock
+import com.wiseduck.squadbuilder.feature.edit.player.mock.fakePlayers
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toPersistentList
 
 @Composable
 fun PlayerList(
     modifier: Modifier = Modifier,
     state: PlayerUiState,
+    players: ImmutableList<TeamPlayerModel>,
+    currentEditingPlayerId: Int?,
     onPlayerDeleteClick: (Int) -> Unit,
     onPlayerEditClick: (Int) -> Unit,
 ) {
@@ -26,19 +34,19 @@ fun PlayerList(
         modifier = modifier.fillMaxSize(),
     ) {
         items(
-            items = state.players,
+            items = players,
             key = { player -> player.id },
         ) { player ->
-            val isCurrentlyEditing = state.currentEditingPlayerId == player.id
+            val isCurrentlyEditing = currentEditingPlayerId == player.id
+
             PlayerCard(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 player = player,
                 onDeleteClick = { onPlayerDeleteClick(player.id) },
                 onEditClick = { onPlayerEditClick(player.id) },
             )
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
-            )
+            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
+
             if (isCurrentlyEditing) {
                 PlayerFormCard(
                     title = stringResource(
@@ -63,5 +71,19 @@ fun PlayerList(
                 )
             }
         }
+    }
+}
+
+@ComponentPreview
+@Composable
+private fun PlayerListPreview() {
+    SquadBuilderTheme {
+        PlayerList(
+            state = fakePlayerUiStateMock,
+            players = fakePlayers.toPersistentList(),
+            currentEditingPlayerId = 1,
+            onPlayerDeleteClick = {},
+            onPlayerEditClick = {},
+        )
     }
 }

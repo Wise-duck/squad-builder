@@ -31,10 +31,12 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.FormationListItemModel
 import com.wiseduck.squadbuilder.feature.edit.R
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toPersistentList
 
 @Composable
 fun FormationListModal(
-    formationList: List<FormationListItemModel>,
+    formationList: ImmutableList<FormationListItemModel>,
     onDismissRequest: () -> Unit,
     onFormationCardClick: (Int) -> Unit,
     onDeleteFormationClick: (Int) -> Unit,
@@ -108,7 +110,7 @@ private fun FormationListModalPreview() {
                 FormationListItemModel(1, "4-3-3", "2023-01-01T00:00:00Z"),
                 FormationListItemModel(2, "4-4-2", "2023-01-02T00:00:00Z"),
                 FormationListItemModel(3, "3-5-2", "2023-01-03T00:00:00Z"),
-            ),
+            ).toPersistentList(),
             onDismissRequest = {},
             onFormationCardClick = {},
             onDeleteFormationClick = {},

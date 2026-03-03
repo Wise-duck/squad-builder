@@ -62,7 +62,7 @@ fun FormationHeader(
             )
             IconButton(onClick = onFormationListClick) {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_list),
+                    painter = painterResource(id = R.drawable.ic_drawer),
                     contentDescription = "List Icon",
                     tint = White,
                 )
