@@ -28,6 +28,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
 import com.wiseduck.squadbuilder.feature.edit.R
+import com.wiseduck.squadbuilder.feature.edit.player.mock.fakePlayer
 
 @Composable
 fun PlayerCard(
@@ -126,13 +127,7 @@ private fun PlayerCardPreview() {
         PlayerCard(
             onEditClick = {},
             onDeleteClick = {},
-            player = TeamPlayerModel(
-                id = 1,
-                teamId = 1,
-                name = "주ㄹ므",
-                backNumber = 1,
-                position = "MF",
-            ),
+            player = fakePlayer,
         )
     }
 }

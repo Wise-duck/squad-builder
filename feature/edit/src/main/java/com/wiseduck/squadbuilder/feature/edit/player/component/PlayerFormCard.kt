@@ -42,6 +42,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
 import com.wiseduck.squadbuilder.feature.edit.R
+import com.wiseduck.squadbuilder.feature.edit.player.mock.fakePlayer
 
 typealias OnFormCommitClick = (id: Int?, name: String, position: String, backNumber: Int) -> Unit
 
@@ -90,27 +91,21 @@ fun PlayerFormCard(
                 color = Neutral100,
                 style = SquadBuilderTheme.typography.heading1SemiBold,
             )
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
-            )
+            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(1.dp)
                     .background(Neutral800),
             )
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
-            )
+            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
 
             Text(
                 text = stringResource(R.string.player_form_card_select_position_label),
                 color = Green500,
                 style = SquadBuilderTheme.typography.body1Bold,
             )
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
-            )
+            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
@@ -129,9 +124,7 @@ fun PlayerFormCard(
                     }
                 }
             }
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing3),
-            )
+            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing3))
 
             SquadBuilderTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -139,9 +132,7 @@ fun PlayerFormCard(
                 onValueChange = { name = it },
                 placeholder = stringResource(R.string.player_form_card_name_label),
             )
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing3),
-            )
+            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing3))
 
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -171,9 +162,7 @@ fun PlayerFormCard(
                 ),
                 singleLine = true,
             )
-            Spacer(
-                modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2),
-            )
+            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -186,9 +175,7 @@ fun PlayerFormCard(
                     colorStyle = ButtonColorStyle.STROKE,
                     enabled = isFormValid,
                 )
-                Spacer(
-                    modifier = Modifier.width(SquadBuilderTheme.spacing.spacing8),
-                )
+                Spacer(modifier = Modifier.width(SquadBuilderTheme.spacing.spacing8))
                 SquadBuilderButton(
                     text = stringResource(R.string.player_form_card_cancel_button),
                     onClick = onCancelButtonClick,
@@ -206,16 +193,8 @@ private fun PlayerFormCardPreview() {
     SquadBuilderTheme {
         PlayerFormCard(
             title = "선수1 정보 수정",
-            player = TeamPlayerModel(id = 1, teamId = 1, name = "선수1", backNumber = 1, position = "MD"),
+            player = fakePlayer,
             commitButtonText = "수정 완료",
-            onCommitButtonClick = { _, _, _, _ -> },
-            onCancelButtonClick = {},
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        PlayerFormCard(
-            title = "새 선수 생성",
-            player = null,
-            commitButtonText = "생성",
             onCommitButtonClick = { _, _, _, _ -> },
             onCancelButtonClick = {},
         )
