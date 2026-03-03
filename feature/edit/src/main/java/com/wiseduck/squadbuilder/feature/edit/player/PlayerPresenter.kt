@@ -12,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.wiseduck.squadbuilder.core.common.di.AdmobBannerId
 import com.wiseduck.squadbuilder.core.data.api.repository.PlayerRepository
 import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
 import com.wiseduck.squadbuilder.feature.edit.R
@@ -20,15 +21,16 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.components.ActivityRetainedComponent
-import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.mutate
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 
 class PlayerPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     @Assisted private val screen: PlayerScreen,
     private val playerRepository: PlayerRepository,
+    @AdmobBannerId private val admobBannerId: String,
 ) : Presenter<PlayerUiState> {
     @Composable
     override fun present(): PlayerUiState {
@@ -44,7 +46,7 @@ class PlayerPresenter @AssistedInject constructor(
         LaunchedEffect(Unit) {
             playerRepository.getTeamPlayers(teamId = screen.teamId)
                 .onSuccess {
-                    players = it as PersistentList<TeamPlayerModel>
+                    players = it.toPersistentList()
                     Log.d("PlayerPresenter", "선수 목록 로드 성공: ${players.size}")
                 }
                 .onFailure { error ->
@@ -161,6 +163,7 @@ class PlayerPresenter @AssistedInject constructor(
 
         return PlayerUiState(
             isLoading = isLoading,
+            admobBannerId = admobBannerId,
             teamName = teamName,
             errorMessage = errorMessage,
             isShowPlayerCreationSection = isShowPlayerCreationSection,

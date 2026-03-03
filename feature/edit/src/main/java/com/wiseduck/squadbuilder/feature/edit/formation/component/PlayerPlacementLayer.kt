@@ -17,12 +17,13 @@ import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.model.PlacementModel
 import com.wiseduck.squadbuilder.core.ui.component.PlayerChip
 import com.wiseduck.squadbuilder.feature.edit.formation.data.getPositionForCoordinates
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
 fun PlayerPlacementLayer(
-    players: List<PlacementModel>,
+    players: ImmutableList<PlacementModel>,
     scaleFactor: Float,
     onPlayerDragStart: (Int) -> Unit,
     onPlayerDrag: (Int, Float, Float) -> Unit,
