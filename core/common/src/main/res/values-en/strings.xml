@@ -1,0 +1,11 @@
+<resources>
+    <string name="error_auth_session_expired">The session has expired. Please login again.</string>
+    <string name="error_network">The network connection is unstable.\nPlease check your internet connection.</string>
+    <string name="error_unknown">An unknown error has occurred.</string>
+    <string name="error_http_400">The request is incorrect.</string>
+    <string name="error_http_403">You don\'t have access.</string>
+    <string name="error_http_404">Data that doesn\'t exist.</string>
+    <string name="error_http_429">There are too many requests.\nPlease try again in a moment.</string>
+    <string name="error_http_400..499">An error occurred while\nprocessing the request.</string>
+    <string name="error_http_500..599">A server error occurred.</string>
+</resources>

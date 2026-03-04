@@ -32,6 +32,16 @@ class PlayerPresenter @AssistedInject constructor(
     private val playerRepository: PlayerRepository,
     @AdmobBannerId private val admobBannerId: String,
 ) : Presenter<PlayerUiState> {
+
+    @CircuitInject(PlayerScreen::class, ActivityRetainedComponent::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(
+            navigator: Navigator,
+            screen: PlayerScreen,
+        ): PlayerPresenter
+    }
+
     @Composable
     override fun present(): PlayerUiState {
         val scope = rememberCoroutineScope()
@@ -171,14 +181,5 @@ class PlayerPresenter @AssistedInject constructor(
             players = players,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(PlayerScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            navigator: Navigator,
-            screen: PlayerScreen,
-        ): PlayerPresenter
     }
 }

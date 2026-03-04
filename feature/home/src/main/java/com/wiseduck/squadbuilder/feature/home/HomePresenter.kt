@@ -8,12 +8,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.common.di.AdmobBannerId
+import com.wiseduck.squadbuilder.core.common.utils.handleException
 import com.wiseduck.squadbuilder.core.data.api.repository.AuthRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.TeamRepository
 import com.wiseduck.squadbuilder.core.model.LoginState
@@ -36,23 +36,26 @@ class HomePresenter @AssistedInject constructor(
     private val teamRepository: TeamRepository,
     @AdmobBannerId private val admobBannerId: String,
 ) : Presenter<HomeUiState> {
+
+    @CircuitInject(HomeScreen::class, ActivityRetainedComponent::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): HomePresenter
+    }
+
     @Composable
     override fun present(): HomeUiState {
         val scope = rememberCoroutineScope()
+        var sideEffect by remember { mutableStateOf<HomeSideEffect?>(null) }
 
         var isLoading by remember { mutableStateOf(true) }
         var isRefreshing by remember { mutableStateOf(false) }
-        var errorMessage by remember { mutableStateOf<String?>(null) }
 
         val loginState by authRepository.loginState.collectAsRetainedState(LoginState.NOT_YET)
         val isLoggedIn = loginState == LoginState.LOGGED_IN
 
         var currentSortOption by remember { mutableStateOf(TeamSortOption.LATEST) }
         var teams by remember { mutableStateOf(persistentListOf<TeamModel>()) }
-
-        val teamCreateErrorServerConnection = stringResource(R.string.team_create_error_server_connection)
-        val updatedTeamListLoadFailed = stringResource(R.string.updated_team_list_load_failed)
-        val loadFailedTeamList = stringResource(R.string.load_failed_team_list)
 
         fun sortTeams(
             teamModels: List<TeamModel>,
@@ -81,9 +84,14 @@ class HomePresenter @AssistedInject constructor(
                         teams = sortTeams(teamModels, currentSortOption)
                         Log.i("HomePresenter", "팀 목록 로드 성공: ${teams.size} teams, 정렬 기준: $currentSortOption")
                     }
-                    .onFailure { error ->
-                        errorMessage = loadFailedTeamList
-                        Log.e("HomePresenter", "팀 목록 로드 실패", error)
+                    .onFailure { exception ->
+                        handleException(
+                            exception = exception,
+                            onError = { uiText ->
+                                sideEffect = HomeSideEffect.ShowToast(uiText)
+                            },
+                        )
+                        Log.e("HomePresenter", "팀 목록 로드 실패", exception)
                     }
                 isLoading = false
                 isRefreshing = false
@@ -97,6 +105,10 @@ class HomePresenter @AssistedInject constructor(
 
         fun handleEvent(event: HomeUiEvent) {
             when (event) {
+                HomeUiEvent.InitSideEffect -> {
+                    sideEffect = null
+                }
+
                 is HomeUiEvent.OnSortOptionSelect -> {
                     if (currentSortOption != event.sortOption) {
                         currentSortOption = event.sortOption
@@ -128,16 +140,26 @@ class HomePresenter @AssistedInject constructor(
                                         teams = sortTeams(updatedTeamList, currentSortOption)
                                         Log.d("HomePresenter", " ${teamModel.name}팀 생성 성공. UI 업데이트.")
                                     }
-                                    .onFailure {
+                                    .onFailure { exception ->
                                         isLoading = false
-                                        errorMessage = updatedTeamListLoadFailed
-                                        Log.e("HomePresenter", "팀 생성은 성공했지만, 목록 로드 실패", it)
+                                        handleException(
+                                            exception = exception,
+                                            onError = { uiText ->
+                                                sideEffect = HomeSideEffect.ShowToast(uiText)
+                                            },
+                                        )
+                                        Log.e("HomePresenter", "팀 생성은 성공했지만, 목록 로드 실패", exception)
                                     }
                             }
-                            .onFailure { error ->
+                            .onFailure { exception ->
                                 isLoading = false
-                                errorMessage = teamCreateErrorServerConnection
-                                Log.e("HomePresenter", "팀 생성 실패", error)
+                                handleException(
+                                    exception = exception,
+                                    onError = { uiText ->
+                                        sideEffect = HomeSideEffect.ShowToast(uiText)
+                                    },
+                                )
+                                Log.e("HomePresenter", "팀 생성 실패", exception)
                             }
                     }
                 }
@@ -161,14 +183,16 @@ class HomePresenter @AssistedInject constructor(
 
                                 teams = updatedTeams.toImmutableList() as PersistentList<TeamModel>
                             }
-                            .onFailure {
-                                Log.e("HomePresenter", "팀(${event.teamId}) 삭제 실패", it)
+                            .onFailure { exception ->
+                                handleException(
+                                    exception = exception,
+                                    onError = { uiText ->
+                                        sideEffect = HomeSideEffect.ShowToast(uiText)
+                                    },
+                                )
+                                Log.e("HomePresenter", "팀(${event.teamId}) 삭제 실패", exception)
                             }
                     }
-                }
-
-                is HomeUiEvent.OnDialogCloseButtonClick -> {
-                    errorMessage = null
                 }
 
                 is HomeUiEvent.OnTabSelect -> {
@@ -183,15 +207,9 @@ class HomePresenter @AssistedInject constructor(
             isLoggedIn = isLoggedIn,
             adUnitId = admobBannerId,
             currentSortOption = currentSortOption,
-            errorMessage = errorMessage,
             teams = teams,
+            sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(HomeScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(navigator: Navigator): HomePresenter
     }
 }

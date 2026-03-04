@@ -32,6 +32,13 @@ class ProfilePresenter @AssistedInject constructor(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
 ) : Presenter<ProfileUiState> {
+
+    @CircuitInject(ProfileScreen::class, ActivityRetainedComponent::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): ProfilePresenter
+    }
+
     @Composable
     override fun present(): ProfileUiState {
         val scope = rememberCoroutineScope()
@@ -119,11 +126,5 @@ class ProfilePresenter @AssistedInject constructor(
             userName = userName,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(ProfileScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(navigator: Navigator): ProfilePresenter
     }
 }

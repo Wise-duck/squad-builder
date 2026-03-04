@@ -1,5 +1,6 @@
 package com.wiseduck.squadbuilder.core.data.impl.repository
 
+import com.wiseduck.squadbuilder.core.common.utils.runSuspendCatching
 import com.wiseduck.squadbuilder.core.data.api.repository.AuthRepository
 import com.wiseduck.squadbuilder.core.datastore.api.datasource.TokenDataSource
 import com.wiseduck.squadbuilder.core.datastore.api.datasource.UserDataSource
@@ -17,6 +18,7 @@ internal class AuthRepositoryImpl @Inject constructor(
     private val service: SquadBuilderService,
     private val userDataSource: UserDataSource,
 ) : AuthRepository {
+
     override val loginState: Flow<LoginState> =
         dataSource.accessToken.map { accessToken ->
             if (accessToken.isBlank()) {
@@ -26,34 +28,33 @@ internal class AuthRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun login(accessToken: String): Result<Unit> =
-        runCatching {
-            val response = service.login(
-                LoginRequest(
-                    provider = PROVIDER,
-                    accessToken = accessToken,
-                ),
-            )
+    override suspend fun login(
+        accessToken: String,
+    ): Result<Unit> = runSuspendCatching {
+        val response = service.login(
+            LoginRequest(
+                provider = PROVIDER,
+                accessToken = accessToken,
+            ),
+        )
 
-            dataSource.apply {
-                setAccessToken(response.accessToken)
-                setRefreshToken(response.refreshToken)
-            }
-
-            userDataSource.apply {
-                setUsername(response.username)
-            }
+        dataSource.apply {
+            setAccessToken(response.accessToken)
+            setRefreshToken(response.refreshToken)
         }
 
-    override suspend fun logout(): Result<Unit> =
-        runCatching {
-            service.logout()
-            dataSource.resetTokens()
+        userDataSource.apply {
+            setUsername(response.username)
         }
+    }
 
-    override suspend fun withdraw(): Result<Unit> =
-        runCatching {
-            service.withdraw()
-            dataSource.resetTokens()
-        }
+    override suspend fun logout(): Result<Unit> = runSuspendCatching {
+        service.logout()
+        dataSource.resetTokens()
+    }
+
+    override suspend fun withdraw(): Result<Unit> = runSuspendCatching {
+        service.withdraw()
+        dataSource.resetTokens()
+    }
 }
