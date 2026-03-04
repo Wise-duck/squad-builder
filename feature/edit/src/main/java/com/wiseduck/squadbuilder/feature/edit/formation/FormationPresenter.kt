@@ -46,6 +46,16 @@ class FormationPresenter @AssistedInject constructor(
     private val formationRepository: FormationRepository,
     private val playerRepository: PlayerRepository,
 ) : Presenter<FormationUiState> {
+
+    @CircuitInject(FormationScreen::class, ActivityRetainedComponent::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(
+            screen: FormationScreen,
+            navigator: Navigator,
+        ): FormationPresenter
+    }
+
     @Composable
     override fun present(): FormationUiState {
         val teamId = screen.teamId
@@ -604,14 +614,5 @@ class FormationPresenter @AssistedInject constructor(
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(FormationScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            screen: FormationScreen,
-            navigator: Navigator,
-        ): FormationPresenter
     }
 }

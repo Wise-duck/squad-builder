@@ -18,8 +18,8 @@ import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
+import com.wiseduck.squadbuilder.core.common.events.DialogSpec
 import com.wiseduck.squadbuilder.core.common.events.EventHandler
-import com.wiseduck.squadbuilder.core.common.events.SquadBuilderDialogSpec
 import com.wiseduck.squadbuilder.core.common.events.SquadBuilderEvent
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
@@ -53,7 +53,7 @@ class MainActivity : ComponentActivity() {
                 val backStack = rememberSaveableBackStack(SplashScreen)
                 val navigator = rememberCircuitNavigator(backStack)
 
-                val dialogSpec = remember { mutableStateOf<SquadBuilderDialogSpec?>(null) }
+                val dialogSpec = remember { mutableStateOf<DialogSpec?>(null) }
 
                 LaunchedEffect(Unit) {
                     EventHandler.eventFlow.collect { event ->

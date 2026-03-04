@@ -23,6 +23,13 @@ class LoginPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val authRepository: AuthRepository,
 ) : Presenter<LoginUiState> {
+
+    @CircuitInject(LoginScreen::class, ActivityRetainedComponent::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): LoginPresenter
+    }
+
     @Composable
     override fun present(): LoginUiState {
         val scope = rememberCoroutineScope()
@@ -70,11 +77,5 @@ class LoginPresenter @AssistedInject constructor(
             eventSink = ::handleEvent,
             sideEffect = sideEffect,
         )
-    }
-
-    @CircuitInject(LoginScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(navigator: Navigator): LoginPresenter
     }
 }

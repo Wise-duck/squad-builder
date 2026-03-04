@@ -19,6 +19,16 @@ class TeamDetailPresenter @AssistedInject constructor(
     @Assisted private val screen: TeamDetailScreen,
     @AdmobBannerId private val admobBannerId: String,
 ) : Presenter<TeamDetailUiState> {
+
+    @CircuitInject(TeamDetailScreen::class, ActivityRetainedComponent::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(
+            screen: TeamDetailScreen,
+            navigator: Navigator,
+        ): TeamDetailPresenter
+    }
+
     @Composable
     override fun present(): TeamDetailUiState {
         val teamId = screen.teamId
@@ -34,6 +44,7 @@ class TeamDetailPresenter @AssistedInject constructor(
                         ),
                     )
                 }
+
                 is TeamDetailEvent.OnManageFormationClick -> {
                     navigator.goTo(
                         FormationScreen(
@@ -42,6 +53,7 @@ class TeamDetailPresenter @AssistedInject constructor(
                         ),
                     )
                 }
+
                 is TeamDetailEvent.OnBackButtonClick -> {
                     navigator.pop()
                 }
@@ -57,14 +69,5 @@ class TeamDetailPresenter @AssistedInject constructor(
             admobBannerId = admobBannerId,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(TeamDetailScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            screen: TeamDetailScreen,
-            navigator: Navigator,
-        ): TeamDetailPresenter
     }
 }
