@@ -7,6 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -16,7 +18,11 @@ import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
+import com.wiseduck.squadbuilder.core.common.events.EventHandler
+import com.wiseduck.squadbuilder.core.common.events.SquadBuilderDialogSpec
+import com.wiseduck.squadbuilder.core.common.events.SquadBuilderEvent
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
+import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.feature.screens.SplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -46,6 +52,27 @@ class MainActivity : ComponentActivity() {
             SquadBuilderTheme {
                 val backStack = rememberSaveableBackStack(SplashScreen)
                 val navigator = rememberCircuitNavigator(backStack)
+
+                val dialogSpec = remember { mutableStateOf<SquadBuilderDialogSpec?>(null) }
+
+                LaunchedEffect(Unit) {
+                    EventHandler.eventFlow.collect { event ->
+                        when (event) {
+                            is SquadBuilderEvent.ShowDialog -> dialogSpec.value = event.dialogSpec
+                        }
+                    }
+                }
+
+                dialogSpec.value?.let { spec ->
+                    SquadBuilderDialog(
+                        onDismissRequest = spec.onDismiss,
+                        onConfirmRequest = spec.onConfirm,
+                        dismissButtonText = spec.dismissButton,
+                        confirmButtonText = spec.confirmButton.asString(),
+                        title = spec.title?.asString(),
+                        description = spec.message.asString(),
+                    )
+                }
 
                 CircuitCompositionLocals(circuit) {
                     NavigableCircuitContent(
