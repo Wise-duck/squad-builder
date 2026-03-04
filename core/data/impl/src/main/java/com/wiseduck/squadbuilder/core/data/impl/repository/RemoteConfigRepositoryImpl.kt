@@ -14,6 +14,7 @@ import kotlin.coroutines.resumeWithException
 class RemoteConfigRepositoryImpl @Inject constructor(
     private val remoteConfig: FirebaseRemoteConfig,
 ) : RemoteConfigRepository {
+
     override suspend fun getLatestVersion(): Result<String> =
         suspendCancellableCoroutine { continuation ->
             remoteConfig.fetchAndActivate().addOnCompleteListener {
