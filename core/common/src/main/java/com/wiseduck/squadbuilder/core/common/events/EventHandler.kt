@@ -13,5 +13,5 @@ object EventHandler {
 }
 
 sealed interface SquadBuilderEvent {
-    data class ShowDialog(val dialogSpec: SquadBuilderDialogSpec) : SquadBuilderEvent
+    data class ShowDialog(val dialogSpec: DialogSpec) : SquadBuilderEvent
 }

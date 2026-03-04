@@ -21,7 +21,7 @@ fun postErrorDialog(
         message = it.userFriendlyMessage
     }
 
-    val errorDialogSpec = SquadBuilderDialogSpec(
+    val errorDialogSpec = DialogSpec(
         title = title,
         message = message,
         confirmButton = UiText.DynamicString(confirmLabel),

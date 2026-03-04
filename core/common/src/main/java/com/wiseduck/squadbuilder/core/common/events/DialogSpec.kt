@@ -2,7 +2,7 @@ package com.wiseduck.squadbuilder.core.common.events
 
 import com.wiseduck.squadbuilder.core.common.utils.UiText
 
-data class SquadBuilderDialogSpec(
+data class DialogSpec(
     val title: UiText? = null,
     val message: UiText,
     val confirmButton: UiText,
