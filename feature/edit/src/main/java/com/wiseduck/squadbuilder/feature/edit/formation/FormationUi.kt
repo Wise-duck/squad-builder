@@ -66,7 +66,7 @@ fun FormationUi(
 ) {
     val formationGraphicLayers = rememberGraphicsLayer()
 
-    FormationSideEffects(
+    HandleFormationSideEffect(
         state = state,
         formationGraphicsLayer = formationGraphicLayers,
     )
