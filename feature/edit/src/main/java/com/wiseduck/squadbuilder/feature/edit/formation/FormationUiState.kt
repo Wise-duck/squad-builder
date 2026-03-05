@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.compose.runtime.Immutable
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
+import com.wiseduck.squadbuilder.core.common.utils.UiText
 import com.wiseduck.squadbuilder.core.model.FormationListItemModel
 import com.wiseduck.squadbuilder.core.model.PlacementModel
 import com.wiseduck.squadbuilder.core.model.PlayerQuarterStatusModel
@@ -62,7 +63,7 @@ sealed interface FormationSideEffect {
     ) : FormationSideEffect
 
     data class ShowToast(
-        val message: String,
+        val message: UiText,
     ) : FormationSideEffect
 }
 
