@@ -15,7 +15,6 @@ data class HomeUiState(
     val isLoggedIn: Boolean = false,
     val adUnitId: String = "",
     val currentSortOption: TeamSortOption = TeamSortOption.LATEST,
-    val errorMessage: String? = null,
     val teams: ImmutableList<TeamModel> = persistentListOf(),
     val sideEffect: HomeSideEffect? = null,
     val eventSink: (HomeUiEvent) -> Unit,

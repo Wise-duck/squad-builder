@@ -6,7 +6,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 
 @Composable
-fun HomeSideEffectsHandler(
+fun HandleHomeSideEffect(
     state: HomeUiState,
     eventSink: (HomeUiEvent) -> Unit,
 ) {
