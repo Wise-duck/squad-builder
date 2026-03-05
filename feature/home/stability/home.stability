@@ -5,6 +5,14 @@
 //   ./gradlew :home:stabilityDump
 
 @Composable
+public fun com.wiseduck.squadbuilder.feature.home.HandleHomeSideEffect(state: com.wiseduck.squadbuilder.feature.home.HomeUiState, eventSink: kotlin.Function1<com.wiseduck.squadbuilder.feature.home.HomeUiEvent, kotlin.Unit>): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+    - state: STABLE (class with no mutable properties)
+    - eventSink: STABLE (function type)
+
+@Composable
 private fun com.wiseduck.squadbuilder.feature.home.HomeContent(state: com.wiseduck.squadbuilder.feature.home.HomeUiState, innerPadding: androidx.compose.foundation.layout.PaddingValues, onTeamCreateClick: kotlin.Function1<kotlin.String, kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
@@ -18,14 +26,6 @@ public fun com.wiseduck.squadbuilder.feature.home.HomePresenter.present(): com.w
   skippable: true
   restartable: true
   params:
-
-@Composable
-public fun com.wiseduck.squadbuilder.feature.home.HomeSideEffectsHandler(state: com.wiseduck.squadbuilder.feature.home.HomeUiState, eventSink: kotlin.Function1<com.wiseduck.squadbuilder.feature.home.HomeUiEvent, kotlin.Unit>): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-    - state: STABLE (class with no mutable properties)
-    - eventSink: STABLE (function type)
 
 @Composable
 public fun com.wiseduck.squadbuilder.feature.home.HomeUi(modifier: androidx.compose.ui.Modifier, state: com.wiseduck.squadbuilder.feature.home.HomeUiState): kotlin.Unit
@@ -69,43 +69,6 @@ private fun com.wiseduck.squadbuilder.feature.home.component.GuestModeHomeUiCont
   params:
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.home.component.HomeHeader(modifier: androidx.compose.ui.Modifier): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-    - modifier: STABLE (marked @Stable or @Immutable)
-
-@Composable
-private fun com.wiseduck.squadbuilder.feature.home.component.HomeHeaderPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-public fun com.wiseduck.squadbuilder.feature.home.component.TeamCard(modifier: androidx.compose.ui.Modifier, team: com.wiseduck.squadbuilder.core.model.TeamModel, onDeleteClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, onClick: kotlin.Function2<kotlin.Int, kotlin.String, kotlin.Unit>): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-    - modifier: STABLE (marked @Stable or @Immutable)
-    - team: STABLE (marked @Stable or @Immutable)
-    - onDeleteClick: STABLE (function type)
-    - onClick: STABLE (function type)
-
-@Composable
-private fun com.wiseduck.squadbuilder.feature.home.component.TeamCardPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-public fun com.wiseduck.squadbuilder.feature.home.component.TeamCreateSection(modifier: androidx.compose.ui.Modifier, onTeamCreateClick: kotlin.Function1<kotlin.String, kotlin.Unit>): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-    - modifier: STABLE (marked @Stable or @Immutable)
-    - onTeamCreateClick: STABLE (function type)
-
-@Composable
 public fun com.wiseduck.squadbuilder.feature.home.component.TeamList(modifier: androidx.compose.ui.Modifier, state: com.wiseduck.squadbuilder.feature.home.HomeUiState, onRefresh: kotlin.Function0<kotlin.Unit>, onTeamClick: kotlin.Function2<kotlin.Int, kotlin.String, kotlin.Unit>, onTeamDeleteClick: kotlin.Function1<kotlin.Int, kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
@@ -125,21 +88,6 @@ private fun com.wiseduck.squadbuilder.feature.home.component.TeamListEmptyMessag
 
 @Composable
 private fun com.wiseduck.squadbuilder.feature.home.component.TeamListPreview(): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-public fun com.wiseduck.squadbuilder.feature.home.component.TeamSortDropdown(modifier: androidx.compose.ui.Modifier, currentSortOption: com.wiseduck.squadbuilder.feature.home.TeamSortOption, onSortOptionSelected: kotlin.Function1<com.wiseduck.squadbuilder.feature.home.TeamSortOption, kotlin.Unit>): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-    - modifier: STABLE (marked @Stable or @Immutable)
-    - currentSortOption: STABLE (class with no mutable properties)
-    - onSortOptionSelected: STABLE (function type)
-
-@Composable
-private fun com.wiseduck.squadbuilder.feature.home.component.TeamSortDropdownPreview(): kotlin.Unit
   skippable: true
   restartable: true
   params:

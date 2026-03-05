@@ -11,14 +11,6 @@ public fun com.wiseduck.squadbuilder.feature.edit.formation.FormationPresenter.p
   params:
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.edit.formation.FormationSideEffects(state: com.wiseduck.squadbuilder.feature.edit.formation.FormationUiState, formationGraphicsLayer: androidx.compose.ui.graphics.layer.GraphicsLayer): kotlin.Unit
-  skippable: false
-  restartable: true
-  params:
-    - state: STABLE (class with no mutable properties)
-    - formationGraphicsLayer: UNSTABLE (has mutable properties or unstable members)
-
-@Composable
 public fun com.wiseduck.squadbuilder.feature.edit.formation.FormationUi(state: com.wiseduck.squadbuilder.feature.edit.formation.FormationUiState, modifier: androidx.compose.ui.Modifier): kotlin.Unit
   skippable: true
   restartable: true
@@ -40,6 +32,14 @@ private fun com.wiseduck.squadbuilder.feature.edit.formation.FormationUiPreView(
   skippable: true
   restartable: true
   params:
+
+@Composable
+public fun com.wiseduck.squadbuilder.feature.edit.formation.HandleFormationSideEffect(state: com.wiseduck.squadbuilder.feature.edit.formation.FormationUiState, formationGraphicsLayer: androidx.compose.ui.graphics.layer.GraphicsLayer): kotlin.Unit
+  skippable: false
+  restartable: true
+  params:
+    - state: STABLE (class with no mutable properties)
+    - formationGraphicsLayer: UNSTABLE (has mutable properties or unstable members)
 
 @Composable
 public fun com.wiseduck.squadbuilder.feature.edit.formation.component.FormationCard(modifier: androidx.compose.ui.Modifier, formation: com.wiseduck.squadbuilder.core.model.FormationListItemModel, onDeleteClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, onClick: kotlin.Function1<kotlin.Int, kotlin.Unit>): kotlin.Unit
@@ -226,6 +226,14 @@ private fun com.wiseduck.squadbuilder.feature.edit.formation.component.RefereeIn
   skippable: true
   restartable: true
   params:
+
+@Composable
+public fun com.wiseduck.squadbuilder.feature.edit.player.HandlePlayerSideEffect(state: com.wiseduck.squadbuilder.feature.edit.player.PlayerUiState, eventSink: kotlin.Function1<com.wiseduck.squadbuilder.feature.edit.player.PlayerUiEvent, kotlin.Unit>): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+    - state: STABLE (class with no mutable properties)
+    - eventSink: STABLE (function type)
 
 @Composable
 private fun com.wiseduck.squadbuilder.feature.edit.player.PlayerContent(innerPadding: androidx.compose.foundation.layout.PaddingValues, modifier: androidx.compose.ui.Modifier, state: com.wiseduck.squadbuilder.feature.edit.player.PlayerUiState): kotlin.Unit
