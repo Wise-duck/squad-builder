@@ -24,7 +24,6 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
-import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.feature.login.mock.loginUiStateMock
 import com.wiseduck.squadbuilder.feature.screens.LoginScreen
 import dagger.hilt.android.components.ActivityRetainedComponent
@@ -35,8 +34,9 @@ fun LoginUi(
     modifier: Modifier = Modifier,
     state: LoginUiState,
 ) {
-    HandleLoginSideEffects(
+    HandleLoginSideEffect(
         state = state,
+        eventSink = state.eventSink,
     )
 
     SquadBuilderScaffold(
@@ -45,17 +45,6 @@ fun LoginUi(
         LoginUiContent(
             state = state,
         )
-
-        if (state.errorMessage != null) {
-            SquadBuilderDialog(
-                onConfirmRequest = {
-                    state.eventSink(LoginUiEvent.OnCloseDialogButtonClick)
-                },
-                confirmButtonText = stringResource(R.string.dialog_close_text_button),
-                title = stringResource(R.string.login_error_dialog_title),
-                description = state.errorMessage,
-            )
-        }
     }
 }
 

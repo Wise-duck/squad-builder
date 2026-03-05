@@ -82,7 +82,6 @@ class HomePresenter @AssistedInject constructor(
                 teamRepository.getTeams()
                     .onSuccess { teamModels ->
                         teams = sortTeams(teamModels, currentSortOption)
-                        Log.i("HomePresenter", "팀 목록 로드 성공: ${teams.size} teams, 정렬 기준: $currentSortOption")
                     }
                     .onFailure { exception ->
                         handleException(
@@ -113,7 +112,6 @@ class HomePresenter @AssistedInject constructor(
                     if (currentSortOption != event.sortOption) {
                         currentSortOption = event.sortOption
                         teams = sortTeams(teams, currentSortOption)
-                        Log.d("HomePresenter", "정렬 기준 변경: $currentSortOption")
                     }
                 }
 
@@ -138,7 +136,6 @@ class HomePresenter @AssistedInject constructor(
                                     .onSuccess { updatedTeamList ->
                                         isLoading = false
                                         teams = sortTeams(updatedTeamList, currentSortOption)
-                                        Log.d("HomePresenter", " ${teamModel.name}팀 생성 성공. UI 업데이트.")
                                     }
                                     .onFailure { exception ->
                                         isLoading = false
@@ -177,8 +174,6 @@ class HomePresenter @AssistedInject constructor(
                     scope.launch {
                         teamRepository.deleteTeam(event.teamId)
                             .onSuccess {
-                                Log.d("HomePresenter", "팀(${event.teamId}) 삭제 성공. UI 업데이트")
-
                                 val updatedTeams = teams.filter { it.teamId != event.teamId }
 
                                 teams = updatedTeams.toImmutableList() as PersistentList<TeamModel>

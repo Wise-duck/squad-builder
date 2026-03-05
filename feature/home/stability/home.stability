@@ -5,6 +5,14 @@
 //   ./gradlew :home:stabilityDump
 
 @Composable
+public fun com.wiseduck.squadbuilder.feature.home.HandleHomeSideEffect(state: com.wiseduck.squadbuilder.feature.home.HomeUiState, eventSink: kotlin.Function1<com.wiseduck.squadbuilder.feature.home.HomeUiEvent, kotlin.Unit>): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+    - state: STABLE (class with no mutable properties)
+    - eventSink: STABLE (function type)
+
+@Composable
 private fun com.wiseduck.squadbuilder.feature.home.HomeContent(state: com.wiseduck.squadbuilder.feature.home.HomeUiState, innerPadding: androidx.compose.foundation.layout.PaddingValues, onTeamCreateClick: kotlin.Function1<kotlin.String, kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
@@ -18,14 +26,6 @@ public fun com.wiseduck.squadbuilder.feature.home.HomePresenter.present(): com.w
   skippable: true
   restartable: true
   params:
-
-@Composable
-public fun com.wiseduck.squadbuilder.feature.home.HomeSideEffectsHandler(state: com.wiseduck.squadbuilder.feature.home.HomeUiState, eventSink: kotlin.Function1<com.wiseduck.squadbuilder.feature.home.HomeUiEvent, kotlin.Unit>): kotlin.Unit
-  skippable: true
-  restartable: true
-  params:
-    - state: STABLE (class with no mutable properties)
-    - eventSink: STABLE (function type)
 
 @Composable
 public fun com.wiseduck.squadbuilder.feature.home.HomeUi(modifier: androidx.compose.ui.Modifier, state: com.wiseduck.squadbuilder.feature.home.HomeUiState): kotlin.Unit

@@ -1,32 +1,40 @@
 package com.wiseduck.squadbuilder.feature.login
 
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
-import com.wiseduck.squadbuilder.feature.login.LoginUiEvent.OnLoginFailure
+import com.wiseduck.squadbuilder.core.common.utils.handleException
 import com.wiseduck.squadbuilder.feature.login.LoginUiEvent.OnLoginSuccess
 
 @Composable
-fun HandleLoginSideEffects(
+fun HandleLoginSideEffect(
     state: LoginUiState,
+    eventSink: (LoginUiEvent) -> Unit,
 ) {
     val context = LocalContext.current
-    val loginErrorKakaoFailed = stringResource(R.string.login_error_kakao_failed)
 
     LaunchedEffect(state.sideEffect) {
-        when (val sideEffect = state.sideEffect) {
-            is LoginSideEffects.LaunchKakaoLogin -> {
+        val effect = state.sideEffect ?: return@LaunchedEffect
+
+        when (effect) {
+            is LoginSideEffect.LaunchKakaoLogin -> {
                 val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
                     if (error != null) {
-                        state.eventSink(OnLoginFailure(loginErrorKakaoFailed))
+                        handleException(
+                            exception = error,
+                            onError = { uiText ->
+                                eventSink(LoginUiEvent.OnLoginFailure(uiText))
+                            },
+                            onLoginRequired = {
+                                eventSink(LoginUiEvent.OnLoginRequired)
+                            },
+                        )
                     } else if (token != null) {
-                        state.eventSink(OnLoginSuccess(token.accessToken))
+                        eventSink(OnLoginSuccess(token.accessToken))
                     }
-
-                    state.eventSink(LoginUiEvent.InitSideEffect)
                 }
 
                 if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
@@ -36,7 +44,11 @@ fun HandleLoginSideEffects(
                 }
             }
 
-            else -> {}
+            is LoginSideEffect.ShowToast -> {
+                Toast.makeText(context, effect.messge.asString(context), Toast.LENGTH_SHORT).show()
+            }
         }
+
+        eventSink(LoginUiEvent.InitSideEffect)
     }
 }

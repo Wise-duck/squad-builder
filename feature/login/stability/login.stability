@@ -5,11 +5,12 @@
 //   ./gradlew :login:stabilityDump
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.login.HandleLoginSideEffects(state: com.wiseduck.squadbuilder.feature.login.LoginUiState): kotlin.Unit
+public fun com.wiseduck.squadbuilder.feature.login.HandleLoginSideEffect(state: com.wiseduck.squadbuilder.feature.login.LoginUiState, eventSink: kotlin.Function1<com.wiseduck.squadbuilder.feature.login.LoginUiEvent, kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:
     - state: STABLE (class with no mutable properties)
+    - eventSink: STABLE (function type)
 
 @Composable
 public fun com.wiseduck.squadbuilder.feature.login.LoginPresenter.present(): com.wiseduck.squadbuilder.feature.login.LoginUiState

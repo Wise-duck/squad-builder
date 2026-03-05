@@ -5,6 +5,14 @@
 //   ./gradlew :settings:stabilityDump
 
 @Composable
+public fun com.wiseduck.squadbuilder.feature.settings.profile.HandleProfileSideEffect(state: com.wiseduck.squadbuilder.feature.settings.profile.ProfileUiState, eventSink: kotlin.Function1<com.wiseduck.squadbuilder.feature.settings.profile.ProfileUiEvent, kotlin.Unit>): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+    - state: STABLE (class with no mutable properties)
+    - eventSink: STABLE (function type)
+
+@Composable
 private fun com.wiseduck.squadbuilder.feature.settings.profile.ProfileContent(innerPadding: androidx.compose.foundation.layout.PaddingValues, modifier: androidx.compose.ui.Modifier, userName: kotlin.String, isLoggedIn: kotlin.Boolean, onLogoutClick: kotlin.Function0<kotlin.Unit>, onWithDrawClick: kotlin.Function0<kotlin.Unit>, onPrivacyPolicyClick: kotlin.Function0<kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true

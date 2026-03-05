@@ -35,7 +35,7 @@ fun HomeUi(
     modifier: Modifier = Modifier,
     state: HomeUiState,
 ) {
-    HomeSideEffectsHandler(
+    HandleHomeSideEffect(
         state = state,
         eventSink = state.eventSink,
     )

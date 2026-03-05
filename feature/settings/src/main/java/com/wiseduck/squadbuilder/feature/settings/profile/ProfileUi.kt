@@ -18,7 +18,6 @@ import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilder
 import com.wiseduck.squadbuilder.core.designsystem.component.button.largeButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
-import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
 import com.wiseduck.squadbuilder.feature.screens.ProfileScreen
 import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomBar
@@ -35,6 +34,11 @@ fun ProfileUi(
     modifier: Modifier = Modifier,
     state: ProfileUiState,
 ) {
+    HandleProfileSideEffect(
+        state = state,
+        eventSink = state.eventSink,
+    )
+
     SquadBuilderScaffold(
         modifier = modifier.fillMaxSize(),
         bottomBar = {
@@ -64,17 +68,6 @@ fun ProfileUi(
 
         if (state.isLoading) {
             SquadBuilderLoadingIndicator()
-        }
-
-        if (state.errorMessage != null) {
-            SquadBuilderDialog(
-                title = stringResource(R.string.error_dialog_title),
-                description = state.errorMessage,
-                onConfirmRequest = {
-                    state.eventSink(ProfileUiEvent.OnDialogCloseButtonClick)
-                },
-                confirmButtonText = stringResource(R.string.dialog_close_text_button),
-            )
         }
     }
 }
