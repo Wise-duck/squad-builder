@@ -31,6 +31,11 @@ fun SplashUi(
     modifier: Modifier = Modifier,
     state: SplashUiState,
 ) {
+    HandleSplashSideEffect(
+        state = state,
+        eventSink = state.eventSink,
+    )
+
     Box(
         modifier = modifier
             .fillMaxSize()

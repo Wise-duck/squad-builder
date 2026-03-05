@@ -8,12 +8,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import com.wiseduck.squadbuilder.core.common.extensions.goToPlayStore
 import com.wiseduck.squadbuilder.core.data.api.repository.RemoteConfigRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.UserRepository
 import com.wiseduck.squadbuilder.core.model.OnboardingState
@@ -42,20 +40,22 @@ class SplashPresenter @AssistedInject constructor(
     @Composable
     override fun present(): SplashUiState {
         val scope = rememberCoroutineScope()
-        val context = LocalContext.current
+        var sideEffect by remember { mutableStateOf<SplashSideEffect?>(null) }
         val onboardingState by userRepository.onboardingState.collectAsRetainedState(OnboardingState.NOT_YET)
         var isUpdateDialogVisible by remember { mutableStateOf(false) }
 
         fun handleEvent(event: SplashUiEvent) {
             when (event) {
+                SplashUiEvent.InitSideEffect -> {
+                    sideEffect = null
+                }
+
                 SplashUiEvent.OnCloseDialogButtonClick -> {
                     isUpdateDialogVisible = false
                 }
 
                 SplashUiEvent.OnUpdateButtonClick -> {
-                    scope.launch {
-                        context.goToPlayStore()
-                    }
+                    sideEffect = SplashSideEffect.OnUpdateClick
                 }
             }
         }
@@ -96,6 +96,7 @@ class SplashPresenter @AssistedInject constructor(
 
         return SplashUiState(
             isUpdateDialogVisible = isUpdateDialogVisible,
+            sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
     }
