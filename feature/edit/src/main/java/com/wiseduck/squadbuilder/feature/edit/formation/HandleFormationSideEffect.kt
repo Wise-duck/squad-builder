@@ -25,35 +25,33 @@ fun HandleFormationSideEffect(
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(state.sideEffect) {
-        state.sideEffect?.let { effect ->
-            when (effect) {
-                is FormationSideEffect.ShowToast -> {
-                    Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+        val effect = state.sideEffect ?: return@LaunchedEffect
+
+        when (effect) {
+            is FormationSideEffect.ShowToast -> {
+                Toast.makeText(context, effect.message.asString(context), Toast.LENGTH_SHORT).show()
+            }
+
+            is FormationSideEffect.CaptureFormation -> {
+                delay(50)
+
+                scope.launch {
+                    val uri = captureFormationAndGetUri(
+                        context = context,
+                        graphicsLayer = formationGraphicsLayer,
+                        quarter = effect.quarter,
+                    )
+
+                    effect.onCaptureUri(effect.quarter, uri)
                 }
+            }
 
-                is FormationSideEffect.CaptureFormation -> {
-                    delay(50)
-
-                    scope.launch {
-                        val uri = captureFormationAndGetUri(
-                            context = context,
-                            graphicsLayer = formationGraphicsLayer,
-                            quarter = effect.quarter,
-                        )
-
-                        effect.onCaptureUri(effect.quarter, uri)
-                    }
-                }
-
-                is FormationSideEffect.ShareMultipleImages -> {
-                    context.shareImages(effect.imageUris)
-                }
+            is FormationSideEffect.ShareMultipleImages -> {
+                context.shareImages(effect.imageUris)
             }
         }
 
-        if (state.sideEffect != null) {
-            state.eventSink(FormationUiEvent.InitSideEffect)
-        }
+        state.eventSink(FormationUiEvent.InitSideEffect)
     }
 }
 
