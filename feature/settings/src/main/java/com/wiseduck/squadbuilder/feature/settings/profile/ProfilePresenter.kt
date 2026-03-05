@@ -102,8 +102,7 @@ class ProfilePresenter @AssistedInject constructor(
                 ProfileUiEvent.OnPrivacyPolicyButtonClick -> {
                     val webView = WebViewUrls.PRIVACY_POLICY
 
-                    navigator.goTo(WebViewScreen(url = webView.url)
-                    )
+                    navigator.goTo(WebViewScreen(url = webView.url))
                 }
             }
         }

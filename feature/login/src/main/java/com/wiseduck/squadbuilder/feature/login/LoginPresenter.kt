@@ -56,7 +56,7 @@ class LoginPresenter @AssistedInject constructor(
                                     exception = exception,
                                     onError = { uiText ->
                                         sideEffect = LoginSideEffect.ShowToast(uiText)
-                                    }
+                                    },
                                 )
                             }
                     }
