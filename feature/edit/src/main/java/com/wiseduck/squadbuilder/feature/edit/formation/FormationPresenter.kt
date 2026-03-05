@@ -14,6 +14,8 @@ import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.wiseduck.squadbuilder.core.common.utils.UiText
+import com.wiseduck.squadbuilder.core.common.utils.handleException
 import com.wiseduck.squadbuilder.core.data.api.repository.FormationRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.PlayerRepository
 import com.wiseduck.squadbuilder.core.model.FormationListItemModel
@@ -46,8 +48,21 @@ class FormationPresenter @AssistedInject constructor(
     private val formationRepository: FormationRepository,
     private val playerRepository: PlayerRepository,
 ) : Presenter<FormationUiState> {
+
+    @CircuitInject(FormationScreen::class, ActivityRetainedComponent::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(
+            screen: FormationScreen,
+            navigator: Navigator,
+        ): FormationPresenter
+    }
+
     @Composable
     override fun present(): FormationUiState {
+        val scope = rememberCoroutineScope()
+        var sideEffect by remember { mutableStateOf<FormationSideEffect?>(null) }
+
         val teamId = screen.teamId
         val teamName = screen.teamName
 
@@ -56,7 +71,6 @@ class FormationPresenter @AssistedInject constructor(
             mutableStateOf(persistentMapOf<Int, PersistentList<PlacementModel>>())
         }
 
-        val scope = rememberCoroutineScope()
         var isLoading by remember { mutableStateOf(false) }
         var allReferees by remember { mutableStateOf(persistentMapOf<Int, String>()) }
         var formationList by remember { mutableStateOf(persistentListOf<FormationListItemModel>()) }
@@ -76,23 +90,14 @@ class FormationPresenter @AssistedInject constructor(
         var isCapturing by remember { mutableStateOf(false) }
         var capturedUris by remember { mutableStateOf(mapOf<Int, Uri>()) }
         var totalQuartersToCapture by remember { mutableIntStateOf(0) }
-        val multipleShareQuarterSelectionAlert = stringResource(R.string.multiple_share_quarter_selection_alert)
-        val multipleShareCaptureError = stringResource(R.string.multiple_share_capture_error)
 
         var isSaveDialogVisible by remember { mutableStateOf(false) }
         val formationDefaultName = stringResource(R.string.formation_default_name)
-        val formationSaveAlert = stringResource(R.string.formation_save_alert)
-        val loadPlayerFailedServerConnection = stringResource(R.string.load_player_failed_server_connection)
 
         var availablePlayers by remember { mutableStateOf(persistentListOf<TeamPlayerModel>()) }
         var playerAssignmentState by remember { mutableStateOf(PlayerAssignmentState()) }
 
         var deleteConfirmationState by remember { mutableStateOf(DeleteConfirmationState()) }
-        val successToastMessage = stringResource(R.string.success_toast_message)
-        val failedToastMessage = stringResource(R.string.failed_toast_message)
-        val loadFailedToastMessage = stringResource(R.string.load_failed_toast_message)
-
-        var sideEffect by remember { mutableStateOf<FormationSideEffect?>(null) }
 
         var isPlayerQuarterStatusVisible by remember { mutableStateOf(false) }
         var playerQuarterStatus by remember { mutableStateOf<ImmutableList<PlayerQuarterStatusModel>>(persistentListOf()) }
@@ -135,8 +140,13 @@ class FormationPresenter @AssistedInject constructor(
                 .onSuccess {
                     availablePlayers = it.toPersistentList()
                 }
-                .onFailure {
-                    sideEffect = FormationSideEffect.ShowToast(loadPlayerFailedServerConnection)
+                .onFailure { exception ->
+                    handleException(
+                        exception = exception,
+                        onError = { uiText ->
+                            sideEffect = FormationSideEffect.ShowToast(uiText)
+                        },
+                    )
                 }
 
             allPlacements = persistentMapOf(
@@ -178,7 +188,7 @@ class FormationPresenter @AssistedInject constructor(
                     Log.d("SHARE_IMAGE", "handleCaptureComplete: $urisToSend")
                     sideEffect = FormationSideEffect.ShareMultipleImages(urisToSend.toPersistentList())
                 } else {
-                    sideEffect = FormationSideEffect.ShowToast(multipleShareCaptureError)
+                    sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.multiple_share_capture_error))
                 }
             }
         }
@@ -211,7 +221,7 @@ class FormationPresenter @AssistedInject constructor(
                             onCaptureUri = ::handleCaptureComplete,
                         )
                     } else {
-                        sideEffect = FormationSideEffect.ShowToast(multipleShareQuarterSelectionAlert)
+                        sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.multiple_share_quarter_selection_alert))
                     }
                 }
 
@@ -258,7 +268,14 @@ class FormationPresenter @AssistedInject constructor(
                                 formationList = list.toPersistentList()
                                 isListModalVisible = true
                             }
-                            .onFailure { }
+                            .onFailure { exception ->
+                                handleException(
+                                    exception = exception,
+                                    onError = { uiText ->
+                                        sideEffect = FormationSideEffect.ShowToast(uiText)
+                                    },
+                                )
+                            }
                     }
                 }
 
@@ -294,8 +311,13 @@ class FormationPresenter @AssistedInject constructor(
                                 currentFormationName = formationDetail.name
                                 isListModalVisible = false
                             }
-                            .onFailure {
-                                sideEffect = FormationSideEffect.ShowToast(loadFailedToastMessage)
+                            .onFailure { exception ->
+                                handleException(
+                                    exception = exception,
+                                    onError = { uiText ->
+                                        sideEffect = FormationSideEffect.ShowToast(uiText)
+                                    },
+                                )
                             }
                     }
                 }
@@ -316,7 +338,7 @@ class FormationPresenter @AssistedInject constructor(
                     if (isCurrentQuarterFullyAssigned) {
                         isSaveDialogVisible = true
                     } else {
-                        sideEffect = FormationSideEffect.ShowToast(formationSaveAlert)
+                        sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.formation_save_alert))
                     }
                 }
 
@@ -357,15 +379,20 @@ class FormationPresenter @AssistedInject constructor(
                             if (isUpdate) {
                                 formationRepository.updateFormation(currentFormationId!!, request)
                                     .onSuccess {
-                                        sideEffect = FormationSideEffect.ShowToast(successToastMessage)
+                                        sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.success_toast_message))
                                     }
-                                    .onFailure {
-                                        sideEffect = FormationSideEffect.ShowToast(failedToastMessage)
+                                    .onFailure { exception ->
+                                        handleException(
+                                            exception = exception,
+                                            onError = { uiText ->
+                                                sideEffect = FormationSideEffect.ShowToast(uiText)
+                                            },
+                                        )
                                     }
                             } else {
                                 formationRepository.createFormation(request)
                                     .onSuccess {
-                                        sideEffect = FormationSideEffect.ShowToast(successToastMessage)
+                                        sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.success_toast_message))
                                         scope.launch {
                                             formationRepository.getFormationList(teamId)
                                                 .onSuccess { newList ->
@@ -373,8 +400,13 @@ class FormationPresenter @AssistedInject constructor(
                                                 }
                                         }
                                     }
-                                    .onFailure {
-                                        sideEffect = FormationSideEffect.ShowToast(failedToastMessage)
+                                    .onFailure { exception ->
+                                        handleException(
+                                            exception = exception,
+                                            onError = { uiText ->
+                                                sideEffect = FormationSideEffect.ShowToast(uiText)
+                                            },
+                                        )
                                     }
                             }
                         } finally {
@@ -540,7 +572,7 @@ class FormationPresenter @AssistedInject constructor(
                         scope.launch {
                             formationRepository.deleteFormation(formationId)
                                 .onSuccess {
-                                    sideEffect = FormationSideEffect.ShowToast(successToastMessage)
+                                    sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.success_toast_message))
                                     formationList = formationList.mutate { list ->
                                         list.removeIf { it.formationId == formationId }
                                     }
@@ -549,8 +581,13 @@ class FormationPresenter @AssistedInject constructor(
                                         currentFormationName = ""
                                     }
                                 }
-                                .onFailure {
-                                    sideEffect = FormationSideEffect.ShowToast(failedToastMessage)
+                                .onFailure { exception ->
+                                    handleException(
+                                        exception = exception,
+                                        onError = { uiText ->
+                                            sideEffect = FormationSideEffect.ShowToast(uiText)
+                                        },
+                                    )
                                 }
                         }
                     }
@@ -604,14 +641,5 @@ class FormationPresenter @AssistedInject constructor(
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(FormationScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            screen: FormationScreen,
-            navigator: Navigator,
-        ): FormationPresenter
     }
 }

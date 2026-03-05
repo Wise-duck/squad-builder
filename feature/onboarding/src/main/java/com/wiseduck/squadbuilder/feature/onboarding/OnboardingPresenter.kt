@@ -21,6 +21,13 @@ class OnboardingPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val userRepository: UserRepository,
 ) : Presenter<OnboardingUiState> {
+
+    @CircuitInject(OnboardingScreen::class, ActivityRetainedComponent::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): OnboardingPresenter
+    }
+
     @Composable
     override fun present(): OnboardingUiState {
         val scope = rememberCoroutineScope()
@@ -54,11 +61,5 @@ class OnboardingPresenter @AssistedInject constructor(
             pagerState = pagerState,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(OnboardingScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(navigator: Navigator): OnboardingPresenter
     }
 }

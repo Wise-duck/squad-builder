@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -66,7 +65,7 @@ fun FormationUi(
 ) {
     val formationGraphicLayers = rememberGraphicsLayer()
 
-    FormationSideEffects(
+    HandleFormationSideEffect(
         state = state,
         formationGraphicsLayer = formationGraphicLayers,
     )
@@ -223,13 +222,12 @@ private fun FormationUiContent(
                 }
             }
         }
-        Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
 
         Box(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 8.dp),
+                .padding(horizontal = 8.dp, vertical = 4.dp),
             contentAlignment = Alignment.Center,
         ) {
             SoccerField(

@@ -8,19 +8,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.common.constants.WebViewUrls
+import com.wiseduck.squadbuilder.core.common.utils.handleException
 import com.wiseduck.squadbuilder.core.data.api.repository.AuthRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.UserRepository
 import com.wiseduck.squadbuilder.core.model.LoginState
 import com.wiseduck.squadbuilder.feature.screens.HomeScreen
 import com.wiseduck.squadbuilder.feature.screens.ProfileScreen
 import com.wiseduck.squadbuilder.feature.screens.WebViewScreen
-import com.wiseduck.squadbuilder.feature.settings.R
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -32,23 +31,28 @@ class ProfilePresenter @AssistedInject constructor(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
 ) : Presenter<ProfileUiState> {
+
+    @CircuitInject(ProfileScreen::class, ActivityRetainedComponent::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): ProfilePresenter
+    }
+
     @Composable
     override fun present(): ProfileUiState {
         val scope = rememberCoroutineScope()
-
+        var sideEffect by remember { mutableStateOf<ProfileSideEffect?>(null) }
         var isLoading by remember { mutableStateOf(false) }
-        var errorMessage by remember { mutableStateOf<String?>(null) }
-
         val loginState by authRepository.loginState.collectAsRetainedState(LoginState.NOT_YET)
         val isLoggedIn = loginState == LoginState.LOGGED_IN
-
         var userName by remember { mutableStateOf("익명") }
-
-        val logoutErrorServerConnection = stringResource(R.string.logout_error_server_connection)
-        val withdrawErrorServerConnection = stringResource(R.string.withdraw_error_server_connection)
 
         fun handleEvent(event: ProfileUiEvent) {
             when (event) {
+                ProfileUiEvent.InitSideEffect -> {
+                    sideEffect = null
+                }
+
                 is ProfileUiEvent.OnLogoutButtonClick -> {
                     isLoading = true
                     scope.launch {
@@ -56,13 +60,17 @@ class ProfilePresenter @AssistedInject constructor(
                             .onSuccess {
                                 isLoading = false
                                 userRepository.setUsername("")
-                                Log.d("ProfilePresenter", "로그아웃 성공")
                                 navigator.resetRoot(HomeScreen)
                             }
-                            .onFailure {
+                            .onFailure { exception ->
                                 isLoading = false
-                                errorMessage = logoutErrorServerConnection
-                                Log.e("ProfilePresenter", "로그아웃 실패: $it")
+                                handleException(
+                                    exception = exception,
+                                    onError = { uiText ->
+                                        sideEffect = ProfileSideEffect.ShowToast(uiText)
+                                    },
+                                )
+                                Log.e("ProfilePresenter", "로그아웃 실패: $exception")
                             }
                     }
                 }
@@ -73,18 +81,18 @@ class ProfilePresenter @AssistedInject constructor(
                         authRepository.withdraw()
                             .onSuccess {
                                 isLoading = false
-                                Log.d("ProfilePresenter", "계정 탈퇴 성공")
                             }
-                            .onFailure {
+                            .onFailure { exception ->
                                 isLoading = false
-                                errorMessage = withdrawErrorServerConnection
-                                Log.e("ProfilePresenter", "계정 탈퇴 실패: $it")
+                                handleException(
+                                    exception = exception,
+                                    onError = { uiText ->
+                                        sideEffect = ProfileSideEffect.ShowToast(uiText)
+                                    },
+                                )
+                                Log.e("ProfilePresenter", "계정 탈퇴 실패: $exception")
                             }
                     }
-                }
-
-                is ProfileUiEvent.OnDialogCloseButtonClick -> {
-                    errorMessage = null
                 }
 
                 is ProfileUiEvent.OnTabSelect -> {
@@ -94,11 +102,7 @@ class ProfilePresenter @AssistedInject constructor(
                 ProfileUiEvent.OnPrivacyPolicyButtonClick -> {
                     val webView = WebViewUrls.PRIVACY_POLICY
 
-                    navigator.goTo(
-                        WebViewScreen(
-                            url = webView.url,
-                        ),
-                    )
+                    navigator.goTo(WebViewScreen(url = webView.url))
                 }
             }
         }
@@ -106,7 +110,6 @@ class ProfilePresenter @AssistedInject constructor(
         LaunchedEffect(Unit) {
             try {
                 userName = userRepository.getUserName()
-                Log.d("ProfilePresenter", "유저 이름 로드 성공: $userName")
             } catch (e: Exception) {
                 Log.e("ProfilePresenter", "유저 이름 로드 실패", e)
             }
@@ -114,16 +117,10 @@ class ProfilePresenter @AssistedInject constructor(
 
         return ProfileUiState(
             isLoading = isLoading,
-            errorMessage = errorMessage,
             isLoggedIn = isLoggedIn,
             userName = userName,
+            sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(ProfileScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(navigator: Navigator): ProfilePresenter
     }
 }

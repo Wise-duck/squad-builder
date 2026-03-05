@@ -8,14 +8,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.common.di.AdmobBannerId
+import com.wiseduck.squadbuilder.core.common.utils.handleException
 import com.wiseduck.squadbuilder.core.data.api.repository.PlayerRepository
 import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
-import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.screens.PlayerScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -32,31 +31,48 @@ class PlayerPresenter @AssistedInject constructor(
     private val playerRepository: PlayerRepository,
     @AdmobBannerId private val admobBannerId: String,
 ) : Presenter<PlayerUiState> {
+
+    @CircuitInject(PlayerScreen::class, ActivityRetainedComponent::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(
+            navigator: Navigator,
+            screen: PlayerScreen,
+        ): PlayerPresenter
+    }
+
     @Composable
     override fun present(): PlayerUiState {
         val scope = rememberCoroutineScope()
-        val teamName by remember { mutableStateOf(screen.teamName) }
+        var sideEffect by remember { mutableStateOf<PlayerSideEffect?>(null) }
         var isLoading by remember { mutableStateOf(false) }
-        var errorMessage by remember { mutableStateOf<String?>(null) }
+        val teamName by remember { mutableStateOf(screen.teamName) }
         var isShowPlayerCreationSection by remember { mutableStateOf<Boolean>(false) }
         var currentEditingPlayerId by remember { mutableStateOf<Int?>(null) }
         var players by remember { mutableStateOf(persistentListOf<TeamPlayerModel>()) }
-        val errorMessgeServerConnection = stringResource(R.string.load_player_failed_server_connection)
 
         LaunchedEffect(Unit) {
             playerRepository.getTeamPlayers(teamId = screen.teamId)
                 .onSuccess {
                     players = it.toPersistentList()
-                    Log.d("PlayerPresenter", "선수 목록 로드 성공: ${players.size}")
                 }
-                .onFailure { error ->
-                    errorMessage = errorMessgeServerConnection
-                    Log.e("PlayerPresenter", "선수 목록 로드 실패: $error")
+                .onFailure { exception ->
+                    handleException(
+                        exception = exception,
+                        onError = { uiText ->
+                            PlayerSideEffect.ShowToast(uiText)
+                        },
+                    )
+                    Log.e("PlayerPresenter", "선수 목록 로드 실패: $exception")
                 }
         }
 
         fun handleEvent(event: PlayerUiEvent) {
             when (event) {
+                PlayerUiEvent.InitSideEffect -> {
+                    sideEffect = null
+                }
+
                 is PlayerUiEvent.OnBackButtonClick -> {
                     navigator.pop()
                 }
@@ -82,12 +98,16 @@ class PlayerPresenter @AssistedInject constructor(
                                 isLoading = false
                                 isShowPlayerCreationSection = false
                                 players = players.add(it)
-                                Log.d("PlayerPresenter", "선수 생성 성공: ${it.name}")
                             }
-                            .onFailure { error ->
+                            .onFailure { exception ->
                                 isLoading = false
-                                errorMessage = errorMessgeServerConnection
-                                Log.e("PlayerPresenter", "선수 생성 실패: $error")
+                                handleException(
+                                    exception = exception,
+                                    onError = { uiText ->
+                                        sideEffect = PlayerSideEffect.ShowToast(uiText)
+                                    },
+                                )
+                                Log.e("PlayerPresenter", "선수 생성 실패: $exception")
                             }
                     }
                 }
@@ -105,12 +125,16 @@ class PlayerPresenter @AssistedInject constructor(
                                     list.removeIf { it.id == event.playerId }
                                 }
                                 currentEditingPlayerId = null
-                                Log.d("PlayerPresenter", "선수 삭제 성공")
                             }
-                            .onFailure { error ->
+                            .onFailure { exception ->
                                 isLoading = false
-                                errorMessage = errorMessgeServerConnection
-                                Log.e("PlayerPresenter", "선수 삭제 실패: $error")
+                                handleException(
+                                    exception = exception,
+                                    onError = { uiText ->
+                                        PlayerSideEffect.ShowToast(uiText)
+                                    },
+                                )
+                                Log.e("PlayerPresenter", "선수 삭제 실패: $exception")
                             }
                     }
                 }
@@ -136,23 +160,23 @@ class PlayerPresenter @AssistedInject constructor(
                                     val index = list.indexOfFirst { it.id == updatedPlayer.id }
                                     if (index != -1) list[index] = updatedPlayer
                                 }
-                                Log.d("PlayerPresenter", "선수 정보 수정 성공: ${updatedPlayer.name}")
                             }
-                            .onFailure {
+                            .onFailure { exception ->
                                 isLoading = false
                                 currentEditingPlayerId = null
-                                errorMessage = errorMessgeServerConnection
-                                Log.e("PlayerPresenter", "선수 수정 실패: $it")
+                                handleException(
+                                    exception = exception,
+                                    onError = { uiText ->
+                                        sideEffect = PlayerSideEffect.ShowToast(uiText)
+                                    },
+                                )
+                                Log.e("PlayerPresenter", "선수 수정 실패: $exception")
                             }
                     }
                 }
 
                 is PlayerUiEvent.OnPlayerUpdateCancel -> {
                     currentEditingPlayerId = null
-                }
-
-                is PlayerUiEvent.OnDialogCloseButtonClick -> {
-                    errorMessage = null
                 }
 
                 is PlayerUiEvent.OnTabSelect -> {
@@ -163,22 +187,13 @@ class PlayerPresenter @AssistedInject constructor(
 
         return PlayerUiState(
             isLoading = isLoading,
-            admobBannerId = admobBannerId,
+            players = players,
             teamName = teamName,
-            errorMessage = errorMessage,
             isShowPlayerCreationSection = isShowPlayerCreationSection,
             currentEditingPlayerId = currentEditingPlayerId,
-            players = players,
+            admobBannerId = admobBannerId,
+            sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(PlayerScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            navigator: Navigator,
-            screen: PlayerScreen,
-        ): PlayerPresenter
     }
 }

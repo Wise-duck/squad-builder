@@ -14,6 +14,16 @@ class WebViewPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     @Assisted private val screen: WebViewScreen,
 ) : Presenter<WebViewUiState> {
+
+    @CircuitInject(WebViewScreen::class, ActivityRetainedComponent::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(
+            screen: WebViewScreen,
+            navigator: Navigator,
+        ): WebViewPresenter
+    }
+
     @Composable
     override fun present(): WebViewUiState {
         fun handleEvent(event: WebViewUiEvent) {
@@ -28,14 +38,5 @@ class WebViewPresenter @AssistedInject constructor(
             url = screen.url,
             eventSink = ::handleEvent,
         )
-    }
-
-    @CircuitInject(WebViewScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(
-            screen: WebViewScreen,
-            navigator: Navigator,
-        ): WebViewPresenter
     }
 }

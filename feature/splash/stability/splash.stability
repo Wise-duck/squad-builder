@@ -5,6 +5,14 @@
 //   ./gradlew :splash:stabilityDump
 
 @Composable
+public fun com.wiseduck.squadbuilder.feature.splash.HandleSplashSideEffect(state: com.wiseduck.squadbuilder.feature.splash.SplashUiState, eventSink: kotlin.Function1<com.wiseduck.squadbuilder.feature.splash.SplashUiEvent, kotlin.Unit>): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+    - state: STABLE (class with no mutable properties)
+    - eventSink: STABLE (function type)
+
+@Composable
 public fun com.wiseduck.squadbuilder.feature.splash.SplashPresenter.present(): com.wiseduck.squadbuilder.feature.splash.SplashUiState
   skippable: true
   restartable: true

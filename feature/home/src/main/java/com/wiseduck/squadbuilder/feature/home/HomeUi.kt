@@ -10,14 +10,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.AdBanner
-import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
 import com.wiseduck.squadbuilder.feature.home.component.GuestModeHomeUiContent
 import com.wiseduck.squadbuilder.feature.home.component.HomeHeader
@@ -37,6 +35,11 @@ fun HomeUi(
     modifier: Modifier = Modifier,
     state: HomeUiState,
 ) {
+    HandleHomeSideEffect(
+        state = state,
+        eventSink = state.eventSink,
+    )
+
     SquadBuilderScaffold(
         modifier = modifier.fillMaxSize(),
         bottomBar = {
@@ -59,17 +62,6 @@ fun HomeUi(
 
         if (state.isLoading) {
             SquadBuilderLoadingIndicator()
-        }
-
-        if (state.errorMessage != null) {
-            SquadBuilderDialog(
-                title = stringResource(R.string.load_failed_team_list_dialog_title),
-                description = state.errorMessage,
-                onConfirmRequest = {
-                    state.eventSink(HomeUiEvent.OnDialogCloseButtonClick)
-                },
-                confirmButtonText = stringResource(R.string.dialog_confirm_text_button),
-            )
         }
     }
 }

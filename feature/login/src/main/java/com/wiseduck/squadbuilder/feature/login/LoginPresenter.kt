@@ -6,10 +6,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.wiseduck.squadbuilder.core.common.utils.handleException
 import com.wiseduck.squadbuilder.core.data.api.repository.AuthRepository
 import com.wiseduck.squadbuilder.feature.screens.HomeScreen
 import com.wiseduck.squadbuilder.feature.screens.LoginScreen
@@ -23,28 +23,26 @@ class LoginPresenter @AssistedInject constructor(
     @Assisted private val navigator: Navigator,
     private val authRepository: AuthRepository,
 ) : Presenter<LoginUiState> {
+
+    @CircuitInject(LoginScreen::class, ActivityRetainedComponent::class)
+    @AssistedFactory
+    fun interface Factory {
+        fun create(navigator: Navigator): LoginPresenter
+    }
+
     @Composable
     override fun present(): LoginUiState {
         val scope = rememberCoroutineScope()
-
-        val loginErrorServerConnection = stringResource(R.string.login_error_server_connection)
-
-        var errorMessage by remember { mutableStateOf<String?>(null) }
-        var sideEffect by remember { mutableStateOf<LoginSideEffects?>(null) }
+        var sideEffect by remember { mutableStateOf<LoginSideEffect?>(null) }
 
         fun handleEvent(event: LoginUiEvent) {
             when (event) {
+                LoginUiEvent.InitSideEffect -> {
+                    sideEffect = null
+                }
+
                 is LoginUiEvent.OnKakaoLoginButtonClick -> {
-                    errorMessage = null
-                    sideEffect = LoginSideEffects.LaunchKakaoLogin
-                }
-
-                is LoginUiEvent.OnCloseDialogButtonClick -> {
-                    errorMessage = null
-                }
-
-                is LoginUiEvent.OnLoginFailure -> {
-                    errorMessage = event.errorMessage
+                    sideEffect = LoginSideEffect.LaunchKakaoLogin
                 }
 
                 is LoginUiEvent.OnLoginSuccess -> {
@@ -53,28 +51,30 @@ class LoginPresenter @AssistedInject constructor(
                             .onSuccess {
                                 navigator.resetRoot(HomeScreen)
                             }
-                            .onFailure {
-                                errorMessage = loginErrorServerConnection
+                            .onFailure { exception ->
+                                handleException(
+                                    exception = exception,
+                                    onError = { uiText ->
+                                        sideEffect = LoginSideEffect.ShowToast(uiText)
+                                    },
+                                )
                             }
                     }
                 }
 
-                LoginUiEvent.InitSideEffect -> {
-                    sideEffect = null
+                is LoginUiEvent.OnLoginFailure -> {
+                    sideEffect = LoginSideEffect.ShowToast(event.message)
+                }
+
+                LoginUiEvent.OnLoginRequired -> {
+                    navigator.resetRoot(LoginScreen)
                 }
             }
         }
 
         return LoginUiState(
-            errorMessage = errorMessage,
             eventSink = ::handleEvent,
             sideEffect = sideEffect,
         )
-    }
-
-    @CircuitInject(LoginScreen::class, ActivityRetainedComponent::class)
-    @AssistedFactory
-    fun interface Factory {
-        fun create(navigator: Navigator): LoginPresenter
     }
 }

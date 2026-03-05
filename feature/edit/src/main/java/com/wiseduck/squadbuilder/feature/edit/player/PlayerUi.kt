@@ -23,7 +23,6 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.designsystem.theme.White
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.AdBanner
-import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
 import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.player.component.PlayerFormCard
@@ -41,6 +40,11 @@ fun PlayerUi(
     modifier: Modifier = Modifier,
     state: PlayerUiState,
 ) {
+    HandlePlayerSideEffect(
+        state = state,
+        eventSink = state.eventSink,
+    )
+
     SquadBuilderScaffold(
         modifier = modifier.fillMaxSize(),
         bottomBar = {
@@ -60,17 +64,6 @@ fun PlayerUi(
 
         if (state.isLoading) {
             SquadBuilderLoadingIndicator()
-        }
-
-        if (state.errorMessage != null) {
-            SquadBuilderDialog(
-                title = stringResource(R.string.load_failed_team_list_dialog_title),
-                description = state.errorMessage,
-                onConfirmRequest = {
-                    state.eventSink(PlayerUiEvent.OnDialogCloseButtonClick)
-                },
-                confirmButtonText = stringResource(R.string.dialog_confirm_text_button),
-            )
         }
     }
 }
