@@ -36,7 +36,7 @@
     <string name="quarter_referee_label">Q%d Referee:</string>
     <string name="referee_input_placeholder">Enter Name</string>
 
-    <string name="quarter_text_button">Quarter %d</string>
+    <string name="quarter_text_button">Q %d</string>
     <string name="quarter_selection_title">Select Quarter to Share</string>
     <string name="multiple_share_dialog_cancel_button">Cancel</string>
     <string name="multiple_share_dialog_confirm_button">Confirm</string>

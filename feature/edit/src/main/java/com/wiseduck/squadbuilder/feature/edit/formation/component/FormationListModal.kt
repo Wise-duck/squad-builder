@@ -6,11 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,6 +29,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.FormationListItemModel
 import com.wiseduck.squadbuilder.feature.edit.R
+import com.wiseduck.squadbuilder.feature.edit.formation.mock.fakeFormationList
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
 
@@ -78,7 +77,6 @@ fun FormationListModal(
                     )
                 }
             }
-
             Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
 
             SquadBuilderButton(
@@ -93,9 +91,6 @@ fun FormationListModal(
                     ),
                 ),
                 colorStyle = ButtonColorStyle.TEXT_WHITE,
-                modifier = Modifier
-                    .width(60.dp)
-                    .defaultMinSize(minHeight = 1.dp),
             )
         }
     }
@@ -106,11 +101,7 @@ fun FormationListModal(
 private fun FormationListModalPreview() {
     SquadBuilderTheme {
         FormationListModal(
-            formationList = listOf(
-                FormationListItemModel(1, "4-3-3", "2023-01-01T00:00:00Z"),
-                FormationListItemModel(2, "4-4-2", "2023-01-02T00:00:00Z"),
-                FormationListItemModel(3, "3-5-2", "2023-01-03T00:00:00Z"),
-            ).toPersistentList(),
+            formationList = fakeFormationList.toPersistentList(),
             onDismissRequest = {},
             onFormationCardClick = {},
             onDeleteFormationClick = {},
