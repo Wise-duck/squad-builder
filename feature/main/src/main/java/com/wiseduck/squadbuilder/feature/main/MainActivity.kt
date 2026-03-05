@@ -65,8 +65,11 @@ class MainActivity : ComponentActivity() {
 
                 dialogSpec.value?.let { spec ->
                     SquadBuilderDialog(
-                        onDismissRequest = spec.onDismiss,
-                        onConfirmRequest = spec.onConfirm,
+                        onDismissRequest = { dialogSpec.value = null },
+                        onConfirmRequest = {
+                            spec.onConfirm()
+                            dialogSpec.value = null
+                        },
                         dismissButtonText = spec.dismissButton,
                         confirmButtonText = spec.confirmButton.asString(),
                         title = spec.title?.asString(),
