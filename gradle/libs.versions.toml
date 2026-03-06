@@ -8,9 +8,6 @@ minSdk = "24"
 versionCode = "33"
 versionName = "2.1.8"
 
-## Android Gradle Plugin
-agp = "8.13.0"
-
 ## Android gradle plugin
 androidGradlePlugin = "8.13.0"
 
@@ -157,8 +154,8 @@ circuit = [
 ]
 
 [plugins]
-android-application = { id = "com.android.application", version.ref = "agp" }
-android-library = { id = "com.android.library", version.ref = "agp" }
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
