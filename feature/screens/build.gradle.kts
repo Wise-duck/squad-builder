@@ -13,5 +13,5 @@ dependencies {
     implementation(projects.core.ui)
 
     implementation(libs.circuit.foundation)
-    implementation(project(":core:model"))
+    implementation(libs.kotlinx.collections.immutable)
 }

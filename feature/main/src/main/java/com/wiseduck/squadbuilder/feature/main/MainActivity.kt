@@ -18,6 +18,7 @@ import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
 import com.slack.circuit.foundation.NavigableCircuitContent
 import com.slack.circuit.foundation.rememberCircuitNavigator
+import com.slack.circuitx.gesturenavigation.GestureNavigationDecorationFactory
 import com.wiseduck.squadbuilder.core.common.events.DialogSpec
 import com.wiseduck.squadbuilder.core.common.events.EventHandler
 import com.wiseduck.squadbuilder.core.common.events.SquadBuilderEvent
@@ -82,6 +83,11 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         backStack = backStack,
                         navigator = navigator,
+                        decoratorFactory = remember(navigator) {
+                            GestureNavigationDecorationFactory(
+                                onBackInvoked = navigator::pop,
+                            )
+                        },
                     )
                 }
             }
