@@ -13,6 +13,7 @@ import com.slack.circuit.retained.collectAsRetainedState
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.common.di.AdmobBannerId
+import com.wiseduck.squadbuilder.core.common.utils.UiText
 import com.wiseduck.squadbuilder.core.common.utils.handleException
 import com.wiseduck.squadbuilder.core.data.api.repository.AuthRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.TeamRepository
@@ -125,6 +126,11 @@ class HomePresenter @AssistedInject constructor(
                 is HomeUiEvent.OnTeamCreateButtonClick -> {
                     if (!isLoggedIn) {
                         navigator.goTo(LoginScreen)
+                        return
+                    }
+
+                    if (teams.size >= 3) {
+                        sideEffect = HomeSideEffect.ShowToast(UiText.StringResource(R.string.team_limit_reached))
                         return
                     }
 
