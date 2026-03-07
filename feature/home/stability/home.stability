@@ -42,6 +42,12 @@ public fun com.wiseduck.squadbuilder.feature.home.HomeUi(modifier: androidx.comp
     - state: STABLE (class with no mutable properties)
 
 @Composable
+private fun com.wiseduck.squadbuilder.feature.home.HomeUiDeleteDialogPreview(): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+
+@Composable
 private fun com.wiseduck.squadbuilder.feature.home.HomeUiEmptyPreview(): kotlin.Unit
   skippable: true
   restartable: true
@@ -88,7 +94,7 @@ private fun com.wiseduck.squadbuilder.feature.home.component.HomeHeaderPreview()
   params:
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.home.component.TeamCard(modifier: androidx.compose.ui.Modifier, team: com.wiseduck.squadbuilder.core.model.TeamModel, onDeleteClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, onClick: kotlin.Function2<kotlin.Int, kotlin.String, kotlin.Unit>): kotlin.Unit
+public fun com.wiseduck.squadbuilder.feature.home.component.TeamCard(modifier: androidx.compose.ui.Modifier, team: com.wiseduck.squadbuilder.core.model.TeamModel, onDeleteClick: kotlin.Function1<com.wiseduck.squadbuilder.core.model.TeamModel, kotlin.Unit>, onClick: kotlin.Function2<kotlin.Int, kotlin.String, kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:
@@ -112,7 +118,7 @@ public fun com.wiseduck.squadbuilder.feature.home.component.TeamCreateSection(mo
     - onTeamCreateClick: STABLE (function type)
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.home.component.TeamList(modifier: androidx.compose.ui.Modifier, teams: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.TeamModel>, isRefreshing: kotlin.Boolean, onRefresh: kotlin.Function0<kotlin.Unit>, onTeamClick: kotlin.Function2<kotlin.Int, kotlin.String, kotlin.Unit>, onTeamDeleteClick: kotlin.Function1<kotlin.Int, kotlin.Unit>): kotlin.Unit
+public fun com.wiseduck.squadbuilder.feature.home.component.TeamList(modifier: androidx.compose.ui.Modifier, teams: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.TeamModel>, isRefreshing: kotlin.Boolean, onRefresh: kotlin.Function0<kotlin.Unit>, onTeamClick: kotlin.Function2<kotlin.Int, kotlin.String, kotlin.Unit>, onTeamDeleteClick: kotlin.Function1<com.wiseduck.squadbuilder.core.model.TeamModel, kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:

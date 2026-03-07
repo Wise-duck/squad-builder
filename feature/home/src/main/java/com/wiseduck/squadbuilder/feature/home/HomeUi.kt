@@ -8,20 +8,25 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
+import com.wiseduck.squadbuilder.core.designsystem.theme.White
 import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.AdBanner
+import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
 import com.wiseduck.squadbuilder.feature.home.component.GuestModeHomeUiContent
 import com.wiseduck.squadbuilder.feature.home.component.HomeHeader
 import com.wiseduck.squadbuilder.feature.home.component.TeamCreateSection
 import com.wiseduck.squadbuilder.feature.home.component.TeamList
 import com.wiseduck.squadbuilder.feature.home.component.TeamSortDropdown
+import com.wiseduck.squadbuilder.feature.home.mock.fakeTeam
 import com.wiseduck.squadbuilder.feature.home.mock.homeUiStateMock
 import com.wiseduck.squadbuilder.feature.screens.HomeScreen
 import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomBar
@@ -72,6 +77,27 @@ fun HomeUi(
                 },
             )
         }
+
+        state.teamToDelete?.let {
+            SquadBuilderDialog(
+                onDismissRequest = { state.eventSink(HomeUiEvent.OnDismissTeamDeleteDialog) },
+                onConfirmRequest = {
+                    state.eventSink(HomeUiEvent.OnTeamDeleteConfirm(state.teamToDelete.teamId))
+                },
+                dismissButtonText = stringResource(R.string.cancel_button_label),
+                confirmButtonText = stringResource(R.string.confirm_button_label),
+                title = stringResource(R.string.delete_confirm_dialog_title),
+                content = {
+                    Text(
+                        text = stringResource(
+                            R.string.delete_confirm_dialog_description,
+                            state.teamToDelete.name,
+                        ),
+                        color = White,
+                    )
+                },
+            )
+        }
     }
 }
 
@@ -119,8 +145,8 @@ private fun HomeContent(
                     onTeamClick = { teamId, teamName ->
                         onEvent(HomeUiEvent.OnTeamCardClick(teamId, teamName))
                     },
-                    onTeamDeleteClick = {
-                        onEvent(HomeUiEvent.OnTeamDeleteButtonClick(it))
+                    onTeamDeleteClick = { team ->
+                        onEvent(HomeUiEvent.OnTeamDeleteClick(team))
                     },
                     onRefresh = {
                         onEvent(HomeUiEvent.OnRefresh)
@@ -152,6 +178,18 @@ private fun HomeUiPreview() {
     SquadBuilderTheme {
         HomeUi(
             state = homeUiStateMock,
+        )
+    }
+}
+
+@DevicePreview
+@Composable
+private fun HomeUiDeleteDialogPreview() {
+    SquadBuilderTheme {
+        HomeUi(
+            state = homeUiStateMock.copy(
+                teamToDelete = fakeTeam,
+            ),
         )
     }
 }

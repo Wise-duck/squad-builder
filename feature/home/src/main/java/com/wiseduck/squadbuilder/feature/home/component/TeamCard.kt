@@ -36,7 +36,7 @@ import com.wiseduck.squadbuilder.feature.home.mock.fakeTeam
 fun TeamCard(
     modifier: Modifier = Modifier,
     team: TeamModel,
-    onDeleteClick: (Int) -> Unit,
+    onDeleteClick: (TeamModel) -> Unit,
     onClick: (Int, String) -> Unit,
 ) {
     Card(
@@ -79,7 +79,7 @@ fun TeamCard(
                 )
             }
             IconButton(
-                onClick = { onDeleteClick(team.teamId) },
+                onClick = { onDeleteClick(team) },
             ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_delete),

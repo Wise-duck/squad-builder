@@ -16,4 +16,9 @@
     <string name="team_create_text_button">ADD</string>
     <string name="team_name_input_hint">Enter Name (e.g., FC Seoul)</string>
     <string name="team_limit_reached">You can only create up to 3 teams.</string>
+
+    <string name="delete_confirm_dialog_title">Confirm team deletion</string>
+    <string name="delete_confirm_dialog_description">Do you really want to delete the \'%s\' team\?</string>
+    <string name="confirm_button_label">YES</string>
+    <string name="cancel_button_label">NO</string>
 </resources>

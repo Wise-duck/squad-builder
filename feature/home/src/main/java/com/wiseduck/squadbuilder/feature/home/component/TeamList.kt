@@ -29,7 +29,7 @@ fun TeamList(
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
     onTeamClick: (Int, String) -> Unit,
-    onTeamDeleteClick: (Int) -> Unit,
+    onTeamDeleteClick: (TeamModel) -> Unit,
 ) {
     PullToRefreshBox(
         modifier = modifier,

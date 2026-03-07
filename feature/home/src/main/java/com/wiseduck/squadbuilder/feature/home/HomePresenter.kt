@@ -48,15 +48,13 @@ class HomePresenter @AssistedInject constructor(
     override fun present(): HomeUiState {
         val scope = rememberCoroutineScope()
         var sideEffect by remember { mutableStateOf<HomeSideEffect?>(null) }
-
         var isLoading by remember { mutableStateOf(true) }
         var isRefreshing by remember { mutableStateOf(false) }
-
         val loginState by authRepository.loginState.collectAsRetainedState(LoginState.NOT_YET)
         val isLoggedIn = loginState == LoginState.LOGGED_IN
-
         var currentSortOption by remember { mutableStateOf(TeamSortOption.LATEST) }
         var teams by remember { mutableStateOf(persistentListOf<TeamModel>()) }
+        var teamToDelete by remember { mutableStateOf<TeamModel?>(null) }
 
         fun sortTeams(
             teamModels: List<TeamModel>,
@@ -95,6 +93,25 @@ class HomePresenter @AssistedInject constructor(
                     }
                 isLoading = false
                 isRefreshing = false
+            }
+        }
+
+        fun deleteTeam(teamId: Int) {
+            scope.launch {
+                teamRepository.deleteTeam(teamId)
+                    .onSuccess {
+                        val updatedTeams = teams.filter { it.teamId != teamId }
+
+                        teams = updatedTeams.toImmutableList() as PersistentList<TeamModel>
+                    }
+                    .onFailure { exception ->
+                        handleException(
+                            exception = exception,
+                            onError = { uiText ->
+                                sideEffect = HomeSideEffect.ShowToast(uiText)
+                            },
+                        )
+                    }
             }
         }
 
@@ -176,28 +193,21 @@ class HomePresenter @AssistedInject constructor(
                     )
                 }
 
-                is HomeUiEvent.OnTeamDeleteButtonClick -> {
-                    scope.launch {
-                        teamRepository.deleteTeam(event.teamId)
-                            .onSuccess {
-                                val updatedTeams = teams.filter { it.teamId != event.teamId }
+                is HomeUiEvent.OnTeamDeleteClick -> {
+                    teamToDelete = event.team
+                }
 
-                                teams = updatedTeams.toImmutableList() as PersistentList<TeamModel>
-                            }
-                            .onFailure { exception ->
-                                handleException(
-                                    exception = exception,
-                                    onError = { uiText ->
-                                        sideEffect = HomeSideEffect.ShowToast(uiText)
-                                    },
-                                )
-                                Log.e("HomePresenter", "팀(${event.teamId}) 삭제 실패", exception)
-                            }
-                    }
+                is HomeUiEvent.OnTeamDeleteConfirm -> {
+                    teamToDelete = null
+                    deleteTeam(event.teamId)
                 }
 
                 is HomeUiEvent.OnTabSelect -> {
                     navigator.resetRoot(event.screen)
+                }
+
+                is HomeUiEvent.OnDismissTeamDeleteDialog -> {
+                    teamToDelete = null
                 }
             }
         }
@@ -209,6 +219,7 @@ class HomePresenter @AssistedInject constructor(
             adUnitId = admobBannerId,
             currentSortOption = currentSortOption,
             teams = teams,
+            teamToDelete = teamToDelete,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
