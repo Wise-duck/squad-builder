@@ -5,6 +5,8 @@ import com.wiseduck.squadbuilder.core.model.PlayerQuarterStatusModel
 import com.wiseduck.squadbuilder.feature.edit.formation.FormationUiState
 import com.wiseduck.squadbuilder.feature.edit.formation.data.createDefaultPlayers
 
+val fakeFormationListItem =  FormationListItemModel(1, "4-3-3", "2026-01-01T00:00:00Z")
+
 val fakeFormationList = listOf(
     FormationListItemModel(1, "4-3-3", "2026-01-01T00:00:00Z"),
     FormationListItemModel(2, "4-4-2", "2026-01-02T00:00:00Z"),
