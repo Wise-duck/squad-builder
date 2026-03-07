@@ -47,6 +47,7 @@ data class FormationUiState(
     val deleteConfirmationState: DeleteConfirmationState = DeleteConfirmationState(),
     val isCapturing: Boolean = false,
     val totalQuartersToCapture: Int = 0,
+    val currentCaptureQuarter: Int? = null,
     val sideEffect: FormationSideEffect? = null,
     val eventSink: (FormationUiEvent) -> Unit,
 ) : CircuitUiState
@@ -87,6 +88,9 @@ sealed interface FormationUiEvent : CircuitUiEvent {
         val quarter: Int,
         val refereeName: String,
     ) : FormationUiEvent
+    data class OnCaptureComplete(
+        val quarter: Int,
+        val uri: Uri?,
     ) : FormationUiEvent
 
     data class OnPlayerClick(val slotId: Int) : FormationUiEvent

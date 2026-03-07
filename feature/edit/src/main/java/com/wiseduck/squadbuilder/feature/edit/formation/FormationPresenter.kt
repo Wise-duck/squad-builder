@@ -90,6 +90,7 @@ class FormationPresenter @AssistedInject constructor(
         var sharingQuarters by remember { mutableStateOf(emptyList<Int>()) }
         var capturedUris by remember { mutableStateOf(mapOf<Int, Uri>()) }
         var totalQuartersToCapture by remember { mutableIntStateOf(0) }
+        var currentCaptureQuarter by remember { mutableStateOf<Int?>(null) }
 
         var draggedPlayerInitialPosition by remember { mutableStateOf<PlacementModel?>(null) }
         var playerAssignmentState by remember { mutableStateOf(PlayerAssignmentState()) }
@@ -152,10 +153,7 @@ class FormationPresenter @AssistedInject constructor(
             players = allPlacements[currentQuarter]!!
         }
 
-        fun handleCaptureComplete(
-            quarter: Int,
-            uri: Uri?,
-        ) {
+        fun onQuarterCaptureFinished(quarter: Int, uri: Uri?) {
             if (uri != null) {
                 capturedUris = capturedUris + (quarter to uri)
             }
@@ -170,17 +168,12 @@ class FormationPresenter @AssistedInject constructor(
                 currentQuarter = nextQuarter
                 players = allPlacements[nextQuarter]!!
 
-                sideEffect = FormationSideEffect.CaptureFormation(
-                    quarter = nextQuarter,
-                    onCaptureUri = ::handleCaptureComplete,
-                )
+                currentCaptureQuarter = nextQuarter
             } else {
                 isCapturing = false
-
                 val urisToSend = sharingQuarters.mapNotNull { capturedUris[it] }
 
                 if (urisToSend.size == totalQuartersToCapture && urisToSend.isNotEmpty()) {
-                    Log.d("SHARE_IMAGE", "handleCaptureComplete: $urisToSend")
                     sideEffect = FormationSideEffect.ShareMultipleImages(urisToSend.toPersistentList())
                 } else {
                     sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.multiple_share_capture_error))
@@ -238,15 +231,14 @@ class FormationPresenter @AssistedInject constructor(
                         currentQuarter = quarterList.first()
                         players = allPlacements[currentQuarter]!!
 
-                        sideEffect = FormationSideEffect.CaptureFormation(
-                            quarter = currentQuarter,
-                            onCaptureUri = ::handleCaptureComplete,
-                        )
+                        currentCaptureQuarter = currentQuarter
                     } else {
                         sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.multiple_share_quarter_selection_alert))
                     }
                 }
 
+                is FormationUiEvent.OnCaptureComplete -> {
+                    onQuarterCaptureFinished(event.quarter, event.uri)
                 }
 
                 FormationUiEvent.OnFormationResetConfirm -> {
@@ -633,6 +625,7 @@ class FormationPresenter @AssistedInject constructor(
             deleteConfirmationState = deleteConfirmationState,
             isCapturing = isCapturing,
             totalQuartersToCapture = totalQuartersToCapture,
+            currentCaptureQuarter = currentCaptureQuarter,
             sideEffect = sideEffect,
             eventSink = ::handleEvent,
         )
