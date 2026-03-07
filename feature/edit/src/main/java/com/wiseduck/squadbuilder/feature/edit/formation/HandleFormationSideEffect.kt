@@ -48,7 +48,7 @@ fun HandleFormationSideEffect(
         val uri = captureFormationAndGetUri(
             context = context,
             graphicsLayer = formationGraphicsLayer,
-            quarter = quarter
+            quarter = quarter,
         )
 
         state.eventSink(FormationUiEvent.OnCaptureComplete(quarter, uri))
