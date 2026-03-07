@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
+import com.wiseduck.squadbuilder.core.common.analytics.AnalyticsService
 import com.wiseduck.squadbuilder.core.common.utils.UiText
 import com.wiseduck.squadbuilder.core.common.utils.handleException
 import com.wiseduck.squadbuilder.core.data.api.repository.FormationRepository
@@ -47,6 +48,7 @@ class FormationPresenter @AssistedInject constructor(
     @Assisted private val screen: FormationScreen,
     private val formationRepository: FormationRepository,
     private val playerRepository: PlayerRepository,
+    private val analyticsService: AnalyticsService,
 ) : Presenter<FormationUiState> {
 
     @CircuitInject(FormationScreen::class, ActivityRetainedComponent::class)
@@ -56,6 +58,11 @@ class FormationPresenter @AssistedInject constructor(
             screen: FormationScreen,
             navigator: Navigator,
         ): FormationPresenter
+    }
+
+    private companion object {
+        const val FORMATION_SHARE_SUCCESS = "formation_share_success"
+        const val TOTAL_IMAGES = "total_images"
     }
 
     @Composable
@@ -174,6 +181,12 @@ class FormationPresenter @AssistedInject constructor(
                 val urisToSend = sharingQuarters.mapNotNull { capturedUris[it] }
 
                 if (urisToSend.size == totalQuartersToCapture && urisToSend.isNotEmpty()) {
+                    analyticsService.logEvent(
+                        FORMATION_SHARE_SUCCESS,
+                        params = mapOf(
+                            TOTAL_IMAGES to urisToSend.size,
+                        ),
+                    )
                     sideEffect = FormationSideEffect.ShareMultipleImages(urisToSend.toPersistentList())
                 } else {
                     sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.multiple_share_capture_error))
