@@ -30,8 +30,6 @@ import com.wiseduck.squadbuilder.feature.edit.player.component.PlayerHeader
 import com.wiseduck.squadbuilder.feature.edit.player.component.PlayerList
 import com.wiseduck.squadbuilder.feature.edit.player.mock.fakePlayerUiStateMock
 import com.wiseduck.squadbuilder.feature.screens.PlayerScreen
-import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomBar
-import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab
 import dagger.hilt.android.components.ActivityRetainedComponent
 
 @CircuitInject(PlayerScreen::class, ActivityRetainedComponent::class)
@@ -47,15 +45,6 @@ fun PlayerUi(
 
     SquadBuilderScaffold(
         modifier = modifier.fillMaxSize(),
-        bottomBar = {
-            SquadBuilderBottomBar(
-                modifier = modifier,
-                currentTab = SquadBuilderBottomTab.HOME,
-                onTabSelected = {
-                    state.eventSink(PlayerUiEvent.OnTabSelect(it.screen))
-                },
-            )
-        },
     ) { innerPadding ->
         PlayerContent(
             innerPadding = innerPadding,
@@ -157,7 +146,12 @@ private fun PlayerContent(
         )
 
         AdBanner(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    vertical = SquadBuilderTheme.spacing.spacing4,
+                    horizontal = SquadBuilderTheme.spacing.spacing4,
+                ),
             adUnitId = state.admobBannerId,
         )
         Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))

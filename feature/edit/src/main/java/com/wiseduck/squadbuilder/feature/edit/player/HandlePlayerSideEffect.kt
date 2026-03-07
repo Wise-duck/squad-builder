@@ -2,8 +2,8 @@ package com.wiseduck.squadbuilder.feature.edit.player
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
+import com.skydoves.compose.effects.RememberedEffect
 
 @Composable
 fun HandlePlayerSideEffect(
@@ -12,8 +12,8 @@ fun HandlePlayerSideEffect(
 ) {
     val context = LocalContext.current
 
-    LaunchedEffect(state.sideEffect) {
-        val effect = state.sideEffect ?: return@LaunchedEffect
+    RememberedEffect(state.sideEffect) {
+        val effect = state.sideEffect ?: return@RememberedEffect
 
         when (effect) {
             is PlayerSideEffect.ShowToast -> {

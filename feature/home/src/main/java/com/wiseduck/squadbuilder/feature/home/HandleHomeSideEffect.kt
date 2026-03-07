@@ -2,18 +2,18 @@ package com.wiseduck.squadbuilder.feature.home
 
 import android.widget.Toast
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
+import com.skydoves.compose.effects.RememberedEffect
 
 @Composable
 fun HandleHomeSideEffect(
-    state: HomeUiState,
+    sideEffect: HomeSideEffect?,
     eventSink: (HomeUiEvent) -> Unit,
 ) {
     val context = LocalContext.current
 
-    LaunchedEffect(state.sideEffect) {
-        val effect = state.sideEffect ?: return@LaunchedEffect
+    RememberedEffect(sideEffect) {
+        val effect = sideEffect ?: return@RememberedEffect
 
         when (effect) {
             is HomeSideEffect.ShowToast -> {

@@ -14,11 +14,12 @@ private fun com.wiseduck.squadbuilder.feature.screens.component.BottomBarItem(ta
     - onClick: STABLE (function type)
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomBar(modifier: androidx.compose.ui.Modifier, currentTab: com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab, onTabSelected: kotlin.Function1<com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab, kotlin.Unit>): kotlin.Unit
+public fun com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomBar(modifier: androidx.compose.ui.Modifier, tabs: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab>, currentTab: com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab, onTabSelected: kotlin.Function1<com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab, kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:
     - modifier: STABLE (marked @Stable or @Immutable)
+    - tabs: STABLE (known stable type)
     - currentTab: STABLE (class with no mutable properties)
     - onTabSelected: STABLE (function type)
 

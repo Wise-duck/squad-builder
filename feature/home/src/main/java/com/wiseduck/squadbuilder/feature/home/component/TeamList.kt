@@ -16,14 +16,17 @@ import androidx.compose.ui.text.style.TextAlign
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.feature.home.HomeUiState
+import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.feature.home.R
-import com.wiseduck.squadbuilder.feature.home.mock.homeUiStateMock
+import com.wiseduck.squadbuilder.feature.home.mock.fakeTeams
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun TeamList(
     modifier: Modifier = Modifier,
-    state: HomeUiState,
+    teams: ImmutableList<TeamModel>,
+    isRefreshing: Boolean,
     onRefresh: () -> Unit,
     onTeamClick: (Int, String) -> Unit,
     onTeamDeleteClick: (Int) -> Unit,
@@ -32,16 +35,16 @@ fun TeamList(
         modifier = modifier,
         state = rememberPullToRefreshState(),
         onRefresh = onRefresh,
-        isRefreshing = state.isRefreshing,
+        isRefreshing = isRefreshing,
     ) {
-        if (state.teams.isEmpty()) {
+        if (teams.isEmpty()) {
             TeamListEmptyMessage()
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
             ) {
                 items(
-                    items = state.teams,
+                    items = teams,
                     key = { team -> team.teamId },
                 ) { team ->
                     TeamCard(
@@ -82,7 +85,8 @@ private fun TeamListEmptyMessage(
 private fun TeamListPreview() {
     SquadBuilderTheme {
         TeamList(
-            state = homeUiStateMock,
+            teams = fakeTeams.toImmutableList(),
+            isRefreshing = false,
             onRefresh = {},
             onTeamClick = { _, _ -> },
             onTeamDeleteClick = {},

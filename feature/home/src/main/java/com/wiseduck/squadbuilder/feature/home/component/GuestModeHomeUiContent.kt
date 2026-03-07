@@ -24,14 +24,12 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.component.AdBanner
-import com.wiseduck.squadbuilder.feature.home.HomeUiState
 import com.wiseduck.squadbuilder.feature.home.R
-import com.wiseduck.squadbuilder.feature.home.mock.homeUiStateMock
 
 @Composable
 fun GuestModeHomeUiContent(
     modifier: Modifier = Modifier,
-    state: HomeUiState,
+    adUnitId: String,
     onLoginClick: () -> Unit,
 ) {
     Column(modifier = modifier.fillMaxSize()) {
@@ -74,7 +72,7 @@ fun GuestModeHomeUiContent(
                     vertical = SquadBuilderTheme.spacing.spacing4,
                     horizontal = SquadBuilderTheme.spacing.spacing4,
                 ),
-            adUnitId = state.adUnitId,
+            adUnitId = adUnitId,
         )
     }
 }
@@ -84,7 +82,7 @@ fun GuestModeHomeUiContent(
 private fun GuestModeHomeUiContentPreview() {
     SquadBuilderTheme {
         GuestModeHomeUiContent(
-            state = homeUiStateMock,
+            adUnitId = "",
             onLoginClick = {},
         )
     }
