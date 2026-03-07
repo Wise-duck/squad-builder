@@ -19,15 +19,6 @@ public fun com.wiseduck.squadbuilder.feature.edit.formation.FormationUi(state: c
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.wiseduck.squadbuilder.feature.edit.formation.FormationUiContent(innerPadding: androidx.compose.foundation.layout.PaddingValues, state: com.wiseduck.squadbuilder.feature.edit.formation.FormationUiState, formationGraphicLayers: androidx.compose.ui.graphics.layer.GraphicsLayer): kotlin.Unit
-  skippable: false
-  restartable: true
-  params:
-    - innerPadding: STABLE (marked @Stable or @Immutable)
-    - state: STABLE (class with no mutable properties)
-    - formationGraphicLayers: UNSTABLE (has mutable properties or unstable members)
-
-@Composable
 private fun com.wiseduck.squadbuilder.feature.edit.formation.FormationUiPreView(): kotlin.Unit
   skippable: true
   restartable: true
