@@ -49,6 +49,7 @@ kakaoCore = "2.22.0"
 composeBom = "2025.10.01"
 constraintlayoutCompose = "1.1.1"
 composeStableMarker = "1.0.7"
+composeEffects = "0.1.4"
 
 ## Circuit
 circuit = "0.31.0"
@@ -131,6 +132,7 @@ androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graph
 androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
 compose-system-ui-controller = { group = "tech.thdev", name = "extensions-compose-system-ui-controller", version.ref = "composeExtensions" }
 compose-stable-marker = { group = "com.github.skydoves", name = "compose-stable-marker", version.ref = "composeStableMarker" }
+compose-effects = { module = "com.github.skydoves:compose-effects", version.ref = "composeEffects" }
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
