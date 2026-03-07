@@ -63,44 +63,37 @@ class FormationPresenter @AssistedInject constructor(
         val scope = rememberCoroutineScope()
         var sideEffect by remember { mutableStateOf<FormationSideEffect?>(null) }
 
+        var isLoading by remember { mutableStateOf(false) }
+        var isCapturing by remember { mutableStateOf(false) }
+        var isSaveDialogVisible by remember { mutableStateOf(false) }
+        var isListModalVisible by remember { mutableStateOf(false) }
+        var isResetConfirmDialogVisible by remember { mutableStateOf(false) }
+        var isPlayerQuarterStatusVisible by remember { mutableStateOf(false) }
+        var isQuarterSelectionDialogVisible by remember { mutableStateOf(false) }
+
         val teamId = screen.teamId
         val teamName = screen.teamName
-
-        var currentQuarter by remember { mutableIntStateOf(1) }
         var allPlacements by remember {
             mutableStateOf(persistentMapOf<Int, PersistentList<PlacementModel>>())
         }
-
-        var isLoading by remember { mutableStateOf(false) }
         var allReferees by remember { mutableStateOf(persistentMapOf<Int, String>()) }
         var formationList by remember { mutableStateOf(persistentListOf<FormationListItemModel>()) }
-        var isListModalVisible by remember { mutableStateOf(false) }
-        var isResetConfirmDialogVisible by remember { mutableStateOf(false) }
-
         var players by remember { mutableStateOf(persistentListOf<PlacementModel>()) }
+        var availablePlayers by remember { mutableStateOf(persistentListOf<TeamPlayerModel>()) }
         var selectedSlotId by remember { mutableStateOf<Int?>(null) }
+        var playerQuarterStatus by remember { mutableStateOf<ImmutableList<PlayerQuarterStatusModel>>(persistentListOf()) }
 
-        var draggedPlayerInitialPosition by remember { mutableStateOf<PlacementModel?>(null) }
+        var currentQuarter by remember { mutableIntStateOf(1) }
         var currentFormationId by remember { mutableStateOf<Int?>(null) }
         var currentFormationName by remember { mutableStateOf("") }
-
-        var isQuarterSelectionDialogVisible by remember { mutableStateOf(false) }
+        val formationDefaultName = stringResource(R.string.formation_default_name)
         var sharingQuarters by remember { mutableStateOf(emptyList<Int>()) }
-
-        var isCapturing by remember { mutableStateOf(false) }
         var capturedUris by remember { mutableStateOf(mapOf<Int, Uri>()) }
         var totalQuartersToCapture by remember { mutableIntStateOf(0) }
 
-        var isSaveDialogVisible by remember { mutableStateOf(false) }
-        val formationDefaultName = stringResource(R.string.formation_default_name)
-
-        var availablePlayers by remember { mutableStateOf(persistentListOf<TeamPlayerModel>()) }
+        var draggedPlayerInitialPosition by remember { mutableStateOf<PlacementModel?>(null) }
         var playerAssignmentState by remember { mutableStateOf(PlayerAssignmentState()) }
-
         var deleteConfirmationState by remember { mutableStateOf(DeleteConfirmationState()) }
-
-        var isPlayerQuarterStatusVisible by remember { mutableStateOf(false) }
-        var playerQuarterStatus by remember { mutableStateOf<ImmutableList<PlayerQuarterStatusModel>>(persistentListOf()) }
 
         fun calculatePlayerQuarterStatus(
             allPlacements: PersistentMap<Int, PersistentList<PlacementModel>>,
@@ -167,6 +160,8 @@ class FormationPresenter @AssistedInject constructor(
                 capturedUris = capturedUris + (quarter to uri)
             }
 
+            currentCaptureQuarter = null
+
             val remainingQuarters = sharingQuarters.filter { it > quarter }.sorted()
 
             if (remainingQuarters.isNotEmpty()) {
@@ -199,8 +194,35 @@ class FormationPresenter @AssistedInject constructor(
                     sideEffect = null
                 }
 
+                FormationUiEvent.OnBackClick -> {
+                    navigator.pop()
+                }
+
+                FormationUiEvent.OnFormationResetClick -> {
+                    isResetConfirmDialogVisible = true
+                }
+
                 is FormationUiEvent.OnFormationShareClick -> {
                     isQuarterSelectionDialogVisible = true
+                }
+
+                FormationUiEvent.OnFormationSaveClick -> {
+                    val isCurrentQuarterFullyAssigned =
+                        players.size == 11 &&
+                            players.all { it.playerId != null }
+
+                    if (isCurrentQuarterFullyAssigned) {
+                        isSaveDialogVisible = true
+                    } else {
+                        sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.formation_save_alert))
+                    }
+                }
+
+                FormationUiEvent.OnPlayerQuarterStatusClick -> {
+                    if (!isPlayerQuarterStatusVisible) {
+                        playerQuarterStatus = calculatePlayerQuarterStatus(allPlacements)
+                    }
+                    isPlayerQuarterStatusVisible = !isPlayerQuarterStatusVisible
                 }
 
                 is FormationUiEvent.OnSelectQuartersToShare -> {
@@ -225,25 +247,9 @@ class FormationPresenter @AssistedInject constructor(
                     }
                 }
 
-                FormationUiEvent.OnDismissQuarterSelectionDialog -> {
-                    isQuarterSelectionDialogVisible = false
                 }
 
-                FormationUiEvent.OnBackButtonClick -> {
-                    navigator.pop()
-                }
-
-                FormationUiEvent.OnFormationResetClick -> {
-                    isResetConfirmDialogVisible = true
-                }
-
-                is FormationUiEvent.OnQuarterChange -> {
-                    currentQuarter = event.quarter
-                    players = allPlacements[currentQuarter] ?: createDefaultPlayers(currentQuarter).toPersistentList()
-                    selectedSlotId = null
-                }
-
-                FormationUiEvent.OnConfirmReset -> {
+                FormationUiEvent.OnFormationResetConfirm -> {
                     allPlacements = persistentMapOf(
                         1 to createDefaultPlayers(1).toPersistentList(),
                         2 to createDefaultPlayers(2).toPersistentList(),
@@ -257,8 +263,10 @@ class FormationPresenter @AssistedInject constructor(
                     isResetConfirmDialogVisible = false
                 }
 
-                FormationUiEvent.OnDismissResetDialog -> {
-                    isResetConfirmDialogVisible = false
+                is FormationUiEvent.OnQuarterChange -> {
+                    currentQuarter = event.quarter
+                    players = allPlacements[currentQuarter] ?: createDefaultPlayers(currentQuarter).toPersistentList()
+                    selectedSlotId = null
                 }
 
                 FormationUiEvent.OnFormationListClick -> {
@@ -277,13 +285,6 @@ class FormationPresenter @AssistedInject constructor(
                                 )
                             }
                     }
-                }
-
-                FormationUiEvent.OnPlayerQuarterStatusClick -> {
-                    if (!isPlayerQuarterStatusVisible) {
-                        playerQuarterStatus = calculatePlayerQuarterStatus(allPlacements)
-                    }
-                    isPlayerQuarterStatusVisible = !isPlayerQuarterStatusVisible
                 }
 
                 is FormationUiEvent.OnFormationCardClick -> {
@@ -330,99 +331,6 @@ class FormationPresenter @AssistedInject constructor(
                     allReferees = allReferees.put(event.quarter, event.refereeName)
                 }
 
-                FormationUiEvent.OnFormationSaveClick -> {
-                    val isCurrentQuarterFullyAssigned =
-                        players.size == 11 &&
-                            players.all { it.playerId != null }
-
-                    if (isCurrentQuarterFullyAssigned) {
-                        isSaveDialogVisible = true
-                    } else {
-                        sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.formation_save_alert))
-                    }
-                }
-
-                FormationUiEvent.OnSaveDialogConfirm -> {
-                    isSaveDialogVisible = false
-
-                    scope.launch {
-                        isLoading = true
-
-                        try {
-                            val placements =
-                                allPlacements.flatMap { (quarter, players) ->
-                                    players.mapNotNull { placement ->
-                                        placement.playerId?.let {
-                                            PlacementSaveModel(
-                                                playerId = it,
-                                                quarter = quarter,
-                                                coordX = (placement.coordX * 1000).toInt(),
-                                                coordY = (placement.coordY * 1000).toInt(),
-                                            )
-                                        }
-                                    }
-                                }
-
-                            val refereesMap = allReferees.mapKeys { (quarter, _) ->
-                                quarter.toString()
-                            }
-
-                            val request = FormationSaveModel(
-                                teamId = teamId,
-                                name = currentFormationName.ifBlank { formationDefaultName },
-                                placements = placements,
-                                referees = refereesMap,
-                            )
-
-                            val isUpdate = currentFormationId != null
-
-                            if (isUpdate) {
-                                formationRepository.updateFormation(currentFormationId!!, request)
-                                    .onSuccess {
-                                        sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.success_toast_message))
-                                    }
-                                    .onFailure { exception ->
-                                        handleException(
-                                            exception = exception,
-                                            onError = { uiText ->
-                                                sideEffect = FormationSideEffect.ShowToast(uiText)
-                                            },
-                                        )
-                                    }
-                            } else {
-                                formationRepository.createFormation(request)
-                                    .onSuccess {
-                                        sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.success_toast_message))
-                                        scope.launch {
-                                            formationRepository.getFormationList(teamId)
-                                                .onSuccess { newList ->
-                                                    formationList = newList.toPersistentList()
-                                                }
-                                        }
-                                    }
-                                    .onFailure { exception ->
-                                        handleException(
-                                            exception = exception,
-                                            onError = { uiText ->
-                                                sideEffect = FormationSideEffect.ShowToast(uiText)
-                                            },
-                                        )
-                                    }
-                            }
-                        } finally {
-                            isLoading = false
-                        }
-                    }
-                }
-
-                FormationUiEvent.OnSaveDialogDismiss -> {
-                    isSaveDialogVisible = false
-                }
-
-                FormationUiEvent.OnDismissListModal -> {
-                    isListModalVisible = false
-                }
-
                 is FormationUiEvent.OnPlayerClick -> {
                     val clickedSlot = players.find { it.slotId == event.slotId }
                     if (clickedSlot != null) {
@@ -435,10 +343,6 @@ class FormationPresenter @AssistedInject constructor(
                             selectedSlotId = if (selectedSlotId == event.slotId) null else event.slotId
                         }
                     }
-                }
-
-                FormationUiEvent.OnDismissPlayerInfoDialog -> {
-                    selectedSlotId = null
                 }
 
                 is FormationUiEvent.OnPlayerDragStart -> {
@@ -515,6 +419,18 @@ class FormationPresenter @AssistedInject constructor(
                     allPlacements = allPlacements.put(currentQuarter, players)
                 }
 
+                FormationUiEvent.OnModifyPlayerClick -> {
+                    val targetSlotId = selectedSlotId
+                    if (targetSlotId != null) {
+                        playerAssignmentState =
+                            PlayerAssignmentState(
+                                isDialogVisible = true,
+                                slotId = targetSlotId,
+                            )
+                    }
+                    selectedSlotId = null
+                }
+
                 is FormationUiEvent.OnAssignPlayer -> {
                     val targetSlotId = playerAssignmentState.slotId
                     val playerToAssign = availablePlayers.find { it.id == event.playerIdToAssign }
@@ -554,11 +470,7 @@ class FormationPresenter @AssistedInject constructor(
                     allPlacements = allPlacements.put(currentQuarter, players)
                 }
 
-                FormationUiEvent.OnDismissPlayerAssignmentDialog -> {
-                    playerAssignmentState = PlayerAssignmentState(isDialogVisible = false, slotId = null)
-                }
-
-                is FormationUiEvent.OnDeleteFormationClick -> {
+                is FormationUiEvent.OnFormationDeleteClick -> {
                     deleteConfirmationState =
                         DeleteConfirmationState(
                             isDialogVisible = true,
@@ -566,7 +478,7 @@ class FormationPresenter @AssistedInject constructor(
                         )
                 }
 
-                FormationUiEvent.OnDeleteFormationConfirm -> {
+                FormationUiEvent.OnFormationDeleteConfirm -> {
                     val formationId = deleteConfirmationState.formationIdToDelete
                     if (formationId != null) {
                         scope.launch {
@@ -594,20 +506,103 @@ class FormationPresenter @AssistedInject constructor(
                     deleteConfirmationState = DeleteConfirmationState()
                 }
 
-                FormationUiEvent.OnDismissDeleteDialog -> {
+                FormationUiEvent.OnFormationSaveConfirm -> {
+                    isSaveDialogVisible = false
+                    scope.launch {
+                        isLoading = true
+                        try {
+                            val placements =
+                                allPlacements.flatMap { (quarter, players) ->
+                                    players.mapNotNull { placement ->
+                                        placement.playerId?.let {
+                                            PlacementSaveModel(
+                                                playerId = it,
+                                                quarter = quarter,
+                                                coordX = (placement.coordX * 1000).toInt(),
+                                                coordY = (placement.coordY * 1000).toInt(),
+                                            )
+                                        }
+                                    }
+                                }
+
+                            val refereesMap = allReferees.mapKeys { (quarter, _) ->
+                                quarter.toString()
+                            }
+
+                            val request = FormationSaveModel(
+                                teamId = teamId,
+                                name = currentFormationName.ifBlank { formationDefaultName },
+                                placements = placements,
+                                referees = refereesMap,
+                            )
+
+                            val isUpdate = currentFormationId != null
+
+                            if (isUpdate) {
+                                formationRepository.updateFormation(currentFormationId!!, request)
+                                    .onSuccess {
+                                        sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.success_toast_message))
+                                    }
+                                    .onFailure { exception ->
+                                        handleException(
+                                            exception = exception,
+                                            onError = { uiText ->
+                                                sideEffect = FormationSideEffect.ShowToast(uiText)
+                                            },
+                                        )
+                                    }
+                            } else {
+                                formationRepository.createFormation(request)
+                                    .onSuccess {
+                                        sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.success_toast_message))
+                                        scope.launch {
+                                            formationRepository.getFormationList(teamId)
+                                                .onSuccess { newList ->
+                                                    formationList = newList.toPersistentList()
+                                                }
+                                        }
+                                    }
+                                    .onFailure { exception ->
+                                        handleException(
+                                            exception = exception,
+                                            onError = { uiText ->
+                                                sideEffect = FormationSideEffect.ShowToast(uiText)
+                                            },
+                                        )
+                                    }
+                            }
+                        } finally {
+                            isLoading = false
+                        }
+                    }
+                }
+
+                FormationUiEvent.OnDismissPlayerAssignmentDialog -> {
+                    playerAssignmentState = PlayerAssignmentState(isDialogVisible = false, slotId = null)
+                }
+
+                FormationUiEvent.OnDismissFormationDeleteDialog -> {
                     deleteConfirmationState = DeleteConfirmationState()
                 }
 
-                FormationUiEvent.OnModifyPlayerClick -> {
-                    val targetSlotId = selectedSlotId
-                    if (targetSlotId != null) {
-                        playerAssignmentState =
-                            PlayerAssignmentState(
-                                isDialogVisible = true,
-                                slotId = targetSlotId,
-                            )
-                    }
+                FormationUiEvent.OnDismissPlayerInfoDialog -> {
                     selectedSlotId = null
+                }
+
+                FormationUiEvent.OnDismissFormationListModal -> {
+                    isListModalVisible = false
+                }
+
+                FormationUiEvent.OnDismissFormationResetDialog -> {
+                    isResetConfirmDialogVisible = false
+                }
+
+                FormationUiEvent.OnDismissFormationSaveDialog -> {
+                    isSaveDialogVisible = false
+                }
+
+                FormationUiEvent.OnDismissQuarterSelectionDialog -> {
+                    isQuarterSelectionDialogVisible = false
                 }
             }
         }

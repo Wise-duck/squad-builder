@@ -82,8 +82,8 @@ fun FormationUi(
 
     if (state.deleteConfirmationState.isDialogVisible) {
         SquadBuilderDialog(
-            onConfirmRequest = { state.eventSink(FormationUiEvent.OnDeleteFormationConfirm) },
-            onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissDeleteDialog) },
+            onConfirmRequest = { state.eventSink(FormationUiEvent.OnFormationDeleteConfirm) },
+            onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissFormationDeleteDialog) },
             confirmButtonText = stringResource(R.string.dialog_delete_text_button),
             dismissButtonText = stringResource(R.string.dialog_cancel_text_button),
             title = stringResource(R.string.formation_delete_confirm_dialog_title),
@@ -106,8 +106,8 @@ fun FormationUi(
 
     if (state.isSaveDialogVisible) {
         SquadBuilderDialog(
-            onConfirmRequest = { state.eventSink(FormationUiEvent.OnSaveDialogConfirm) },
-            onDismissRequest = { state.eventSink(FormationUiEvent.OnSaveDialogDismiss) },
+            onConfirmRequest = { state.eventSink(FormationUiEvent.OnFormationSaveConfirm) },
+            onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissFormationSaveDialog) },
             confirmButtonText = stringResource(R.string.dialog_save_text_button),
             dismissButtonText = stringResource(R.string.dialog_cancel_text_button),
             title = stringResource(R.string.formation_save_confirm_dialog_title),
@@ -126,8 +126,8 @@ fun FormationUi(
 
     if (state.isResetConfirmDialogVisible) {
         SquadBuilderDialog(
-            onConfirmRequest = { state.eventSink(FormationUiEvent.OnConfirmReset) },
-            onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissResetDialog) },
+            onConfirmRequest = { state.eventSink(FormationUiEvent.OnFormationResetConfirm) },
+            onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissFormationResetDialog) },
             confirmButtonText = stringResource(R.string.dialog_confirm_text_button),
             dismissButtonText = stringResource(R.string.dialog_cancel_text_button),
             title = stringResource(R.string.formation_reset_confirm_dialog_title),
@@ -155,9 +155,9 @@ fun FormationUi(
     if (state.isListModalVisible) {
         FormationListModal(
             formationList = state.formationList,
-            onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissListModal) },
+            onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissFormationListModal) },
             onFormationCardClick = { state.eventSink(FormationUiEvent.OnFormationCardClick(it)) },
-            onDeleteFormationClick = { state.eventSink(FormationUiEvent.OnDeleteFormationClick(it)) },
+            onDeleteFormationClick = { state.eventSink(FormationUiEvent.OnFormationDeleteClick(it)) },
         )
     }
 
@@ -182,7 +182,7 @@ private fun FormationUiContent(
     ) {
         FormationHeader(
             onBackClick = {
-                state.eventSink(FormationUiEvent.OnBackButtonClick)
+                state.eventSink(FormationUiEvent.OnBackClick)
             },
             onFormationListClick = {
                 state.eventSink(FormationUiEvent.OnFormationListClick)
