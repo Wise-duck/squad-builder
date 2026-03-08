@@ -16,6 +16,7 @@ data class HomeUiState(
     val adUnitId: String = "",
     val currentSortOption: TeamSortOption = TeamSortOption.LATEST,
     val teams: ImmutableList<TeamModel> = persistentListOf(),
+    val teamToDelete: TeamModel? = null,
     val sideEffect: HomeSideEffect? = null,
     val eventSink: (HomeUiEvent) -> Unit,
 ) : CircuitUiState
@@ -50,9 +51,15 @@ sealed interface HomeUiEvent : CircuitUiEvent {
         val teamName: String,
     ) : HomeUiEvent
 
-    data class OnTeamDeleteButtonClick(
+    data class OnTeamDeleteClick(
+        val team: TeamModel,
+    ) : HomeUiEvent
+
+    data class OnTeamDeleteConfirm(
         val teamId: Int,
     ) : HomeUiEvent
+
+    data object OnDismissTeamDeleteDialog : HomeUiEvent
 
     data class OnTabSelect(
         val screen: Screen,

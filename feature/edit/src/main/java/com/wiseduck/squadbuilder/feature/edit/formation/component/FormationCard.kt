@@ -31,6 +31,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.FormationListItemModel
 import com.wiseduck.squadbuilder.feature.edit.R
+import com.wiseduck.squadbuilder.feature.edit.formation.mock.fakeFormationListItem
 
 @Composable
 fun FormationCard(
@@ -95,11 +96,7 @@ fun FormationCard(
 private fun FormationCardPreview() {
     SquadBuilderTheme {
         FormationCard(
-            formation = FormationListItemModel(
-                formationId = 1,
-                name = "테스트 포메이션",
-                createdAt = "2025-10-28T14:25:27.097Z",
-            ),
+            formation = fakeFormationListItem,
             onDeleteClick = {},
             onClick = {},
         )

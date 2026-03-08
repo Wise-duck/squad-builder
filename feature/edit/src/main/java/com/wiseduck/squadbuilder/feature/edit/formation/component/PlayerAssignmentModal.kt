@@ -31,6 +31,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
 import com.wiseduck.squadbuilder.feature.edit.R
+import com.wiseduck.squadbuilder.feature.edit.formation.mock.fakeTeamPlayers
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
 
@@ -110,12 +111,7 @@ fun PlayerAssignmentModal(
 private fun PlayerAssignmentModalPreview() {
     SquadBuilderTheme {
         PlayerAssignmentModal(
-            availablePlayers = listOf(
-                TeamPlayerModel(teamId = 1, id = 1, name = "손흥민", backNumber = 7, position = "FW"),
-                TeamPlayerModel(teamId = 1, id = 2, name = "김민재", backNumber = 3, position = "DF"),
-                TeamPlayerModel(teamId = 1, id = 3, name = "이강인", backNumber = 18, position = "MF"),
-                TeamPlayerModel(teamId = 1, id = 4, name = "조현우", backNumber = 1, position = "GK"),
-            ).toPersistentList(),
+            availablePlayers = fakeTeamPlayers.toPersistentList(),
             onDismissRequest = {},
             onAssignPlayer = {},
         )

@@ -73,19 +73,19 @@ class PlayerPresenter @AssistedInject constructor(
                     sideEffect = null
                 }
 
-                is PlayerUiEvent.OnBackButtonClick -> {
+                is PlayerUiEvent.OnBackClick -> {
                     navigator.pop()
                 }
 
-                is PlayerUiEvent.OnTeamPlayerCreationButtonClick -> {
+                is PlayerUiEvent.OnPlayerCreationClick -> {
                     isShowPlayerCreationSection = true
                 }
 
-                is PlayerUiEvent.OnTeamPlayerCreationCancelButtonClick -> {
+                is PlayerUiEvent.OnPlayerCreationCancelClick -> {
                     isShowPlayerCreationSection = false
                 }
 
-                is PlayerUiEvent.OnTeamPlayerCreationConfirmButtonClick -> {
+                is PlayerUiEvent.OnPlayerCreationConfirmClick -> {
                     isLoading = true
                     scope.launch {
                         playerRepository.createTeamPlayer(
@@ -112,7 +112,7 @@ class PlayerPresenter @AssistedInject constructor(
                     }
                 }
 
-                is PlayerUiEvent.OnTeamPlayerDeleteButtonClick -> {
+                is PlayerUiEvent.OnPlayerDeleteClick -> {
                     isLoading = true
                     scope.launch {
                         playerRepository.deleteTeamPlayer(
@@ -139,7 +139,7 @@ class PlayerPresenter @AssistedInject constructor(
                     }
                 }
 
-                is PlayerUiEvent.OnTeamPlayerEditButtonClick -> {
+                is PlayerUiEvent.OnPlayerEditClick -> {
                     currentEditingPlayerId = event.playerId
                 }
 

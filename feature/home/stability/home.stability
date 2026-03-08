@@ -5,20 +5,26 @@
 //   ./gradlew :home:stabilityDump
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.home.HandleHomeSideEffect(state: com.wiseduck.squadbuilder.feature.home.HomeUiState, eventSink: kotlin.Function1<com.wiseduck.squadbuilder.feature.home.HomeUiEvent, kotlin.Unit>): kotlin.Unit
+public fun com.wiseduck.squadbuilder.feature.home.HandleHomeSideEffect(sideEffect: com.wiseduck.squadbuilder.feature.home.HomeSideEffect?, eventSink: kotlin.Function1<com.wiseduck.squadbuilder.feature.home.HomeUiEvent, kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:
-    - state: STABLE (class with no mutable properties)
+    - sideEffect: STABLE (marked @Stable or @Immutable)
     - eventSink: STABLE (function type)
 
 @Composable
-private fun com.wiseduck.squadbuilder.feature.home.HomeContent(state: com.wiseduck.squadbuilder.feature.home.HomeUiState, innerPadding: androidx.compose.foundation.layout.PaddingValues, onTeamCreateClick: kotlin.Function1<kotlin.String, kotlin.Unit>): kotlin.Unit
+private fun com.wiseduck.squadbuilder.feature.home.HomeContent(modifier: androidx.compose.ui.Modifier, isLoggedIn: kotlin.Boolean, isLoading: kotlin.Boolean, isRefreshing: kotlin.Boolean, teams: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.TeamModel>, currentSortOption: com.wiseduck.squadbuilder.feature.home.TeamSortOption, adUnitId: kotlin.String, onEvent: kotlin.Function1<com.wiseduck.squadbuilder.feature.home.HomeUiEvent, kotlin.Unit>, onTeamCreateClick: kotlin.Function1<kotlin.String, kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:
-    - state: STABLE (class with no mutable properties)
-    - innerPadding: STABLE (marked @Stable or @Immutable)
+    - modifier: STABLE (marked @Stable or @Immutable)
+    - isLoggedIn: STABLE (primitive type)
+    - isLoading: STABLE (primitive type)
+    - isRefreshing: STABLE (primitive type)
+    - teams: STABLE (known stable type)
+    - currentSortOption: STABLE (class with no mutable properties)
+    - adUnitId: STABLE (String is immutable)
+    - onEvent: STABLE (function type)
     - onTeamCreateClick: STABLE (function type)
 
 @Composable
@@ -34,6 +40,12 @@ public fun com.wiseduck.squadbuilder.feature.home.HomeUi(modifier: androidx.comp
   params:
     - modifier: STABLE (marked @Stable or @Immutable)
     - state: STABLE (class with no mutable properties)
+
+@Composable
+private fun com.wiseduck.squadbuilder.feature.home.HomeUiDeleteDialogPreview(): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
 
 @Composable
 private fun com.wiseduck.squadbuilder.feature.home.HomeUiEmptyPreview(): kotlin.Unit
@@ -54,12 +66,12 @@ private fun com.wiseduck.squadbuilder.feature.home.HomeUiPreview(): kotlin.Unit
   params:
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.home.component.GuestModeHomeUiContent(modifier: androidx.compose.ui.Modifier, state: com.wiseduck.squadbuilder.feature.home.HomeUiState, onLoginClick: kotlin.Function0<kotlin.Unit>): kotlin.Unit
+public fun com.wiseduck.squadbuilder.feature.home.component.GuestModeHomeUiContent(modifier: androidx.compose.ui.Modifier, adUnitId: kotlin.String, onLoginClick: kotlin.Function0<kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:
     - modifier: STABLE (marked @Stable or @Immutable)
-    - state: STABLE (class with no mutable properties)
+    - adUnitId: STABLE (String is immutable)
     - onLoginClick: STABLE (function type)
 
 @Composable
@@ -82,7 +94,7 @@ private fun com.wiseduck.squadbuilder.feature.home.component.HomeHeaderPreview()
   params:
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.home.component.TeamCard(modifier: androidx.compose.ui.Modifier, team: com.wiseduck.squadbuilder.core.model.TeamModel, onDeleteClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, onClick: kotlin.Function2<kotlin.Int, kotlin.String, kotlin.Unit>): kotlin.Unit
+public fun com.wiseduck.squadbuilder.feature.home.component.TeamCard(modifier: androidx.compose.ui.Modifier, team: com.wiseduck.squadbuilder.core.model.TeamModel, onDeleteClick: kotlin.Function1<com.wiseduck.squadbuilder.core.model.TeamModel, kotlin.Unit>, onClick: kotlin.Function2<kotlin.Int, kotlin.String, kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:
@@ -106,12 +118,13 @@ public fun com.wiseduck.squadbuilder.feature.home.component.TeamCreateSection(mo
     - onTeamCreateClick: STABLE (function type)
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.home.component.TeamList(modifier: androidx.compose.ui.Modifier, state: com.wiseduck.squadbuilder.feature.home.HomeUiState, onRefresh: kotlin.Function0<kotlin.Unit>, onTeamClick: kotlin.Function2<kotlin.Int, kotlin.String, kotlin.Unit>, onTeamDeleteClick: kotlin.Function1<kotlin.Int, kotlin.Unit>): kotlin.Unit
+public fun com.wiseduck.squadbuilder.feature.home.component.TeamList(modifier: androidx.compose.ui.Modifier, teams: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.TeamModel>, isRefreshing: kotlin.Boolean, onRefresh: kotlin.Function0<kotlin.Unit>, onTeamClick: kotlin.Function2<kotlin.Int, kotlin.String, kotlin.Unit>, onTeamDeleteClick: kotlin.Function1<com.wiseduck.squadbuilder.core.model.TeamModel, kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:
     - modifier: STABLE (marked @Stable or @Immutable)
-    - state: STABLE (class with no mutable properties)
+    - teams: STABLE (known stable type)
+    - isRefreshing: STABLE (primitive type)
     - onRefresh: STABLE (function type)
     - onTeamClick: STABLE (function type)
     - onTeamDeleteClick: STABLE (function type)

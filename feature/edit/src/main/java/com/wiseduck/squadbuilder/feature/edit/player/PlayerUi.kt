@@ -30,8 +30,6 @@ import com.wiseduck.squadbuilder.feature.edit.player.component.PlayerHeader
 import com.wiseduck.squadbuilder.feature.edit.player.component.PlayerList
 import com.wiseduck.squadbuilder.feature.edit.player.mock.fakePlayerUiStateMock
 import com.wiseduck.squadbuilder.feature.screens.PlayerScreen
-import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomBar
-import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab
 import dagger.hilt.android.components.ActivityRetainedComponent
 
 @CircuitInject(PlayerScreen::class, ActivityRetainedComponent::class)
@@ -47,15 +45,6 @@ fun PlayerUi(
 
     SquadBuilderScaffold(
         modifier = modifier.fillMaxSize(),
-        bottomBar = {
-            SquadBuilderBottomBar(
-                modifier = modifier,
-                currentTab = SquadBuilderBottomTab.HOME,
-                onTabSelected = {
-                    state.eventSink(PlayerUiEvent.OnTabSelect(it.screen))
-                },
-            )
-        },
     ) { innerPadding ->
         PlayerContent(
             innerPadding = innerPadding,
@@ -81,10 +70,10 @@ private fun PlayerContent(
     ) {
         PlayerHeader(
             onBackClick = {
-                state.eventSink(PlayerUiEvent.OnBackButtonClick)
+                state.eventSink(PlayerUiEvent.OnBackClick)
             },
             onAddClick = {
-                state.eventSink(PlayerUiEvent.OnTeamPlayerCreationButtonClick)
+                state.eventSink(PlayerUiEvent.OnPlayerCreationClick)
             },
         )
         Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
@@ -129,7 +118,7 @@ private fun PlayerContent(
                 commitButtonText = stringResource(R.string.player_form_card_register_button),
                 onCommitButtonClick = { _, name, position, backNumber ->
                     state.eventSink(
-                        PlayerUiEvent.OnTeamPlayerCreationConfirmButtonClick(
+                        PlayerUiEvent.OnPlayerCreationConfirmClick(
                             name = name,
                             position = position,
                             backNumber = backNumber,
@@ -137,7 +126,7 @@ private fun PlayerContent(
                     )
                 },
                 onCancelButtonClick = {
-                    state.eventSink(PlayerUiEvent.OnTeamPlayerCreationCancelButtonClick)
+                    state.eventSink(PlayerUiEvent.OnPlayerCreationCancelClick)
                 },
             )
         }
@@ -149,15 +138,20 @@ private fun PlayerContent(
             players = state.players,
             currentEditingPlayerId = state.currentEditingPlayerId,
             onPlayerDeleteClick = {
-                state.eventSink(PlayerUiEvent.OnTeamPlayerDeleteButtonClick(it))
+                state.eventSink(PlayerUiEvent.OnPlayerDeleteClick(it))
             },
             onPlayerEditClick = {
-                state.eventSink(PlayerUiEvent.OnTeamPlayerEditButtonClick(it))
+                state.eventSink(PlayerUiEvent.OnPlayerEditClick(it))
             },
         )
 
         AdBanner(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    vertical = SquadBuilderTheme.spacing.spacing4,
+                    horizontal = SquadBuilderTheme.spacing.spacing4,
+                ),
             adUnitId = state.admobBannerId,
         )
         Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))

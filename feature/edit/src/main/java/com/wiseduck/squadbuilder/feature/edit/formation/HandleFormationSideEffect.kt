@@ -6,14 +6,13 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.FileProvider
+import com.skydoves.compose.effects.RememberedEffect
 import com.wiseduck.squadbuilder.core.common.extensions.saveToDisk
 import com.wiseduck.squadbuilder.core.common.extensions.shareImages
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.io.File
 
 @Composable
@@ -22,36 +21,37 @@ fun HandleFormationSideEffect(
     formationGraphicsLayer: GraphicsLayer,
 ) {
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
 
-    LaunchedEffect(state.sideEffect) {
-        val effect = state.sideEffect ?: return@LaunchedEffect
+    RememberedEffect(state.sideEffect) {
+        val effect = state.sideEffect ?: return@RememberedEffect
 
         when (effect) {
             is FormationSideEffect.ShowToast -> {
                 Toast.makeText(context, effect.message.asString(context), Toast.LENGTH_SHORT).show()
             }
 
-            is FormationSideEffect.CaptureFormation -> {
-                delay(50)
-
-                scope.launch {
-                    val uri = captureFormationAndGetUri(
-                        context = context,
-                        graphicsLayer = formationGraphicsLayer,
-                        quarter = effect.quarter,
-                    )
-
-                    effect.onCaptureUri(effect.quarter, uri)
-                }
-            }
-
             is FormationSideEffect.ShareMultipleImages -> {
                 context.shareImages(effect.imageUris)
             }
+
+            else -> {}
         }
 
         state.eventSink(FormationUiEvent.InitSideEffect)
+    }
+
+    LaunchedEffect(state.currentCaptureQuarter) {
+        val quarter = state.currentCaptureQuarter ?: return@LaunchedEffect
+
+        delay(100)
+
+        val uri = captureFormationAndGetUri(
+            context = context,
+            graphicsLayer = formationGraphicsLayer,
+            quarter = quarter,
+        )
+
+        state.eventSink(FormationUiEvent.OnCaptureComplete(quarter, uri))
     }
 }
 

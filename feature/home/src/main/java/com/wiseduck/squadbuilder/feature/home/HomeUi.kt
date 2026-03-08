@@ -1,32 +1,38 @@
 package com.wiseduck.squadbuilder.feature.home
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
+import com.wiseduck.squadbuilder.core.designsystem.theme.White
 import com.wiseduck.squadbuilder.core.model.TeamModel
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.AdBanner
+import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
 import com.wiseduck.squadbuilder.feature.home.component.GuestModeHomeUiContent
 import com.wiseduck.squadbuilder.feature.home.component.HomeHeader
 import com.wiseduck.squadbuilder.feature.home.component.TeamCreateSection
 import com.wiseduck.squadbuilder.feature.home.component.TeamList
 import com.wiseduck.squadbuilder.feature.home.component.TeamSortDropdown
+import com.wiseduck.squadbuilder.feature.home.mock.fakeTeam
 import com.wiseduck.squadbuilder.feature.home.mock.homeUiStateMock
 import com.wiseduck.squadbuilder.feature.screens.HomeScreen
 import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomBar
 import com.wiseduck.squadbuilder.feature.screens.component.SquadBuilderBottomTab
 import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 @CircuitInject(HomeScreen::class, ActivityRetainedComponent::class)
@@ -36,7 +42,7 @@ fun HomeUi(
     state: HomeUiState,
 ) {
     HandleHomeSideEffect(
-        state = state,
+        sideEffect = state.sideEffect,
         eventSink = state.eventSink,
     )
 
@@ -44,7 +50,7 @@ fun HomeUi(
         modifier = modifier.fillMaxSize(),
         bottomBar = {
             SquadBuilderBottomBar(
-                modifier = modifier,
+                tabs = SquadBuilderBottomTab.entries.toImmutableList(),
                 currentTab = SquadBuilderBottomTab.HOME,
                 onTabSelected = {
                     state.eventSink(HomeUiEvent.OnTabSelect(it.screen))
@@ -52,76 +58,116 @@ fun HomeUi(
             )
         },
     ) { innerPadding ->
-        HomeContent(
-            state = state,
-            innerPadding = innerPadding,
-            onTeamCreateClick = {
-                state.eventSink(HomeUiEvent.OnTeamCreateButtonClick(it))
-            },
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+        ) {
+            HomeHeader()
+            HomeContent(
+                isLoggedIn = state.isLoggedIn,
+                isLoading = state.isLoading,
+                isRefreshing = state.isRefreshing,
+                teams = state.teams,
+                currentSortOption = state.currentSortOption,
+                adUnitId = state.adUnitId,
+                onEvent = state.eventSink,
+                onTeamCreateClick = { teamName ->
+                    state.eventSink(HomeUiEvent.OnTeamCreateButtonClick(teamName))
+                },
+            )
+        }
 
-        if (state.isLoading) {
-            SquadBuilderLoadingIndicator()
+        state.teamToDelete?.let {
+            SquadBuilderDialog(
+                onDismissRequest = { state.eventSink(HomeUiEvent.OnDismissTeamDeleteDialog) },
+                onConfirmRequest = {
+                    state.eventSink(HomeUiEvent.OnTeamDeleteConfirm(state.teamToDelete.teamId))
+                },
+                dismissButtonText = stringResource(R.string.cancel_button_label),
+                confirmButtonText = stringResource(R.string.confirm_button_label),
+                title = stringResource(R.string.delete_confirm_dialog_title),
+                content = {
+                    Text(
+                        text = stringResource(
+                            R.string.delete_confirm_dialog_description,
+                            state.teamToDelete.name,
+                        ),
+                        color = White,
+                    )
+                },
+            )
         }
     }
 }
 
 @Composable
 private fun HomeContent(
-    state: HomeUiState,
-    innerPadding: PaddingValues,
+    modifier: Modifier = Modifier,
+    isLoggedIn: Boolean,
+    isLoading: Boolean,
+    isRefreshing: Boolean,
+    teams: ImmutableList<TeamModel>,
+    currentSortOption: TeamSortOption,
+    adUnitId: String,
+    onEvent: (HomeUiEvent) -> Unit,
     onTeamCreateClick: (String) -> Unit,
 ) {
-    Column(
-        modifier = Modifier.padding(innerPadding),
+    Box(
+        modifier = Modifier.fillMaxSize(),
     ) {
-        HomeHeader()
-
-        if (!state.isLoggedIn) {
+        if (!isLoggedIn) {
             GuestModeHomeUiContent(
-                state = state,
+                adUnitId = adUnitId,
                 onLoginClick = {
                     onTeamCreateClick("")
                 },
             )
         } else {
-            TeamCreateSection(
-                onTeamCreateClick = onTeamCreateClick,
-            )
+            Column(modifier = modifier.fillMaxSize()) {
+                TeamCreateSection(
+                    onTeamCreateClick = onTeamCreateClick,
+                )
 
-            Row(modifier = Modifier.fillMaxWidth(0.5f)) {
-                TeamSortDropdown(
-                    currentSortOption = state.currentSortOption,
-                    onSortOptionSelected = {
-                        state.eventSink(HomeUiEvent.OnSortOptionSelect(it))
+                Row(modifier = Modifier.fillMaxWidth(0.5f)) {
+                    TeamSortDropdown(
+                        currentSortOption = currentSortOption,
+                        onSortOptionSelected = {
+                            onEvent(HomeUiEvent.OnSortOptionSelect(it))
+                        },
+                    )
+                }
+
+                TeamList(
+                    modifier = Modifier.weight(1f),
+                    teams = teams,
+                    isRefreshing = isRefreshing,
+                    onTeamClick = { teamId, teamName ->
+                        onEvent(HomeUiEvent.OnTeamCardClick(teamId, teamName))
+                    },
+                    onTeamDeleteClick = { team ->
+                        onEvent(HomeUiEvent.OnTeamDeleteClick(team))
+                    },
+                    onRefresh = {
+                        onEvent(HomeUiEvent.OnRefresh)
                     },
                 )
+
+                AdBanner(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            vertical = SquadBuilderTheme.spacing.spacing4,
+                            horizontal = SquadBuilderTheme.spacing.spacing4,
+                        ),
+                    adUnitId = adUnitId,
+                )
+                Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
+
+                if (isLoading) {
+                    SquadBuilderLoadingIndicator()
+                }
             }
-
-            TeamList(
-                modifier = Modifier.weight(1f),
-                state = state,
-                onTeamClick = { teamId, teamName ->
-                    state.eventSink(HomeUiEvent.OnTeamCardClick(teamId, teamName))
-                },
-                onTeamDeleteClick = {
-                    state.eventSink(HomeUiEvent.OnTeamDeleteButtonClick(it))
-                },
-                onRefresh = {
-                    state.eventSink(HomeUiEvent.OnRefresh)
-                },
-            )
-
-            AdBanner(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        vertical = SquadBuilderTheme.spacing.spacing4,
-                        horizontal = SquadBuilderTheme.spacing.spacing4,
-                    ),
-                adUnitId = state.adUnitId,
-            )
-            Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
         }
     }
 }
@@ -132,6 +178,18 @@ private fun HomeUiPreview() {
     SquadBuilderTheme {
         HomeUi(
             state = homeUiStateMock,
+        )
+    }
+}
+
+@DevicePreview
+@Composable
+private fun HomeUiDeleteDialogPreview() {
+    SquadBuilderTheme {
+        HomeUi(
+            state = homeUiStateMock.copy(
+                teamToDelete = fakeTeam,
+            ),
         )
     }
 }

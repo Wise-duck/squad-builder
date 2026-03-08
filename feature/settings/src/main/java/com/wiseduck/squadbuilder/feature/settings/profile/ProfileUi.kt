@@ -27,6 +27,7 @@ import com.wiseduck.squadbuilder.feature.settings.profile.component.ProfileCard
 import com.wiseduck.squadbuilder.feature.settings.profile.component.ProfileHeader
 import com.wiseduck.squadbuilder.feature.settings.profile.mock.profileUiStateMock
 import dagger.hilt.android.components.ActivityRetainedComponent
+import kotlinx.collections.immutable.toImmutableList
 
 @CircuitInject(ProfileScreen::class, ActivityRetainedComponent::class)
 @Composable
@@ -43,7 +44,7 @@ fun ProfileUi(
         modifier = modifier.fillMaxSize(),
         bottomBar = {
             SquadBuilderBottomBar(
-                modifier = modifier,
+                tabs = SquadBuilderBottomTab.entries.toImmutableList(),
                 currentTab = SquadBuilderBottomTab.PROFILE,
                 onTabSelected = {
                     state.eventSink(ProfileUiEvent.OnTabSelect(it.screen))

@@ -28,10 +28,13 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun SquadBuilderBottomBar(
     modifier: Modifier = Modifier,
+    tabs: ImmutableList<SquadBuilderBottomTab>,
     currentTab: SquadBuilderBottomTab,
     onTabSelected: (SquadBuilderBottomTab) -> Unit,
 ) {
@@ -57,7 +60,7 @@ fun SquadBuilderBottomBar(
                     .height(60.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                SquadBuilderBottomTab.entries.forEach { tab ->
+                tabs.forEach { tab ->
                     BottomBarItem(
                         tab = tab,
                         isSelected = (tab == currentTab),
@@ -117,6 +120,7 @@ private fun SquadBuilderBottomBarPreview() {
         SquadBuilderScaffold(
             bottomBar = {
                 SquadBuilderBottomBar(
+                    tabs = SquadBuilderBottomTab.entries.toImmutableList(),
                     currentTab = SquadBuilderBottomTab.PROFILE,
                     onTabSelected = {},
                 )

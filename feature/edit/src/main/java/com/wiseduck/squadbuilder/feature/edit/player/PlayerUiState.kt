@@ -30,19 +30,19 @@ sealed interface PlayerSideEffect {
 sealed interface PlayerUiEvent : CircuitUiEvent {
     data object InitSideEffect : PlayerUiEvent
 
-    data object OnBackButtonClick : PlayerUiEvent
+    data object OnBackClick : PlayerUiEvent
 
-    data object OnTeamPlayerCreationButtonClick : PlayerUiEvent
+    data object OnPlayerCreationClick : PlayerUiEvent
 
-    data object OnTeamPlayerCreationCancelButtonClick : PlayerUiEvent
+    data object OnPlayerCreationCancelClick : PlayerUiEvent
 
-    data class OnTeamPlayerCreationConfirmButtonClick(
+    data class OnPlayerCreationConfirmClick(
         val name: String,
         val position: String,
         val backNumber: Int,
     ) : PlayerUiEvent
 
-    data class OnTeamPlayerEditButtonClick(
+    data class OnPlayerEditClick(
         val playerId: Int,
     ) : PlayerUiEvent
 
@@ -55,7 +55,7 @@ sealed interface PlayerUiEvent : CircuitUiEvent {
 
     data object OnPlayerUpdateCancel : PlayerUiEvent
 
-    data class OnTeamPlayerDeleteButtonClick(
+    data class OnPlayerDeleteClick(
         val playerId: Int,
     ) : PlayerUiEvent
 

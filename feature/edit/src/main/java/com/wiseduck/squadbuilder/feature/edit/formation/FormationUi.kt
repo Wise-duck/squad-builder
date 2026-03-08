@@ -4,7 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -23,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -73,17 +71,158 @@ fun FormationUi(
     SquadBuilderScaffold(
         modifier = modifier.fillMaxSize(),
     ) { innerPadding ->
-        FormationUiContent(
-            innerPadding = innerPadding,
-            state = state,
-            formationGraphicLayers = formationGraphicLayers,
-        )
+        Column(
+            modifier = Modifier.padding(innerPadding),
+        ) {
+            FormationHeader(
+                onBackClick = {
+                    state.eventSink(FormationUiEvent.OnBackClick)
+                },
+                onFormationListClick = {
+                    state.eventSink(FormationUiEvent.OnFormationListClick)
+                },
+            )
+            FormationController(
+                teamName = state.teamName,
+                formationName = state.currentFormationName,
+                onFormationResetClick = { state.eventSink(FormationUiEvent.OnFormationResetClick) },
+                onFormationShareClick = { state.eventSink(FormationUiEvent.OnFormationShareClick) },
+                onFormationSaveClick = { state.eventSink(FormationUiEvent.OnFormationSaveClick) },
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = SquadBuilderTheme.spacing.spacing2,
+                        vertical = SquadBuilderTheme.spacing.spacing2,
+                    ),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+            ) {
+                repeat(4) {
+                    SquadBuilderButton(
+                        text = stringResource(
+                            R.string.quarter_text_button,
+                            it + 1,
+                        ),
+                        onClick = {
+                            state.eventSink(FormationUiEvent.OnQuarterChange(it + 1))
+                        },
+                        colorStyle = if (state.currentQuarter == it + 1) ButtonColorStyle.STROKE else ButtonColorStyle.TEXT_WHITE,
+                        sizeStyle = mediumRoundedButtonStyle,
+                    )
+
+                    if (it != 3) {
+                        Spacer(modifier = Modifier.width(SquadBuilderTheme.spacing.spacing2))
+                    }
+                }
+            }
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = SquadBuilderTheme.spacing.spacing2,
+                        vertical = SquadBuilderTheme.spacing.spacing1,
+                    ),
+                contentAlignment = Alignment.Center,
+            ) {
+                SoccerField(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .captureToGraphicsLayer(formationGraphicLayers),
+                    content = {
+                        val centerCircleRadius = this.maxWidth * 0.15f
+                        val desiredShirtDiameter = centerCircleRadius * 0.9f
+                        val originalShirtDiameter = 40.dp
+                        val scaleFactor = desiredShirtDiameter / originalShirtDiameter
+
+                        if (state.isCapturing) {
+                            QuarterTag(
+                                quarter = state.currentQuarter,
+                            )
+                        }
+
+                        if (state.isLoading) {
+                            SquadBuilderLoadingIndicator()
+                        }
+
+                        RefereeInput(
+                            modifier = Modifier
+                                .fillMaxWidth(0.4f)
+                                .align(Alignment.TopEnd)
+                                .offset(
+                                    x = (-5).dp,
+                                    y = (14).dp,
+                                ),
+                            currentQuarter = state.currentQuarter,
+                            currentRefereeName = state.allReferees[state.currentQuarter] ?: "",
+                            onRefereeNameChange = {
+                                state.eventSink(FormationUiEvent.OnRefereeNameChange(state.currentQuarter, it))
+                            },
+                        )
+
+                        PlayerPlacementLayer(
+                            players = state.players,
+                            scaleFactor = scaleFactor,
+                            onPlayerDragStart = { state.eventSink(FormationUiEvent.OnPlayerDragStart(it)) },
+                            onPlayerDrag = { slotId, deltaX, deltaY ->
+                                state.eventSink(FormationUiEvent.OnPlayerDrag(slotId, deltaX, deltaY))
+                            },
+                            onPlayerDragEnd = { slotId, relativeChipWidth, relativeChipHeight ->
+                                state.eventSink(FormationUiEvent.OnPlayerDragEnd(slotId, relativeChipWidth, relativeChipHeight))
+                            },
+                            onPlayerClick = { state.eventSink(FormationUiEvent.OnPlayerClick(it)) },
+                            soccerFieldWidth = this.maxWidth,
+                            soccerFieldHeight = this.maxHeight,
+                        )
+                    },
+                )
+
+                Surface(
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .offset(x = 10.dp)
+                        .width(24.dp)
+                        .fillMaxHeight(0.15f),
+                    border = BorderStroke(
+                        width = 1.dp,
+                        color = Neutral500,
+                    ),
+                    shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
+                    color = Neutral900,
+                    onClick = {
+                        state.eventSink(FormationUiEvent.OnPlayerQuarterStatusClick)
+                    },
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_side_tab_open),
+                            contentDescription = "Open Sidebar Icon",
+                            tint = Green500,
+                            modifier = Modifier.scale(0.8f),
+                        )
+                    }
+                }
+                if (state.isPlayerQuarterStatusVisible) {
+                    PlayerQuarterStatusSideBar(
+                        onDismissRequest = {
+                            state.eventSink(FormationUiEvent.OnPlayerQuarterStatusClick)
+                        },
+                        playerQuarterStatus = state.playerQuarterStatus,
+                    )
+                }
+            }
+        }
     }
 
     if (state.deleteConfirmationState.isDialogVisible) {
         SquadBuilderDialog(
-            onConfirmRequest = { state.eventSink(FormationUiEvent.OnDeleteFormationConfirm) },
-            onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissDeleteDialog) },
+            onConfirmRequest = { state.eventSink(FormationUiEvent.OnFormationDeleteConfirm) },
+            onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissFormationDeleteDialog) },
             confirmButtonText = stringResource(R.string.dialog_delete_text_button),
             dismissButtonText = stringResource(R.string.dialog_cancel_text_button),
             title = stringResource(R.string.formation_delete_confirm_dialog_title),
@@ -106,8 +245,8 @@ fun FormationUi(
 
     if (state.isSaveDialogVisible) {
         SquadBuilderDialog(
-            onConfirmRequest = { state.eventSink(FormationUiEvent.OnSaveDialogConfirm) },
-            onDismissRequest = { state.eventSink(FormationUiEvent.OnSaveDialogDismiss) },
+            onConfirmRequest = { state.eventSink(FormationUiEvent.OnFormationSaveConfirm) },
+            onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissFormationSaveDialog) },
             confirmButtonText = stringResource(R.string.dialog_save_text_button),
             dismissButtonText = stringResource(R.string.dialog_cancel_text_button),
             title = stringResource(R.string.formation_save_confirm_dialog_title),
@@ -126,8 +265,8 @@ fun FormationUi(
 
     if (state.isResetConfirmDialogVisible) {
         SquadBuilderDialog(
-            onConfirmRequest = { state.eventSink(FormationUiEvent.OnConfirmReset) },
-            onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissResetDialog) },
+            onConfirmRequest = { state.eventSink(FormationUiEvent.OnFormationResetConfirm) },
+            onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissFormationResetDialog) },
             confirmButtonText = stringResource(R.string.dialog_confirm_text_button),
             dismissButtonText = stringResource(R.string.dialog_cancel_text_button),
             title = stringResource(R.string.formation_reset_confirm_dialog_title),
@@ -155,9 +294,9 @@ fun FormationUi(
     if (state.isListModalVisible) {
         FormationListModal(
             formationList = state.formationList,
-            onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissListModal) },
+            onDismissRequest = { state.eventSink(FormationUiEvent.OnDismissFormationListModal) },
             onFormationCardClick = { state.eventSink(FormationUiEvent.OnFormationCardClick(it)) },
-            onDeleteFormationClick = { state.eventSink(FormationUiEvent.OnDeleteFormationClick(it)) },
+            onDeleteFormationClick = { state.eventSink(FormationUiEvent.OnFormationDeleteClick(it)) },
         )
     }
 
@@ -168,157 +307,6 @@ fun FormationUi(
             },
             onDismiss = { state.eventSink(FormationUiEvent.OnDismissQuarterSelectionDialog) },
         )
-    }
-}
-
-@Composable
-private fun FormationUiContent(
-    innerPadding: PaddingValues,
-    state: FormationUiState,
-    formationGraphicLayers: GraphicsLayer,
-) {
-    Column(
-        modifier = Modifier.padding(innerPadding),
-    ) {
-        FormationHeader(
-            onBackClick = {
-                state.eventSink(FormationUiEvent.OnBackButtonClick)
-            },
-            onFormationListClick = {
-                state.eventSink(FormationUiEvent.OnFormationListClick)
-            },
-        )
-
-        FormationController(
-            teamName = state.teamName,
-            formationName = state.currentFormationName,
-            onFormationResetClick = { state.eventSink(FormationUiEvent.OnFormationResetClick) },
-            onFormationShareClick = { state.eventSink(FormationUiEvent.OnFormationShareClick) },
-            onFormationSaveClick = { state.eventSink(FormationUiEvent.OnFormationSaveClick) },
-        )
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-        ) {
-            repeat(4) {
-                SquadBuilderButton(
-                    text = stringResource(
-                        R.string.quarter_text_button,
-                        it + 1,
-                    ),
-                    onClick = {
-                        state.eventSink(FormationUiEvent.OnQuarterChange(it + 1))
-                    },
-                    colorStyle = if (state.currentQuarter == it + 1) ButtonColorStyle.STROKE else ButtonColorStyle.TEXT_WHITE,
-                    sizeStyle = mediumRoundedButtonStyle,
-                )
-
-                if (it != 3) {
-                    Spacer(modifier = Modifier.width(SquadBuilderTheme.spacing.spacing2))
-                }
-            }
-        }
-
-        Box(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 4.dp),
-            contentAlignment = Alignment.Center,
-        ) {
-            SoccerField(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .captureToGraphicsLayer(formationGraphicLayers),
-                content = {
-                    val centerCircleRadius = this.maxWidth * 0.15f
-                    val desiredShirtDiameter = centerCircleRadius * 0.9f
-                    val originalShirtDiameter = 40.dp
-                    val scaleFactor = desiredShirtDiameter / originalShirtDiameter
-
-                    if (state.isCapturing) {
-                        QuarterTag(
-                            quarter = state.currentQuarter,
-                        )
-                    }
-
-                    if (state.isLoading) {
-                        SquadBuilderLoadingIndicator()
-                    }
-
-                    RefereeInput(
-                        modifier = Modifier
-                            .fillMaxWidth(0.4f)
-                            .align(Alignment.TopEnd)
-                            .offset(
-                                x = (-5).dp,
-                                y = (14).dp,
-                            ),
-                        currentQuarter = state.currentQuarter,
-                        currentRefereeName = state.allReferees[state.currentQuarter] ?: "",
-                        onRefereeNameChange = {
-                            state.eventSink(FormationUiEvent.OnRefereeNameChange(state.currentQuarter, it))
-                        },
-                    )
-
-                    PlayerPlacementLayer(
-                        players = state.players,
-                        scaleFactor = scaleFactor,
-                        onPlayerDragStart = { state.eventSink(FormationUiEvent.OnPlayerDragStart(it)) },
-                        onPlayerDrag = { slotId, deltaX, deltaY ->
-                            state.eventSink(FormationUiEvent.OnPlayerDrag(slotId, deltaX, deltaY))
-                        },
-                        onPlayerDragEnd = { slotId, relativeChipWidth, relativeChipHeight ->
-                            state.eventSink(FormationUiEvent.OnPlayerDragEnd(slotId, relativeChipWidth, relativeChipHeight))
-                        },
-                        onPlayerClick = { state.eventSink(FormationUiEvent.OnPlayerClick(it)) },
-                        soccerFieldWidth = this.maxWidth,
-                        soccerFieldHeight = this.maxHeight,
-                    )
-                },
-            )
-
-            Surface(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .offset(x = 10.dp)
-                    .width(24.dp)
-                    .fillMaxHeight(0.15f),
-                border = BorderStroke(
-                    width = 1.dp,
-                    color = Neutral500,
-                ),
-                shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
-                color = Neutral900,
-                onClick = {
-                    state.eventSink(FormationUiEvent.OnPlayerQuarterStatusClick)
-                },
-            ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_side_tab_open),
-                        contentDescription = "Open Sidebar Icon",
-                        tint = Green500,
-                        modifier = Modifier.scale(0.8f),
-                    )
-                }
-            }
-            if (state.isPlayerQuarterStatusVisible) {
-                PlayerQuarterStatusSideBar(
-                    onDismissRequest = {
-                        state.eventSink(FormationUiEvent.OnPlayerQuarterStatusClick)
-                    },
-                    playerQuarterStatus = state.playerQuarterStatus,
-                )
-            }
-        }
     }
 }
 
