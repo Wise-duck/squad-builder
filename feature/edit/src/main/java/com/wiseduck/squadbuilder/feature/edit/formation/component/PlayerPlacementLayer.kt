@@ -4,19 +4,16 @@ import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.offset
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.model.PlacementModel
 import com.wiseduck.squadbuilder.core.ui.component.PlayerChip
-import com.wiseduck.squadbuilder.feature.edit.formation.data.getPositionForCoordinates
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -48,14 +45,6 @@ fun PlayerPlacementLayer(
                     .offset(x = xOffset, y = yOffset),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(
-                    text = getPositionForCoordinates(
-                        player.coordX,
-                        player.coordY,
-                    ),
-                    color = Color.White,
-                )
-
                 PlayerChip(
                     modifier = Modifier
                         .scale(scaleFactor)
