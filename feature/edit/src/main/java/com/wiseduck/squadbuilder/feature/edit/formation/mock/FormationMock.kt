@@ -13,7 +13,7 @@ val fakeTeamPlayers = listOf(
     TeamPlayerModel(teamId = 1, id = 4, name = "조현우", backNumber = 1, position = "GK"),
 )
 
-val fakeFormationListItem =  FormationListItemModel(1, "4-3-3", "2026-01-01T00:00:00Z")
+val fakeFormationListItem = FormationListItemModel(1, "4-3-3", "2026-01-01T00:00:00Z")
 
 val fakeFormationList = listOf(
     FormationListItemModel(1, "4-3-3", "2026-01-01T00:00:00Z"),
