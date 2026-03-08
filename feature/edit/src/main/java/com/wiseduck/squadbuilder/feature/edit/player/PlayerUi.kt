@@ -70,10 +70,10 @@ private fun PlayerContent(
     ) {
         PlayerHeader(
             onBackClick = {
-                state.eventSink(PlayerUiEvent.OnBackButtonClick)
+                state.eventSink(PlayerUiEvent.OnBackClick)
             },
             onAddClick = {
-                state.eventSink(PlayerUiEvent.OnTeamPlayerCreationButtonClick)
+                state.eventSink(PlayerUiEvent.OnPlayerCreationClick)
             },
         )
         Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))
@@ -118,7 +118,7 @@ private fun PlayerContent(
                 commitButtonText = stringResource(R.string.player_form_card_register_button),
                 onCommitButtonClick = { _, name, position, backNumber ->
                     state.eventSink(
-                        PlayerUiEvent.OnTeamPlayerCreationConfirmButtonClick(
+                        PlayerUiEvent.OnPlayerCreationConfirmClick(
                             name = name,
                             position = position,
                             backNumber = backNumber,
@@ -126,7 +126,7 @@ private fun PlayerContent(
                     )
                 },
                 onCancelButtonClick = {
-                    state.eventSink(PlayerUiEvent.OnTeamPlayerCreationCancelButtonClick)
+                    state.eventSink(PlayerUiEvent.OnPlayerCreationCancelClick)
                 },
             )
         }
@@ -138,10 +138,10 @@ private fun PlayerContent(
             players = state.players,
             currentEditingPlayerId = state.currentEditingPlayerId,
             onPlayerDeleteClick = {
-                state.eventSink(PlayerUiEvent.OnTeamPlayerDeleteButtonClick(it))
+                state.eventSink(PlayerUiEvent.OnPlayerDeleteClick(it))
             },
             onPlayerEditClick = {
-                state.eventSink(PlayerUiEvent.OnTeamPlayerEditButtonClick(it))
+                state.eventSink(PlayerUiEvent.OnPlayerEditClick(it))
             },
         )
 
