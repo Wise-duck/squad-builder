@@ -73,7 +73,8 @@ class PlayerPresenter @AssistedInject constructor(
 
         suspend fun deletePlayer(teamId: Int, playerId: Int) {
             playerRepository.deleteTeamPlayer(teamId, playerId)
-                .onSuccess { players = players.mutate { list -> list.removeIf { it.id == playerId } }
+                .onSuccess {
+                    players = players.mutate { list -> list.removeIf { it.id == playerId } }
                     currentEditingPlayerId = null
                 }
                 .onFailure { exception ->

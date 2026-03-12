@@ -176,7 +176,9 @@ class FormationPresenter @AssistedInject constructor(
                 val urisToSend = sharingQuarters.mapNotNull { capturedUris[it] }
 
                 if (urisToSend.size == totalQuartersToCapture && urisToSend.isNotEmpty()) {
-                    analyticsService.logEvent(FORMATION_SHARE_SUCCESS, params =
+                    analyticsService.logEvent(
+                        FORMATION_SHARE_SUCCESS,
+                        params =
                         mapOf(
                             TOTAL_IMAGES to urisToSend.size,
                         ),
@@ -270,7 +272,7 @@ class FormationPresenter @AssistedInject constructor(
                     }
                 }
                 .onFailure { exception ->
-                    handleException(exception, onError = { sideEffect = FormationSideEffect.ShowToast(it)})
+                    handleException(exception, onError = { sideEffect = FormationSideEffect.ShowToast(it) })
                 }
         }
 
