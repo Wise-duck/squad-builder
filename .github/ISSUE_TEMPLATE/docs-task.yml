@@ -1,0 +1,44 @@
+name: "📝 Documentation"
+description: "Improve or add new documentation."
+title: "[Docs] "
+labels: ["documentation"]
+body:
+    - type: textarea
+      id: docs_summary
+      attributes:
+          label: "📝 Documentation Summary"
+          description: "What documentation are you adding or improving?"
+          placeholder: "e.g., Update API guide for Gesture Navigation"
+      validations:
+          required: true
+
+    - type: dropdown
+      id: docs_type
+      attributes:
+          label: "📚 Documentation Type"
+          options:
+              - README / Contribution Guide
+              - API Documentation
+              - Technical Spec / Architecture
+              - Tutorial / Examples
+      validations:
+          required: true
+
+    - type: textarea
+      id: tasks
+      attributes:
+          label: "🔧 Tasks"
+          value: |
+              - [ ] Review current documentation
+              - [ ] Draft new content
+              - [ ] Proofreading / Links check
+      validations:
+          required: true
+
+    - type: textarea
+      id: additional_info
+      attributes:
+          label: "🔗 Additional Information"
+          description: "Links to related issues or external resources."
+      validations:
+          required: false

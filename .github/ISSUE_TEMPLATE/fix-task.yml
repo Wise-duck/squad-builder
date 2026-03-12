@@ -1,0 +1,55 @@
+name: "🐛 Bug Fix"
+description: "Report a bug or submit a fix task."
+title: "[Fix] "
+labels: ["bug", "fix"]
+body:
+    - type: input
+      id: issue_summary
+      attributes:
+          label: "📝 Issue Summary"
+          placeholder: "e.g., Player chip remains stuck after rapid dragging"
+      validations:
+          required: true
+
+    - type: textarea
+      id: ui_comparison
+      attributes:
+          label: "🎨 UI Comparison (Optional)"
+          description: "If this is a UI fix, please provide before/after screenshots."
+          value: |
+              | Actual (Bug) | Expected |
+              | :---: | :---: |
+              | <img src="" width="180" /> | <img src="" width="180" /> |
+      validations:
+          required: false
+
+    - type: textarea
+      id: context
+      attributes:
+          label: "🔗 Environment & Logs"
+          description: "Device model, Android version, or relevant logs."
+          placeholder: "Pixel 7, Android 14. Logs: 'Failed to save formation ~'"
+      validations:
+          required: false
+
+    - type: textarea
+      id: tasks
+      attributes:
+          label: "🔧 Development Tasks"
+          description: "List the steps needed to resolve this issue."
+          value: |
+              - [ ] Reproduce the bug
+              - [ ] Root cause analysis
+              - [ ] Implementation & Fix
+              - [ ] Unit testing / UI testing
+      validations:
+          required: true
+
+    - type: textarea
+      id: context
+      attributes:
+          label: "🔗 Context & Resources"
+          description: "Add any relevant links, logs, or environment details (e.g., Android version, device model)."
+          placeholder: "Relevant logs or links to related code/documentation..."
+      validations:
+          required: false

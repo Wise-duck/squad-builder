@@ -1,0 +1,32 @@
+name: "⚙️ Chore"
+description: "Maintenance tasks, dependency updates, or CI/CD configuration."
+title: "[Chore] "
+labels: ["chore", "dependencies"]
+body:
+    - type: textarea
+      id: chore_summary
+      attributes:
+          label: "📝 Chore Summary"
+          description: "Describe the maintenance task."
+          placeholder: "e.g., Upgrade Circuit to v0.33.1"
+      validations:
+          required: true
+
+    - type: textarea
+      id: tasks
+      attributes:
+          label: "🔧 Tasks"
+          value: |
+              - [ ] Update version/config
+              - [ ] Verify build stability
+              - [ ] Update documentation (if needed)
+      validations:
+          required: true
+
+    - type: textarea
+      id: impact
+      attributes:
+          label: "⚠️ Potential Impact"
+          description: "Does this change affect the build process or other modules?"
+      validations:
+          required: false

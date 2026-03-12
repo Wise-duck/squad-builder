@@ -1,0 +1,33 @@
+name: "♻️ Refactor"
+description: "Improve code structure or performance without changing functionality."
+title: "[Refactor] "
+labels: ["refactor", "optimization"]
+body:
+    - type: textarea
+      id: refactor_summary
+      attributes:
+          label: "📝 Refactor Summary"
+          description: "What part of the code are you improving and why?"
+          placeholder: "e.g., Optimize player dragging performance"
+      validations:
+          required: true
+
+    - type: textarea
+      id: current_issue
+      attributes:
+          label: "📉 Current Problems"
+          description: "Explain why the current code needs refactoring (e.g., Technical debt, Performance issues)."
+      validations:
+          required: false
+
+    - type: textarea
+      id: tasks
+      attributes:
+          label: "🔧 Refactoring Tasks"
+          value: |
+              - [ ] Identify target code/module
+              - [ ] Implementation
+              - [ ] Regression testing
+              - [ ] Code review
+      validations:
+          required: true

@@ -1,0 +1,42 @@
+name: "✨ Feature Request"
+description: "Suggest a new idea or submit a feature implementation task."
+title: "[Feature] "
+labels: ["feature", "enhancement"]
+body:
+    - type: textarea
+      id: feature_summary
+      attributes:
+          label: "📝 Feature Summary"
+          description: "Suggest a new idea or a tactical tool implementation."
+          placeholder: "e.g., Add 3-5-2 formation template, Implement player substitution history"
+      validations:
+          required: true
+
+    - type: textarea
+      id: user_story
+      attributes:
+          label: "💡 User Story / Motivation"
+          description: "Explain why this is needed for a coach/user."
+          placeholder: "As a coach, I want to save multiple quarters so that I can manage player rotation."
+      validations:
+          required: false
+
+    - type: textarea
+      id: tasks
+      attributes:
+          label: "🔧 Development Tasks"
+          value: |
+              - [ ] Requirement Analysis
+              - [ ] UI/UX Design (if applicable)
+              - [ ] Implementation
+              - [ ] Verification & Testing
+      validations:
+          required: true
+
+    - type: textarea
+      id: tech_stack
+      attributes:
+          label: "🛠 Technical Details"
+          description: "Mention any specific libraries or architectures (e.g., Circuit, Room)."
+      validations:
+          required: false
