@@ -1,6 +1,5 @@
 package com.wiseduck.squadbuilder.feature.edit.player
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -57,13 +56,49 @@ class PlayerPresenter @AssistedInject constructor(
                     players = it.toPersistentList()
                 }
                 .onFailure { exception ->
-                    handleException(
-                        exception = exception,
-                        onError = { uiText ->
-                            PlayerSideEffect.ShowToast(uiText)
-                        },
-                    )
-                    Log.e("PlayerPresenter", "선수 목록 로드 실패: $exception")
+                    handleException(exception, onError = { sideEffect = PlayerSideEffect.ShowToast(it) })
+                }
+        }
+
+        suspend fun createPlayer(teamId: Int, name: String, position: String, backNumber: Int) {
+            playerRepository.createTeamPlayer(teamId, name, position, backNumber)
+                .onSuccess {
+                    isShowPlayerCreationSection = false
+                    players = players.add(it)
+                }
+                .onFailure { exception ->
+                    handleException(exception, onError = { sideEffect = PlayerSideEffect.ShowToast(it) })
+                }
+        }
+
+        suspend fun deletePlayer(teamId: Int, playerId: Int) {
+            playerRepository.deleteTeamPlayer(teamId, playerId)
+                .onSuccess { players = players.mutate { list -> list.removeIf { it.id == playerId } }
+                    currentEditingPlayerId = null
+                }
+                .onFailure { exception ->
+                    handleException(exception, onError = { sideEffect = PlayerSideEffect.ShowToast(it) })
+                }
+        }
+
+        suspend fun editPlayer(teamId: Int, name: String, position: String, backNumber: Int) {
+            playerRepository.updateTeamPlayer(
+                teamId = teamId,
+                playerId = currentEditingPlayerId!!,
+                name = name,
+                position = position,
+                backNumber = backNumber,
+            )
+                .onSuccess { updatedPlayer ->
+                    currentEditingPlayerId = null
+                    players = players.mutate { list ->
+                        val index = list.indexOfFirst { it.id == updatedPlayer.id }
+                        if (index != -1) list[index] = updatedPlayer
+                    }
+                }
+                .onFailure { exception ->
+                    currentEditingPlayerId = null
+                    handleException(exception, onError = { sideEffect = PlayerSideEffect.ShowToast(it) })
                 }
         }
 
@@ -86,56 +121,18 @@ class PlayerPresenter @AssistedInject constructor(
                 }
 
                 is PlayerUiEvent.OnPlayerCreationConfirmClick -> {
-                    isLoading = true
                     scope.launch {
-                        playerRepository.createTeamPlayer(
-                            teamId = screen.teamId,
-                            name = event.name,
-                            position = event.position,
-                            backNumber = event.backNumber,
-                        )
-                            .onSuccess {
-                                isLoading = false
-                                isShowPlayerCreationSection = false
-                                players = players.add(it)
-                            }
-                            .onFailure { exception ->
-                                isLoading = false
-                                handleException(
-                                    exception = exception,
-                                    onError = { uiText ->
-                                        sideEffect = PlayerSideEffect.ShowToast(uiText)
-                                    },
-                                )
-                                Log.e("PlayerPresenter", "선수 생성 실패: $exception")
-                            }
+                        isLoading = true
+                        createPlayer(screen.teamId, event.name, event.position, event.backNumber)
+                        isLoading = false
                     }
                 }
 
                 is PlayerUiEvent.OnPlayerDeleteClick -> {
-                    isLoading = true
                     scope.launch {
-                        playerRepository.deleteTeamPlayer(
-                            teamId = screen.teamId,
-                            playerId = event.playerId,
-                        )
-                            .onSuccess {
-                                isLoading = false
-                                players = players.mutate { list ->
-                                    list.removeIf { it.id == event.playerId }
-                                }
-                                currentEditingPlayerId = null
-                            }
-                            .onFailure { exception ->
-                                isLoading = false
-                                handleException(
-                                    exception = exception,
-                                    onError = { uiText ->
-                                        PlayerSideEffect.ShowToast(uiText)
-                                    },
-                                )
-                                Log.e("PlayerPresenter", "선수 삭제 실패: $exception")
-                            }
+                        isLoading = true
+                        deletePlayer(screen.teamId, event.playerId)
+                        isLoading = false
                     }
                 }
 
@@ -144,34 +141,10 @@ class PlayerPresenter @AssistedInject constructor(
                 }
 
                 is PlayerUiEvent.OnPlayerUpdateConfirm -> {
-                    isLoading = true
                     scope.launch {
-                        playerRepository.updateTeamPlayer(
-                            teamId = screen.teamId,
-                            playerId = currentEditingPlayerId!!,
-                            name = event.name,
-                            position = event.position,
-                            backNumber = event.backNumber,
-                        )
-                            .onSuccess { updatedPlayer ->
-                                isLoading = false
-                                currentEditingPlayerId = null
-                                players = players.mutate { list ->
-                                    val index = list.indexOfFirst { it.id == updatedPlayer.id }
-                                    if (index != -1) list[index] = updatedPlayer
-                                }
-                            }
-                            .onFailure { exception ->
-                                isLoading = false
-                                currentEditingPlayerId = null
-                                handleException(
-                                    exception = exception,
-                                    onError = { uiText ->
-                                        sideEffect = PlayerSideEffect.ShowToast(uiText)
-                                    },
-                                )
-                                Log.e("PlayerPresenter", "선수 수정 실패: $exception")
-                            }
+                        isLoading = true
+                        editPlayer(screen.teamId, event.name, event.position, event.backNumber)
+                        isLoading = false
                     }
                 }
 
