@@ -103,6 +103,25 @@ class FormationPresenter @AssistedInject constructor(
         var playerAssignmentState by remember { mutableStateOf(PlayerAssignmentState()) }
         var deleteConfirmationState by remember { mutableStateOf(DeleteConfirmationState()) }
 
+        LaunchedEffect(Unit) {
+            playerRepository.getTeamPlayers(screen.teamId)
+                .onSuccess {
+                    availablePlayers = it.toPersistentList()
+                }
+                .onFailure { exception ->
+                    handleException(exception, onError = { sideEffect = FormationSideEffect.ShowToast(it) })
+                }
+
+            allPlacements = persistentMapOf(
+                1 to createDefaultPlayers(1).toPersistentList(),
+                2 to createDefaultPlayers(2).toPersistentList(),
+                3 to createDefaultPlayers(3).toPersistentList(),
+                4 to createDefaultPlayers(4).toPersistentList(),
+            )
+
+            players = allPlacements[currentQuarter]!!
+        }
+
         fun calculatePlayerQuarterStatus(
             allPlacements: PersistentMap<Int, PersistentList<PlacementModel>>,
         ): ImmutableList<PlayerQuarterStatusModel> {
@@ -136,30 +155,6 @@ class FormationPresenter @AssistedInject constructor(
                 .toPersistentList()
         }
 
-        LaunchedEffect(Unit) {
-            playerRepository.getTeamPlayers(screen.teamId)
-                .onSuccess {
-                    availablePlayers = it.toPersistentList()
-                }
-                .onFailure { exception ->
-                    handleException(
-                        exception = exception,
-                        onError = { uiText ->
-                            sideEffect = FormationSideEffect.ShowToast(uiText)
-                        },
-                    )
-                }
-
-            allPlacements = persistentMapOf(
-                1 to createDefaultPlayers(1).toPersistentList(),
-                2 to createDefaultPlayers(2).toPersistentList(),
-                3 to createDefaultPlayers(3).toPersistentList(),
-                4 to createDefaultPlayers(4).toPersistentList(),
-            )
-
-            players = allPlacements[currentQuarter]!!
-        }
-
         fun onQuarterCaptureFinished(quarter: Int, uri: Uri?) {
             if (uri != null) {
                 capturedUris = capturedUris + (quarter to uri)
@@ -181,9 +176,8 @@ class FormationPresenter @AssistedInject constructor(
                 val urisToSend = sharingQuarters.mapNotNull { capturedUris[it] }
 
                 if (urisToSend.size == totalQuartersToCapture && urisToSend.isNotEmpty()) {
-                    analyticsService.logEvent(
-                        FORMATION_SHARE_SUCCESS,
-                        params = mapOf(
+                    analyticsService.logEvent(FORMATION_SHARE_SUCCESS, params =
+                        mapOf(
                             TOTAL_IMAGES to urisToSend.size,
                         ),
                     )
@@ -192,6 +186,121 @@ class FormationPresenter @AssistedInject constructor(
                     sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.multiple_share_capture_error))
                 }
             }
+        }
+
+        fun resetFormation() {
+            allPlacements = persistentMapOf(
+                1 to createDefaultPlayers(1).toPersistentList(),
+                2 to createDefaultPlayers(2).toPersistentList(),
+                3 to createDefaultPlayers(3).toPersistentList(),
+                4 to createDefaultPlayers(4).toPersistentList(),
+            )
+            players = allPlacements[currentQuarter]!!
+
+            currentFormationId = null
+            currentFormationName = ""
+            isResetConfirmDialogVisible = false
+        }
+
+        suspend fun getFormationList() {
+            formationRepository.getFormationList(teamId)
+                .onSuccess { list ->
+                    formationList = list.toPersistentList()
+                    isListModalVisible = true
+                }
+                .onFailure { exception ->
+                    handleException(exception, onError = { sideEffect = FormationSideEffect.ShowToast(it) })
+                }
+        }
+
+        fun buildFormationSaveRequest(formationDefaultName: String): FormationSaveModel {
+            val placements =
+                allPlacements.flatMap { (quarter, players) ->
+                    players.mapNotNull { placement ->
+                        placement.playerId?.let { playerId ->
+                            PlacementSaveModel(playerId, quarter, (placement.coordX * 1000).toInt(), (placement.coordY * 1000).toInt())
+                        }
+                    }
+                }
+
+            val refereesMap = allReferees.mapKeys { (quarter, _) ->
+                quarter.toString()
+            }
+
+            return FormationSaveModel(
+                teamId = teamId,
+                name = currentFormationName.ifBlank { formationDefaultName },
+                placements = placements,
+                referees = refereesMap,
+            )
+        }
+
+        suspend fun createFormation(request: FormationSaveModel) {
+            formationRepository.createFormation(request)
+                .onSuccess {
+                    sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.success_toast_message))
+                    formationRepository.getFormationList(teamId)
+                        .onSuccess { formationList = it.toPersistentList() }
+                }
+                .onFailure { exception ->
+                    handleException(exception, onError = { sideEffect = FormationSideEffect.ShowToast(it) })
+                }
+        }
+
+        suspend fun updateFormation(request: FormationSaveModel) {
+            formationRepository.updateFormation(currentFormationId!!, request)
+                .onSuccess {
+                    sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.success_toast_message))
+                }
+                .onFailure { exception ->
+                    handleException(exception, onError = { sideEffect = FormationSideEffect.ShowToast(it) })
+                }
+        }
+
+        suspend fun deleteFormation(formationId: Int) {
+            formationRepository.deleteFormation(formationId)
+                .onSuccess {
+                    sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.success_toast_message))
+                    formationList = formationList.mutate { list ->
+                        list.removeIf { it.formationId == formationId }
+                    }
+                    if (currentFormationId == formationId) {
+                        currentFormationId = null
+                        currentFormationName = ""
+                    }
+                }
+                .onFailure { exception ->
+                    handleException(exception, onError = { sideEffect = FormationSideEffect.ShowToast(it)})
+                }
+        }
+
+        suspend fun changeFormation(formationId: Int) {
+            formationRepository.getFormationDetail(formationId)
+                .onSuccess { formationDetail ->
+                    val loadedPlacements = formationDetail.placements
+                        .groupBy { it.quarter }
+                        .mapValues { it.value.toPersistentList() }
+
+                    val initialPlacements = (1..4).associateWith {
+                        createDefaultPlayers(it).toPersistentList()
+                    }.toPersistentMap()
+
+                    allPlacements = (initialPlacements + loadedPlacements).toPersistentMap()
+
+                    players = allPlacements[currentQuarter] ?: initialPlacements[currentQuarter]!!
+
+                    allReferees = formationDetail.referees
+                        .mapKeys { (quarter, _) -> quarter.toIntOrNull() ?: 0 }
+                        .filterKeys { it != 0 }
+                        .toPersistentMap()
+
+                    currentFormationId = formationDetail.formationId
+                    currentFormationName = formationDetail.name
+                    isListModalVisible = false
+                }
+                .onFailure { exception ->
+                    handleException(exception, onError = { sideEffect = FormationSideEffect.ShowToast(it) })
+                }
         }
 
         fun handleEvent(event: FormationUiEvent) {
@@ -255,17 +364,7 @@ class FormationPresenter @AssistedInject constructor(
                 }
 
                 FormationUiEvent.OnFormationResetConfirm -> {
-                    allPlacements = persistentMapOf(
-                        1 to createDefaultPlayers(1).toPersistentList(),
-                        2 to createDefaultPlayers(2).toPersistentList(),
-                        3 to createDefaultPlayers(3).toPersistentList(),
-                        4 to createDefaultPlayers(4).toPersistentList(),
-                    )
-                    players = allPlacements[currentQuarter]!!
-
-                    currentFormationId = null
-                    currentFormationName = ""
-                    isResetConfirmDialogVisible = false
+                    resetFormation()
                 }
 
                 is FormationUiEvent.OnQuarterChange -> {
@@ -276,55 +375,13 @@ class FormationPresenter @AssistedInject constructor(
 
                 FormationUiEvent.OnFormationListClick -> {
                     scope.launch {
-                        formationRepository.getFormationList(teamId)
-                            .onSuccess { list ->
-                                formationList = list.toPersistentList()
-                                isListModalVisible = true
-                            }
-                            .onFailure { exception ->
-                                handleException(
-                                    exception = exception,
-                                    onError = { uiText ->
-                                        sideEffect = FormationSideEffect.ShowToast(uiText)
-                                    },
-                                )
-                            }
+                        getFormationList()
                     }
                 }
 
                 is FormationUiEvent.OnFormationCardClick -> {
                     scope.launch {
-                        formationRepository.getFormationDetail(event.formationId)
-                            .onSuccess { formationDetail ->
-                                val loadedPlacements = formationDetail.placements
-                                    .groupBy { it.quarter }
-                                    .mapValues { it.value.toPersistentList() }
-
-                                val initialPlacements = (1..4).associateWith {
-                                    createDefaultPlayers(it).toPersistentList()
-                                }.toPersistentMap()
-
-                                allPlacements = (initialPlacements + loadedPlacements).toPersistentMap()
-
-                                players = allPlacements[currentQuarter] ?: initialPlacements[currentQuarter]!!
-
-                                allReferees = formationDetail.referees
-                                    .mapKeys { (quarter, _) -> quarter.toIntOrNull() ?: 0 }
-                                    .filterKeys { it != 0 }
-                                    .toPersistentMap()
-
-                                currentFormationId = formationDetail.formationId
-                                currentFormationName = formationDetail.name
-                                isListModalVisible = false
-                            }
-                            .onFailure { exception ->
-                                handleException(
-                                    exception = exception,
-                                    onError = { uiText ->
-                                        sideEffect = FormationSideEffect.ShowToast(uiText)
-                                    },
-                                )
-                            }
+                        changeFormation(event.formationId)
                     }
                 }
 
@@ -425,13 +482,8 @@ class FormationPresenter @AssistedInject constructor(
                 }
 
                 FormationUiEvent.OnModifyPlayerClick -> {
-                    val targetSlotId = selectedSlotId
-                    if (targetSlotId != null) {
-                        playerAssignmentState =
-                            PlayerAssignmentState(
-                                isDialogVisible = true,
-                                slotId = targetSlotId,
-                            )
+                    if (selectedSlotId != null) {
+                        playerAssignmentState = PlayerAssignmentState(isDialogVisible = true, slotId = selectedSlotId)
                     }
                     selectedSlotId = null
                 }
@@ -476,38 +528,18 @@ class FormationPresenter @AssistedInject constructor(
                 }
 
                 is FormationUiEvent.OnFormationDeleteClick -> {
-                    deleteConfirmationState =
-                        DeleteConfirmationState(
-                            isDialogVisible = true,
-                            formationIdToDelete = event.formationId,
-                        )
+                    deleteConfirmationState = DeleteConfirmationState(isDialogVisible = true, formationIdToDelete = event.formationId)
                 }
 
                 FormationUiEvent.OnFormationDeleteConfirm -> {
                     val formationId = deleteConfirmationState.formationIdToDelete
+
                     if (formationId != null) {
                         scope.launch {
-                            formationRepository.deleteFormation(formationId)
-                                .onSuccess {
-                                    sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.success_toast_message))
-                                    formationList = formationList.mutate { list ->
-                                        list.removeIf { it.formationId == formationId }
-                                    }
-                                    if (currentFormationId == formationId) {
-                                        currentFormationId = null
-                                        currentFormationName = ""
-                                    }
-                                }
-                                .onFailure { exception ->
-                                    handleException(
-                                        exception = exception,
-                                        onError = { uiText ->
-                                            sideEffect = FormationSideEffect.ShowToast(uiText)
-                                        },
-                                    )
-                                }
+                            deleteFormation(formationId)
                         }
                     }
+
                     deleteConfirmationState = DeleteConfirmationState()
                 }
 
@@ -516,65 +548,12 @@ class FormationPresenter @AssistedInject constructor(
                     scope.launch {
                         isLoading = true
                         try {
-                            val placements =
-                                allPlacements.flatMap { (quarter, players) ->
-                                    players.mapNotNull { placement ->
-                                        placement.playerId?.let {
-                                            PlacementSaveModel(
-                                                playerId = it,
-                                                quarter = quarter,
-                                                coordX = (placement.coordX * 1000).toInt(),
-                                                coordY = (placement.coordY * 1000).toInt(),
-                                            )
-                                        }
-                                    }
-                                }
+                            val request = buildFormationSaveRequest(formationDefaultName)
 
-                            val refereesMap = allReferees.mapKeys { (quarter, _) ->
-                                quarter.toString()
-                            }
-
-                            val request = FormationSaveModel(
-                                teamId = teamId,
-                                name = currentFormationName.ifBlank { formationDefaultName },
-                                placements = placements,
-                                referees = refereesMap,
-                            )
-
-                            val isUpdate = currentFormationId != null
-
-                            if (isUpdate) {
-                                formationRepository.updateFormation(currentFormationId!!, request)
-                                    .onSuccess {
-                                        sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.success_toast_message))
-                                    }
-                                    .onFailure { exception ->
-                                        handleException(
-                                            exception = exception,
-                                            onError = { uiText ->
-                                                sideEffect = FormationSideEffect.ShowToast(uiText)
-                                            },
-                                        )
-                                    }
+                            if (currentFormationId != null) {
+                                updateFormation(request)
                             } else {
-                                formationRepository.createFormation(request)
-                                    .onSuccess {
-                                        sideEffect = FormationSideEffect.ShowToast(UiText.StringResource(R.string.success_toast_message))
-                                        scope.launch {
-                                            formationRepository.getFormationList(teamId)
-                                                .onSuccess { newList ->
-                                                    formationList = newList.toPersistentList()
-                                                }
-                                        }
-                                    }
-                                    .onFailure { exception ->
-                                        handleException(
-                                            exception = exception,
-                                            onError = { uiText ->
-                                                sideEffect = FormationSideEffect.ShowToast(uiText)
-                                            },
-                                        )
-                                    }
+                                createFormation(request)
                             }
                         } finally {
                             isLoading = false
