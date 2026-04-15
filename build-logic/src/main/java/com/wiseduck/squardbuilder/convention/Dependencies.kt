@@ -32,3 +32,10 @@ fun DependencyHandler.implementationProject(path: String): Dependency? {
     return add("implementation", project(path))
 }
 
+fun DependencyHandler.testImplementation(dependencyNotation: Any): Dependency? {
+    return add("testImplementation", dependencyNotation)
+}
+
+fun DependencyHandler.testRuntimeOnly(dependencyNotation: Any): Dependency? {
+    return add("testRuntimeOnly", dependencyNotation)
+}
