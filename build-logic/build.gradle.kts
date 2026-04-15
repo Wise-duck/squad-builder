@@ -21,6 +21,7 @@ gradlePlugin {
         "kotlin.library.serialization" to "KotlinLibrarySerializationConventionPlugin",
         "android.retrofit" to "AndroidRetrofitConventionPlugin",
         "android.firebase" to "AndroidFirebaseConventionPlugin",
+        "test" to "TestConventionPlugin",
     )
 
     plugins {

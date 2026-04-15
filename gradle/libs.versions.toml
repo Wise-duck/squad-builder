@@ -77,6 +77,13 @@ detektPlugin = "1.23.8"
 # Compose Stability
 composeStabilityAnalyzer = "0.6.4"
 
+# Mockit
+mockitoCore = "5.23.0"
+mockitoKotlin = "6.3.0"
+
+# Robolectric
+robolectric = "4.16.1"
+
 [libraries]
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -105,6 +112,7 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
 firebase-remote-config = { group = "com.google.firebase", name = "firebase-config" }
 
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 kotlinx-collections-immutable = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinxCollectionsImmutable" }
@@ -141,6 +149,11 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 
 detekt-formatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "detektPlugin" }
 
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
+
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+
 [bundles]
 androidx-compose = [
     "androidx-activity-compose",
@@ -157,6 +170,12 @@ circuit = [
     "circuitx-effects",
     "circuit-runtime",
     "circuitx-gesture-navigation",
+]
+
+test-unit = [
+    "mockito-core",
+    "mockito-kotlin",
+    "robolectric",
 ]
 
 [plugins]
@@ -190,3 +209,4 @@ squadbuilder-jvm-library = { id = "squadbuilder.jvm.library", version = "unspeci
 squadbuilder-kotlin-library-serialization = { id = "squadbuilder.kotlin.library.serialization", version = "unspecified" }
 squadbuilder-android-retrofit = { id = "squadbuilder.android.retrofit", version = "unspecified" }
 squadbuilder-android-firebase = { id = "squadbuilder.android.firebase", version = "unspecified" }
+squadbuilder-test = { id = "squadbuilder.test", version = "unspecified" }
