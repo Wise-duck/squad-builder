@@ -29,7 +29,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
+import com.wiseduck.squadbuilder.core.model.TeamPlayer
 import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.formation.mock.fakeTeamPlayers
 import kotlinx.collections.immutable.ImmutableList
@@ -37,7 +37,7 @@ import kotlinx.collections.immutable.toPersistentList
 
 @Composable
 fun PlayerAssignmentModal(
-    availablePlayers: ImmutableList<TeamPlayerModel>,
+    availablePlayers: ImmutableList<TeamPlayer>,
     onDismissRequest: () -> Unit,
     onAssignPlayer: (Int) -> Unit,
 ) {

@@ -4,8 +4,8 @@ import com.wiseduck.squadbuilder.core.common.utils.runSuspendCatching
 import com.wiseduck.squadbuilder.core.data.api.repository.FormationRepository
 import com.wiseduck.squadbuilder.core.data.impl.mapper.toModel
 import com.wiseduck.squadbuilder.core.data.impl.mapper.toRequest
-import com.wiseduck.squadbuilder.core.model.FormationDetailModel
-import com.wiseduck.squadbuilder.core.model.FormationListItemModel
+import com.wiseduck.squadbuilder.core.model.FormationDetail
+import com.wiseduck.squadbuilder.core.model.FormationListItem
 import com.wiseduck.squadbuilder.core.model.FormationSaveModel
 import com.wiseduck.squadbuilder.core.network.service.SquadBuilderService
 import jakarta.inject.Inject
@@ -16,13 +16,13 @@ internal class FormationRepositoryImpl @Inject constructor(
 
     override suspend fun getFormationList(
         teamId: Int,
-    ): Result<List<FormationListItemModel>> = runSuspendCatching {
+    ): Result<List<FormationListItem>> = runSuspendCatching {
         service.getFormationList(teamId).map { it.toModel() }
     }
 
     override suspend fun getFormationDetail(
         formationId: Int,
-    ): Result<FormationDetailModel> = runSuspendCatching {
+    ): Result<FormationDetail> = runSuspendCatching {
         service.getFormationDetail(formationId).toModel()
     }
 

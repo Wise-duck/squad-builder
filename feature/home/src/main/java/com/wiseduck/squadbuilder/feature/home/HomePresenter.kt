@@ -1,6 +1,5 @@
 package com.wiseduck.squadbuilder.feature.home
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -18,7 +17,7 @@ import com.wiseduck.squadbuilder.core.common.utils.handleException
 import com.wiseduck.squadbuilder.core.data.api.repository.AuthRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.TeamRepository
 import com.wiseduck.squadbuilder.core.model.LoginState
-import com.wiseduck.squadbuilder.core.model.TeamModel
+import com.wiseduck.squadbuilder.core.model.Team
 import com.wiseduck.squadbuilder.feature.screens.HomeScreen
 import com.wiseduck.squadbuilder.feature.screens.LoginScreen
 import com.wiseduck.squadbuilder.feature.screens.TeamDetailScreen
@@ -53,20 +52,20 @@ class HomePresenter @AssistedInject constructor(
         val loginState by authRepository.loginState.collectAsRetainedState(LoginState.NOT_YET)
         val isLoggedIn = loginState == LoginState.LOGGED_IN
         var currentSortOption by remember { mutableStateOf(TeamSortOption.LATEST) }
-        var teams by remember { mutableStateOf(persistentListOf<TeamModel>()) }
-        var teamToDelete by remember { mutableStateOf<TeamModel?>(null) }
+        var teams by remember { mutableStateOf(persistentListOf<Team>()) }
+        var teamToDelete by remember { mutableStateOf<Team?>(null) }
 
         fun sortTeams(
-            teamModels: List<TeamModel>,
+            teams: List<Team>,
             sortOption: TeamSortOption,
-        ): PersistentList<TeamModel> {
+        ): PersistentList<Team> {
             val sortedList =
                 when (sortOption) {
-                    TeamSortOption.LATEST -> teamModels.sortedByDescending { it.createdAt }
-                    TeamSortOption.NAME -> teamModels.sortedBy { it.name }
+                    TeamSortOption.LATEST -> teams.sortedByDescending { it.createdAt }
+                    TeamSortOption.NAME -> teams.sortedBy { it.name }
                 }
 
-            return sortedList.toImmutableList() as PersistentList<TeamModel>
+            return sortedList.toImmutableList() as PersistentList<Team>
         }
 
         fun loadTeams() {
@@ -83,17 +82,27 @@ class HomePresenter @AssistedInject constructor(
                         teams = sortTeams(teamModels, currentSortOption)
                     }
                     .onFailure { exception ->
-                        handleException(
-                            exception = exception,
-                            onError = { uiText ->
-                                sideEffect = HomeSideEffect.ShowToast(uiText)
-                            },
-                        )
-                        Log.e("HomePresenter", "팀 목록 로드 실패", exception)
+                        handleException(exception, onError = { sideEffect = HomeSideEffect.ShowToast(it) })
                     }
                 isLoading = false
                 isRefreshing = false
             }
+        }
+
+        suspend fun createTeam(teamName: String) {
+            teamRepository.createTeam(teamName)
+                .onSuccess { teamModel ->
+                    teamRepository.getTeams()
+                        .onSuccess { updatedTeamList ->
+                            teams = sortTeams(updatedTeamList, currentSortOption)
+                        }
+                        .onFailure { exception ->
+                            handleException(exception, onError = { sideEffect = HomeSideEffect.ShowToast(it) })
+                        }
+                }
+                .onFailure { exception ->
+                    handleException(exception, onError = { sideEffect = HomeSideEffect.ShowToast(it) })
+                }
         }
 
         fun deleteTeam(teamId: Int) {
@@ -101,16 +110,10 @@ class HomePresenter @AssistedInject constructor(
                 teamRepository.deleteTeam(teamId)
                     .onSuccess {
                         val updatedTeams = teams.filter { it.teamId != teamId }
-
-                        teams = updatedTeams.toImmutableList() as PersistentList<TeamModel>
+                        teams = updatedTeams.toImmutableList() as PersistentList<Team>
                     }
                     .onFailure { exception ->
-                        handleException(
-                            exception = exception,
-                            onError = { uiText ->
-                                sideEffect = HomeSideEffect.ShowToast(uiText)
-                            },
-                        )
+                        handleException(exception, onError = { sideEffect = HomeSideEffect.ShowToast(it) })
                     }
             }
         }
@@ -151,36 +154,10 @@ class HomePresenter @AssistedInject constructor(
                         return
                     }
 
-                    isLoading = true
                     scope.launch {
-                        teamRepository.createTeam(event.teamName)
-                            .onSuccess { teamModel ->
-                                teamRepository.getTeams()
-                                    .onSuccess { updatedTeamList ->
-                                        isLoading = false
-                                        teams = sortTeams(updatedTeamList, currentSortOption)
-                                    }
-                                    .onFailure { exception ->
-                                        isLoading = false
-                                        handleException(
-                                            exception = exception,
-                                            onError = { uiText ->
-                                                sideEffect = HomeSideEffect.ShowToast(uiText)
-                                            },
-                                        )
-                                        Log.e("HomePresenter", "팀 생성은 성공했지만, 목록 로드 실패", exception)
-                                    }
-                            }
-                            .onFailure { exception ->
-                                isLoading = false
-                                handleException(
-                                    exception = exception,
-                                    onError = { uiText ->
-                                        sideEffect = HomeSideEffect.ShowToast(uiText)
-                                    },
-                                )
-                                Log.e("HomePresenter", "팀 생성 실패", exception)
-                            }
+                        isLoading = true
+                        createTeam(event.teamName)
+                        isLoading = false
                     }
                 }
 

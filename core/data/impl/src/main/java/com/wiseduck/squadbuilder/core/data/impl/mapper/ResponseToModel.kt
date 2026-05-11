@@ -1,18 +1,18 @@
 package com.wiseduck.squadbuilder.core.data.impl.mapper
 
-import com.wiseduck.squadbuilder.core.model.FormationDetailModel
-import com.wiseduck.squadbuilder.core.model.FormationListItemModel
-import com.wiseduck.squadbuilder.core.model.PlacementModel
-import com.wiseduck.squadbuilder.core.model.TeamModel
-import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
+import com.wiseduck.squadbuilder.core.model.FormationDetail
+import com.wiseduck.squadbuilder.core.model.FormationListItem
+import com.wiseduck.squadbuilder.core.model.Placement
+import com.wiseduck.squadbuilder.core.model.Team
+import com.wiseduck.squadbuilder.core.model.TeamPlayer
 import com.wiseduck.squadbuilder.core.network.response.FormationDetailResponse
 import com.wiseduck.squadbuilder.core.network.response.FormationListItemResponse
 import com.wiseduck.squadbuilder.core.network.response.PlacementResponse
 import com.wiseduck.squadbuilder.core.network.response.TeamPlayerResponse
 import com.wiseduck.squadbuilder.core.network.response.TeamResponse
 
-internal fun TeamResponse.toModel(): TeamModel {
-    return TeamModel(
+internal fun TeamResponse.toModel(): Team {
+    return Team(
         teamId = teamId,
         name = name,
         ownerId = ownerId,
@@ -21,8 +21,8 @@ internal fun TeamResponse.toModel(): TeamModel {
     )
 }
 
-internal fun TeamPlayerResponse.toModel(): TeamPlayerModel {
-    return TeamPlayerModel(
+internal fun TeamPlayerResponse.toModel(): TeamPlayer {
+    return TeamPlayer(
         id = playerId,
         teamId = teamId,
         name = name,
@@ -31,16 +31,16 @@ internal fun TeamPlayerResponse.toModel(): TeamPlayerModel {
     )
 }
 
-internal fun FormationListItemResponse.toModel(): FormationListItemModel {
-    return FormationListItemModel(
+internal fun FormationListItemResponse.toModel(): FormationListItem {
+    return FormationListItem(
         formationId = formationId,
         name = name,
         createdAt = createdAt,
     )
 }
 
-internal fun PlacementResponse.toModel(): PlacementModel {
-    return PlacementModel(
+internal fun PlacementResponse.toModel(): Placement {
+    return Placement(
         slotId = playerId,
         playerId = playerId,
         playerName = playerName,
@@ -52,8 +52,8 @@ internal fun PlacementResponse.toModel(): PlacementModel {
     )
 }
 
-internal fun FormationDetailResponse.toModel(): FormationDetailModel {
-    return FormationDetailModel(
+internal fun FormationDetailResponse.toModel(): FormationDetail {
+    return FormationDetail(
         formationId = formationId,
         name = name,
         createdAt = createdAt,

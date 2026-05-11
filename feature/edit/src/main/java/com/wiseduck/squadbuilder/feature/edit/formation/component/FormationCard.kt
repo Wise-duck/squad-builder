@@ -29,14 +29,14 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.core.model.FormationListItemModel
+import com.wiseduck.squadbuilder.core.model.FormationListItem
 import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.formation.mock.fakeFormationListItem
 
 @Composable
 fun FormationCard(
     modifier: Modifier = Modifier,
-    formation: FormationListItemModel,
+    formation: FormationListItem,
     onDeleteClick: (Int) -> Unit,
     onClick: (Int) -> Unit,
 ) {

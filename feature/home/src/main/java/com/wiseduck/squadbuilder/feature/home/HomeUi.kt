@@ -16,7 +16,7 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.designsystem.theme.White
-import com.wiseduck.squadbuilder.core.model.TeamModel
+import com.wiseduck.squadbuilder.core.model.Team
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.AdBanner
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
@@ -107,7 +107,7 @@ private fun HomeContent(
     isLoggedIn: Boolean,
     isLoading: Boolean,
     isRefreshing: Boolean,
-    teams: ImmutableList<TeamModel>,
+    teams: ImmutableList<Team>,
     currentSortOption: TeamSortOption,
     adUnitId: String,
     onEvent: (HomeUiEvent) -> Unit,
@@ -200,7 +200,7 @@ private fun HomeUiEmptyPreview() {
     SquadBuilderTheme {
         HomeUi(
             state = homeUiStateMock.copy(
-                teams = emptyList<TeamModel>().toImmutableList(),
+                teams = emptyList<Team>().toImmutableList(),
             ),
         )
     }
@@ -213,7 +213,7 @@ private fun HomeUiGuestPreview() {
         HomeUi(
             state = homeUiStateMock.copy(
                 isLoggedIn = false,
-                teams = emptyList<TeamModel>().toImmutableList(),
+                teams = emptyList<Team>().toImmutableList(),
             ),
         )
     }

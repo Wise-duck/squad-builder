@@ -35,7 +35,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.core.model.PlayerQuarterStatusModel
+import com.wiseduck.squadbuilder.core.model.PlayerQuarterStatus
 import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.formation.mock.dummyPlayerQuarterStatus
 import kotlinx.collections.immutable.ImmutableList
@@ -45,7 +45,7 @@ import kotlinx.collections.immutable.toPersistentList
 fun PlayerQuarterStatusSideBar(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit = {},
-    playerQuarterStatus: ImmutableList<PlayerQuarterStatusModel>,
+    playerQuarterStatus: ImmutableList<PlayerQuarterStatus>,
 ) {
     Box(
         modifier = modifier
@@ -133,7 +133,7 @@ fun PlayerQuarterStatusSideBar(
 @Composable
 private fun PlayerQuarterStatusRow(
     modifier: Modifier = Modifier,
-    playerQuarterStatus: ImmutableList<PlayerQuarterStatusModel>,
+    playerQuarterStatus: ImmutableList<PlayerQuarterStatus>,
     index: Int,
 ) {
     Column(

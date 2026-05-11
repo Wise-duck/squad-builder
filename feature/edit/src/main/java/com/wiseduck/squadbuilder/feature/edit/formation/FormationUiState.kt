@@ -5,10 +5,10 @@ import androidx.compose.runtime.Immutable
 import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.wiseduck.squadbuilder.core.common.utils.UiText
-import com.wiseduck.squadbuilder.core.model.FormationListItemModel
-import com.wiseduck.squadbuilder.core.model.PlacementModel
-import com.wiseduck.squadbuilder.core.model.PlayerQuarterStatusModel
-import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
+import com.wiseduck.squadbuilder.core.model.FormationListItem
+import com.wiseduck.squadbuilder.core.model.Placement
+import com.wiseduck.squadbuilder.core.model.PlayerQuarterStatus
+import com.wiseduck.squadbuilder.core.model.TeamPlayer
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.persistentListOf
@@ -30,19 +30,19 @@ data class FormationUiState(
     val isLoading: Boolean = false,
     val currentQuarter: Int = 1,
     val allReferees: PersistentMap<Int, String> = persistentMapOf(),
-    val formationList: ImmutableList<FormationListItemModel> = persistentListOf(),
+    val formationList: ImmutableList<FormationListItem> = persistentListOf(),
     val isListModalVisible: Boolean = false,
-    val players: ImmutableList<PlacementModel> = persistentListOf(),
+    val players: ImmutableList<Placement> = persistentListOf(),
     val selectedSlotId: Int? = null,
-    val draggedPlayerInitialPosition: PlacementModel? = null,
+    val draggedPlayerInitialPosition: Placement? = null,
     val isResetConfirmDialogVisible: Boolean = false,
     val isQuarterSelectionDialogVisible: Boolean = false,
     val isPlayerQuarterStatusVisible: Boolean = false,
-    val playerQuarterStatus: ImmutableList<PlayerQuarterStatusModel> = persistentListOf(),
+    val playerQuarterStatus: ImmutableList<PlayerQuarterStatus> = persistentListOf(),
     val currentFormationId: Int? = null,
     val currentFormationName: String = "",
     val isSaveDialogVisible: Boolean = false,
-    val availablePlayers: ImmutableList<TeamPlayerModel> = persistentListOf(),
+    val availablePlayers: ImmutableList<TeamPlayer> = persistentListOf(),
     val playerAssignmentState: PlayerAssignmentState = PlayerAssignmentState(),
     val deleteConfirmationState: DeleteConfirmationState = DeleteConfirmationState(),
     val isCapturing: Boolean = false,

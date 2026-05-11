@@ -12,7 +12,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.wiseduck.squadbuilder.core.model.PlacementModel
+import com.wiseduck.squadbuilder.core.model.Placement
 import com.wiseduck.squadbuilder.core.ui.component.PlayerChip
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.coroutineScope
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PlayerPlacementLayer(
-    players: ImmutableList<PlacementModel>,
+    players: ImmutableList<Placement>,
     scaleFactor: Float,
     onPlayerDragStart: (Int) -> Unit,
     onPlayerDrag: (Int, Float, Float) -> Unit,

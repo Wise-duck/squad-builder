@@ -1,9 +1,9 @@
 package com.wiseduck.squadbuilder.feature.edit.player.mock
 
-import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
+import com.wiseduck.squadbuilder.core.model.TeamPlayer
 import kotlinx.collections.immutable.toImmutableList
 
-internal val fakePlayer = TeamPlayerModel(
+internal val fakePlayer = TeamPlayer(
     id = 1,
     teamId = 1,
     name = "선수 1",
@@ -12,14 +12,14 @@ internal val fakePlayer = TeamPlayerModel(
 )
 
 internal val fakePlayers = listOf(
-    TeamPlayerModel(
+    TeamPlayer(
         id = 1,
         teamId = 1,
         name = "선수 1",
         backNumber = 1,
         position = "MD",
     ),
-    TeamPlayerModel(
+    TeamPlayer(
         id = 2,
         teamId = 3,
         name = "잉",

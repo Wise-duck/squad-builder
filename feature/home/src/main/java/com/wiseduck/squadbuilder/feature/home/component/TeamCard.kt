@@ -28,15 +28,15 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.core.model.TeamModel
+import com.wiseduck.squadbuilder.core.model.Team
 import com.wiseduck.squadbuilder.feature.home.R
 import com.wiseduck.squadbuilder.feature.home.mock.fakeTeam
 
 @Composable
 fun TeamCard(
     modifier: Modifier = Modifier,
-    team: TeamModel,
-    onDeleteClick: (TeamModel) -> Unit,
+    team: Team,
+    onDeleteClick: (Team) -> Unit,
     onClick: (Int, String) -> Unit,
 ) {
     Card(

@@ -5,7 +5,7 @@ import com.slack.circuit.runtime.CircuitUiEvent
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import com.wiseduck.squadbuilder.core.common.utils.UiText
-import com.wiseduck.squadbuilder.core.model.TeamModel
+import com.wiseduck.squadbuilder.core.model.Team
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -15,8 +15,8 @@ data class HomeUiState(
     val isLoggedIn: Boolean = false,
     val adUnitId: String = "",
     val currentSortOption: TeamSortOption = TeamSortOption.LATEST,
-    val teams: ImmutableList<TeamModel> = persistentListOf(),
-    val teamToDelete: TeamModel? = null,
+    val teams: ImmutableList<Team> = persistentListOf(),
+    val teamToDelete: Team? = null,
     val sideEffect: HomeSideEffect? = null,
     val eventSink: (HomeUiEvent) -> Unit,
 ) : CircuitUiState
@@ -52,7 +52,7 @@ sealed interface HomeUiEvent : CircuitUiEvent {
     ) : HomeUiEvent
 
     data class OnTeamDeleteClick(
-        val team: TeamModel,
+        val team: Team,
     ) : HomeUiEvent
 
     data class OnTeamDeleteConfirm(
