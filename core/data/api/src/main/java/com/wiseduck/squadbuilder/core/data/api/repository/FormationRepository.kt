@@ -1,13 +1,13 @@
 package com.wiseduck.squadbuilder.core.data.api.repository
 
-import com.wiseduck.squadbuilder.core.model.FormationDetailModel
-import com.wiseduck.squadbuilder.core.model.FormationListItemModel
+import com.wiseduck.squadbuilder.core.model.FormationDetail
+import com.wiseduck.squadbuilder.core.model.FormationListItem
 import com.wiseduck.squadbuilder.core.model.FormationSaveModel
 
 interface FormationRepository {
-    suspend fun getFormationList(teamId: Int): Result<List<FormationListItemModel>>
+    suspend fun getFormationList(teamId: Int): Result<List<FormationListItem>>
 
-    suspend fun getFormationDetail(formationId: Int): Result<FormationDetailModel>
+    suspend fun getFormationDetail(formationId: Int): Result<FormationDetail>
 
     suspend fun createFormation(request: FormationSaveModel): Result<Unit>
 

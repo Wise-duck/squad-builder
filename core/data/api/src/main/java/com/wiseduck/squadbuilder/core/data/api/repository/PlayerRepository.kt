@@ -1,6 +1,6 @@
 package com.wiseduck.squadbuilder.core.data.api.repository
 
-import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
+import com.wiseduck.squadbuilder.core.model.TeamPlayer
 
 interface PlayerRepository {
     suspend fun updateTeamPlayer(
@@ -9,19 +9,19 @@ interface PlayerRepository {
         name: String,
         position: String,
         backNumber: Int,
-    ): Result<TeamPlayerModel>
+    ): Result<TeamPlayer>
 
     suspend fun deleteTeamPlayer(
         teamId: Int,
         playerId: Int,
     ): Result<Unit>
 
-    suspend fun getTeamPlayers(teamId: Int): Result<List<TeamPlayerModel>>
+    suspend fun getTeamPlayers(teamId: Int): Result<List<TeamPlayer>>
 
     suspend fun createTeamPlayer(
         teamId: Int,
         name: String,
         position: String,
         backNumber: Int,
-    ): Result<TeamPlayerModel>
+    ): Result<TeamPlayer>
 }

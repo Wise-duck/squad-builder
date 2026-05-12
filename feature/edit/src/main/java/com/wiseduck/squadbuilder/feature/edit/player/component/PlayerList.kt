@@ -12,7 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
+import com.wiseduck.squadbuilder.core.model.TeamPlayer
 import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.player.PlayerUiEvent
 import com.wiseduck.squadbuilder.feature.edit.player.PlayerUiState
@@ -25,7 +25,7 @@ import kotlinx.collections.immutable.toPersistentList
 fun PlayerList(
     modifier: Modifier = Modifier,
     state: PlayerUiState,
-    players: ImmutableList<TeamPlayerModel>,
+    players: ImmutableList<TeamPlayer>,
     currentEditingPlayerId: Int?,
     onPlayerDeleteClick: (Int) -> Unit,
     onPlayerEditClick: (Int) -> Unit,

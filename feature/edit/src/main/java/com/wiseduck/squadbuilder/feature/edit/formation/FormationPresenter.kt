@@ -19,12 +19,12 @@ import com.wiseduck.squadbuilder.core.common.utils.UiText
 import com.wiseduck.squadbuilder.core.common.utils.handleException
 import com.wiseduck.squadbuilder.core.data.api.repository.FormationRepository
 import com.wiseduck.squadbuilder.core.data.api.repository.PlayerRepository
-import com.wiseduck.squadbuilder.core.model.FormationListItemModel
+import com.wiseduck.squadbuilder.core.model.FormationListItem
 import com.wiseduck.squadbuilder.core.model.FormationSaveModel
-import com.wiseduck.squadbuilder.core.model.PlacementModel
+import com.wiseduck.squadbuilder.core.model.Placement
 import com.wiseduck.squadbuilder.core.model.PlacementSaveModel
-import com.wiseduck.squadbuilder.core.model.PlayerQuarterStatusModel
-import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
+import com.wiseduck.squadbuilder.core.model.PlayerQuarterStatus
+import com.wiseduck.squadbuilder.core.model.TeamPlayer
 import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.formation.data.createDefaultPlayers
 import com.wiseduck.squadbuilder.feature.edit.formation.data.getPositionForCoordinates
@@ -81,14 +81,14 @@ class FormationPresenter @AssistedInject constructor(
         val teamId = screen.teamId
         val teamName = screen.teamName
         var allPlacements by remember {
-            mutableStateOf(persistentMapOf<Int, PersistentList<PlacementModel>>())
+            mutableStateOf(persistentMapOf<Int, PersistentList<Placement>>())
         }
         var allReferees by remember { mutableStateOf(persistentMapOf<Int, String>()) }
-        var formationList by remember { mutableStateOf(persistentListOf<FormationListItemModel>()) }
-        var players by remember { mutableStateOf(persistentListOf<PlacementModel>()) }
-        var availablePlayers by remember { mutableStateOf(persistentListOf<TeamPlayerModel>()) }
+        var formationList by remember { mutableStateOf(persistentListOf<FormationListItem>()) }
+        var players by remember { mutableStateOf(persistentListOf<Placement>()) }
+        var availablePlayers by remember { mutableStateOf(persistentListOf<TeamPlayer>()) }
         var selectedSlotId by remember { mutableStateOf<Int?>(null) }
-        var playerQuarterStatus by remember { mutableStateOf<ImmutableList<PlayerQuarterStatusModel>>(persistentListOf()) }
+        var playerQuarterStatus by remember { mutableStateOf<ImmutableList<PlayerQuarterStatus>>(persistentListOf()) }
 
         var currentQuarter by remember { mutableIntStateOf(1) }
         var currentFormationId by remember { mutableStateOf<Int?>(null) }
@@ -99,7 +99,7 @@ class FormationPresenter @AssistedInject constructor(
         var totalQuartersToCapture by remember { mutableIntStateOf(0) }
         var currentCaptureQuarter by remember { mutableStateOf<Int?>(null) }
 
-        var draggedPlayerInitialPosition by remember { mutableStateOf<PlacementModel?>(null) }
+        var draggedPlayerInitialPosition by remember { mutableStateOf<Placement?>(null) }
         var playerAssignmentState by remember { mutableStateOf(PlayerAssignmentState()) }
         var deleteConfirmationState by remember { mutableStateOf(DeleteConfirmationState()) }
 
@@ -123,8 +123,8 @@ class FormationPresenter @AssistedInject constructor(
         }
 
         fun calculatePlayerQuarterStatus(
-            allPlacements: PersistentMap<Int, PersistentList<PlacementModel>>,
-        ): ImmutableList<PlayerQuarterStatusModel> {
+            allPlacements: PersistentMap<Int, PersistentList<Placement>>,
+        ): ImmutableList<PlayerQuarterStatus> {
             val flatPlacements = allPlacements.flatMap { (quarter, placements) ->
                 placements.mapNotNull { placement ->
                     placement.playerId?.let {
@@ -143,7 +143,7 @@ class FormationPresenter @AssistedInject constructor(
                     val position = playerInfo?.position ?: "Unknown Position"
                     val quarters = placements.map { it.second }.distinct().sorted().toPersistentList()
 
-                    PlayerQuarterStatusModel(
+                    PlayerQuarterStatus(
                         playerId = playerId,
                         playerName = playerName,
                         quarters = quarters,

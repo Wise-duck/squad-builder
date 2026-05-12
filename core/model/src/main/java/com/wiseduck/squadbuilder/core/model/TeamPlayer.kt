@@ -3,10 +3,10 @@ package com.wiseduck.squadbuilder.core.model
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class PlayerQuarterStatusModel(
-    val playerId: Int,
-    val playerName: String,
-    val quarters: List<Int>,
+data class TeamPlayer(
+    val id: Int,
+    val teamId: Int,
+    val name: String,
     val backNumber: Int,
     val position: String,
 )

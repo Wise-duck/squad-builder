@@ -41,12 +41,12 @@ import com.wiseduck.squadbuilder.core.ui.component.SoccerField
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
 import com.wiseduck.squadbuilder.feature.edit.R
+import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationBoard
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationController
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationHeader
 import com.wiseduck.squadbuilder.feature.edit.formation.component.FormationListModal
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerAssignmentModal
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerInfoModal
-import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerPlacementLayer
 import com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerQuarterStatusSideBar
 import com.wiseduck.squadbuilder.feature.edit.formation.component.QuarterSelectionDialog
 import com.wiseduck.squadbuilder.feature.edit.formation.component.QuarterTag
@@ -117,6 +117,7 @@ fun FormationUi(
                     }
                 }
             }
+
             Box(
                 modifier = Modifier
                     .weight(1f)
@@ -127,54 +128,35 @@ fun FormationUi(
                     ),
                 contentAlignment = Alignment.Center,
             ) {
-                SoccerField(
+                FormationBoard(
                     modifier = Modifier
                         .fillMaxSize()
                         .captureToGraphicsLayer(formationGraphicLayers),
-                    content = {
-                        val centerCircleRadius = this.maxWidth * 0.15f
-                        val desiredShirtDiameter = centerCircleRadius * 0.9f
-                        val originalShirtDiameter = 40.dp
-                        val scaleFactor = desiredShirtDiameter / originalShirtDiameter
-
-                        if (state.isCapturing) {
-                            QuarterTag(
-                                quarter = state.currentQuarter,
-                            )
-                        }
-
-                        if (state.isLoading) {
-                            SquadBuilderLoadingIndicator()
-                        }
-
-                        RefereeInput(
+                    players = state.players,
+                    onPlayerClick = { state.eventSink(FormationUiEvent.OnPlayerClick(it)) },
+                    onPlayerDragStart = { state.eventSink(FormationUiEvent.OnPlayerDragStart(it)) },
+                    onPlayerDrag = { id, x, y -> state.eventSink(FormationUiEvent.OnPlayerDrag(id, x, y)) },
+                    onPlayerDragEnd = { id, rx, ry -> state.eventSink(FormationUiEvent.OnPlayerDragEnd(id, rx, ry)) },
+                    background = { width, height ->
+                        SoccerField(
                             modifier = Modifier
-                                .fillMaxWidth(0.4f)
-                                .align(Alignment.TopEnd)
-                                .offset(
-                                    x = (-5).dp,
-                                    y = (14).dp,
-                                ),
-                            currentQuarter = state.currentQuarter,
-                            currentRefereeName = state.allReferees[state.currentQuarter] ?: "",
-                            onRefereeNameChange = {
-                                state.eventSink(FormationUiEvent.OnRefereeNameChange(state.currentQuarter, it))
-                            },
-                        )
+                                .fillMaxSize(),
+                            content = {
+                                if (state.isCapturing) QuarterTag(quarter = state.currentQuarter)
+                                if (state.isLoading) SquadBuilderLoadingIndicator()
 
-                        PlayerPlacementLayer(
-                            players = state.players,
-                            scaleFactor = scaleFactor,
-                            onPlayerDragStart = { state.eventSink(FormationUiEvent.OnPlayerDragStart(it)) },
-                            onPlayerDrag = { slotId, deltaX, deltaY ->
-                                state.eventSink(FormationUiEvent.OnPlayerDrag(slotId, deltaX, deltaY))
+                                RefereeInput(
+                                    modifier = Modifier
+                                        .fillMaxWidth(0.4f)
+                                        .align(Alignment.TopEnd)
+                                        .offset(x = (-5).dp, y = (14).dp),
+                                    currentQuarter = state.currentQuarter,
+                                    currentRefereeName = state.allReferees[state.currentQuarter] ?: "",
+                                    onRefereeNameChange = {
+                                        state.eventSink(FormationUiEvent.OnRefereeNameChange(state.currentQuarter, it))
+                                    },
+                                )
                             },
-                            onPlayerDragEnd = { slotId, relativeChipWidth, relativeChipHeight ->
-                                state.eventSink(FormationUiEvent.OnPlayerDragEnd(slotId, relativeChipWidth, relativeChipHeight))
-                            },
-                            onPlayerClick = { state.eventSink(FormationUiEvent.OnPlayerClick(it)) },
-                            soccerFieldWidth = this.maxWidth,
-                            soccerFieldHeight = this.maxHeight,
                         )
                     },
                 )

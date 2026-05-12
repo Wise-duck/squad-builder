@@ -13,7 +13,7 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.common.di.AdmobBannerId
 import com.wiseduck.squadbuilder.core.common.utils.handleException
 import com.wiseduck.squadbuilder.core.data.api.repository.PlayerRepository
-import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
+import com.wiseduck.squadbuilder.core.model.TeamPlayer
 import com.wiseduck.squadbuilder.feature.screens.PlayerScreen
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -48,7 +48,7 @@ class PlayerPresenter @AssistedInject constructor(
         val teamName by remember { mutableStateOf(screen.teamName) }
         var isShowPlayerCreationSection by remember { mutableStateOf<Boolean>(false) }
         var currentEditingPlayerId by remember { mutableStateOf<Int?>(null) }
-        var players by remember { mutableStateOf(persistentListOf<TeamPlayerModel>()) }
+        var players by remember { mutableStateOf(persistentListOf<TeamPlayer>()) }
 
         LaunchedEffect(Unit) {
             playerRepository.getTeamPlayers(teamId = screen.teamId)

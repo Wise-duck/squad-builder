@@ -40,7 +40,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
+import com.wiseduck.squadbuilder.core.model.TeamPlayer
 import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.player.mock.fakePlayer
 
@@ -50,7 +50,7 @@ typealias OnFormCommitClick = (id: Int?, name: String, position: String, backNum
 fun PlayerFormCard(
     modifier: Modifier = Modifier,
     title: String,
-    player: TeamPlayerModel? = null,
+    player: TeamPlayer? = null,
     commitButtonText: String,
     onCommitButtonClick: OnFormCommitClick,
     onCancelButtonClick: () -> Unit,

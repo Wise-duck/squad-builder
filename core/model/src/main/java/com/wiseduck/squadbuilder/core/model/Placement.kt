@@ -3,7 +3,7 @@ package com.wiseduck.squadbuilder.core.model
 import androidx.compose.runtime.Immutable
 
 @Immutable
-data class PlacementModel(
+data class Placement(
     val slotId: Int,
     val playerId: Int?,
     val playerName: String,

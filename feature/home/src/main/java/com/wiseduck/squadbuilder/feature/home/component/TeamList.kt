@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.core.model.TeamModel
+import com.wiseduck.squadbuilder.core.model.Team
 import com.wiseduck.squadbuilder.feature.home.R
 import com.wiseduck.squadbuilder.feature.home.mock.fakeTeams
 import kotlinx.collections.immutable.ImmutableList
@@ -25,11 +25,11 @@ import kotlinx.collections.immutable.toImmutableList
 @Composable
 fun TeamList(
     modifier: Modifier = Modifier,
-    teams: ImmutableList<TeamModel>,
+    teams: ImmutableList<Team>,
     isRefreshing: Boolean,
     onRefresh: () -> Unit,
     onTeamClick: (Int, String) -> Unit,
-    onTeamDeleteClick: (TeamModel) -> Unit,
+    onTeamDeleteClick: (Team) -> Unit,
 ) {
     PullToRefreshBox(
         modifier = modifier,

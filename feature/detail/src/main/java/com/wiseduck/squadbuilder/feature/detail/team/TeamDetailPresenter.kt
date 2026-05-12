@@ -5,7 +5,7 @@ import com.slack.circuit.codegen.annotations.CircuitInject
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.wiseduck.squadbuilder.core.common.di.AdmobBannerId
-import com.wiseduck.squadbuilder.core.model.TeamModel
+import com.wiseduck.squadbuilder.core.model.Team
 import com.wiseduck.squadbuilder.feature.screens.FormationScreen
 import com.wiseduck.squadbuilder.feature.screens.PlayerScreen
 import com.wiseduck.squadbuilder.feature.screens.TeamDetailScreen
@@ -62,7 +62,7 @@ class TeamDetailPresenter @AssistedInject constructor(
 
         return TeamDetailUiState(
             isLoading = false,
-            team = TeamModel(
+            team = Team(
                 teamId = teamId,
                 name = teamName,
             ),

@@ -27,7 +27,7 @@ import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
 import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.core.model.FormationListItemModel
+import com.wiseduck.squadbuilder.core.model.FormationListItem
 import com.wiseduck.squadbuilder.feature.edit.R
 import com.wiseduck.squadbuilder.feature.edit.formation.mock.fakeFormationList
 import kotlinx.collections.immutable.ImmutableList
@@ -35,7 +35,7 @@ import kotlinx.collections.immutable.toPersistentList
 
 @Composable
 fun FormationListModal(
-    formationList: ImmutableList<FormationListItemModel>,
+    formationList: ImmutableList<FormationListItem>,
     onDismissRequest: () -> Unit,
     onFormationCardClick: (Int) -> Unit,
     onDeleteFormationClick: (Int) -> Unit,

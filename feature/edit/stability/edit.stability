@@ -33,7 +33,26 @@ public fun com.wiseduck.squadbuilder.feature.edit.formation.HandleFormationSideE
     - formationGraphicsLayer: UNSTABLE (has mutable properties or unstable members)
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.edit.formation.component.FormationCard(modifier: androidx.compose.ui.Modifier, formation: com.wiseduck.squadbuilder.core.model.FormationListItemModel, onDeleteClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, onClick: kotlin.Function1<kotlin.Int, kotlin.Unit>): kotlin.Unit
+public fun com.wiseduck.squadbuilder.feature.edit.formation.component.FormationBoard(modifier: androidx.compose.ui.Modifier, players: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.Placement>, onPlayerClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, onPlayerDragStart: kotlin.Function1<kotlin.Int, kotlin.Unit>, onPlayerDrag: kotlin.Function3<kotlin.Int, kotlin.Float, kotlin.Float, kotlin.Unit>, onPlayerDragEnd: kotlin.Function3<kotlin.Int, kotlin.Float, kotlin.Float, kotlin.Unit>, background: @[Composable] androidx.compose.runtime.internal.ComposableFunction2<@[ParameterName(name = \): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+    - modifier: STABLE (marked @Stable or @Immutable)
+    - players: STABLE (known stable type)
+    - onPlayerClick: STABLE (function type)
+    - onPlayerDragStart: STABLE (function type)
+    - onPlayerDrag: STABLE (function type)
+    - onPlayerDragEnd: STABLE (function type)
+    - background: STABLE (composable function type)
+
+@Composable
+private fun com.wiseduck.squadbuilder.feature.edit.formation.component.FormationBoard(): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+
+@Composable
+public fun com.wiseduck.squadbuilder.feature.edit.formation.component.FormationCard(modifier: androidx.compose.ui.Modifier, formation: com.wiseduck.squadbuilder.core.model.FormationListItem, onDeleteClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, onClick: kotlin.Function1<kotlin.Int, kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:
@@ -70,7 +89,7 @@ public fun com.wiseduck.squadbuilder.feature.edit.formation.component.FormationH
     - onFormationListClick: STABLE (function type)
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.edit.formation.component.FormationListModal(formationList: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.FormationListItemModel>, onDismissRequest: kotlin.Function0<kotlin.Unit>, onFormationCardClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, onDeleteFormationClick: kotlin.Function1<kotlin.Int, kotlin.Unit>): kotlin.Unit
+public fun com.wiseduck.squadbuilder.feature.edit.formation.component.FormationListModal(formationList: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.FormationListItem>, onDismissRequest: kotlin.Function0<kotlin.Unit>, onFormationCardClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, onDeleteFormationClick: kotlin.Function1<kotlin.Int, kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:
@@ -86,7 +105,7 @@ private fun com.wiseduck.squadbuilder.feature.edit.formation.component.Formation
   params:
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerAssignmentModal(availablePlayers: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.TeamPlayerModel>, onDismissRequest: kotlin.Function0<kotlin.Unit>, onAssignPlayer: kotlin.Function1<kotlin.Int, kotlin.Unit>): kotlin.Unit
+public fun com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerAssignmentModal(availablePlayers: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.TeamPlayer>, onDismissRequest: kotlin.Function0<kotlin.Unit>, onAssignPlayer: kotlin.Function1<kotlin.Int, kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:
@@ -136,7 +155,7 @@ private fun com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerLis
   params:
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerPlacementLayer(players: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.PlacementModel>, scaleFactor: kotlin.Float, onPlayerDragStart: kotlin.Function1<kotlin.Int, kotlin.Unit>, onPlayerDrag: kotlin.Function3<kotlin.Int, kotlin.Float, kotlin.Float, kotlin.Unit>, onPlayerDragEnd: kotlin.Function3<kotlin.Int, kotlin.Float, kotlin.Float, kotlin.Unit>, onPlayerClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, soccerFieldWidth: androidx.compose.ui.unit.Dp, soccerFieldHeight: androidx.compose.ui.unit.Dp): kotlin.Unit
+public fun com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerPlacementLayer(players: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.Placement>, scaleFactor: kotlin.Float, onPlayerDragStart: kotlin.Function1<kotlin.Int, kotlin.Unit>, onPlayerDrag: kotlin.Function3<kotlin.Int, kotlin.Float, kotlin.Float, kotlin.Unit>, onPlayerDragEnd: kotlin.Function3<kotlin.Int, kotlin.Float, kotlin.Float, kotlin.Unit>, onPlayerClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, soccerFieldWidth: androidx.compose.ui.unit.Dp, soccerFieldHeight: androidx.compose.ui.unit.Dp): kotlin.Unit
   skippable: true
   restartable: true
   params:
@@ -150,7 +169,7 @@ public fun com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerPlac
     - soccerFieldHeight: STABLE (marked @Stable or @Immutable)
 
 @Composable
-private fun com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerQuarterStatusRow(modifier: androidx.compose.ui.Modifier, playerQuarterStatus: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.PlayerQuarterStatusModel>, index: kotlin.Int): kotlin.Unit
+private fun com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerQuarterStatusRow(modifier: androidx.compose.ui.Modifier, playerQuarterStatus: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.PlayerQuarterStatus>, index: kotlin.Int): kotlin.Unit
   skippable: true
   restartable: true
   params:
@@ -159,7 +178,7 @@ private fun com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerQua
     - index: STABLE (primitive type)
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerQuarterStatusSideBar(modifier: androidx.compose.ui.Modifier, onDismissRequest: kotlin.Function0<kotlin.Unit>, playerQuarterStatus: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.PlayerQuarterStatusModel>): kotlin.Unit
+public fun com.wiseduck.squadbuilder.feature.edit.formation.component.PlayerQuarterStatusSideBar(modifier: androidx.compose.ui.Modifier, onDismissRequest: kotlin.Function0<kotlin.Unit>, playerQuarterStatus: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.PlayerQuarterStatus>): kotlin.Unit
   skippable: true
   restartable: true
   params:
@@ -256,7 +275,7 @@ private fun com.wiseduck.squadbuilder.feature.edit.player.PlayerUiPreview(): kot
   params:
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.edit.player.component.PlayerCard(modifier: androidx.compose.ui.Modifier, player: com.wiseduck.squadbuilder.core.model.TeamPlayerModel, onEditClick: kotlin.Function0<kotlin.Unit>, onDeleteClick: kotlin.Function0<kotlin.Unit>): kotlin.Unit
+public fun com.wiseduck.squadbuilder.feature.edit.player.component.PlayerCard(modifier: androidx.compose.ui.Modifier, player: com.wiseduck.squadbuilder.core.model.TeamPlayer, onEditClick: kotlin.Function0<kotlin.Unit>, onDeleteClick: kotlin.Function0<kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:
@@ -272,7 +291,7 @@ private fun com.wiseduck.squadbuilder.feature.edit.player.component.PlayerCardPr
   params:
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.edit.player.component.PlayerFormCard(modifier: androidx.compose.ui.Modifier, title: kotlin.String, player: com.wiseduck.squadbuilder.core.model.TeamPlayerModel?, commitButtonText: kotlin.String, onCommitButtonClick: kotlin.Function4<@[ParameterName(name = \, onCancelButtonClick: kotlin.Function0<kotlin.Unit>): kotlin.Unit
+public fun com.wiseduck.squadbuilder.feature.edit.player.component.PlayerFormCard(modifier: androidx.compose.ui.Modifier, title: kotlin.String, player: com.wiseduck.squadbuilder.core.model.TeamPlayer?, commitButtonText: kotlin.String, onCommitButtonClick: kotlin.Function4<@[ParameterName(name = \, onCancelButtonClick: kotlin.Function0<kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:
@@ -305,7 +324,7 @@ private fun com.wiseduck.squadbuilder.feature.edit.player.component.PlayerHeader
   params:
 
 @Composable
-public fun com.wiseduck.squadbuilder.feature.edit.player.component.PlayerList(modifier: androidx.compose.ui.Modifier, state: com.wiseduck.squadbuilder.feature.edit.player.PlayerUiState, players: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.TeamPlayerModel>, currentEditingPlayerId: kotlin.Int?, onPlayerDeleteClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, onPlayerEditClick: kotlin.Function1<kotlin.Int, kotlin.Unit>): kotlin.Unit
+public fun com.wiseduck.squadbuilder.feature.edit.player.component.PlayerList(modifier: androidx.compose.ui.Modifier, state: com.wiseduck.squadbuilder.feature.edit.player.PlayerUiState, players: kotlinx.collections.immutable.ImmutableList<com.wiseduck.squadbuilder.core.model.TeamPlayer>, currentEditingPlayerId: kotlin.Int?, onPlayerDeleteClick: kotlin.Function1<kotlin.Int, kotlin.Unit>, onPlayerEditClick: kotlin.Function1<kotlin.Int, kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:

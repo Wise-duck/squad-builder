@@ -3,7 +3,7 @@ package com.wiseduck.squadbuilder.core.data.impl.repository
 import com.wiseduck.squadbuilder.core.common.utils.runSuspendCatching
 import com.wiseduck.squadbuilder.core.data.api.repository.PlayerRepository
 import com.wiseduck.squadbuilder.core.data.impl.mapper.toModel
-import com.wiseduck.squadbuilder.core.model.TeamPlayerModel
+import com.wiseduck.squadbuilder.core.model.TeamPlayer
 import com.wiseduck.squadbuilder.core.network.request.TeamPlayerCreationRequest
 import com.wiseduck.squadbuilder.core.network.request.TeamPlayerUpdateRequest
 import com.wiseduck.squadbuilder.core.network.service.SquadBuilderService
@@ -19,7 +19,7 @@ internal class PlayerRepositoryImpl @Inject constructor(
         name: String,
         position: String,
         backNumber: Int,
-    ): Result<TeamPlayerModel> = runSuspendCatching {
+    ): Result<TeamPlayer> = runSuspendCatching {
         service.updateTeamPlayer(
             teamId = teamId,
             playerId = playerId,
@@ -36,7 +36,7 @@ internal class PlayerRepositoryImpl @Inject constructor(
 
     override suspend fun getTeamPlayers(
         teamId: Int,
-    ): Result<List<TeamPlayerModel>> = runSuspendCatching {
+    ): Result<List<TeamPlayer>> = runSuspendCatching {
         service.getTeamPlayers(teamId).map { it.toModel() }
     }
 
@@ -45,7 +45,7 @@ internal class PlayerRepositoryImpl @Inject constructor(
         name: String,
         position: String,
         backNumber: Int,
-    ): Result<TeamPlayerModel> = runSuspendCatching {
+    ): Result<TeamPlayer> = runSuspendCatching {
         service.createTeamPlayer(
             teamId = teamId,
             TeamPlayerCreationRequest(name, position, backNumber),
