@@ -1,15 +1,13 @@
 package com.wiseduck.squadbuilder.core.designsystem.component.textfield
 
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
-import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 
 @Composable
@@ -33,11 +31,11 @@ fun SquadBuilderTextField(
         },
         singleLine = true,
         colors = OutlinedTextFieldDefaults.colors(
-            unfocusedPlaceholderColor = Neutral500,
-            focusedPlaceholderColor = Neutral500,
-            unfocusedContainerColor = Neutral100,
-            focusedContainerColor = Neutral100,
-            focusedBorderColor = Blue500,
+            unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+            focusedBorderColor = MaterialTheme.colorScheme.outline,
         ),
     )
 }

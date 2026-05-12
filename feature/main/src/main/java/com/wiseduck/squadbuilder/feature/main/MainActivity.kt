@@ -10,9 +10,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.foundation.CircuitCompositionLocals
@@ -41,16 +39,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             val isDarkTheme = isSystemInDarkTheme()
 
-            val systemUiController = rememberSystemUiController()
-
-            LaunchedEffect(isDarkTheme) {
-                systemUiController.setStatusBarColor(
-                    color = Color.Transparent,
-                    darkIcons = false,
-                )
-            }
-
-            SquadBuilderTheme {
+            SquadBuilderTheme(isDarkMode = isDarkTheme) {
                 val backStack = rememberSaveableBackStack(SplashScreen)
                 val navigator = rememberCircuitNavigator(backStack)
 

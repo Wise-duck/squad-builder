@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,10 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.core.designsystem.theme.White
 import com.wiseduck.squadbuilder.feature.edit.R
 
 @Composable
@@ -32,7 +30,7 @@ fun FormationHeader(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(MainBg),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         Row(
             modifier = modifier.fillMaxWidth()
@@ -46,7 +44,7 @@ fun FormationHeader(
                 Icon(
                     painter = painterResource(com.wiseduck.squadbuilder.core.ui.R.drawable.ic_back),
                     contentDescription = "Back Icon",
-                    tint = White,
+                    tint = MaterialTheme.colorScheme.onSurface,
                 )
             }
             Spacer(
@@ -55,7 +53,7 @@ fun FormationHeader(
             Text(
                 text = stringResource(com.wiseduck.squadbuilder.feature.edit.R.string.formation_management_title),
                 style = SquadBuilderTheme.typography.title1Bold,
-                color = White,
+                color = MaterialTheme.colorScheme.onSurface,
             )
             Spacer(
                 modifier = Modifier.weight(1f),
@@ -64,14 +62,14 @@ fun FormationHeader(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_drawer),
                     contentDescription = "List Icon",
-                    tint = White,
+                    tint = MaterialTheme.colorScheme.onSurface,
                 )
             }
         }
         Spacer(
             modifier = modifier.fillMaxWidth()
                 .height(SquadBuilderTheme.spacing.spacing05)
-                .background(Neutral800),
+                .background(MaterialTheme.colorScheme.outline),
         )
     }
 }

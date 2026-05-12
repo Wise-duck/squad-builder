@@ -9,19 +9,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
-import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
-import com.wiseduck.squadbuilder.core.designsystem.theme.MainComponentBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.core.designsystem.theme.Yellow300
 import com.wiseduck.squadbuilder.feature.settings.R
 
 @Composable
@@ -34,11 +29,11 @@ fun ProfileCard(
             .fillMaxWidth()
             .padding(SquadBuilderTheme.spacing.spacing4),
         colors = CardDefaults.cardColors(
-            MainComponentBg,
+            MaterialTheme.colorScheme.surface,
         ),
         border = BorderStroke(
             width = 1.dp,
-            color = Neutral500,
+            color = MaterialTheme.colorScheme.outline,
         ),
     ) {
         Column(
@@ -46,7 +41,7 @@ fun ProfileCard(
         ) {
             Text(
                 text = stringResource(R.string.profile_card_title),
-                color = Neutral100,
+                color = MaterialTheme.colorScheme.onSurface,
                 style = SquadBuilderTheme.typography.heading1Bold,
             )
             Spacer(
@@ -55,14 +50,14 @@ fun ProfileCard(
             Row {
                 Text(
                     stringResource(R.string.profile_card_name_label),
-                    color = Neutral50,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
                 Spacer(
                     modifier = Modifier.weight(1f),
                 )
                 Text(
                     text = name,
-                    color = Green500,
+                    color = MaterialTheme.colorScheme.primary,
                 )
             }
             Spacer(
@@ -71,14 +66,14 @@ fun ProfileCard(
             Row {
                 Text(
                     text = stringResource(R.string.profile_card_login_type_label),
-                    color = Neutral50,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
                 Spacer(
                     modifier = Modifier.weight(1f),
                 )
                 Text(
                     text = stringResource(R.string.profile_card_login_type_kakao),
-                    color = Yellow300,
+                    color = MaterialTheme.colorScheme.tertiary,
                 )
             }
         }

@@ -12,6 +12,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,11 +23,6 @@ import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.common.extensions.DateFormats
 import com.wiseduck.squadbuilder.core.common.extensions.toFormattedDate
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
-import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
-import com.wiseduck.squadbuilder.core.designsystem.theme.MainComponentBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
-import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.Team
 import com.wiseduck.squadbuilder.feature.home.R
@@ -44,11 +40,11 @@ fun TeamCard(
             .fillMaxWidth()
             .clickable { onClick(team.teamId, team.name) },
         colors = CardDefaults.cardColors(
-            containerColor = MainComponentBg,
+            containerColor = MaterialTheme.colorScheme.surface,
         ),
         border = BorderStroke(
             width = 1.dp,
-            color = Neutral800,
+            color = MaterialTheme.colorScheme.outline,
         ),
     ) {
         Row(
@@ -66,7 +62,7 @@ fun TeamCard(
                 Text(
                     text = team.name,
                     style = SquadBuilderTheme.typography.heading1Bold,
-                    color = Neutral100,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
                 Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing1))
                 Text(
@@ -75,7 +71,7 @@ fun TeamCard(
                         team.createdAt.toFormattedDate(DateFormats.YY_MM_DD_DASH),
                     ),
                     style = SquadBuilderTheme.typography.label1Medium,
-                    color = Blue500,
+                    color = MaterialTheme.colorScheme.secondary,
                 )
             }
             IconButton(
@@ -84,7 +80,7 @@ fun TeamCard(
                 Icon(
                     painter = painterResource(R.drawable.ic_delete),
                     contentDescription = "Bin Icon",
-                    tint = Red500,
+                    tint = MaterialTheme.colorScheme.error,
                 )
             }
         }

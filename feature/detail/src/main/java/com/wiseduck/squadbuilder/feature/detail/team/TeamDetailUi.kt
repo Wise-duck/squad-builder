@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -75,20 +76,16 @@ private fun TeamDetailContent(
                 Text(
                     text = team.name,
                     style = SquadBuilderTheme.typography.title1Bold,
-                    color = SquadBuilderTheme.colors.basePrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
-
                 Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing8))
-
                 MenuButton(
                     iconRes = R.drawable.ic_player,
                     title = stringResource(R.string.card_title_manage_players),
                     description = stringResource(R.string.card_desc_manage_players),
                     onClick = onManagePlayersClick,
                 )
-
                 Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing8))
-
                 MenuButton(
                     iconRes = R.drawable.ic_formation,
                     title = stringResource(R.string.card_title_manage_formation),
@@ -96,9 +93,7 @@ private fun TeamDetailContent(
                     onClick = onManageFormationClick,
                 )
             }
-
             Spacer(modifier = Modifier.weight(1f))
-
             AdBanner(
                 modifier = Modifier.fillMaxWidth(),
                 adUnitId = state.admobBannerId,

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,9 +24,6 @@ import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.smallButtonStyle
-import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
-import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.FormationListItem
 import com.wiseduck.squadbuilder.feature.edit.R
@@ -45,12 +43,12 @@ fun FormationListModal(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(
-                    MainBg,
+                    MaterialTheme.colorScheme.background,
                     shape = RoundedCornerShape(SquadBuilderTheme.radius.md),
                 )
                 .border(
                     width = 1.dp,
-                    color = Neutral500,
+                    color = MaterialTheme.colorScheme.outline,
                     shape = RoundedCornerShape(size = SquadBuilderTheme.radius.md),
                 )
                 .padding(SquadBuilderTheme.spacing.spacing4),
@@ -60,7 +58,7 @@ fun FormationListModal(
                 text = stringResource(
                     R.string.formation_list_modal_title,
                 ),
-                color = Green500,
+                color = MaterialTheme.colorScheme.primary,
                 style = SquadBuilderTheme.typography.title1Medium,
             )
             Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4))

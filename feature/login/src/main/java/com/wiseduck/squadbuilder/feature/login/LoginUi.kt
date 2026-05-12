@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -20,8 +22,6 @@ import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.largeButtonStyle
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.feature.login.mock.loginUiStateMock
@@ -61,7 +61,7 @@ private fun LoginUiContent(
             modifier = Modifier.width(250.dp),
             painter = painterResource(com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_app_name),
             contentDescription = "SquadBuilder App Name",
-            tint = Neutral50,
+            tint = MaterialTheme.colorScheme.onSurface,
         )
         Spacer(
             modifier = Modifier.height(SquadBuilderTheme.spacing.spacing6),
@@ -85,7 +85,7 @@ private fun LoginUiContent(
                 Icon(
                     painter = painterResource(R.drawable.ic_kakao),
                     contentDescription = "KaKao Icon",
-                    tint = Neutral800,
+                    tint = Color.Black,
                 )
             },
         )

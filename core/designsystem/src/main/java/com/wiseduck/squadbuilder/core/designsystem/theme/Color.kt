@@ -1,6 +1,5 @@
 package com.wiseduck.squadbuilder.core.designsystem.theme
 
-import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
 val Black = Color(0xFF000000)
@@ -31,32 +30,3 @@ val Green500 = Color(0xFF2ECC71)
 val Yellow300 = Color(0xFFFFD743)
 
 val Kakao = Color(0xFFFBD300)
-
-@Immutable
-data class SquadBuilderColorScheme(
-    val basePrimary: Color = White,
-    val baseSecondary: Color = Neutral50,
-    val bgPrimary: Color = Neutral900,
-    val bgPrimaryPressed: Color = Neutral700,
-    val bgSecondary: Color = Neutral100,
-    val bgSecondaryPressed: Color = Neutral200,
-    val bgTertiary: Color = Neutral50,
-    val bgTertiaryPressed: Color = Neutral100,
-    val bgDisabled: Color = Neutral200,
-    val contentPrimary: Color = Neutral800,
-    val contentSecondary: Color = Neutral500,
-    val contentTertiary: Color = Neutral400,
-    val contentBrand: Color = Green500,
-    val contentDisabled: Color = Neutral400,
-    val contentInverse: Color = White,
-    val contentError: Color = Red500,
-    val contentInfo: Color = Blue500,
-    val contentSuccess: Color = Green500,
-    val contentWarning: Color = Yellow300,
-    val borderPrimary: Color = Neutral200,
-    val borderSecondary: Color = Neutral100,
-    val borderBrand: Color = Neutral900,
-    val borderError: Color = Red500,
-    val dividerSm: Color = Neutral200,
-    val dividerMd: Color = Neutral100,
-)

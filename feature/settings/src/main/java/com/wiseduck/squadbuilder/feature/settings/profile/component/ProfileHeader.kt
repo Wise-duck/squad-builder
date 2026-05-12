@@ -8,15 +8,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
-import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.core.designsystem.theme.White
 import com.wiseduck.squadbuilder.feature.settings.R
 
 @Composable
@@ -24,7 +22,7 @@ fun ProfileHeader(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(MainBg),
+            .background(MaterialTheme.colorScheme.background),
     ) {
         Row(
             modifier = modifier
@@ -37,14 +35,14 @@ fun ProfileHeader(modifier: Modifier = Modifier) {
             Text(
                 text = stringResource(R.string.profile_screen_header_title),
                 style = SquadBuilderTheme.typography.title1Bold,
-                color = White,
+                color = MaterialTheme.colorScheme.onSurface,
             )
         }
         Spacer(
             modifier = modifier
                 .fillMaxWidth()
                 .height(SquadBuilderTheme.spacing.spacing05)
-                .background(Neutral800),
+                .background(MaterialTheme.colorScheme.outline),
         )
     }
 }

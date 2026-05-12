@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,13 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.PlayerPosition
-import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
-import com.wiseduck.squadbuilder.core.designsystem.theme.MainComponentBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral400
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.PlayerQuarterStatus
 import com.wiseduck.squadbuilder.feature.edit.R
@@ -68,7 +62,7 @@ fun PlayerQuarterStatusSideBar(
                         bottomStart = 10.dp,
                     ),
                 )
-                .background(MainComponentBg)
+                .background(MaterialTheme.colorScheme.surface)
                 .padding(SquadBuilderTheme.spacing.spacing4)
                 .pointerInput(Unit) {
                     detectTapGestures { }
@@ -80,7 +74,7 @@ fun PlayerQuarterStatusSideBar(
                 Icon(
                     painter = painterResource(R.drawable.ic_player_check),
                     contentDescription = "Player Check Icon",
-                    tint = Green500,
+                    tint = MaterialTheme.colorScheme.primary,
                 )
                 Spacer(
                     modifier = Modifier
@@ -89,7 +83,7 @@ fun PlayerQuarterStatusSideBar(
                 Text(
                     text = stringResource(R.string.player_side_bar_title),
                     style = SquadBuilderTheme.typography.heading1Bold,
-                    color = Neutral50,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
             }
             Spacer(
@@ -100,7 +94,7 @@ fun PlayerQuarterStatusSideBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(1.dp)
-                    .background(Neutral800),
+                    .background(MaterialTheme.colorScheme.outline),
             )
 
             Spacer(
@@ -113,7 +107,7 @@ fun PlayerQuarterStatusSideBar(
                 Text(
                     text = stringResource(R.string.player_side_bar_no_content_description),
                     style = SquadBuilderTheme.typography.body1Regular,
-                    color = Neutral400,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
 
@@ -149,7 +143,7 @@ private fun PlayerQuarterStatusRow(
             Text(
                 text = "${playerQuarterStatus[index].backNumber}.",
                 style = SquadBuilderTheme.typography.body1Bold,
-                color = Neutral500,
+                color = MaterialTheme.colorScheme.onSurface,
             )
             Spacer(
                 modifier = Modifier
@@ -169,7 +163,7 @@ private fun PlayerQuarterStatusRow(
             Text(
                 text = playerQuarterStatus[index].playerName,
                 style = SquadBuilderTheme.typography.body1Bold,
-                color = Neutral50,
+                color = MaterialTheme.colorScheme.onSurface,
             )
             Spacer(
                 modifier = Modifier
@@ -182,7 +176,7 @@ private fun PlayerQuarterStatusRow(
                     playerQuarterStatus[index].quarters.size,
                 ),
                 style = SquadBuilderTheme.typography.caption1Regular,
-                color = Neutral300,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
         Row(
@@ -195,7 +189,7 @@ private fun PlayerQuarterStatusRow(
                     playerQuarterStatus[index].quarters.joinToString(", "),
                 ),
                 style = SquadBuilderTheme.typography.caption1Regular,
-                color = Neutral300,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }

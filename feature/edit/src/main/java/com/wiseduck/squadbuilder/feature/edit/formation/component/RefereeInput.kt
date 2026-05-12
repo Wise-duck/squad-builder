@@ -14,6 +14,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,15 +23,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
-import com.wiseduck.squadbuilder.core.designsystem.theme.Black
-import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
-import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.feature.edit.R
 
@@ -61,7 +58,7 @@ fun RefereeInput(
             .fillMaxWidth()
             .height(35.dp)
             .background(
-                color = Black.copy(alpha = 0.8f),
+                color = Color.Black.copy(alpha = 0.8f),
                 shape = RoundedCornerShape(
                     size = SquadBuilderTheme.spacing.spacing16,
                 ),
@@ -79,7 +76,7 @@ fun RefereeInput(
                 R.string.quarter_referee_label,
                 currentQuarter,
             ),
-            color = Red500,
+            color = MaterialTheme.colorScheme.error,
             style = SquadBuilderTheme.typography.caption1Regular,
         )
         Spacer(
@@ -94,9 +91,9 @@ fun RefereeInput(
             state = textFieldState,
             lineLimits = TextFieldLineLimits.SingleLine,
             textStyle = SquadBuilderTheme.typography.caption1Regular.copy(
-                color = Green500,
+                color = MaterialTheme.colorScheme.primary,
             ),
-            cursorBrush = SolidColor(Neutral50),
+            cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
             decorator = { innerTextField ->
                 Box(
                     modifier = Modifier.fillMaxWidth(),
@@ -105,7 +102,7 @@ fun RefereeInput(
                     if (textFieldState.text.isEmpty()) {
                         Text(
                             text = stringResource(R.string.referee_input_placeholder),
-                            color = Neutral300,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             style = SquadBuilderTheme.typography.caption1Regular,
                         )
                     }
