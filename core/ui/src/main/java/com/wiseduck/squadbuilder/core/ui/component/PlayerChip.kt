@@ -38,7 +38,7 @@ fun PlayerChip(
             .size(width = 64.dp, height = 80.dp)
             .padding(top = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Bottom,
+        verticalArrangement = Arrangement.Top,
     ) {
         Box(
             modifier = Modifier.size(48.dp),
@@ -65,7 +65,7 @@ fun PlayerChip(
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .offset(y = (-8).dp)
-                    .background(Color.Black, RoundedCornerShape(2.dp))
+                    .background(Color.Black.copy(0.8f), RoundedCornerShape(SquadBuilderTheme.radius.md))
                     .padding(horizontal = 4.dp, vertical = 1.dp),
                 color = Color.White,
                 fontSize = 8.sp,
