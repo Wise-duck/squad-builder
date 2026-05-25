@@ -114,20 +114,15 @@ public fun com.wiseduck.squadbuilder.core.designsystem.component.textfield.Squad
     - modifier: STABLE (marked @Stable or @Immutable)
 
 @Composable
-public fun com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme(content: @[Composable] androidx.compose.runtime.internal.ComposableFunction0<kotlin.Unit>): kotlin.Unit
+public fun com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme(isDarkMode: kotlin.Boolean, content: @[Composable] androidx.compose.runtime.internal.ComposableFunction0<kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true
   params:
+    - isDarkMode: STABLE (primitive type)
     - content: STABLE (composable function type)
 
 @Composable
 public fun com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme.border(): com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderBorder
-  skippable: true
-  restartable: true
-  params:
-
-@Composable
-public fun com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme.colors(): com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderColorScheme
   skippable: true
   restartable: true
   params:
