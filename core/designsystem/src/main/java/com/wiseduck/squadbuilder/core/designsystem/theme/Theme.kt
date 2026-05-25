@@ -10,10 +10,15 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 
-private val LocalTypography = staticCompositionLocalOf { SquadBuilderTypography() }
-private val LocalSpacing = staticCompositionLocalOf { SquadBuilderSpacing() }
-private val LocalRadius = staticCompositionLocalOf { SquadBuilderRadius() }
-private val LocalBorder = staticCompositionLocalOf { SquadBuilderBorder() }
+private val DefaultTypography = SquadBuilderTypography()
+private val DefaultSpacing = SquadBuilderSpacing()
+private val DefaultRadius = SquadBuilderRadius()
+private val DefaultBorder = SquadBuilderBorder()
+
+private val LocalTypography = staticCompositionLocalOf { DefaultTypography }
+private val LocalSpacing = staticCompositionLocalOf { DefaultSpacing }
+private val LocalRadius = staticCompositionLocalOf { DefaultRadius }
+private val LocalBorder = staticCompositionLocalOf { DefaultBorder }
 
 private val DarkColors = darkColorScheme(
     primary = Green500,
@@ -78,7 +83,12 @@ fun SquadBuilderTheme(
 ) {
     val colors = if (isDarkMode) DarkColors else LightColors
 
-    CompositionLocalProvider {
+    CompositionLocalProvider(
+        LocalTypography provides DefaultTypography,
+        LocalSpacing provides DefaultSpacing,
+        LocalRadius provides DefaultRadius,
+        LocalBorder provides DefaultBorder,
+    ) {
         MaterialTheme(
             colorScheme = colors,
             content = content,
