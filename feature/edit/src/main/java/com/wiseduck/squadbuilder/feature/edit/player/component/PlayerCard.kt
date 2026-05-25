@@ -11,6 +11,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,11 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.PlayerPosition
-import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
-import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
-import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.TeamPlayer
 import com.wiseduck.squadbuilder.feature.edit.R
@@ -40,11 +36,11 @@ fun PlayerCard(
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = MainBg,
+            containerColor = MaterialTheme.colorScheme.surface,
         ),
         border = BorderStroke(
             width = 1.dp,
-            color = Neutral500,
+            color = MaterialTheme.colorScheme.outline,
         ),
     ) {
         Row(
@@ -74,7 +70,7 @@ fun PlayerCard(
                             .padding(start = SquadBuilderTheme.spacing.spacing4),
                         text = player.name,
                         style = SquadBuilderTheme.typography.body1SemiBold,
-                        color = Neutral300,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
 
@@ -87,7 +83,7 @@ fun PlayerCard(
                         player.backNumber,
                     ),
                     style = SquadBuilderTheme.typography.caption1Regular,
-                    color = Neutral300,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
             Spacer(
@@ -101,7 +97,7 @@ fun PlayerCard(
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_edit),
-                        tint = Blue500,
+                        tint = MaterialTheme.colorScheme.secondary,
                         contentDescription = "Edit Icon",
                     )
                 }
@@ -111,7 +107,7 @@ fun PlayerCard(
                 ) {
                     Icon(
                         painter = painterResource(com.wiseduck.squadbuilder.core.designsystem.R.drawable.ic_remove),
-                        tint = Red500,
+                        tint = MaterialTheme.colorScheme.error,
                         contentDescription = "Delete Icon",
                     )
                 }

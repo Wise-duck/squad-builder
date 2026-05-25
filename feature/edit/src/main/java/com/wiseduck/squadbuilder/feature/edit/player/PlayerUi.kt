@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,10 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.slack.circuit.codegen.annotations.CircuitInject
 import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
-import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.core.designsystem.theme.White
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.AdBanner
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderLoadingIndicator
@@ -84,7 +82,7 @@ private fun PlayerContent(
                 .padding(start = SquadBuilderTheme.spacing.spacing4),
             text = state.teamName,
             style = SquadBuilderTheme.typography.title1Bold,
-            color = White,
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
 
@@ -95,7 +93,7 @@ private fun PlayerContent(
             Icon(
                 painter = painterResource(R.drawable.ic_group),
                 contentDescription = "Group Icon",
-                tint = Green500,
+                tint = MaterialTheme.colorScheme.primary,
             )
             Text(
                 modifier = modifier
@@ -106,7 +104,7 @@ private fun PlayerContent(
                     formatArgs = arrayOf(state.players.size),
                 ),
                 style = SquadBuilderTheme.typography.body1SemiBold,
-                color = Neutral300,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
         Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))

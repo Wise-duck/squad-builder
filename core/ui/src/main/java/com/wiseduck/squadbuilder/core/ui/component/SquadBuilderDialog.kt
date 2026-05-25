@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,10 +21,6 @@ import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.smallButtonStyle
-import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
-import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 
 @Composable
@@ -48,7 +45,7 @@ fun SquadBuilderDialog(
             description?.let {
                 Text(
                     text = it,
-                    color = Neutral300,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
             }
         },
@@ -75,12 +72,12 @@ fun SquadBuilderDialog(
             modifier = modifier
                 .fillMaxWidth()
                 .background(
-                    MainBg,
+                    MaterialTheme.colorScheme.background,
                     shape = RoundedCornerShape(SquadBuilderTheme.radius.md),
                 )
                 .border(
                     width = 1.dp,
-                    color = Neutral500,
+                    color = MaterialTheme.colorScheme.outline,
                     shape = RoundedCornerShape(size = SquadBuilderTheme.radius.md),
                 ),
         ) {
@@ -98,7 +95,7 @@ fun SquadBuilderDialog(
                 title?.let {
                     Text(
                         text = title,
-                        color = Green500,
+                        color = MaterialTheme.colorScheme.primary,
                         style = SquadBuilderTheme.typography.heading1SemiBold,
                     )
                 }
@@ -142,7 +139,7 @@ private fun SquadBuilderDialogPreview() {
         content = {
             Text(
                 text = "Composable을 받는 다이얼로그 내용입니다.",
-                color = Neutral300,
+                color = MaterialTheme.colorScheme.onSurface,
             )
         },
     )

@@ -11,6 +11,7 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,14 +21,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
-import com.wiseduck.squadbuilder.core.designsystem.theme.Black
-import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
-import com.wiseduck.squadbuilder.core.designsystem.theme.MainComponentBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.component.SquadBuilderDialog
 import com.wiseduck.squadbuilder.feature.edit.R
@@ -60,7 +58,7 @@ fun QuarterSelectionDialog(
                             SquadBuilderTheme.radius.md,
                         ),
                     )
-                    .background(MainComponentBg),
+                    .background(MaterialTheme.colorScheme.surface),
             ) {
                 quarters.forEach { quarter ->
                     Row(
@@ -87,16 +85,16 @@ fun QuarterSelectionDialog(
                     ) {
                         Text(
                             text = "Q $quarter",
-                            color = Neutral50,
+                            color = MaterialTheme.colorScheme.onSurface,
                             style = SquadBuilderTheme.typography.body1Regular,
                         )
                         Checkbox(
                             checked = quarter in selectedQuarters,
                             onCheckedChange = null,
                             colors = CheckboxDefaults.colors(
-                                uncheckedColor = Neutral50,
-                                checkedColor = Green500,
-                                checkmarkColor = Black,
+                                uncheckedColor = MaterialTheme.colorScheme.onSurface,
+                                checkedColor = MaterialTheme.colorScheme.primary,
+                                checkmarkColor = Color.Black,
                             ),
                         )
                     }

@@ -3,12 +3,12 @@ package com.wiseduck.squadbuilder.feature.edit.formation.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
-import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 
 @Composable
@@ -27,7 +27,7 @@ fun QuarterTag(
             )
             .padding(SquadBuilderTheme.spacing.spacing2),
         text = "\uD83D\uDD25 Q $quarter",
-        color = Red500,
+        color = MaterialTheme.colorScheme.error,
         style = SquadBuilderTheme.typography.body1Regular,
     )
 }

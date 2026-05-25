@@ -45,6 +45,12 @@ public fun com.wiseduck.squadbuilder.core.ui.component.PlayerChip(modifier: andr
     - textColor: STABLE (marked @Stable or @Immutable)
 
 @Composable
+private fun com.wiseduck.squadbuilder.core.ui.component.PlayerChipPreview(): kotlin.Unit
+  skippable: true
+  restartable: true
+  params:
+
+@Composable
 public fun com.wiseduck.squadbuilder.core.ui.component.SoccerField(modifier: androidx.compose.ui.Modifier, content: @[Composable] @[ExtensionFunctionType] androidx.compose.runtime.internal.ComposableFunction1<androidx.compose.foundation.layout.BoxWithConstraintsScope, kotlin.Unit>): kotlin.Unit
   skippable: true
   restartable: true

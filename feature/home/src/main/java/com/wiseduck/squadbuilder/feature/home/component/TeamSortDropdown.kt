@@ -19,10 +19,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
-import com.wiseduck.squadbuilder.core.designsystem.theme.MainComponentBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral300
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.feature.home.R
 import com.wiseduck.squadbuilder.feature.home.TeamSortOption
@@ -44,15 +40,15 @@ fun TeamSortDropdown(
 
     val customTextFieldColors =
         ExposedDropdownMenuDefaults.outlinedTextFieldColors(
-            focusedContainerColor = MainComponentBg,
-            unfocusedContainerColor = MainComponentBg,
-            focusedTextColor = Neutral300,
-            unfocusedTextColor = Neutral300,
-            unfocusedLabelColor = Neutral300,
-            focusedTrailingIconColor = Neutral300,
-            unfocusedTrailingIconColor = Neutral50,
-            focusedBorderColor = Neutral800,
-            unfocusedBorderColor = Neutral800,
+            focusedContainerColor = MaterialTheme.colorScheme.surface,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+            focusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            unfocusedTextColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            unfocusedLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            focusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurface,
+            focusedBorderColor = MaterialTheme.colorScheme.outline,
+            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
         )
 
     ExposedDropdownMenuBox(
@@ -82,7 +78,7 @@ fun TeamSortDropdown(
 
         ExposedDropdownMenu(
             modifier = Modifier
-                .background(MainComponentBg)
+                .background(MaterialTheme.colorScheme.surface)
                 .exposedDropdownSize(true),
             expanded = expanded,
             onDismissRequest = { expanded = false },
@@ -98,7 +94,7 @@ fun TeamSortDropdown(
                         Text(
                             text = optionText,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = Neutral50,
+                            color = if (selectedText == optionText) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                         )
                     },
                     onClick = {

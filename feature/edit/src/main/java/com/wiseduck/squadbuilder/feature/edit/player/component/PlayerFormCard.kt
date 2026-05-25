@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -33,12 +34,6 @@ import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorS
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumRoundedButtonStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.textfield.SquadBuilderTextField
-import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
-import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
-import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.model.TeamPlayer
 import com.wiseduck.squadbuilder.feature.edit.R
@@ -73,11 +68,11 @@ fun PlayerFormCard(
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            MainBg,
+            MaterialTheme.colorScheme.background,
         ),
         border = BorderStroke(
             1.dp,
-            Neutral500,
+            MaterialTheme.colorScheme.outline,
         ),
     ) {
         Column(
@@ -88,7 +83,7 @@ fun PlayerFormCard(
         ) {
             Text(
                 text = title,
-                color = Neutral100,
+                color = MaterialTheme.colorScheme.onSurface,
                 style = SquadBuilderTheme.typography.heading1SemiBold,
             )
             Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
@@ -96,13 +91,13 @@ fun PlayerFormCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(1.dp)
-                    .background(Neutral800),
+                    .background(MaterialTheme.colorScheme.outline),
             )
             Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
 
             Text(
                 text = stringResource(R.string.player_form_card_select_position_label),
-                color = Green500,
+                color = MaterialTheme.colorScheme.primary,
                 style = SquadBuilderTheme.typography.body1Bold,
             )
             Spacer(modifier = Modifier.height(SquadBuilderTheme.spacing.spacing2))
@@ -148,17 +143,17 @@ fun PlayerFormCard(
                 placeholder = {
                     Text(
                         text = stringResource(R.string.player_form_card_back_number_label),
-                        color = Neutral500,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 isError = !isBackNumberValid && backNumberString.isNotEmpty(),
                 colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedPlaceholderColor = Neutral500,
-                    focusedPlaceholderColor = Neutral500,
-                    unfocusedContainerColor = Neutral100,
-                    focusedContainerColor = Neutral100,
-                    focusedBorderColor = Blue500,
+                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    focusedBorderColor = MaterialTheme.colorScheme.secondary,
                 ),
                 singleLine = true,
             )

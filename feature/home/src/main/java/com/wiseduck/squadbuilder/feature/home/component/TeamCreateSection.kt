@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -23,10 +24,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumButtonStyle
-import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.feature.home.R
 
@@ -44,7 +41,7 @@ fun TeamCreateSection(
         Text(
             text = stringResource(R.string.team_create_section_title),
             style = SquadBuilderTheme.typography.heading1SemiBold,
-            color = Neutral50,
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Spacer(
             modifier = Modifier.height(SquadBuilderTheme.spacing.spacing4),
@@ -65,11 +62,11 @@ fun TeamCreateSection(
                     Text(stringResource(R.string.team_name_input_hint))
                 },
                 colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedPlaceholderColor = Neutral500,
-                    focusedPlaceholderColor = Neutral500,
-                    unfocusedContainerColor = Neutral100,
-                    focusedContainerColor = Neutral100,
-                    focusedBorderColor = Blue500,
+                    unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    focusedBorderColor = MaterialTheme.colorScheme.secondary,
                 ),
                 singleLine = true,
             )

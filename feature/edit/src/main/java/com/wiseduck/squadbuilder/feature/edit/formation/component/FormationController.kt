@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,13 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.wiseduck.squadbuilder.core.designsystem.theme.Blue500
-import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
-import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
-import com.wiseduck.squadbuilder.core.designsystem.theme.White
-import com.wiseduck.squadbuilder.core.designsystem.theme.Yellow300
 import com.wiseduck.squadbuilder.feature.edit.R
 
 @Composable
@@ -36,7 +31,7 @@ fun FormationController(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(MainBg)
+            .background(MaterialTheme.colorScheme.background)
             .padding(
                 top = SquadBuilderTheme.spacing.spacing4,
                 bottom = SquadBuilderTheme.spacing.spacing2,
@@ -49,20 +44,20 @@ fun FormationController(
             modifier = Modifier.size(50.dp),
             painter = painterResource(id = R.drawable.ic_formation_team),
             contentDescription = "Team Icon",
-            tint = Yellow300,
+            tint = MaterialTheme.colorScheme.tertiary,
         )
 
         Text(
             text = teamName,
             style = SquadBuilderTheme.typography.title1Bold,
             modifier = Modifier.padding(start = 12.dp),
-            color = White,
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Text(
             text = formationName,
             style = SquadBuilderTheme.typography.body1Regular,
             modifier = Modifier.padding(start = 12.dp),
-            color = White,
+            color = MaterialTheme.colorScheme.onSurface,
         )
 
         Spacer(modifier = Modifier.weight(1f))
@@ -71,7 +66,7 @@ fun FormationController(
             Icon(
                 painter = painterResource(id = R.drawable.ic_reset),
                 contentDescription = "Reset Icon",
-                tint = Red500,
+                tint = MaterialTheme.colorScheme.error,
             )
         }
 
@@ -79,7 +74,7 @@ fun FormationController(
             Icon(
                 painter = painterResource(id = R.drawable.ic_share),
                 contentDescription = "Share Icon",
-                tint = Blue500,
+                tint = MaterialTheme.colorScheme.secondary,
             )
         }
 
@@ -87,7 +82,7 @@ fun FormationController(
             Icon(
                 painter = painterResource(id = R.drawable.ic_save),
                 contentDescription = "Save Icon",
-                tint = Green500,
+                tint = MaterialTheme.colorScheme.primary,
             )
         }
     }

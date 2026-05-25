@@ -25,7 +25,7 @@ object FormationConstants {
     val SLOT_ZONES_BOUNDS: Map<String, PositionBounds> =
         mapOf(
             // Goalkeeper
-            "GK" to PositionBounds(0.40f, 0.60f, 0.87f, 1.00f, 0.50f, 0.92f),
+            "GK" to PositionBounds(0.40f, 0.60f, 0.80f, 0.98f, 0.50f, 0.86f),
             // Defense
             "LWB" to PositionBounds(0.07f, 0.24f, 0.60f, 0.73f, 0.16f, 0.66f),
             "LB" to PositionBounds(0.07f, 0.24f, 0.73f, 0.85f, 0.16f, 0.79f),
@@ -47,11 +47,11 @@ object FormationConstants {
             "LM" to PositionBounds(0.07f, 0.24f, 0.30f, 0.60f, 0.16f, 0.45f),
             "RM" to PositionBounds(0.76f, 0.93f, 0.30f, 0.60f, 0.84f, 0.45f),
             // Forward
-            "LW" to PositionBounds(0.07f, 0.24f, 0.00f, 0.30f, 0.16f, 0.15f),
-            "LS" to PositionBounds(0.24f, 0.40f, 0.00f, 0.15f, 0.32f, 0.07f),
-            "ST" to PositionBounds(0.40f, 0.60f, 0.00f, 0.15f, 0.50f, 0.09f),
-            "RS" to PositionBounds(0.60f, 0.76f, 0.00f, 0.15f, 0.68f, 0.07f),
-            "RW" to PositionBounds(0.76f, 0.93f, 0.00f, 0.30f, 0.84f, 0.15f),
+            "LW" to PositionBounds(0.07f, 0.24f, 0.10f, 0.30f, 0.16f, 0.20f),
+            "LS" to PositionBounds(0.24f, 0.40f, 0.08f, 0.15f, 0.32f, 0.13f),
+            "ST" to PositionBounds(0.40f, 0.60f, 0.08f, 0.15f, 0.50f, 0.13f),
+            "RS" to PositionBounds(0.60f, 0.76f, 0.08f, 0.15f, 0.68f, 0.13f),
+            "RW" to PositionBounds(0.76f, 0.93f, 0.10f, 0.30f, 0.84f, 0.20f),
             "LF" to PositionBounds(0.24f, 0.40f, 0.15f, 0.29f, 0.32f, 0.22f),
             "CF" to PositionBounds(0.40f, 0.60f, 0.15f, 0.29f, 0.50f, 0.22f),
             "RF" to PositionBounds(0.60f, 0.76f, 0.15f, 0.29f, 0.68f, 0.22f),

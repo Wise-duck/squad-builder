@@ -1,8 +1,8 @@
 package com.wiseduck.squadbuilder.core.ui.component
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.offset
@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,12 +19,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wiseduck.squadbuilder.core.designsystem.theme.Blue600
-import com.wiseduck.squadbuilder.core.designsystem.theme.Gray900
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral100
+import com.wiseduck.squadbuilder.core.designsystem.ComponentPreview
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 
 @Composable
@@ -32,12 +30,15 @@ fun PlayerChip(
     position: String,
     number: String,
     name: String,
-    shirtColor: Color = Blue600,
-    textColor: Color = Neutral100,
+    shirtColor: Color = MaterialTheme.colorScheme.secondary,
+    textColor: Color = Color.White,
 ) {
     Column(
-        modifier = modifier.size(width = 56.dp, height = 64.dp),
+        modifier = modifier
+            .size(width = 64.dp, height = 80.dp)
+            .padding(top = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Top,
     ) {
         Box(
             modifier = Modifier.size(48.dp),
@@ -48,10 +49,7 @@ fun PlayerChip(
                     .size(40.dp)
                     .clip(CircleShape)
                     .background(shirtColor)
-                    .border(
-                        BorderStroke(1.5.dp, Neutral100),
-                        CircleShape,
-                    ),
+                    .border(1.5.dp, MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f), CircleShape),
                 contentAlignment = Alignment.Center,
             ) {
                 Text(
@@ -59,7 +57,6 @@ fun PlayerChip(
                     color = textColor,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Black,
-                    textAlign = TextAlign.Center,
                 )
             }
 
@@ -67,40 +64,34 @@ fun PlayerChip(
                 text = position,
                 modifier = Modifier
                     .align(Alignment.TopCenter)
-                    .offset(y = (-3).dp)
-                    .background(Gray900.copy(alpha = 0.7f), RoundedCornerShape(4.dp))
+                    .offset(y = (-8).dp)
+                    .background(Color.Black.copy(0.8f), RoundedCornerShape(SquadBuilderTheme.radius.md))
                     .padding(horizontal = 4.dp, vertical = 1.dp),
-                color = textColor,
-                fontSize = 9.sp,
-                fontWeight = FontWeight.SemiBold,
+                color = Color.White,
+                fontSize = 8.sp,
+                fontWeight = FontWeight.Bold,
             )
         }
 
         Text(
             text = name,
-            modifier = Modifier,
-            color = Neutral100,
-            fontSize = 10.sp,
-            fontWeight = FontWeight.Medium,
+            color = MaterialTheme.colorScheme.onSurface,
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
+            maxLines = 1,
         )
     }
 }
 
-@Preview
+@ComponentPreview
 @Composable
 private fun PlayerChipPreview() {
     SquadBuilderTheme {
-        Box(
-            modifier = Modifier
-                .background(Color.DarkGray)
-                .padding(16.dp),
-        ) {
-            PlayerChip(
-                position = "FW",
-                number = "7",
-                name = "Son",
-            )
-        }
+        PlayerChip(
+            position = "FW",
+            number = "7",
+            name = "Son",
+        )
     }
 }

@@ -1,16 +1,11 @@
 package com.wiseduck.squadbuilder.core.designsystem.component.button
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.wiseduck.squadbuilder.core.designsystem.theme.Kakao
-import com.wiseduck.squadbuilder.core.designsystem.theme.MainComponentBg
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral50
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral800
-import com.wiseduck.squadbuilder.core.designsystem.theme.Red500
-import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 
 enum class ButtonColorStyle {
     STROKE,
@@ -23,41 +18,40 @@ enum class ButtonColorStyle {
     @Composable
     fun containerColor(isPressed: Boolean) =
         when (this) {
-            STROKE -> if (isPressed) Neutral800 else MainComponentBg
+            STROKE -> if (isPressed) MaterialTheme.colorScheme.surfaceVariant else MaterialTheme.colorScheme.surface
             TEXT -> Color.Transparent
             KAKAO -> Kakao
-            TEXT_WHITE -> if (isPressed) Neutral800 else MainComponentBg
-            TEXT_RED -> if (isPressed) Neutral800 else MainComponentBg
+            TEXT_WHITE -> if (isPressed) MaterialTheme.colorScheme.surfaceVariant else MaterialTheme.colorScheme.surface
+            TEXT_RED -> if (isPressed) MaterialTheme.colorScheme.surfaceVariant else MaterialTheme.colorScheme.surface
         }
 
     @Composable
     fun contentColor() =
         when (this) {
-            STROKE -> SquadBuilderTheme.colors.contentBrand
-            TEXT -> Neutral50
-            KAKAO -> SquadBuilderTheme.colors.contentPrimary
-            TEXT_WHITE -> Neutral50
-            TEXT_RED -> Red500
+            STROKE -> MaterialTheme.colorScheme.primary
+            TEXT -> MaterialTheme.colorScheme.onSurface
+            KAKAO -> Color.Black
+            TEXT_WHITE -> MaterialTheme.colorScheme.onSurface
+            TEXT_RED -> MaterialTheme.colorScheme.error
         }
 
     @Composable
     fun disabledContainerColor() =
         when (this) {
-            TEXT -> Color.Transparent
-            TEXT_WHITE -> Color.Transparent
-            TEXT_RED -> Color.Transparent
-            else -> SquadBuilderTheme.colors.bgDisabled
+            TEXT, TEXT_WHITE, TEXT_RED -> Color.Transparent
+            else -> MaterialTheme.colorScheme.surfaceVariant.copy(0.38f)
         }
 
     @Composable
-    fun disabledContentColor() = SquadBuilderTheme.colors.contentDisabled
+    fun disabledContentColor() = MaterialTheme.colorScheme.primary
 
     @Composable
     fun borderStroke() =
         when (this) {
-            STROKE -> BorderStroke(1.dp, Neutral500)
-            TEXT_WHITE -> BorderStroke(1.dp, Neutral500)
-            TEXT_RED -> BorderStroke(1.dp, Neutral500)
+            STROKE, TEXT_WHITE, TEXT_RED -> BorderStroke(
+                1.dp,
+                MaterialTheme.colorScheme.outline,
+            )
             else -> null
         }
 }

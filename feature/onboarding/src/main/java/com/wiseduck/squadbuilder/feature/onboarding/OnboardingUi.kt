@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,7 +18,6 @@ import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumRoundedButtonStyle
-import com.wiseduck.squadbuilder.core.designsystem.theme.MainBg
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.feature.onboarding.component.OnboardingPage
 import com.wiseduck.squadbuilder.feature.onboarding.component.PageController
@@ -32,7 +32,7 @@ fun OnboardingUi(
 ) {
     Column(
         modifier = modifier
-            .background(MainBg)
+            .background(MaterialTheme.colorScheme.background)
             .padding(SquadBuilderTheme.spacing.spacing8),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

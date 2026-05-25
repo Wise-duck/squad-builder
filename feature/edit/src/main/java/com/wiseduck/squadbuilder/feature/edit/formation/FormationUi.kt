@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -32,9 +33,6 @@ import com.wiseduck.squadbuilder.core.designsystem.DevicePreview
 import com.wiseduck.squadbuilder.core.designsystem.component.button.ButtonColorStyle
 import com.wiseduck.squadbuilder.core.designsystem.component.button.SquadBuilderButton
 import com.wiseduck.squadbuilder.core.designsystem.component.button.mediumRoundedButtonStyle
-import com.wiseduck.squadbuilder.core.designsystem.theme.Green500
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral500
-import com.wiseduck.squadbuilder.core.designsystem.theme.Neutral900
 import com.wiseduck.squadbuilder.core.designsystem.theme.SquadBuilderTheme
 import com.wiseduck.squadbuilder.core.ui.SquadBuilderScaffold
 import com.wiseduck.squadbuilder.core.ui.component.SoccerField
@@ -169,10 +167,10 @@ fun FormationUi(
                         .fillMaxHeight(0.15f),
                     border = BorderStroke(
                         width = 1.dp,
-                        color = Neutral500,
+                        color = MaterialTheme.colorScheme.outline,
                     ),
                     shape = RoundedCornerShape(topStart = 8.dp, bottomStart = 8.dp),
-                    color = Neutral900,
+                    color = MaterialTheme.colorScheme.background,
                     onClick = {
                         state.eventSink(FormationUiEvent.OnPlayerQuarterStatusClick)
                     },
@@ -184,7 +182,7 @@ fun FormationUi(
                         Icon(
                             painter = painterResource(R.drawable.ic_side_tab_open),
                             contentDescription = "Open Sidebar Icon",
-                            tint = Green500,
+                            tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.scale(0.8f),
                         )
                     }
